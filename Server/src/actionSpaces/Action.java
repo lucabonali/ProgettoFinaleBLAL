@@ -7,6 +7,7 @@ import board.FamilyMember;
  */
 public class Action {
 
+
     private final FamilyMember familyMember;
     private final ActionSpace actionSpace;
 
