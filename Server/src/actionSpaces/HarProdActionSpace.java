@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Luca,Andrea on 12/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * classe che mi identifica una zona del mio tabellone
+ * essa può essere di raccolta o di produzione (si usa l'enumerazione)
  */
 public class HarProdActionSpace extends ActionSpace {
     private List<Effect> bonusEffectList;

@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Luca,Andrea on 12/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * classe che mi identifica le zone multiple del mio tabellone
+ * che possono essere di produzione e di raccolta
  */
 public class LHarProdActionSpace extends LargeActionSpace {
     private List<Effect> bonusEffectList;

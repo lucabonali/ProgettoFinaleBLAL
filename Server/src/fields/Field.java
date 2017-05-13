@@ -1,7 +1,10 @@
 package fields;
 
 /**
- * Created by Luca on 10/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * mi rappresenta una qualsiasi riserva in possesso del giocatore
  */
 public interface Field {
 

@@ -3,7 +3,11 @@ package actionSpaces;
 import board.FamilyMember;
 
 /**
- * Created by Luca on 12/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * classe che mi rappresenta l'azione che possono effettuare
+ * i vari giocatori.
  */
 public class Action {
     private final FamilyMember familyMember;

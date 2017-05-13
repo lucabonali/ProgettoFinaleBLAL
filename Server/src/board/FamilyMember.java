@@ -1,7 +1,10 @@
 package board;
 
 /**
- * Created by Luca on 10/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * rappresenta il familiare
  */
 public class FamilyMember {
     private PersonalBoard personalBoard;

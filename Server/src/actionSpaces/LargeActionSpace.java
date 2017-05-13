@@ -6,7 +6,10 @@ import effects.Effect;
 import java.util.List;
 
 /**
- * Created by Luca,Andrea on 11/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * Generalizza gli spazi azione multipli
  */
 public abstract class LargeActionSpace implements ActionSpaceInterface {
     private int value;

@@ -1,7 +1,10 @@
 package actionSpaces;
 
 /**
- * Created by Luca on 12/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * enumerazione dei due tipi di zone
  */
 public enum AreaType {
     PRODUCTION("PRODUCTION"),HARVEST("HARVEST");

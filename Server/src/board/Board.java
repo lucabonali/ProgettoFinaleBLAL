@@ -3,8 +3,10 @@ package board;
 import actionSpaces.*;
 
 /**
- * Classe che raccoglie tutti gli elementi del gioco
- * Created by Luca, Andrea on 10/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * rappresenta il tabellone della partita.
  */
 public class Board {
     private int numPlayers;

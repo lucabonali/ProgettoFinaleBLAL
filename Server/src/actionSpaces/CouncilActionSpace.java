@@ -1,7 +1,10 @@
 package actionSpaces;
 
 /**
- * Created by Luca,Andrea on 11/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * classe che mi identifica il palazzo del consiglio
  */
 public class CouncilActionSpace extends LargeActionSpace {
 

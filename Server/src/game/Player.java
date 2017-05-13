@@ -1,7 +1,11 @@
 package game;
 
+
 /**
- * Created by Luca on 13/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * interfacci generica per identificare un giocatore
  */
 public interface Player {
 

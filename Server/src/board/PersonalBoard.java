@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Luca, Andrea on 10/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * rappresenta la plancia personale del singolo giocatore
  */
 public class PersonalBoard {
     private static final char ORANGE_DICE = 'o';

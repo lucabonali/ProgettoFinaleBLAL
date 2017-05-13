@@ -3,8 +3,11 @@ package actionSpaces;
 import board.FamilyMember;
 import effects.Effect;
 
-/**
- * Created by Luca,Andrea on 11/05/2017.
+
+ /**
+ * @author Luca
+ * @author Andrea
+ *
  * Generalizza gli spazi azione singoli
  */
 public abstract class ActionSpace implements ActionSpaceInterface {
