@@ -25,12 +25,14 @@ public class ExcomCardDeck {
 
     public ExcomCardDeck(){
         connectionDB = new ConnectionDB();
-
+        prelameCard1FromDB();
+        prelameCard2FromDB();
+        prelameCard3FromDB();
     }
 
     /**
-     * metodo che mi preleva una carta a caso in una delle tabelle
-     * del database, le carte in ciascuna tabella sono univoche per id
+     * metodo che mi preleva una carta a caso nella tabella del primo periodo,
+     * le carte in ciascuna tabella sono univoche per id
      * iniziale che va da 1 a 7.
      */
     private void prelameCard1FromDB() {
@@ -39,12 +41,22 @@ public class ExcomCardDeck {
         addCardToList(rs);
     }
 
+    /**
+     * metodo che mi preleva una carta a caso nella tabella del secondo periodo,
+     * le carte in ciascuna tabella sono univoche per id
+     * iniziale che va da 1 a 7.
+     */
     private void prelameCard2FromDB() {
         Random rand = new Random();
         ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_2 + rand.nextInt(7));
         addCardToList(rs);
     }
 
+    /**
+     * metodo che mi preleva una carta a caso nella tabella del terzo periodo,
+     * le carte in ciascuna tabella sono univoche per id
+     * iniziale che va da 1 a 7.
+     */
     private void prelameCard3FromDB() {
         Random rand = new Random();
         ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_3 + rand.nextInt(7));
