@@ -6,8 +6,6 @@ import board.FamilyMember;
  * Created by Luca on 12/05/2017.
  */
 public class Action {
-
-
     private final FamilyMember familyMember;
     private final ActionSpace actionSpace;
 
