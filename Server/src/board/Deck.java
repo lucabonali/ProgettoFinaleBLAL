@@ -1,6 +1,7 @@
 package board;
 
 import effects.Effect;
+import effects.EffectsCreator;
 import fields.Field;
 import fields.Resource;
 
@@ -155,9 +156,9 @@ public class Deck {
     private List<Effect> createQuickEffectList(String cod) {
         //creo la lista degli effetti immediati
         List<Effect> effectList = new ArrayList<>();
-        effectList.add(Effect.createEffect(cod.substring(0,2)));
+        effectList.add(EffectsCreator.createEffect(cod.substring(0,2)));
         if (cod.length() == 4) {
-            effectList.add(Effect.createEffect(cod.substring(2,4)));
+            effectList.add(EffectsCreator.createEffect(cod.substring(2,4)));
         }
         return effectList;
     }
@@ -165,9 +166,9 @@ public class Deck {
     private List<Effect> createPermanentEffectList(String cod) {
         //creo la lista degli effetti permanenti
         List<Effect> permanentEffectList = new ArrayList<>();
-        permanentEffectList.add(Effect.createEffect(cod.substring(0,2)));
+        permanentEffectList.add(EffectsCreator.createEffect(cod.substring(0,2)));
         if (cod.length() == 4) {
-            permanentEffectList.add(Effect.createEffect(cod.substring(2,4)));
+            permanentEffectList.add(EffectsCreator.createEffect(cod.substring(2,4)));
         }
         return permanentEffectList;
     }

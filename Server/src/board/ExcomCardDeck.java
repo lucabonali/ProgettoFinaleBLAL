@@ -1,6 +1,7 @@
 package board;
 
 import effects.Effect;
+import effects.EffectsCreator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,7 +72,7 @@ public class ExcomCardDeck {
     private void addCardToList(ResultSet rs) {
         try {
             String codEffect = rs.getString(1);
-            Effect effect = Effect.createEffect(codEffect);
+            Effect effect = EffectsCreator.createEffect(codEffect);
             excomCardList.add(new ExcomCard(effect));
         } catch (SQLException e) {
             e.printStackTrace();
