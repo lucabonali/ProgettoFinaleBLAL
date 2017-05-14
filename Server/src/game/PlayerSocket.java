@@ -1,6 +1,8 @@
 package game;
 
 import board.PersonalBoard;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
 /**
@@ -11,5 +13,20 @@ import board.PersonalBoard;
  */
 public class PlayerSocket implements Player {
     private PersonalBoard personalBoard;
+    private ServerSocket server = null;
+    private Socket socketClient = null;
+
+    private int idPlayer;
+    private int port ;
+
+    public PlayerSocket(Socket socketClient, int idPlayer, PersonalBoard personalBoard){
+        this.socketClient = socketClient;
+        this.idPlayer = idPlayer;
+        this.personalBoard = personalBoard;
+    }
+
+
+
+
 
 }

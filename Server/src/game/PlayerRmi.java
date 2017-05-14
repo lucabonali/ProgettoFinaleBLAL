@@ -2,6 +2,9 @@ package game;
 
 import board.PersonalBoard;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
 
 /**
  * @author Luca
@@ -9,7 +12,13 @@ import board.PersonalBoard;
  *
  * Classe che identifica il giocatore connesso tramite RMI
  */
-public class PlayerRmi implements Player {
+public class PlayerRmi extends UnicastRemoteObject implements Player {
     private PersonalBoard personalBoard;
+
+    protected PlayerRmi() throws RemoteException {
+
+    }
+
+
 
 }

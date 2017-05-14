@@ -1,9 +1,12 @@
 package board;
 
 import actionSpaces.*;
+import game.Player;
 import types.AreaType;
 import types.CardType;
 import types.MarketActionType;
+
+import java.util.List;
 
 /**
  * @author Luca
@@ -65,5 +68,7 @@ public class Board {
         excomCardDeck = new ExcomCardDeck();
         deck = new Deck();
     }
+
+
 
 }

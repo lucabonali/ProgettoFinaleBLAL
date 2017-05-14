@@ -1,6 +1,7 @@
 package game;
 
 import board.Board;
+import exceptions.LorenzoException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,15 +20,38 @@ public class Game {
     private Map<Integer,Player> playerMap;
     private List<Player> turnOrder;
 
-    public Game(int numPlayers){
+    public Game(int numPlayers) throws LorenzoException {
         this.numPlayers = numPlayers;
         board = new Board(numPlayers);
         playerMap = new HashMap<>();
         turnOrder = new ArrayList<>();
+        initializeServers();
     }
 
     public void addPlayer(int id,Player player){
         playerMap.put(id, player);
+        numPlayers++;
+    }
+
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public int getNumPlayers() {
+
+        return numPlayers;
+    }
+
+    /**
+     * metodo che inizializza i due ? server, mettendoli in attesa quello socket e facendo bind con il server rmi
+     */
+    public void initializeServers() {
+        try {
+            ServerSocketPlayer serverSocketPlayer = new ServerSocketPlayer(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
