@@ -1,6 +1,9 @@
 package board;
 
 import actionSpaces.*;
+import types.AreaType;
+import types.CardType;
+import types.MarketActionType;
 
 /**
  * @author Luca

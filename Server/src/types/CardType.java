@@ -1,4 +1,4 @@
-package board;
+package types;
 
 /**
  * @author Luca
@@ -17,7 +17,7 @@ public enum CardType {
         code = s ;
     }
 
-    public String getType(){
+    public String getCode(){
         return code;
     }
 

@@ -1,8 +1,10 @@
 package actionSpaces;
 
 import effects.Effect;
+import effects.FixedIncrementEffect;
 import fields.Resource;
-import fields.ResourceType;
+import types.ResourceType;
+import types.AreaType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +42,13 @@ public class HarProdActionSpace extends ActionSpace {
      * metodo di servizio che richiamo quando creo lo spazio azione raccolta
      */
     private void initializeHarvestBonus(){
-        bonusEffectList.add(new Effect(
+        bonusEffectList.add(new FixedIncrementEffect(
                 new Resource(1, ResourceType.WOOD)
         ));
-        bonusEffectList.add(new Effect(
+        bonusEffectList.add(new FixedIncrementEffect(
                 new Resource(1, ResourceType.STONE)
         ));
-        bonusEffectList.add(new Effect(
+        bonusEffectList.add(new FixedIncrementEffect(
                 new Resource(1, ResourceType.SERVANTS)
         ));
     }
@@ -54,10 +56,10 @@ public class HarProdActionSpace extends ActionSpace {
      * Metodo di servizio che chiamo quando creo lo spazio azione produzione
      */
     private void initializeProductionBonus(){
-        bonusEffectList.add(new Effect(
+        bonusEffectList.add(new FixedIncrementEffect(
                 new Resource(1, ResourceType.MILITARY)
         ));
-        bonusEffectList.add(new Effect(
+        bonusEffectList.add(new FixedIncrementEffect(
                 new Resource(1, ResourceType.COINS)
         ));
     }

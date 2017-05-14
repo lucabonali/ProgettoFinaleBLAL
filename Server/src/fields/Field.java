@@ -1,5 +1,7 @@
 package fields;
 
+import types.ResourceType;
+
 /**
  * @author Luca
  * @author Andrea

@@ -4,6 +4,7 @@ import effects.Effect;
 import effects.EffectsCreator;
 import fields.Field;
 import fields.Resource;
+import types.CardType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

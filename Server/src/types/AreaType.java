@@ -1,4 +1,4 @@
-package actionSpaces;
+package types;
 
 /**
  * @author Luca
@@ -15,7 +15,7 @@ public enum AreaType {
         this.code = s;
     }
 
-    public String getType(){
+    public String getCode(){
         return code;
     }
 

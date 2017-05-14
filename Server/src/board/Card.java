@@ -2,6 +2,7 @@ package board;
 
 import effects.Effect;
 import fields.Field;
+import types.CardType;
 
 import java.util.List;
 

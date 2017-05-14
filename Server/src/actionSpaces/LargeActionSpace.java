@@ -14,18 +14,18 @@ import java.util.List;
 public abstract class LargeActionSpace implements ActionSpaceInterface {
     private int value;
     private List<FamilyMember> familyMembers;
-    private List<Effect> effect;
+    private List<Effect> effects;
 
     public LargeActionSpace(int value){
         this.value = value;
     }
 
-    public List<Effect> getEffect() {
-        return effect;
+    public List<Effect> getEffects() {
+        return effects;
     }
 
     public void setEffect(List<Effect> effect) {
-        this.effect = effect;
+        this.effects = effect;
     }
 
     public void getFamilyMembers(){}

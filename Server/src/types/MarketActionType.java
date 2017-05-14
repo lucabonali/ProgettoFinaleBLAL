@@ -1,4 +1,4 @@
-package actionSpaces;
+package types;
 
 
 /**
@@ -12,7 +12,7 @@ public enum MarketActionType {
 
     private String code;
 
-    private MarketActionType(String s){
+    MarketActionType(String s){
         this.code = s;
     }
 

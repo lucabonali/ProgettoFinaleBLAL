@@ -1,6 +1,7 @@
 package actionSpaces;
 
 import board.Card;
+import types.CardType;
 
 /**
  * @author Luca
@@ -11,9 +12,11 @@ import board.Card;
  */
 public class FloorActionSpace extends ActionSpace {
     private Card card;
+    private CardType cardType;
 
-    public FloorActionSpace(int value) {
+    public FloorActionSpace(int value, CardType cardType) {
         super(value);
+        this.cardType = cardType;
     }
 
     public void setCard(Card card){
@@ -26,6 +29,10 @@ public class FloorActionSpace extends ActionSpace {
 
     public void removeCard(){
         this.card = null;
+    }
+
+    public CardType getCardType() {
+        return cardType;
     }
 
     @Override

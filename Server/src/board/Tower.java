@@ -1,6 +1,7 @@
 package board;
 
 import actionSpaces.FloorActionSpace;
+import types.CardType;
 
 /**
  * @author Luca
@@ -19,7 +20,7 @@ public class Tower {
         this.floorActionSpaces = new FloorActionSpace[4];
         for(int i = 0 ; i<4 ; i++){
             //devo aggiungere gli effetti ai piani 3 e 4 di ciascuna torre
-            floorActionSpaces[i] = new FloorActionSpace(i);
+            floorActionSpaces[i] = new FloorActionSpace(i, towerType);
         }
     }
 

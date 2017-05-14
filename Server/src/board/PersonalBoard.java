@@ -3,7 +3,7 @@ package board;
 import actionSpaces.Action;
 import fields.Field;
 import fields.Resource;
-import fields.ResourceType;
+import types.ResourceType;
 
 import java.util.ArrayList;
 import java.util.List;

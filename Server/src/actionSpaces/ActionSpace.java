@@ -18,6 +18,7 @@ public abstract class ActionSpace implements ActionSpaceInterface {
     public ActionSpace(int actionValue){
         this.actionValue = actionValue;
     }
+
     public Effect getEffect() {
         return effect;
     }

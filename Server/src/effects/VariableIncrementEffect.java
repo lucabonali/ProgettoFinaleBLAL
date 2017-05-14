@@ -1,6 +1,6 @@
 package effects;
 
-import board.CardType;
+import types.CardType;
 import board.PersonalBoard;
 import fields.Field;
 
