@@ -1,6 +1,7 @@
 package board;
 
 import actionSpaces.Action;
+import effects.ExcomEffect;
 import fields.Field;
 import fields.Resource;
 import types.ResourceType;
@@ -19,17 +20,30 @@ public class PersonalBoard {
     private static final char BLACK_DICE = 'b';
     private static final char WHITE_DICE = 'w';
     private static final char NEUTRAL_DICE = 'n';
+
+    //lista dei familiari in possesso, uno neutro e tre personali
     private List<FamilyMember> familyMemberList;
+
     // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MIlITARY
     private List<Resource> resourceList;
-    private List<Card> territoriesList;
-    private List<Card> buildingsList;
-    private List<Card> charactersList;
-    private List<Card> venturesList;
 
+    //liste delle carte in possesso, al massimo 6 per tipo
+    private List<Card> territoriesList; //gli effetti permanenti verranno attivati solo dopo azione raccolta
+    private List<Card> buildingsList; //gli effetti permanenti verranno attivati solo dopo azione produzione
+    private List<Card> charactersList; //gli effetti permanenti saranno attivati su ogni azione
+    private List<Card> venturesList; //gli effetti permanenti vengono attivati solo alla fine della partita
+
+    //lista degli effetti ottenuti in seguito a scomuniche
+    private List<ExcomEffect> excomEffectList; //vengono attivati ogni azione
+
+    //tabellone in cui la plancia si trova
     private Board board;
 
+    //id del giocatore e quindi della plancia
     private int id;
+
+    //azione corrente
+    private Action currentAction;
 
 
     /**

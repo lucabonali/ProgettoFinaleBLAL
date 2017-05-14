@@ -85,5 +85,6 @@ public class Card {
     public void activePermanentEffects() {
         for(Effect effect: permanentEffects) {
             effect.active(personalBoard);
-        }    }
+        }
+    }
 }
