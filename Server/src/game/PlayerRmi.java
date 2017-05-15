@@ -25,6 +25,16 @@ public class PlayerRmi extends UnicastRemoteObject implements PlayerInterface {
 
     }
 
+    @Override
+    public void setString(String name) throws RemoteException {
+        game.setString(name);
+    }
+
+    @Override
+    public void writeToClient(String name) throws RemoteException {
+        clientInterface.printString(name);
+    }
+
     /** Metodo che aggiunge il giocatore alla partita, come playerRequest nella classe Server, che verrà richiamato dal client
     *   come primo metodo subito dopo aver scaricato lo stub che implementa PlayerInterface
     */

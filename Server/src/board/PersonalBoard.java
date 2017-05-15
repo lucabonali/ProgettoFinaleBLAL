@@ -64,6 +64,7 @@ public class PersonalBoard {
     }
 
     private void initializeFamilyMembers() {
+        familyMemberList = new ArrayList<>();
         familyMemberList.add(new FamilyMember(this, ORANGE_DICE));
         familyMemberList.add(new FamilyMember(this, BLACK_DICE));
         familyMemberList.add(new FamilyMember(this, WHITE_DICE));
@@ -71,6 +72,7 @@ public class PersonalBoard {
     }
 
     private void initializeResources(){
+        resourceList = new ArrayList<>();
         resourceList.add(new Resource(2, ResourceType.WOOD));
         resourceList.add(new Resource(2, ResourceType.STONE));
         resourceList.add(new Resource(3, ResourceType.SERVANTS));

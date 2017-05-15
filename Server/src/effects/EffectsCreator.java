@@ -1,7 +1,5 @@
 package effects;
 
-import fields.Resource;
-
 /**
  * @author Luca
  * @author Andrea
@@ -21,5 +19,6 @@ public class EffectsCreator {
     public static Effect createEffect(String cod) {
         //ritorna l'effetto giusto
         //da implementare
+        return null;
     }
 }

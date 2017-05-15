@@ -26,9 +26,9 @@ public class ExcomCardDeck {
 
     public ExcomCardDeck(){
         connectionDB = new ConnectionDB();
-        prelameCard1FromDB();
-        prelameCard2FromDB();
-        prelameCard3FromDB();
+//        prelameCard1FromDB();
+//        prelameCard2FromDB();
+//        prelameCard3FromDB();
     }
 
     /**

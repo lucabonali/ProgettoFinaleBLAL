@@ -10,7 +10,7 @@ import java.sql.*;
  * con il database delle carte
  */
 public class ConnectionDB {
-    private static final String URL = "jdbc:mysql://localhost:5000/NOME_DEL_DB";
+    private static final String URL = "jdbc:mysql://localhost:3306/NOME_DEL_DB";
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     private static final String USERNAME_DB = "root";
     private static final String PASSWORD_DB = "";
@@ -20,13 +20,13 @@ public class ConnectionDB {
 
     public ConnectionDB() {
         //inizializza la connessione
-        try {
-            Class.forName(JDBC_DRIVER);
-            connection = DriverManager.getConnection(URL, USERNAME_DB, PASSWORD_DB);
-            statement = connection.createStatement();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Class.forName(JDBC_DRIVER);
+//            connection = DriverManager.getConnection(URL, USERNAME_DB, PASSWORD_DB);
+//            statement = connection.createStatement();
+//        } catch (ClassNotFoundException | SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**

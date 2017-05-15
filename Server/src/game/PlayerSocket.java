@@ -7,6 +7,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 
 /**
@@ -31,15 +32,21 @@ public class PlayerSocket implements PlayerInterface, Runnable {
         this.idPlayer = game.getId(this);
     }
 
+    @Override
+    public void setString(String name) throws RemoteException {
+
+    }
+
+    @Override
+    public void writeToClient(String name) throws RemoteException {
+
+    }
 
     @Override
     public void run() {
         try {
-                in = new DataInputStream(socketClient.getInputStream());
-                out = new DataOutputStream(socketClient.getOutputStream());
-
-
-
+            in = new DataInputStream(socketClient.getInputStream());
+            out = new DataOutputStream(socketClient.getOutputStream());
         }
         catch (IOException e){
 

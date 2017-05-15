@@ -39,10 +39,10 @@ public class Deck {
 
     public Deck() {
         connectionDB = new ConnectionDB();
-        territoriesList = createTerritoriesList();
-        charactersList = createCharactersList();
-        buildingsList = createBuildingList();
-        enterprisesList = createEnterprisesList();
+//        territoriesList = createTerritoriesList();
+//        charactersList = createCharactersList();
+//        buildingsList = createBuildingList();
+//        enterprisesList = createEnterprisesList();
     }
 
     /**

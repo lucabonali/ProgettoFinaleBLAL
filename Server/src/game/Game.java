@@ -3,8 +3,8 @@ package game;
 import api.PlayerInterface;
 import board.Board;
 import board.PersonalBoard;
-import exceptions.LorenzoException;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,10 +24,14 @@ public class Game {
     private List<PlayerInterface> turnOrder;
     private PlayerInterface currentPlayer;
 
-    public Game() throws LorenzoException {
+    //variabile di prova
+    private String name;
+
+    public Game() {
         this.numPlayers = 0;
         board = new Board(numPlayers);
         playerMap = new HashMap<>();
+        personalBoardMap = new HashMap<>();
         turnOrder = new ArrayList<>();
     }
 
@@ -56,4 +60,11 @@ public class Game {
     }
 
 
+    //metodo di prova
+    public void setString(String name) throws RemoteException {
+        this.name = name;
+        for(int i=1; i<=numPlayers; i++){
+            playerMap.get(i).writeToClient(name);
+        }
+    }
 }

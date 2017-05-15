@@ -3,12 +3,12 @@ package game;
 import api.ClientInterface;
 import api.PlayerInterface;
 import api.ServerInterface;
-import exceptions.LorenzoException;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -26,19 +26,15 @@ public class Server extends UnicastRemoteObject implements ServerInterface, Runn
 
     private Map<Integer,Game> gameMap;
     ServerSocket server = null;
-    Socket socketClient = null;
-    PlayerSocket playerSocket;
-
-
     int port = 4000;
 
-    public Server() throws Exception {
+    public Server() throws RemoteException{
         gameMap = new HashMap<>();
         createGames();
         new Thread(this).start();
     }
 
-    private void createGames() throws LorenzoException {
+    private void createGames(){
         for(int i = 0; i<2 ; i++){
             gameMap.put(i,new Game());
         }
@@ -54,7 +50,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface, Runn
         while (true) {
             try {
                 System.out.println("......");
-                socketClient = server.accept();
+                Socket socketClient = server.accept();
                 System.out.println("Connection accepted from: " + socketClient.getInetAddress()); // potremmo togliere le sysout
                 new PlayerSocketRequest(socketClient).start();
             } catch (Exception e) {
@@ -85,7 +81,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface, Runn
         private DataOutputStream out;
         private int idGame;
 
-        public PlayerSocketRequest(Socket socketClient){
+        PlayerSocketRequest(Socket socketClient){
             this.socketClient = socketClient;
         }
 
