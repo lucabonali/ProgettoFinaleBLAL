@@ -17,20 +17,19 @@ import java.util.Map;
 public class Game {
     private int numPlayers,period=1,turn=1,lap=1;
     private Board board;
-    private Map<Integer,Player> playerMap;
-    private List<Player> turnOrder;
+    private Map<Integer, PlayerInterface> playerMap;
+    private List<PlayerInterface> turnOrder;
 
-    public Game(int numPlayers) throws LorenzoException {
-        this.numPlayers = numPlayers;
+    public Game() throws LorenzoException {
+        this.numPlayers = 0;
         board = new Board(numPlayers);
         playerMap = new HashMap<>();
         turnOrder = new ArrayList<>();
-        initializeServers();
     }
 
-    public void addPlayer(int id,Player player){
-        playerMap.put(id, player);
+    public void addPlayer(PlayerInterface playerInterface){
         numPlayers++;
+        playerMap.put(numPlayers , playerInterface);
     }
 
 
@@ -43,17 +42,9 @@ public class Game {
         return numPlayers;
     }
 
-    /**
-     * metodo che inizializza i due ? server, mettendoli in attesa quello socket e facendo bind con il server rmi
-     */
-    public void initializeServers() {
-        try {
-            ServerSocketPlayer serverSocketPlayer = new ServerSocketPlayer(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public boolean isFull(){
+        return numPlayers == 4;
     }
-
 
 
 }
