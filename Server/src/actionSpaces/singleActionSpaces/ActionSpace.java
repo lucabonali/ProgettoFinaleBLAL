@@ -1,16 +1,23 @@
-package actionSpaces;
+package actionSpaces.singleActionSpaces;
 
+import actionSpaces.Action;
+import actionSpaces.ActionSpaceInterface;
 import board.FamilyMember;
 import effects.Effect;
+import api.LorenzoException;
 
 
- /**
+/**
  * @author Luca
  * @author Andrea
  *
  * Generalizza gli spazi azione singoli
  */
 public abstract class ActionSpace implements ActionSpaceInterface {
+    public static final char COD_FLOOR = 'f';
+    public static final char COD_HAR_PROD = 'z';
+    public static final char COD_MARKET = 'm';
+
     private FamilyMember familyMember;
     private int actionValue;
     private Effect effect;
@@ -31,7 +38,9 @@ public abstract class ActionSpace implements ActionSpaceInterface {
         return familyMember;
     }
 
-    public void setFamilyMember(FamilyMember familyMember){
+    public void setFamilyMember(FamilyMember familyMember) throws LorenzoException {
+        if (familyMember != null)
+            throw new LorenzoException("lo spazio azione è già occupato");
         this.familyMember = familyMember;
     }
 
@@ -39,8 +48,9 @@ public abstract class ActionSpace implements ActionSpaceInterface {
         this.familyMember=null;
     }
 
-    public abstract void doAction(Action action);
+     public int getActionValue() {
+         return actionValue;
+     }
 
-
-
+     public abstract void doAction(Action action) throws LorenzoException;
 }

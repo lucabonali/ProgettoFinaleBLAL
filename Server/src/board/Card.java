@@ -1,6 +1,7 @@
 package board;
 
 import effects.Effect;
+import api.LorenzoException;
 import fields.Field;
 import types.CardType;
 
@@ -56,8 +57,15 @@ public class Card {
         return personalBoard;
     }
 
-    public void setPersonalBoard(PersonalBoard personalBoard) {
+    public void setPersonalBoard(PersonalBoard personalBoard) throws LorenzoException {
+        for (Field cost : costs) {
+            if (!personalBoard.checkResources(cost))
+                throw new LorenzoException("non hai abbastanza fondi per eseguire l'azione");
+        }
+        //se ho abbastanza risorse posso pescare e quindi pago il costo e attivo l'effetto immediato
         this.personalBoard = personalBoard;
+        activeCosts();
+        activeQuickEffects();
     }
 
     public int getPeriod() {
@@ -69,7 +77,8 @@ public class Card {
      * passandogli la lista dei costi che sarà tutto negativo
      */
     public void activeCosts(){
-
+        for (Field res : costs)
+            personalBoard.modifyResources(res);
     }
 
     /**

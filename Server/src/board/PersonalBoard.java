@@ -1,6 +1,7 @@
 package board;
 
 import actionSpaces.Action;
+import api.FamilyMemberType;
 import effects.ExcomEffect;
 import fields.Field;
 import fields.Resource;
@@ -9,6 +10,8 @@ import types.ResourceType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static api.FamilyMemberType.*;
+
 /**
  * @author Luca
  * @author Andrea
@@ -16,15 +19,10 @@ import java.util.List;
  * rappresenta la plancia personale del singolo giocatore
  */
 public class PersonalBoard {
-    private static final char ORANGE_DICE = 'o';
-    private static final char BLACK_DICE = 'b';
-    private static final char WHITE_DICE = 'w';
-    private static final char NEUTRAL_DICE = 'n';
-
     //lista dei familiari in possesso, uno neutro e tre personali
     private List<FamilyMember> familyMemberList;
 
-    // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MIlITARY
+    // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
     private List<Resource> resourceList;
 
     //liste delle carte in possesso, al massimo 6 per tipo
@@ -41,8 +39,6 @@ public class PersonalBoard {
 
     //azione corrente
     private Action currentAction;
-
-
     /**
      *
      * @param id identifica il giocatore in ordine di connessione
@@ -55,6 +51,9 @@ public class PersonalBoard {
     }
 
     //Metodi Getter e setter da mettere
+    public Action getCurrentAction() {
+        return currentAction;
+    }
 
     private void initializeCardsLists() {
         territoriesList = new ArrayList<>();
@@ -93,12 +92,49 @@ public class PersonalBoard {
         }
     }
 
-    public void doAction(Action action){
-    // da implementare
+    /**
+     * mi controlla se ho le risorse necessarie
+     * @param cost risorsa da verificare
+     * @return true se le ho, false altrimenti
+     */
+    public boolean checkResources(Field cost){
+        for (Field res : resourceList) {
+            if (res.getType() == cost.getType())
+                if (res.getQta() < cost.getQta())
+                    return false;
+        }
+        return true;
     }
 
+    /**
+     * mi ritona il familiare del tipo passato come paramentro
+     * @param type tipo del familaire
+     * @return il familiare corretto
+     */
+    public FamilyMember getFamilyMember(FamilyMemberType type){
+        for(FamilyMember member: familyMemberList){
+            if (member.getDiceColor() == type)
+                return member;
+        }
+        return null;
+    }
 
+    /**
+     * metodo che mi ritorna la lista delle qta delle mie risorse
+     * @return Lista delle quantità
+     */
+    public List<Integer> getQtaResources() {
+        List<Integer> qtaResourcesList = new ArrayList<>();
+        for(Resource res : resourceList) {
+            qtaResourcesList.add(res.getQta());
+        }
+        return qtaResourcesList;
+    }
 
-
-
+    public void activeCharacterEffects(Action action) {
+        this.currentAction = action;
+        for (Card card : charactersList) {
+            card.activePermanentEffects();
+        }
+    }
 }

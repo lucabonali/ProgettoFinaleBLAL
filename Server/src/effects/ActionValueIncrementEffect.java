@@ -1,6 +1,11 @@
 package effects;
 
 import actionSpaces.ActionSpaceInterface;
+import actionSpaces.largeActionSpaces.LargeHarvestActionSpace;
+import actionSpaces.largeActionSpaces.LargeProductionActionSpace;
+import actionSpaces.singleActionSpaces.FloorActionSpace;
+import actionSpaces.singleActionSpaces.HarvestActionSpace;
+import actionSpaces.singleActionSpaces.ProductionActionSpace;
 import board.PersonalBoard;
 
 /**
@@ -29,7 +34,26 @@ public class ActionValueIncrementEffect implements Effect{
      */
     @Override
     public void active(PersonalBoard personalBoard) {
-        //da implementare
-
+        if (FloorActionSpace.class.isInstance(actionSpace)) {
+            FloorActionSpace floorActionSpace = (FloorActionSpace) actionSpace;
+            if (actionSpace.getClass().isInstance(personalBoard.getCurrentAction().getActionSpace())) {
+                FloorActionSpace myFloorActionSpace = (FloorActionSpace) personalBoard.getCurrentAction().getActionSpace();
+                if (floorActionSpace.getCardType() == myFloorActionSpace.getCardType()){
+                    personalBoard.getCurrentAction().modifyValue(value);
+                }
+            }
+        }
+        else if (HarvestActionSpace.class.isInstance(actionSpace)){
+            if(HarvestActionSpace.class.isInstance(personalBoard.getCurrentAction().getActionSpace()) ||
+                    LargeHarvestActionSpace.class.isInstance(personalBoard.getCurrentAction().getActionSpace())){
+                personalBoard.getCurrentAction().modifyValue(value);
+            }
+        }
+        else if (ProductionActionSpace.class.isInstance(actionSpace)){
+            if(ProductionActionSpace.class.isInstance(personalBoard.getCurrentAction().getActionSpace()) ||
+                    LargeProductionActionSpace.class.isInstance(personalBoard.getCurrentAction().getActionSpace())){
+                personalBoard.getCurrentAction().modifyValue(value);
+            }
+        }
     }
 }

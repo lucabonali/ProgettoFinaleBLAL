@@ -18,9 +18,6 @@ public class MainClient {
         int cmd;
         Registry registry;
         ServerInterface server;
-        Socket socketClient = null;
-        DataInputStream in;
-        DataOutputStream out;
         do{
             System.out.println("scegli la connessione:");
             System.out.println("0 -> RMI");
@@ -41,26 +38,11 @@ public class MainClient {
                         String s = bf.readLine();
                         if(s.equals("quit"))
                             break;
-                        playerInterface.setString(s);
                     }
                     break;
                 case 1:
-                    socketClient = new Socket("localhost", 4000);
-                    in = new DataInputStream(socketClient.getInputStream());
-                    out = new DataOutputStream(socketClient.getOutputStream());
-                    out.writeInt(0);
-                    out.flush();
-                    System.out.println(in.readBoolean());
-                    while (true) {
-                        char c = in.readChar();
-                        System.out.println(c);
-                        if(c == 'c')
-                            break;
-                        //String msg = bf.readLine();
-                        //if(msg.equals("quit"))
-                        //    break;
-                        //out.writeChars(msg);
-                    }
+                    ClientSocket clientSocket = new ClientSocket(new Socket("localhost", 4000));
+                    new Thread(clientSocket).start();
                     break;
                 default:
                     break;

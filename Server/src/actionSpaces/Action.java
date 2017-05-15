@@ -1,6 +1,7 @@
 package actionSpaces;
 
 import board.FamilyMember;
+import api.LorenzoException;
 
 /**
  * @author Luca
@@ -32,11 +33,17 @@ public class Action {
         this.value += modify;
     }
 
+    public int getValue() {
+        return value;
+    }
+
     /**
      * metodo che mi esegue l'azione, chiamando il metodo sullo spazio
      * azione che ha come attributo.
      */
-    public void commitAction(){
+    public void commitAction() throws LorenzoException {
+        familyMember.getPersonalBoard().activeCharacterEffects(this);
+        //dopo che ho attivato gli effetti delle carte personaggio
         this.actionSpace.doAction(this);
     }
 

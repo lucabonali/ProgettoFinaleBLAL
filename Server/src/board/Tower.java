@@ -1,6 +1,7 @@
 package board;
 
-import actionSpaces.FloorActionSpace;
+import actionSpaces.singleActionSpaces.ActionSpace;
+import actionSpaces.singleActionSpaces.FloorActionSpace;
 import types.CardType;
 
 /**
@@ -69,12 +70,7 @@ public class Tower {
         }
     }
 
-
-
-
-
-
-
-
-
+    public ActionSpace getFloor(int numFloor) {
+        return floorActionSpaces[numFloor];
+    }
 }

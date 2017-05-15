@@ -1,6 +1,8 @@
-package actionSpaces;
+package actionSpaces.singleActionSpaces;
 
+import actionSpaces.Action;
 import board.Card;
+import api.LorenzoException;
 import types.CardType;
 
 /**
@@ -36,8 +38,13 @@ public class FloorActionSpace extends ActionSpace {
     }
 
     @Override
-    public void doAction(Action action){
-        // dai implementare
+    public void doAction(Action action) throws LorenzoException {
+        if (getActionValue() > action.getValue())
+            throw new LorenzoException("non hai abbastanza forza per eseguire l'azione!!");
+
+        card.setPersonalBoard(action.getFamilyMember().getPersonalBoard());
+        setFamilyMember(action.getFamilyMember());
+        getEffect().active(action.getFamilyMember().getPersonalBoard());
     }
 
 

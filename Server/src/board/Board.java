@@ -1,9 +1,21 @@
 package board;
 
-import actionSpaces.*;
-import types.AreaType;
+import actionSpaces.Action;
+import actionSpaces.ActionSpaceInterface;
+import actionSpaces.largeActionSpaces.CouncilActionSpace;
+import actionSpaces.largeActionSpaces.LargeHarvestActionSpace;
+import actionSpaces.largeActionSpaces.LargeProductionActionSpace;
+import actionSpaces.singleActionSpaces.HarvestActionSpace;
+import actionSpaces.singleActionSpaces.MarketActionSpace;
+import actionSpaces.singleActionSpaces.ProductionActionSpace;
+import api.Message;
+import api.LorenzoException;
 import types.CardType;
 import types.MarketActionType;
+
+import static actionSpaces.largeActionSpaces.LargeActionSpace.COD_COUNCIL;
+import static actionSpaces.largeActionSpaces.LargeActionSpace.COD_L_HAR_PROD;
+import static actionSpaces.singleActionSpaces.ActionSpace.*;
 
 /**
  * @author Luca
@@ -15,14 +27,17 @@ public class Board {
     private int numPlayers;
 
     private Tower territoryTower, characterTower, buildingTower, venturesTower;
-    private HarProdActionSpace harActionSpace, prodActionSpace;
-    private LHarProdActionSpace lHarActionSpace, lProdActionSpace;
+    private HarvestActionSpace harvestActionSpace;
+    private ProductionActionSpace productionActionSpace;
+    private LargeHarvestActionSpace largeHarvestActionSpace;
+    private LargeProductionActionSpace largeProductionActionSpace;
     private MarketActionSpace yellowMarket, purpleMarket, blueMarket, grayMarket;
     private CouncilActionSpace councilActionSpace;
 
     private ExcomCardDeck excomCardDeck;
     private Deck deck;
 
+    private Action currentAction;
 
 
     public Board(int numPlayers){
@@ -36,19 +51,19 @@ public class Board {
      * Metodo che inizializza gli spazi azione
      */
     private void initializeActionSpaces() {
-        harActionSpace = new HarProdActionSpace(1, AreaType.HARVEST);
-        prodActionSpace = new HarProdActionSpace(1, AreaType.PRODUCTION);
-        if (numPlayers > 2) {
-            lHarActionSpace = new LHarProdActionSpace(1, AreaType.HARVEST);
-            lProdActionSpace = new LHarProdActionSpace(1, AreaType.PRODUCTION);
-        }
+        harvestActionSpace = new HarvestActionSpace(1);
+        productionActionSpace = new ProductionActionSpace(1);
+        councilActionSpace = new CouncilActionSpace(1);
         yellowMarket = new MarketActionSpace(MarketActionType.YELLOW);
         purpleMarket = new MarketActionSpace(MarketActionType.PURPLE);
+        if (numPlayers > 2) {
+            largeHarvestActionSpace = new LargeHarvestActionSpace(1);
+            largeProductionActionSpace = new LargeProductionActionSpace(1);
+        }
         if(numPlayers > 3) {
             blueMarket = new MarketActionSpace(MarketActionType.BLUE);
             grayMarket = new MarketActionSpace(MarketActionType.GRAY);
         }
-        councilActionSpace = new CouncilActionSpace(1);
     }
 
     /**
@@ -66,6 +81,111 @@ public class Board {
         deck = new Deck();
     }
 
+    /**
+     * mi crea l'azione da messaggio codificato e dopodiché mi esegue l'azione
+     * sullo spazio azione corretto
+     * @param msg messaggio a decodificare
+     * @param familyMember familiare
+     * @throws LorenzoException in caso la mosssa non vada abuon fine
+     */
+    public void doAction(Message msg, FamilyMember familyMember) throws LorenzoException {
+        ActionSpaceInterface actionSpace = convertActionMessage(msg);
+        currentAction = new Action(actionSpace, familyMember.getValue(), familyMember);
+        currentAction.commitAction();
+    }
 
 
+    /**
+     * SI PUO' FARE MEGLIO!!!!!!!!
+     * metodo che mi converte un messaggio d'azione in un'azione vera e propria
+     * @param msg messaggio da convertire
+     * @return Action, cioè l'azione
+     */
+    private ActionSpaceInterface convertActionMessage(Message msg) {
+        ActionSpaceInterface actionSpace;
+        char[] code = msg.getActionSpaceCode().toCharArray();
+        switch (code[0]) {
+            case COD_HAR_PROD:
+                char zoneType = code[1];
+                switch (zoneType) {
+                    case 'h':
+                        actionSpace = harvestActionSpace;
+                        break;
+                    case 'p':
+                        actionSpace = productionActionSpace;
+                        break;
+                    default:
+                        //di default council
+                        actionSpace = councilActionSpace;
+                        break;
+                }
+                break;
+            case COD_FLOOR:
+                char tower = code[1];
+                int numFloor = Integer.parseInt(msg.getActionSpaceCode().substring(2,3));
+                switch (tower) {
+                    case '1':
+                        actionSpace = territoryTower.getFloor(numFloor);
+                        break;
+                    case '2':
+                        actionSpace = characterTower.getFloor(numFloor);
+                        break;
+                    case '3':
+                        actionSpace = buildingTower.getFloor(numFloor);
+                        break;
+                    case '4':
+                        actionSpace = venturesTower.getFloor(numFloor);
+                        break;
+                    default:
+                        //di default council
+                        actionSpace = councilActionSpace;
+                        break;
+                }
+                break;
+            case COD_MARKET:
+                char which = code[1];
+                switch (which) {
+                    case '1':
+                        actionSpace = yellowMarket;
+                        break;
+                    case '2':
+                        actionSpace = purpleMarket;
+                        break;
+                    case '3':
+                        actionSpace = blueMarket;
+                        break;
+                    case '4':
+                        actionSpace = grayMarket;
+                        break;
+                    default:
+                        //di default council
+                        actionSpace = councilActionSpace;
+                        break;
+                }
+                break;
+            case COD_L_HAR_PROD:
+                char lZoneType = code[1];
+                switch (lZoneType) {
+                    case 'h':
+                        actionSpace = harvestActionSpace;
+                        break;
+                    case 'p':
+                        actionSpace = productionActionSpace;
+                        break;
+                    default:
+                        //di default council
+                        actionSpace = councilActionSpace;
+                        break;
+                }
+                break;
+            case COD_COUNCIL:
+                actionSpace = councilActionSpace;
+                break;
+            default:
+                //di default council
+                actionSpace = councilActionSpace;
+                break;
+        }
+        return actionSpace;
+    }
 }

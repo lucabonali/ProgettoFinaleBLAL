@@ -1,5 +1,7 @@
 package board;
 
+import api.FamilyMemberType;
+
 /**
  * @author Luca
  * @author Andrea
@@ -10,14 +12,14 @@ public class FamilyMember {
     private PersonalBoard personalBoard;
     private int value;
     private boolean positioned;
-    private final char diceColor;
+    private final FamilyMemberType diceColor;
 
 
     /**
      * I quattro familiari di un giocatore avranno un riferimento alla stessa Plancia, passata del Costruttore
      * @param personalBoard
      */
-    public FamilyMember(PersonalBoard personalBoard , char diceColor){
+    public FamilyMember(PersonalBoard personalBoard , FamilyMemberType diceColor){
         this.personalBoard = personalBoard;
         this.diceColor = diceColor;
     }
@@ -41,6 +43,7 @@ public class FamilyMember {
     public void modifyValue(int n){
         this.value += n;
     }
+
     public boolean isPositioned() {
         return positioned;
     }
@@ -49,6 +52,7 @@ public class FamilyMember {
         this.positioned = positioned;
     }
 
-
-
+    public FamilyMemberType getDiceColor() {
+        return diceColor;
+    }
 }

@@ -1,5 +1,7 @@
 package actionSpaces;
 
+import api.LorenzoException;
+
 /**
  * @author Luca
  * @author Andrea
@@ -15,5 +17,5 @@ public interface ActionSpaceInterface {
      * come parametro.
      * @param action azione da eseguire
      */
-    void doAction(Action action);
+    void doAction(Action action) throws LorenzoException;
 }

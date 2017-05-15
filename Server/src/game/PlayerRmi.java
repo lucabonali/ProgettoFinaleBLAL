@@ -1,9 +1,12 @@
 package game;
 
 import api.ClientInterface;
+import api.Message;
 import api.PlayerInterface;
+import board.FamilyMember;
+import board.PersonalBoard;
+import api.LorenzoException;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -15,10 +18,11 @@ import java.rmi.server.UnicastRemoteObject;
  * Classe che identifica il giocatore connesso tramite RMI
  */
 public class PlayerRmi extends UnicastRemoteObject implements PlayerInterface {
+    private ClientInterface clientInterface;
 
+    private PersonalBoard personalBoard;
     private int idPlayer;
     private Game game;
-    private ClientInterface clientInterface;
 
     public PlayerRmi(Game game, ClientInterface clientInterface) throws RemoteException {
         this.game = game;
@@ -28,19 +32,18 @@ public class PlayerRmi extends UnicastRemoteObject implements PlayerInterface {
     }
 
     @Override
-    public void setString(String name) throws IOException, RemoteException {
-        game.setString(name);
+    public void doAction(Message msg) throws RemoteException {
+        FamilyMember familyMember = personalBoard.getFamilyMember(msg.getFamilyMemberType());
+        try {
+            game.doAction(this, msg, familyMember);
+            clientInterface.updateResources(personalBoard.getQtaResources());
+        } catch (LorenzoException e) {
+            clientInterface.notifyMessage(e.getMessage());
+        }
     }
 
     @Override
-    public void writeToClient(String name) throws RemoteException {
-        clientInterface.printString(name);
+    public void createPersonalBoard(int id) {
+        personalBoard = new PersonalBoard(id);
     }
-
-    /** Metodo che aggiunge il giocatore alla partita, come playerRequest nella classe Server, che verrà richiamato dal client
-    *   come primo metodo subito dopo aver scaricato lo stub che implementa PlayerInterface
-    */
-
-
-
 }

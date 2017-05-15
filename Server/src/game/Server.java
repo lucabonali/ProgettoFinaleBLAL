@@ -4,9 +4,7 @@ import api.ClientInterface;
 import api.PlayerInterface;
 import api.ServerInterface;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -18,8 +16,11 @@ import java.util.Map;
 
 
 /**
- * Created by Luca, Andrea on 15/05/2017.
- * Questa classe serve per mettersi in attesa dei giocatori che si connettono tramite socket, stabilendo la connessione
+ * @author Luca
+ * @author Andrea
+ *
+ * Questa classe serve per mettersi in attesa dei giocatori che si connettono
+ * tramite socket, stabilendo la connessione
  */
 
 public class Server extends UnicastRemoteObject implements ServerInterface, Runnable {
@@ -71,13 +72,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface, Runn
 
     @Override
     public List<Integer> getGamesMap() throws RemoteException {
-        return new ArrayList<Integer>(gameMap.keySet());
+        return new ArrayList<>(gameMap.keySet());
     }
 
     private class PlayerSocketRequest extends Thread {
         private Socket socketClient = null;
-        private DataInputStream in;
-        private DataOutputStream out;
+        private ObjectInputStream in;
+        private ObjectOutputStream out;
         private int idGame;
 
         PlayerSocketRequest(Socket socketClient){
@@ -87,23 +88,26 @@ public class Server extends UnicastRemoteObject implements ServerInterface, Runn
         @Override
         public void run(){
             try {
-                in = new DataInputStream(socketClient.getInputStream());
-                out = new DataOutputStream(socketClient.getOutputStream());
-                Game game;
-                do{
+                in = new ObjectInputStream(socketClient.getInputStream());
+                idGame = in.readInt();
+                out = new ObjectOutputStream(socketClient.getOutputStream());
+                Game game = gameMap.get(idGame);
+                if(game.isFull())
+                    out.writeBoolean(false);
+                while(game.isFull()){
                     idGame = in.readInt();
                     game = gameMap.get(idGame);
-                    if(game.isFull()) {
+                    if(game.isFull())
                         out.writeBoolean(false);
-                    }
-                }while(game.isFull());
+
+                }
                 out.writeBoolean(true);
-                PlayerSocket player = new PlayerSocket(socketClient, in, out,game);
+                PlayerSocket player = new PlayerSocket(socketClient, in, out, game);
                 new Thread(player).start();
                 game.addPlayer(player);
             }
             catch (IOException e){
-
+                e.printStackTrace();
             }
         }
 

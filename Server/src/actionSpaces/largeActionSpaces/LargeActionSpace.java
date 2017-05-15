@@ -1,7 +1,10 @@
-package actionSpaces;
+package actionSpaces.largeActionSpaces;
 
+import actionSpaces.Action;
+import actionSpaces.ActionSpaceInterface;
 import board.FamilyMember;
 import effects.Effect;
+import api.LorenzoException;
 
 import java.util.List;
 
@@ -12,6 +15,9 @@ import java.util.List;
  * Generalizza gli spazi azione multipli
  */
 public abstract class LargeActionSpace implements ActionSpaceInterface {
+    public static final char COD_L_HAR_PROD = 'l';
+    public static final char COD_COUNCIL = 'c';
+
     private int value;
     private List<FamilyMember> familyMembers;
     private List<Effect> effects;
@@ -38,7 +44,9 @@ public abstract class LargeActionSpace implements ActionSpaceInterface {
         //Da implementare, rimuove tutti i familiari presenti nello spazio azione (da utilizzare a fine turno)
     }
 
-    public abstract void doAction(Action action);
+    public int getValue() {
+        return value;
+    }
 
-
+    public abstract void doAction(Action action) throws LorenzoException;
 }

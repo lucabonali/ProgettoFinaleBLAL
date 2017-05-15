@@ -1,13 +1,16 @@
 package game;
 
+import api.Message;
+import api.MessageType;
 import api.PlayerInterface;
+import board.FamilyMember;
 import board.PersonalBoard;
+import api.LorenzoException;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.rmi.RemoteException;
 
 
 /**
@@ -19,15 +22,14 @@ import java.rmi.RemoteException;
 public class PlayerSocket implements PlayerInterface, Runnable {
 
     private Socket socketClient = null;
-    private DataInputStream in;
-    private DataOutputStream out;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
 
     private PersonalBoard personalBoard;
     private Game game;
-
     private int idPlayer;
 
-    public PlayerSocket(Socket socketClient, DataInputStream in, DataOutputStream out, Game game){
+    public PlayerSocket(Socket socketClient, ObjectInputStream in, ObjectOutputStream out, Game game){
         this.socketClient = socketClient;
         this.in = in;
         this.out = out;
@@ -36,28 +38,49 @@ public class PlayerSocket implements PlayerInterface, Runnable {
     }
 
     @Override
-    public void setString(String name) throws IOException {
-        game.setString(name);
+    public void doAction(Message msg) {
+        FamilyMember familyMember = personalBoard.getFamilyMember(msg.getFamilyMemberType());
+        try {
+            game.doAction(this, msg, familyMember);
+        } catch (LorenzoException e) {
+            Message response = new Message(MessageType.INFORMATION);
+            response.setContent(e.getMessage());
+            try {
+                out.writeObject(response);
+                out.flush();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     @Override
-    public void writeToClient(String name) throws IOException, RemoteException {
-        char[] chars = name.toCharArray();
-        out.writeChar(chars[0]);
+    public void createPersonalBoard(int id) {
+        personalBoard = new PersonalBoard(id);
     }
+
 
     @Override
     public void run() {
-        try {
-            while (true) {
-                out.writeChars("S");
-                out.flush();
-                String cmd = in.readLine();
-                setString(cmd);
+        while (socketClient.isConnected()) {
+            try {
+                Message msg = (Message) in.readObject();
+                Message response;
+                MessageType type = msg.getMessageType();
+                switch (type) {
+                    case ACTION:
+                        doAction(msg);
+                        //se arrivo ad eseguire questa parte vuol dire che l'azione è andata
+                        //a buon fine
+                        response = new Message(MessageType.ACTION_RESULT);
+                        response.setQtaList(personalBoard.getQtaResources());
+                        out.writeObject(response);
+                        out.flush();
+                        break;
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
-        }
-        catch (IOException e){
-
         }
     }
 }
