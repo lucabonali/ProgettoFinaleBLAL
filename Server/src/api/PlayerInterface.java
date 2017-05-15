@@ -7,7 +7,7 @@ import java.rmi.Remote;
  * @author Luca
  * @author Andrea
  *
- * interfacci generica per identificare un giocatore, che avrà un' insieme di metodi che saranno comuni a entrambi i tipi di connessione
+ * interfaccia implementata nel server che avrà tutti i metodi comuni tra i due "tipi di giocatori" e vengono invocati su richiesta del client
  */
 public interface PlayerInterface extends Remote {
 

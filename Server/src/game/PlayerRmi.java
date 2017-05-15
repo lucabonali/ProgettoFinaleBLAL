@@ -1,6 +1,6 @@
 package game;
 
-import api.PlayerClientInterface;
+import api.ClientInterface;
 import api.PlayerInterface;
 
 import java.rmi.RemoteException;
@@ -16,16 +16,16 @@ import java.rmi.server.UnicastRemoteObject;
 public class PlayerRmi extends UnicastRemoteObject implements PlayerInterface {
     private int idPlayer;
     private Game game;
-    private PlayerClientInterface playerClientInterface;
+    private ClientInterface clientInterface;
 
-    public PlayerRmi(Game game, PlayerClientInterface playerClientInterface) throws RemoteException {
+    public PlayerRmi(Game game, ClientInterface clientInterface) throws RemoteException {
         this.game = game;
-        this.playerClientInterface = playerClientInterface;
+        this.clientInterface = clientInterface;
         this.idPlayer = game.getId(this);
 
     }
 
-    /** Metodo che aggiunge il giocatore alla partita, come playerRequest nella classe ServerPlayer, che verrà richiamato dal client
+    /** Metodo che aggiunge il giocatore alla partita, come playerRequest nella classe Server, che verrà richiamato dal client
     *   come primo metodo subito dopo aver scaricato lo stub che implementa PlayerInterface
     */
 

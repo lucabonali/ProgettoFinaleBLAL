@@ -9,9 +9,9 @@ import java.util.List;
  * Interfaccia che saraà implementata dell' oggetto scaricabile dal client RMI
  * Created by Luca, Andrea on 15/05/2017.
  */
-public interface ServerPlayerInterface extends Remote {
+public interface ServerInterface extends Remote {
 
-    PlayerInterface playerRMIRequest(int idGame) throws RemoteException;
+    PlayerInterface playerRMIRequest(int idGame,ClientInterface clientInterface) throws RemoteException;
 
     List<Integer> getGamesMap() throws RemoteException;
 }

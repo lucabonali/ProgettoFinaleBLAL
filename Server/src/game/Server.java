@@ -1,8 +1,8 @@
 package game;
 
-import api.PlayerClientInterface;
+import api.ClientInterface;
 import api.PlayerInterface;
-import api.ServerPlayerInterface;
+import api.ServerInterface;
 import exceptions.LorenzoException;
 
 import java.io.DataInputStream;
@@ -22,7 +22,7 @@ import java.util.Map;
  * Questa classe serve per mettersi in attesa dei giocatori che si connettono tramite socket, stabilendo la connessione
  */
 
-public class ServerPlayer extends UnicastRemoteObject implements ServerPlayerInterface, Runnable {
+public class Server extends UnicastRemoteObject implements ServerInterface, Runnable {
 
     private Map<Integer,Game> gameMap;
     ServerSocket server = null;
@@ -32,7 +32,7 @@ public class ServerPlayer extends UnicastRemoteObject implements ServerPlayerInt
 
     int port = 4000;
 
-    public ServerPlayer() throws Exception {
+    public Server() throws Exception {
         gameMap = new HashMap<>();
         createGames();
         new Thread(this).start();
@@ -64,10 +64,10 @@ public class ServerPlayer extends UnicastRemoteObject implements ServerPlayerInt
     }
 
     @Override
-    public PlayerInterface playerRMIRequest(int idGame, PlayerClientInterface playerClientInterface) throws RemoteException {
+    public PlayerInterface playerRMIRequest(int idGame, ClientInterface clientInterface) throws RemoteException {
         Game game = gameMap.get(idGame);
         if(!game.isFull()) {
-            PlayerInterface player = new PlayerRmi(game,playerClientInterface);
+            PlayerInterface player = new PlayerRmi(game, clientInterface);
             game.addPlayer(player);
             return player;
         }
