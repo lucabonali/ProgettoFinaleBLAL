@@ -26,27 +26,34 @@ public class PlayerSocket implements PlayerInterface, Runnable {
 
     private int idPlayer;
 
-    public PlayerSocket(Socket socketClient, Game game){
+    public PlayerSocket(Socket socketClient, DataInputStream in, DataOutputStream out, Game game){
         this.socketClient = socketClient;
+        this.in = in;
+        this.out = out;
         this.game = game;
         this.idPlayer = game.getId(this);
     }
 
     @Override
-    public void setString(String name) throws RemoteException {
-
+    public void setString(String name) throws IOException {
+        game.setString(name);
     }
 
     @Override
-    public void writeToClient(String name) throws RemoteException {
-
+    public void writeToClient(String name) throws IOException, RemoteException {
+        char[] chars = name.toCharArray();
+        out.writeChar(chars[0]);
     }
 
     @Override
     public void run() {
         try {
-            in = new DataInputStream(socketClient.getInputStream());
-            out = new DataOutputStream(socketClient.getOutputStream());
+            while (true) {
+                out.writeChars("S");
+                out.flush();
+                String cmd = in.readLine();
+                setString(cmd);
+            }
         }
         catch (IOException e){
 

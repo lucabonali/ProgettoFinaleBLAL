@@ -1,6 +1,7 @@
 package api;
 
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -12,7 +13,7 @@ import java.rmi.RemoteException;
  */
 public interface PlayerInterface extends Remote {
 
-    void setString(String name) throws RemoteException;
+    void setString(String name) throws RemoteException, IOException;
 
-    void writeToClient(String name) throws RemoteException;
+    void writeToClient(String name) throws IOException;
 }

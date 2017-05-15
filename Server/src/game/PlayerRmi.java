@@ -3,6 +3,7 @@ package game;
 import api.ClientInterface;
 import api.PlayerInterface;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -26,7 +27,7 @@ public class PlayerRmi extends UnicastRemoteObject implements PlayerInterface {
     }
 
     @Override
-    public void setString(String name) throws RemoteException {
+    public void setString(String name) throws IOException, RemoteException {
         game.setString(name);
     }
 

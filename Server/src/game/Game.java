@@ -4,6 +4,7 @@ import api.PlayerInterface;
 import board.Board;
 import board.PersonalBoard;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +62,7 @@ public class Game {
 
 
     //metodo di prova
-    public void setString(String name) throws RemoteException {
+    public void setString(String name) throws IOException, RemoteException {
         this.name = name;
         for(int i=1; i<=numPlayers; i++){
             playerMap.get(i).writeToClient(name);

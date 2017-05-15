@@ -98,7 +98,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface, Runn
                         out.writeBoolean(false);
                     }
                 }while(game.isFull());
-                PlayerSocket player = new PlayerSocket(socketClient,game);
+                out.writeBoolean(true);
+                PlayerSocket player = new PlayerSocket(socketClient, in, out,game);
                 new Thread(player).start();
                 game.addPlayer(player);
             }
