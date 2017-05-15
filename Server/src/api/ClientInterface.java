@@ -8,5 +8,6 @@ import java.rmi.RemoteException;
  * Created by Luca, Andrea on 15/05/2017.
  */
 public interface ClientInterface extends Remote {
+
     void printString(String name) throws RemoteException;
 }

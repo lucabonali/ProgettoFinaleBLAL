@@ -23,7 +23,6 @@ import java.util.Map;
  */
 
 public class Server extends UnicastRemoteObject implements ServerInterface, Runnable {
-
     private Map<Integer,Game> gameMap;
     ServerSocket server = null;
     int port = 4000;

@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class MainClient {
     public static void main(String[] args) throws IOException, NotBoundException {
+
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         int cmd;
         Registry registry;

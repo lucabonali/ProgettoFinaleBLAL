@@ -17,6 +17,7 @@ import java.rmi.RemoteException;
  * classe che mi identifica il giocatore connesso tramite Socket
  */
 public class PlayerSocket implements PlayerInterface, Runnable {
+
     private Socket socketClient = null;
     private DataInputStream in;
     private DataOutputStream out;

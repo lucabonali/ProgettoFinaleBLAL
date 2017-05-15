@@ -18,7 +18,8 @@ import java.util.Map;
  * Classe che gestisce il comportamento della singola partita
  */
 public class Game {
-    private int numPlayers,period=1,turn=1,lap=1;
+    private int numPlayers;
+    private int period=1,turn=1,lap=1;
     private Board board;
     private Map<Integer, PlayerInterface> playerMap;
     private Map<Integer, PersonalBoard> personalBoardMap;

@@ -15,6 +15,7 @@ import java.rmi.server.UnicastRemoteObject;
  * Classe che identifica il giocatore connesso tramite RMI
  */
 public class PlayerRmi extends UnicastRemoteObject implements PlayerInterface {
+
     private int idPlayer;
     private Game game;
     private ClientInterface clientInterface;

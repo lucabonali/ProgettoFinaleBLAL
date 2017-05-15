@@ -3,7 +3,6 @@ package api;
 
 import java.io.IOException;
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 
 /**
  * @author Luca
@@ -13,7 +12,7 @@ import java.rmi.RemoteException;
  */
 public interface PlayerInterface extends Remote {
 
-    void setString(String name) throws RemoteException, IOException;
+    void setString(String name) throws IOException;
 
     void writeToClient(String name) throws IOException;
 }
