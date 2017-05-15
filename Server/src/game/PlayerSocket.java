@@ -1,11 +1,11 @@
 package game;
 
+import api.PlayerInterface;
 import board.PersonalBoard;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 

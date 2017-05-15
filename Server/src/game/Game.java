@@ -1,5 +1,6 @@
 package game;
 
+import api.PlayerInterface;
 import board.Board;
 import board.PersonalBoard;
 import exceptions.LorenzoException;

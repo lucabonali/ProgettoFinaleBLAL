@@ -1,6 +1,7 @@
 package game;
 
-import board.PersonalBoard;
+import api.PlayerClientInterface;
+import api.PlayerInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -15,11 +16,13 @@ import java.rmi.server.UnicastRemoteObject;
 public class PlayerRmi extends UnicastRemoteObject implements PlayerInterface {
     private int idPlayer;
     private Game game;
+    private PlayerClientInterface playerClientInterface;
 
-
-    public PlayerRmi(Game game) throws RemoteException {
+    public PlayerRmi(Game game, PlayerClientInterface playerClientInterface) throws RemoteException {
         this.game = game;
+        this.playerClientInterface = playerClientInterface;
         this.idPlayer = game.getId(this);
+
     }
 
     /** Metodo che aggiunge il giocatore alla partita, come playerRequest nella classe ServerPlayer, che verrà richiamato dal client

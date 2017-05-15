@@ -1,5 +1,8 @@
 package game;
 
+import api.PlayerClientInterface;
+import api.PlayerInterface;
+import api.ServerPlayerInterface;
 import exceptions.LorenzoException;
 
 import java.io.DataInputStream;
@@ -61,10 +64,10 @@ public class ServerPlayer extends UnicastRemoteObject implements ServerPlayerInt
     }
 
     @Override
-    public PlayerInterface playerRMIRequest(int idGame) throws RemoteException {
+    public PlayerInterface playerRMIRequest(int idGame, PlayerClientInterface playerClientInterface) throws RemoteException {
         Game game = gameMap.get(idGame);
         if(!game.isFull()) {
-            PlayerInterface player = new PlayerRmi(game);
+            PlayerInterface player = new PlayerRmi(game,playerClientInterface);
             game.addPlayer(player);
             return player;
         }

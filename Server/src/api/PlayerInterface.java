@@ -1,4 +1,4 @@
-package game;
+package api;
 
 
 import java.rmi.Remote;
