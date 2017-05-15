@@ -13,12 +13,13 @@ import java.rmi.server.UnicastRemoteObject;
  * Classe che identifica il giocatore connesso tramite RMI
  */
 public class PlayerRmi extends UnicastRemoteObject implements PlayerInterface {
-    private PersonalBoard personalBoard;
+    private int idPlayer;
     private Game game;
 
 
     public PlayerRmi(Game game) throws RemoteException {
         this.game = game;
+        this.idPlayer = game.getId(this);
     }
 
     /** Metodo che aggiunge il giocatore alla partita, come playerRequest nella classe ServerPlayer, che verrà richiamato dal client

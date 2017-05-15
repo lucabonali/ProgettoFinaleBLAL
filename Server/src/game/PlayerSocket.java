@@ -16,20 +16,19 @@ import java.net.Socket;
  * classe che mi identifica il giocatore connesso tramite Socket
  */
 public class PlayerSocket implements PlayerInterface, Runnable {
-    private PersonalBoard personalBoard;
-    private Game game;
-    private ServerSocket server = null;
     private Socket socketClient = null;
     private DataInputStream in;
     private DataOutputStream out;
 
+    private PersonalBoard personalBoard;
+    private Game game;
 
     private int idPlayer;
-    private int port ;
 
     public PlayerSocket(Socket socketClient, Game game){
         this.socketClient = socketClient;
         this.game = game;
+        this.idPlayer = game.getId(this);
     }
 
 

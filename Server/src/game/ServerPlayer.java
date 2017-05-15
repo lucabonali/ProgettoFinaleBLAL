@@ -7,6 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.*;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Map;
  * Questa classe serve per mettersi in attesa dei giocatori che si connettono tramite socket, stabilendo la connessione
  */
 
-public class ServerPlayer extends Thread implements ServerPlayerInterface {
+public class ServerPlayer extends UnicastRemoteObject implements ServerPlayerInterface, Runnable {
 
     private Map<Integer,Game> gameMap;
     ServerSocket server = null;
@@ -31,7 +32,7 @@ public class ServerPlayer extends Thread implements ServerPlayerInterface {
     public ServerPlayer() throws Exception {
         gameMap = new HashMap<>();
         createGames();
-        this.start();
+        new Thread(this).start();
     }
 
     private void createGames() throws LorenzoException {

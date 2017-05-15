@@ -1,6 +1,7 @@
 package game;
 
 import board.Board;
+import board.PersonalBoard;
 import exceptions.LorenzoException;
 
 import java.util.ArrayList;
@@ -18,7 +19,9 @@ public class Game {
     private int numPlayers,period=1,turn=1,lap=1;
     private Board board;
     private Map<Integer, PlayerInterface> playerMap;
+    private Map<Integer, PersonalBoard> personalBoardMap;
     private List<PlayerInterface> turnOrder;
+    private PlayerInterface currentPlayer;
 
     public Game() throws LorenzoException {
         this.numPlayers = 0;
@@ -30,11 +33,16 @@ public class Game {
     public void addPlayer(PlayerInterface playerInterface){
         numPlayers++;
         playerMap.put(numPlayers , playerInterface);
+        personalBoardMap.put(numPlayers,new PersonalBoard(numPlayers));
     }
 
 
-    public Board getBoard() {
-        return board;
+    public int getId(PlayerInterface player){
+        for(int i = 1; i<=numPlayers ; i++){
+            if(player == playerMap.get(i))
+                return i;
+        }
+        return -1;
     }
 
     public int getNumPlayers() {

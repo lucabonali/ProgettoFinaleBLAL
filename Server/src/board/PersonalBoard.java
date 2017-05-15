@@ -36,9 +36,6 @@ public class PersonalBoard {
     //lista degli effetti ottenuti in seguito a scomuniche
     private List<ExcomEffect> excomEffectList; //vengono attivati ogni azione
 
-    //tabellone in cui la plancia si trova
-    private Board board;
-
     //id del giocatore e quindi della plancia
     private int id;
 
@@ -50,7 +47,7 @@ public class PersonalBoard {
      *
      * @param id identifica il giocatore in ordine di connessione
      */
-    public PersonalBoard(int id, Board board){
+    public PersonalBoard(int id){
         this.id = id;
         initializeResources();
         initializeFamilyMembers();
