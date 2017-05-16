@@ -173,18 +173,19 @@ public class Game {
                     }
                 }
             }
-            if(newTurnOrder.size() == turnOrder.size())
-                turnOrder = newTurnOrder;
-            else {
-                for (PlayerInterface p : turnOrder){
+            if(!(newTurnOrder.size() == turnOrder.size())) {
+                for (PlayerInterface p : turnOrder) {
                     boolean isPresent = false;
-                    for (PlayerInterface newP : newTurnOrder){
-                        if(newP == p)
+                    for (PlayerInterface newP : newTurnOrder) {
+                        if (newP == p)
                             isPresent = true;
                     }
-                    newTurnOrder.add(p);
+                    if (!isPresent)
+                        newTurnOrder.add(p);
+
                 }
             }
+            turnOrder = newTurnOrder;
         }
         board.initializeTurn(period, turn);
         currentPlayer = turnOrder.get(0);
