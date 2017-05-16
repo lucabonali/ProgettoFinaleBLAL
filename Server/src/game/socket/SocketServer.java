@@ -24,7 +24,6 @@ import java.util.List;
  * ma qui i metodi verranno chiamati in seguito a messaggi provenienti dal client e codificati.
  */
 public class SocketServer extends AbstractServer implements Runnable {
-
     ServerSocket server = null;
     int port = 4000;
 

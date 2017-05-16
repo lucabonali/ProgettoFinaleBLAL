@@ -3,8 +3,8 @@ package game;
 import api.ClientInterface;
 import api.FamilyMemberType;
 import api.PlayerInterface;
-import board.FamilyMember;
-import board.PersonalBoard;
+import controller.board.FamilyMember;
+import controller.board.PersonalBoard;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

@@ -2,8 +2,8 @@ package game;
 
 import api.MessageGame;
 import api.PlayerInterface;
-import board.Board;
-import board.FamilyMember;
+import controller.board.Board;
+import controller.board.FamilyMember;
 import api.LorenzoException;
 
 import java.rmi.RemoteException;

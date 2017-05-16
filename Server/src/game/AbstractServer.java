@@ -11,6 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 public abstract class AbstractServer extends UnicastRemoteObject implements ServerInterface{
 
     protected AbstractServer() throws RemoteException {
+
     }
 
     @Override

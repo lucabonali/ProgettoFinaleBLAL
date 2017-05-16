@@ -3,7 +3,7 @@ package game.rmi;
 import api.ClientInterface;
 import api.LorenzoException;
 import api.MessageGame;
-import board.FamilyMember;
+import controller.board.FamilyMember;
 import game.AbstractPlayer;
 import game.MainServer;
 
