@@ -138,6 +138,12 @@ public class PersonalBoard {
         }
     }
 
+    private void activeVentueresEffects(){
+        for (Card card : venturesList){
+            card.activePermanentEffects();
+        }
+    }
+
     public void setDiceValues(int o , int w, int b){
         familyMemberList.get(0).setValue(o);
         familyMemberList.get(1).setValue(w);
@@ -145,4 +151,66 @@ public class PersonalBoard {
         familyMemberList.get(3).setValue(0);
     }
 
+    public int calculateVictoryPoints() {
+        activeVentueresEffects();
+        int sum = 0;
+        sum += resourceList.get(5).getQta(); //aggiungo i punti vittoria
+        //adesso devo convertire gli altri
+        int sumResources = 0;
+        for (int i=0; i<4; i++){
+            sumResources += resourceList.get(i).getQta();
+        }
+        sum += sumResources%5;
+        sum += calcNumOfCharacters();
+        sum += calcNumOfTerritories();
+        return sum;
+    }
+
+    private int calcNumOfCharacters(){
+        int tmp = 0;
+        switch (charactersList.size()){
+            case 1:
+                tmp += 1;
+                break;
+            case 2:
+                tmp += 3;
+                break;
+            case 3:
+                tmp += 6;
+                break;
+            case 4:
+                tmp += 10;
+                break;
+            case 5:
+                tmp += 15;
+                break;
+            case 6:
+                tmp += 21;
+                break;
+            default:
+                break;
+        }
+        return tmp;
+    }
+
+    private int calcNumOfTerritories(){
+        int tmp = 0;
+        switch (territoriesList.size()){
+            case 3:
+                tmp += 1;
+                break;
+            case 4:
+                tmp += 4;
+                break;
+            case 5:
+                tmp += 10;
+                break;
+            case 6:
+                tmp += 20;
+                break;
+            default:
+                break;
+        }
+        return tmp;
+    }
 }

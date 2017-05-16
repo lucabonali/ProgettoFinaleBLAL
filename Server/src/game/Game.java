@@ -5,6 +5,8 @@ import api.PlayerInterface;
 import controller.board.Board;
 import controller.board.FamilyMember;
 import api.LorenzoException;
+import controller.fields.Resource;
+import controller.types.ResourceType;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -100,6 +102,11 @@ public class Game {
         endMove();
     }
 
+    /**
+     * viene chiamato dopo che il giocatore ha eseguito la mossa
+     * controlla se è finito il giro o no
+     * @throws RemoteException
+     */
     private void endMove() throws RemoteException {
         for(int i = 0 ; i < numPlayers ; i++){
             if(currentPlayer == turnOrder.get(i)) {
@@ -114,6 +121,10 @@ public class Game {
         }
     }
 
+    /**
+     * controlla se è finito il turno.
+     * @throws RemoteException
+     */
     private void endLap() throws RemoteException {
         if (lap == 4){
             lap = 1;
@@ -124,10 +135,12 @@ public class Game {
             currentPlayer = turnOrder.get(0);
             currentPlayer.isYourTurn();
         }
-
-
     }
 
+    /**
+     * controlla se è finito il periodo, cioè questo è l'ultimo turno di costui
+     * @throws RemoteException
+     */
     private void endTurn() throws RemoteException {
         if(turn == 2){
             turn = 1;
@@ -135,24 +148,31 @@ public class Game {
         }
         else{
             turn++;
-            initializeTurn();
+            sortPlayerOrder();
         }
     }
 
-
-
+    /**
+     * controlla se è l'ultimo periodo, cioè è finita la partita.
+     * @throws RemoteException
+     */
     private void endPeriod() throws RemoteException {
         if(period == 3){
             endGame();
         }
         else{
             period ++;
-            initializeTurn();
+            sortPlayerOrder();
         }
     }
 
 
-    private void initializeTurn() throws RemoteException {
+    /**
+     * questo metodo controlla lo spazio azione del consiglio e riposiziona nella
+     * lista turnOrder il nuovo ordine correto per il nuovo turno.
+     * @throws RemoteException
+     */
+    private void sortPlayerOrder() throws RemoteException {
         List<FamilyMember> familyMembersList = board.getOrder();
         if(!familyMembersList.isEmpty()){
             List<AbstractPlayer> newTurnOrder = new ArrayList<>();
@@ -190,7 +210,46 @@ public class Game {
         currentPlayer.isYourTurn();
     }
 
-    private void endGame() {
+    /**
+     * metodo chiamato al termine della gara, non fa altro che calcolare
+     * tutti i punti vittoria di ciascun giocatore e decretare il vincitore.
+     */
+    private void endGame() throws RemoteException {
+        //military points
+        Map<AbstractPlayer, Integer> militaryMap = new HashMap<>();
+        for (AbstractPlayer player: turnOrder){
+            militaryMap.put(player, player.getPersonalBoard().getQtaResources().get(7));
+        }
+
+        List<AbstractPlayer> militaryWinners = new LinkedList<>();
+        List<Integer> militaryValues = new LinkedList<>(militaryMap.values());
+        Collections.sort(militaryValues);
+        for (AbstractPlayer player : turnOrder){
+            for(int i=0; i<numPlayers; i++) {
+                if (player.getPersonalBoard().getQtaResources().get(7) == militaryValues.get(i)) {
+                    militaryWinners.add(player);
+                    break;
+                }
+            }
+        }
+
+        militaryWinners.get(0).getPersonalBoard().modifyResources(new Resource(5, ResourceType.VICTORY));
+        militaryWinners.get(1).getPersonalBoard().modifyResources(new Resource(2, ResourceType.VICTORY));
+
+        //victory points
+        Map<AbstractPlayer, Integer> victoryMap = new HashMap<>();
+        for (AbstractPlayer player: turnOrder){
+            victoryMap.put(player, player.calculateVictoryPoints());
+        }
+        AbstractPlayer winner = turnOrder.get(0);
+        for (AbstractPlayer player: turnOrder){
+            if(victoryMap.get(winner) < victoryMap.get(player))
+                winner = player;
+        }
+        winner.youWin();
+        for (AbstractPlayer player: turnOrder)
+            if(player != winner)
+                player.youLose();
     }
 
 

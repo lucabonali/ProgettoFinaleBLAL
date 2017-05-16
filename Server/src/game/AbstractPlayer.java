@@ -2,6 +2,7 @@ package game;
 
 import api.ClientInterface;
 import api.FamilyMemberType;
+import api.LorenzoException;
 import api.PlayerInterface;
 import controller.board.FamilyMember;
 import controller.board.PersonalBoard;
@@ -32,12 +33,8 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         idPlayer = game.getId(this);
     }
 
-    public void gameIsStarted() throws RemoteException {
-        clientInterface.notifyMessage("La partita è iniziata");
-    }
-
-    public void isYourTurn() throws RemoteException {
-        clientInterface.notifyMessage("Tocca a te!!");
+    public int calculateVictoryPoints(){
+        return personalBoard.calculateVictoryPoints();
     }
 
     public void setDiceValues(int orange, int white, int black) {
@@ -62,6 +59,27 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     public Game getGame() {
         return this.game;
+    }
+
+    public abstract void gameIsStarted() throws RemoteException;
+
+    public abstract void isYourTurn() throws RemoteException;
+
+    public abstract void youWin() throws RemoteException;
+
+    public abstract void youLose() throws RemoteException;
+
+    /// metodi implementatti della PlayerInterface
+
+    @Override
+    public void shotDice() throws RemoteException, LorenzoException {
+        getGame().shotDice(this);
+    }
+
+
+    @Override
+    public void addClientInterface(ClientInterface clientInterface) throws RemoteException {
+        setClientInterface(clientInterface);
     }
 
 }

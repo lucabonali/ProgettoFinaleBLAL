@@ -1,20 +1,16 @@
 package game.socket;
 
-import api.ClientInterface;
 import api.LorenzoException;
 import api.MessageGame;
 import api.MessageGameType;
 import controller.board.FamilyMember;
 import game.AbstractPlayer;
-import game.MainServer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -34,11 +30,46 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
 
     }
 
+    // metodi ereditati e da implementare da ABSTRACT PLAYER //////////////////////////////////////
+
+    @Override
+    public void gameIsStarted() throws RemoteException {
+        printMsgToClient("la partita è iniziata");
+    }
+
+    @Override
+    public void isYourTurn() throws RemoteException {
+        printMsgToClient("è il tuo turno!");
+    }
+
+    @Override
+    public void youWin() throws RemoteException {
+        printMsgToClient("Hai vinto, complimenti!!");
+    }
+
+    @Override
+    public void youLose() throws RemoteException {
+        printMsgToClient("Hai perso :(");
+    }
+
+    private void printMsgToClient(String content){
+        MessageGame outMsg = new MessageGame(MessageGameType.INFORMATION);
+        outMsg.setContent(content);
+        try {
+            out.writeObject(outMsg);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setSocketConnection(Socket socket, ObjectInputStream in, ObjectOutputStream out) {
         this.socketClient = socket;
         this.in = in;
         this.out = out;
     }
+
+    // metodi eredita dalla PLAYER INTERFACE ////////////////////////////////////////
 
     @Override
     public void doAction(MessageGame msg) {
@@ -69,16 +100,6 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public List<Integer> getGamesMap() throws RemoteException {
-        return new ArrayList<>(MainServer.gamesMap.keySet());
-    }
-
-    @Override
-    public void addClientInterface(ClientInterface clientInterface) throws RemoteException {
-        setClientInterface(clientInterface);
     }
 
 

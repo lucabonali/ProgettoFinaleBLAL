@@ -28,6 +28,7 @@ public class ServerRMI extends AbstractServer {
         for (Game g : games) {
             if(!g.isFull()){
                 PlayerRMI playerRMI = new PlayerRMI(username);
+                playerRMI.setGame(g);
                 g.addPlayer(playerRMI);
                 return playerRMI;
             }

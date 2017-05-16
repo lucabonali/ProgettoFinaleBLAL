@@ -1,15 +1,11 @@
 package game.rmi;
 
-import api.ClientInterface;
 import api.LorenzoException;
 import api.MessageGame;
 import controller.board.FamilyMember;
 import game.AbstractPlayer;
-import game.MainServer;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -25,16 +21,27 @@ public class PlayerRMI extends AbstractPlayer {
 
     }
 
-    @Override
-    public List<Integer> getGamesMap() throws RemoteException {
-        return new ArrayList<>(MainServer.gamesMap.keySet());
-    }
+    // override di metodi ereditati da ABSTRACT PLAYER /////////////////////////////////////////////////
 
     @Override
-    public void addClientInterface(ClientInterface clientInterface) throws RemoteException {
-        setClientInterface(clientInterface);
+    public void gameIsStarted() throws RemoteException {
+        getClientInterface().notifyMessage("La partita è iniziata");
     }
 
+    public void isYourTurn() throws RemoteException {
+        getClientInterface().notifyMessage("Tocca a te!!");
+    }
+
+    public void youWin() throws RemoteException {
+        getClientInterface().notifyMessage("Hai vinto, complimenti!!");
+    }
+
+    public void youLose() throws RemoteException {
+        getClientInterface().notifyMessage("Hai perso :( ");
+    }
+
+
+    //metodi erediati da PLAYER INTERFACE /////////////////////////////////////////////////////////
 
     @Override
     public void doAction(MessageGame msg) throws RemoteException {
@@ -46,4 +53,5 @@ public class PlayerRMI extends AbstractPlayer {
             getClientInterface().notifyMessage(e.getMessage());
         }
     }
+
 }

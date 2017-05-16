@@ -38,6 +38,7 @@ public class SocketServer extends AbstractServer implements Runnable {
         for (Game g : games) {
             if(!g.isFull()){
                 PlayerSocket playerSocket = new PlayerSocket(username);
+                playerSocket.setGame(g);
                 g.addPlayer(playerSocket);
                 return playerSocket;
             }
