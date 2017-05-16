@@ -1,4 +1,4 @@
-import api.ServerInterface;
+import main.api.ServerInterface;
 
 import java.io.BufferedReader;
 import java.io.IOException;

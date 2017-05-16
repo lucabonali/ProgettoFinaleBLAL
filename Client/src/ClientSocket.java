@@ -1,5 +1,5 @@
-import api.MessageLogin;
-import api.MessageLoginType;
+import main.api.MessageLogin;
+import main.api.MessageLoginType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

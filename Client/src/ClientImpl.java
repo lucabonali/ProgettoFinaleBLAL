@@ -1,4 +1,4 @@
-import api.ClientInterface;
+import main.api.ClientInterface;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -30,15 +30,6 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
 
     }
 
-    @Override
-    public String getUserName() throws RemoteException {
-        return username;
-    }
-
-    @Override
-    public String getPassword() throws RemoteException {
-        return password;
-    }
 
     @Override
     public void setDiceValues(int orange, int white, int black) throws RemoteException {
