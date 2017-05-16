@@ -7,8 +7,8 @@ import java.util.List;
  * @author Luca
  * @author Andrea
  */
-public class Message implements Serializable{
-    private MessageType messageType;
+public class MessageGame implements Serializable{
+    private MessageGameType messageGameType;
     private String cardName;
     private FamilyMemberType familyMemberType;
     private String actionSpaceCode;
@@ -16,8 +16,8 @@ public class Message implements Serializable{
     // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
     private List<Integer> qtaList;
 
-    public Message(MessageType messageType) {
-        this.messageType = messageType;
+    public MessageGame(MessageGameType messageGameType) {
+        this.messageGameType = messageGameType;
     }
 
     public void setQtaList(List<Integer> qtaList) {
@@ -40,8 +40,8 @@ public class Message implements Serializable{
         this.content = content;
     }
 
-    public MessageType getMessageType() {
-        return messageType;
+    public MessageGameType getMessageGameType() {
+        return messageGameType;
     }
 
     public String getCardName() {

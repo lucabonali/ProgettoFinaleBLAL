@@ -3,6 +3,7 @@ package api;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * @author Luca
@@ -19,11 +20,21 @@ public interface PlayerInterface extends Remote {
      * @param msg messaggio che mi codifica l'azione
      * @throws RemoteException problemi con rmi
      */
-    void doAction(Message msg) throws RemoteException, LorenzoException;
+    void doAction(MessageGame msg) throws RemoteException, LorenzoException;
+
 
     /**
-     * mi crea la plancia personale
-     * @param id id del giocatore
+     * Serve al client per conoscere la lista delle partite attive
+     * @return lista partite
+     * @throws RemoteException
      */
-    void createPersonalBoard(int id);
+    List<Integer> getGamesMap() throws RemoteException;
+
+    /**
+     * mi aggiunge all'oggetto player la sua client interface
+     * @param clientInterface
+     * @throws RemoteException
+     */
+    void addClientInterface(ClientInterface clientInterface) throws RemoteException;
+
 }

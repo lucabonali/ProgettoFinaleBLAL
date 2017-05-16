@@ -1,5 +1,6 @@
 import api.ClientInterface;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
@@ -7,10 +8,12 @@ import java.util.List;
 /**
  * @author lampa
  */
-public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
+public class ClientImpl extends UnicastRemoteObject implements ClientInterface, Serializable {
+    private String username, password;
 
-    public ClientImpl() throws RemoteException {
-
+    public ClientImpl(String username, String password) throws RemoteException {
+        this.username = username;
+        this.password = password;
     }
 
     public void printString(String name) throws RemoteException {
@@ -24,6 +27,21 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
 
     @Override
     public void notifyMessage(String msg) throws RemoteException {
+
+    }
+
+    @Override
+    public String getUserName() throws RemoteException {
+        return username;
+    }
+
+    @Override
+    public String getPassword() throws RemoteException {
+        return password;
+    }
+
+    @Override
+    public void setDiceValues(int orange, int white, int black) throws RemoteException {
 
     }
 }

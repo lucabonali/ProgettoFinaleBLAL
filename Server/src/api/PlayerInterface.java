@@ -1,8 +1,6 @@
 package api;
 
 
-import board.FamilyMember;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -22,21 +20,7 @@ public interface PlayerInterface extends Remote {
      * @param msg messaggio che mi codifica l'azione
      * @throws RemoteException problemi con rmi
      */
-    void doAction(Message msg) throws RemoteException, LorenzoException;
-
-    /**
-     * mi crea la plancia personale
-     * @param id id del giocatore
-     */
-    void createPersonalBoard(int id);
-
-    /**
-     * Iscrive un giocatore alla partita di id = idGame
-     * @param idGame id della partita
-     * @return true se partita non piene, false else
-     * @throws RemoteException
-     */
-    boolean setGame(int idGame) throws RemoteException;
+    void doAction(MessageGame msg) throws RemoteException, LorenzoException;
 
 
     /**
@@ -47,19 +31,10 @@ public interface PlayerInterface extends Remote {
     List<Integer> getGamesMap() throws RemoteException;
 
     /**
-     * Notifica in due modi diversi ai client che la partita è iniziata
+     * mi aggiunge all'oggetto player la sua client interface
+     * @param clientInterface
      * @throws RemoteException
      */
-    void gameIsStarted() throws RemoteException;
+    void addClientInterface(ClientInterface clientInterface) throws RemoteException;
 
-    /**
-     * notifica al giocatore che è il suo turno
-     * @throws RemoteException
-     */
-    void isYourTurn() throws RemoteException;
-
-
-    void setDiceValues(int orange, int white, int black);
-
-    FamilyMember getFamilyMember(FamilyMemberType type);
 }

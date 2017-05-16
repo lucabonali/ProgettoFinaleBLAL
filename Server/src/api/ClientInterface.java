@@ -8,7 +8,7 @@ import java.util.List;
  * Interfaccia implementata nel client e invocata dal server (PLayerRMI) per modificare il client (Serve solo per rmi)
  * Created by Luca, Andrea on 15/05/2017.
  */
-public interface ClientInterface extends Remote {
+public interface ClientInterface extends Remote{
 
     /** metodo che mi andrà ad aggiornare tutte le mie risorse
      * // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
@@ -24,7 +24,19 @@ public interface ClientInterface extends Remote {
      */
     void notifyMessage(String msg) throws RemoteException;
 
+    /**
+     * mi ritorna l'username
+     * @return String
+     * @throws RemoteException
+     */
     String getUserName() throws RemoteException;
+
+    /**
+     * mi ritorna l'a password
+     * @return String
+     * @throws RemoteException
+     */
+    String getPassword() throws RemoteException;
 
     /**
      * serve per notificare al client il valore dei dadi tirati a inizio di turno

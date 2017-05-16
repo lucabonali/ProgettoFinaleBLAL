@@ -1,12 +1,12 @@
-import api.PlayerInterface;
 import api.ServerInterface;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.List;
 
 /**
  * @author lampa
@@ -26,19 +26,10 @@ public class MainClient {
             switch (cmd) {
                 case 0:
                     registry = LocateRegistry.getRegistry(1099);
-                    server = (ServerInterface) registry.lookup("server");
-                    List<Integer> listGames = server.getGamesMap();
+                    server = (ServerInterface) registry.lookup("serverRMI");
                     System.out.println("Lista:");
-                    for (Integer i : listGames) {
-                        System.out.println(i);
-                    }
-                    PlayerInterface playerInterface = server.playerRMIRequest(0, new ClientImpl());
-                    while (true) {
-                        System.out.println("inserisci stringa:");
-                        String s = bf.readLine();
-                        if(s.equals("quit"))
-                            break;
-                    }
+                    //true se login va a buon fine, false altrimenti
+                    System.out.println(server.login("andrea", "lol"));
                     break;
                 case 1:
                     ClientSocket clientSocket = new ClientSocket(new Socket("localhost", 4000));

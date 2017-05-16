@@ -29,6 +29,6 @@ public class ActionEffect implements Effect{
      */
     @Override
     public void active(PersonalBoard personalBoard) {
-        actionSpace.doAction();
+        //actionSpace.doAction();
     }
 }

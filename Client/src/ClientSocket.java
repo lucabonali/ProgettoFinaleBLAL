@@ -1,10 +1,10 @@
-import api.Message;
+import api.MessageLogin;
+import api.MessageLoginType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.List;
 
 /**
  * @author lampa
@@ -22,12 +22,16 @@ public class ClientSocket implements Runnable{
     public void run() {
         try{
             out = new ObjectOutputStream(socket.getOutputStream());
-            out.writeInt(0);
+            MessageLogin msgToLogin = new MessageLogin(MessageLoginType.LOGIN);
+            msgToLogin.setUsername("andrea");
+            msgToLogin.setPassword("ciao");
+            out.writeObject(msgToLogin);
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());
             boolean resp = in.readBoolean();
+            System.out.println(resp);
 
-            while (true) {
+            /*while (true) {
                 Message msg = (Message) in.readObject();
                 switch (msg.getMessageType()) {
                     case ACTION_RESULT:
@@ -37,8 +41,8 @@ public class ClientSocket implements Runnable{
                         System.out.println(msg.getContent());
                         break;
                 }
-            }
-        } catch (IOException | ClassNotFoundException e) {
+            }*/
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

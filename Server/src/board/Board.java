@@ -8,7 +8,7 @@ import actionSpaces.largeActionSpaces.LargeProductionActionSpace;
 import actionSpaces.singleActionSpaces.HarvestActionSpace;
 import actionSpaces.singleActionSpaces.MarketActionSpace;
 import actionSpaces.singleActionSpaces.ProductionActionSpace;
-import api.Message;
+import api.MessageGame;
 import api.LorenzoException;
 import types.CardType;
 import types.MarketActionType;
@@ -120,7 +120,7 @@ public class Board {
      * @param familyMember familiare
      * @throws LorenzoException in caso la mosssa non vada abuon fine
      */
-    public void doAction(Message msg, FamilyMember familyMember) throws LorenzoException {
+    public void doAction(MessageGame msg, FamilyMember familyMember) throws LorenzoException {
         ActionSpaceInterface actionSpace = convertActionMessage(msg);
         currentAction = new Action(actionSpace, familyMember.getValue(), familyMember);
         currentAction.commitAction();
@@ -133,7 +133,7 @@ public class Board {
      * @param msg messaggio da convertire
      * @return Action, cioè l'azione
      */
-    private ActionSpaceInterface convertActionMessage(Message msg) {
+    private ActionSpaceInterface convertActionMessage(MessageGame msg) {
         ActionSpaceInterface actionSpace;
         char[] code = msg.getActionSpaceCode().toCharArray();
         switch (code[0]) {
