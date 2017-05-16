@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>game</OriginalElement>
+  <nodes>
+    <node x="717.875" y="587.0">game.rmi.ServerRMI</node>
+    <node x="645.0" y="750.0">game.MainServer</node>
+    <node x="521.5" y="609.5">game.socket</node>
+    <node x="644.0" y="209.5">game.AbstractServer</node>
+    <node x="0.0" y="0.0">game.AbstractPlayer</node>
+    <node x="0.0" y="750.0">game.Game</node>
+    <node x="89.875" y="543.0">game.rmi.PlayerRMI</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="game.socket" target="game.AbstractServer">
+      <point x="28.25" y="-14.5" />
+      <point x="606.25" y="518.0" />
+      <point x="688.0" y="518.0" />
+      <point x="-44.0" y="37.0" />
+    </edge>
+    <edge source="game.rmi.PlayerRMI" target="game.AbstractPlayer">
+      <point x="0.0" y="-81.0" />
+      <point x="221.875" y="518.0" />
+      <point x="156.0" y="518.0" />
+      <point x="-156.0" y="246.5" />
+    </edge>
+    <edge source="game.socket" target="game.AbstractPlayer">
+      <point x="-28.25" y="-14.5" />
+      <point x="549.75" y="518.0" />
+      <point x="468.0" y="518.0" />
+      <point x="156.0" y="246.5" />
+    </edge>
+    <edge source="game.rmi.ServerRMI" target="game.AbstractServer">
+      <point x="0.0" y="-37.0" />
+      <point x="794.375" y="518.0" />
+      <point x="776.0" y="518.0" />
+      <point x="44.0" y="37.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5000000000000001" x="553.9999999999998" y="408.9999999999999" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

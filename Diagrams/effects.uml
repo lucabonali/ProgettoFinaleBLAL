@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>controller.effects</OriginalElement>
+  <nodes>
+    <node x="621.0" y="89.0">controller.effects.VariableIncrementEffect</node>
+    <node x="133.0" y="89.0">controller.effects.AreaActivationEffect</node>
+    <node x="442.0" y="89.0">controller.effects.FixedIncrementEffect</node>
+    <node x="815.0" y="89.0">controller.effects.ActionValueIncrementEffect</node>
+    <node x="309.0" y="89.0">controller.effects.ExcomEffect</node>
+    <node x="0.0" y="163.0">controller.effects.EffectsCreator</node>
+    <node x="404.5" y="0.0">controller.effects.Effect</node>
+    <node x="0.0" y="89.0">controller.effects.ActionEffect</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controller.effects.AreaActivationEffect" target="controller.effects.Effect">
+      <point x="0.0" y="-14.5" />
+      <point x="211.0" y="59.0" />
+      <point x="424.0" y="59.0" />
+      <point x="-19.5" y="14.5" />
+    </edge>
+    <edge source="controller.effects.ExcomEffect" target="controller.effects.Effect">
+      <point x="0.0" y="-14.5" />
+      <point x="365.5" y="69.0" />
+      <point x="437.0" y="69.0" />
+      <point x="-6.5" y="14.5" />
+    </edge>
+    <edge source="controller.effects.ActionEffect" target="controller.effects.Effect">
+      <point x="0.0" y="-14.5" />
+      <point x="56.5" y="49.0" />
+      <point x="411.0" y="49.0" />
+      <point x="-32.5" y="14.5" />
+    </edge>
+    <edge source="controller.effects.FixedIncrementEffect" target="controller.effects.Effect">
+      <point x="0.0" y="-14.5" />
+      <point x="521.5" y="69.0" />
+      <point x="450.0" y="69.0" />
+      <point x="6.5" y="14.5" />
+    </edge>
+    <edge source="controller.effects.ActionValueIncrementEffect" target="controller.effects.Effect">
+      <point x="0.0" y="-14.5" />
+      <point x="913.0" y="49.0" />
+      <point x="476.0" y="49.0" />
+      <point x="32.5" y="14.5" />
+    </edge>
+    <edge source="controller.effects.VariableIncrementEffect" target="controller.effects.Effect">
+      <point x="0.0" y="-14.5" />
+      <point x="708.0" y="59.0" />
+      <point x="463.0" y="59.0" />
+      <point x="19.5" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="505.5" y="96.0" />
+  <SelectedNodes>
+    <node>controller.effects.ActionEffect</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

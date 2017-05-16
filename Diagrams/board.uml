@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>controller.board</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">controller.board.ExcomCardDeck</node>
+    <node x="170.0" y="148.0">controller.board.PersonalBoard</node>
+    <node x="119.0" y="296.0">controller.board.Card</node>
+    <node x="0.0" y="296.0">controller.board.Deck</node>
+    <node x="126.0" y="222.0">controller.board.Board</node>
+    <node x="0.0" y="148.0">controller.board.ConnectionDB</node>
+    <node x="0.0" y="222.0">controller.board.Tower</node>
+    <node x="0.0" y="74.0">controller.board.FamilyMember</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="147.0" y="162.5" />
+  <SelectedNodes>
+    <node>controller.board.ExcomCardDeck</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

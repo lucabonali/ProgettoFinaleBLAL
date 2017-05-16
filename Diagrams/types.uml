@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>controller.types</OriginalElement>
+  <nodes>
+    <node x="0.0" y="74.0">controller.types.ResourceType</node>
+    <node x="0.0" y="148.0">controller.types.CardType</node>
+    <node x="0.0" y="0.0">controller.types.MarketActionType</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="73.0" y="88.5" />
+  <SelectedNodes>
+    <node>controller.types.ResourceType</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

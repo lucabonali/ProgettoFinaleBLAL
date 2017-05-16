@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>controller.fields</OriginalElement>
+  <nodes>
+    <node x="11.5" y="0.0">controller.fields.Field</node>
+    <node x="0.0" y="79.0">controller.fields.Resource</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controller.fields.Resource" target="controller.fields.Field">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="48.0" y="54.0" />
+  <SelectedNodes>
+    <node>controller.fields.Resource</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

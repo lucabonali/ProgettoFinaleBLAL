@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>controller.actionSpaces</OriginalElement>
+  <nodes>
+    <node x="196.0" y="79.0">controller.actionSpaces.singleActionSpaces</node>
+    <node x="107.25" y="0.0">controller.actionSpaces.ActionSpaceInterface</node>
+    <node x="0.0" y="79.0">controller.actionSpaces.largeActionSpaces</node>
+    <node x="0.0" y="153.0">controller.actionSpaces.Action</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controller.actionSpaces.singleActionSpaces" target="controller.actionSpaces.ActionSpaceInterface">
+      <point x="0.0" y="-14.5" />
+      <point x="286.5" y="54.0" />
+      <point x="227.25" y="54.0" />
+      <point x="40.0" y="14.5" />
+    </edge>
+    <edge source="controller.actionSpaces.largeActionSpaces" target="controller.actionSpaces.ActionSpaceInterface">
+      <point x="0.0" y="-14.5" />
+      <point x="88.0" y="54.0" />
+      <point x="147.25" y="54.0" />
+      <point x="-40.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="188.5" y="91.0" />
+  <SelectedNodes>
+    <node>controller.actionSpaces.largeActionSpaces</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

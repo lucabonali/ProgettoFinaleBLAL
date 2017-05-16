@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>api</OriginalElement>
+  <nodes>
+    <node x="0.0" y="222.0">api.ClientInterface</node>
+    <node x="199.0" y="0.0">api.MessageGameType</node>
+    <node x="170.0" y="222.0">api.MessageGame</node>
+    <node x="0.0" y="0.0">api.FamilyMemberType</node>
+    <node x="0.0" y="148.0">api.ServerInterface</node>
+    <node x="0.0" y="74.0">api.MessageLoginType</node>
+    <node x="195.0" y="74.0">api.LorenzoException</node>
+    <node x="0.0" y="296.0">api.MessageLogin</node>
+    <node x="171.0" y="148.0">api.PlayerInterface</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="175.0" y="162.5" />
+  <SelectedNodes>
+    <node>api.ClientInterface</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
