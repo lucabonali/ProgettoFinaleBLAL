@@ -23,4 +23,15 @@ public interface ClientInterface extends Remote {
      * @throws RemoteException
      */
     void notifyMessage(String msg) throws RemoteException;
+
+    String getUserName() throws RemoteException;
+
+    /**
+     * serve per notificare al client il valore dei dadi tirati a inizio di turno
+     * @param orange
+     * @param white
+     * @param black
+     * @throws RemoteException
+     */
+    void setDiceValues(int orange, int white , int black) throws RemoteException;
 }

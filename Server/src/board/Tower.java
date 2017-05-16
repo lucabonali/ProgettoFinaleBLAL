@@ -4,6 +4,8 @@ import actionSpaces.singleActionSpaces.ActionSpace;
 import actionSpaces.singleActionSpaces.FloorActionSpace;
 import types.CardType;
 
+import java.util.List;
+
 /**
  * @author Luca
  * @author Andrea
@@ -27,11 +29,11 @@ public class Tower {
 
     /**
      * setta le carte di ogni piano
-     * @param card
+     * @param cards
      */
-    public void setCards(Card[] card){
+    public void setCards(List<Card> cards){
         for(int i = 0 ; i<4 ; i++){
-            floorActionSpaces[i].setCard(card[i]);
+            floorActionSpaces[i].setCard(cards.get(i));
         }
 
     }

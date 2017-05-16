@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,16 +28,14 @@ public class PlayerSocket implements PlayerInterface, Runnable {
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
+    private String userName;
     private PersonalBoard personalBoard;
     private Game game;
     private int idPlayer;
 
-    public PlayerSocket(Socket socketClient, ObjectInputStream in, ObjectOutputStream out, Game game){
+    public PlayerSocket(Socket socketClient){
         this.socketClient = socketClient;
-        this.in = in;
-        this.out = out;
-        this.game = game;
-        this.idPlayer = game.getId(this);
+
     }
 
     @Override
@@ -42,6 +43,12 @@ public class PlayerSocket implements PlayerInterface, Runnable {
         FamilyMember familyMember = personalBoard.getFamilyMember(msg.getFamilyMemberType());
         try {
             game.doAction(this, msg, familyMember);
+            //se arrivo ad eseguire questa parte vuol dire che l'azione è andata
+            //a buon fine
+            Message response = new Message(MessageType.ACTION_RESULT);
+            response.setQtaList(personalBoard.getQtaResources());
+            out.writeObject(response);
+            out.flush();
         } catch (LorenzoException e) {
             Message response = new Message(MessageType.INFORMATION);
             response.setContent(e.getMessage());
@@ -51,6 +58,8 @@ public class PlayerSocket implements PlayerInterface, Runnable {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -59,9 +68,32 @@ public class PlayerSocket implements PlayerInterface, Runnable {
         personalBoard = new PersonalBoard(id);
     }
 
+    @Override
+    public boolean setGame(int idGame) throws RemoteException {
+        Game game = MainServer.gameMap.get(idGame);
+        if(game.isFull())
+            return false;
+        this.game = game;
+        game.addPlayer(this);
+        return true;
+    }
+
+    @Override
+    public List<Integer> getGamesMap() throws RemoteException {
+        return new ArrayList<>(MainServer.gameMap.keySet());
+    }
 
     @Override
     public void run() {
+        try {
+            in = new ObjectInputStream(socketClient.getInputStream());
+            userName = (String) in.readObject();
+            out = new ObjectOutputStream(socketClient.getOutputStream());
+            out.writeBoolean(true);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         while (socketClient.isConnected()) {
             try {
                 Message msg = (Message) in.readObject();
@@ -70,12 +102,6 @@ public class PlayerSocket implements PlayerInterface, Runnable {
                 switch (type) {
                     case ACTION:
                         doAction(msg);
-                        //se arrivo ad eseguire questa parte vuol dire che l'azione è andata
-                        //a buon fine
-                        response = new Message(MessageType.ACTION_RESULT);
-                        response.setQtaList(personalBoard.getQtaResources());
-                        out.writeObject(response);
-                        out.flush();
                         break;
                 }
             } catch (IOException | ClassNotFoundException e) {

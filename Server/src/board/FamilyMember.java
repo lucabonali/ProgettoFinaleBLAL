@@ -12,16 +12,16 @@ public class FamilyMember {
     private PersonalBoard personalBoard;
     private int value;
     private boolean positioned;
-    private final FamilyMemberType diceColor;
+    private final FamilyMemberType type;
 
 
     /**
      * I quattro familiari di un giocatore avranno un riferimento alla stessa Plancia, passata del Costruttore
      * @param personalBoard
      */
-    public FamilyMember(PersonalBoard personalBoard , FamilyMemberType diceColor){
+    public FamilyMember(PersonalBoard personalBoard , FamilyMemberType type){
         this.personalBoard = personalBoard;
-        this.diceColor = diceColor;
+        this.type = type;
     }
 
     public PersonalBoard getPersonalBoard() {
@@ -52,7 +52,7 @@ public class FamilyMember {
         this.positioned = positioned;
     }
 
-    public FamilyMemberType getDiceColor() {
-        return diceColor;
+    public FamilyMemberType getType() {
+        return type;
     }
 }

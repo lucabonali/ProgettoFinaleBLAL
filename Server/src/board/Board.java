@@ -13,6 +13,8 @@ import api.LorenzoException;
 import types.CardType;
 import types.MarketActionType;
 
+import java.util.List;
+
 import static actionSpaces.largeActionSpaces.LargeActionSpace.COD_COUNCIL;
 import static actionSpaces.largeActionSpaces.LargeActionSpace.COD_L_HAR_PROD;
 import static actionSpaces.singleActionSpaces.ActionSpace.*;
@@ -80,6 +82,36 @@ public class Board {
         excomCardDeck = new ExcomCardDeck();
         deck = new Deck();
     }
+
+
+    public void initializeTurn(int period, int turn){
+        territoryTower.removeFamilyMembers();
+        characterTower.removeFamilyMembers();
+        buildingTower.removeFamilyMembers();
+        venturesTower.removeFamilyMembers();
+        harvestActionSpace.removeFamilyMember();
+        largeHarvestActionSpace.removeFamilyMembers();
+        productionActionSpace.removeFamilyMember();
+        largeProductionActionSpace.removeFamilyMembers();
+        yellowMarket.removeFamilyMember();
+        purpleMarket.removeFamilyMember();
+        blueMarket.removeFamilyMember();
+        grayMarket.removeFamilyMember();
+        councilActionSpace.removeFamilyMembers();
+        setCards(period,turn);
+    }
+
+    private void setCards(int period, int turn) {
+        territoryTower.setCards(deck.drawCards(period,turn,CardType.TERRITORY));
+        characterTower.setCards(deck.drawCards(period,turn,CardType.CHARACTER));
+        buildingTower.setCards(deck.drawCards(period,turn,CardType.BUILDING));
+        venturesTower.setCards(deck.drawCards(period,turn,CardType.VENTURES));
+    }
+
+    public List<FamilyMember> getOrder() {
+        return councilActionSpace.getFamilyMembers();
+    }
+
 
     /**
      * mi crea l'azione da messaggio codificato e dopodiché mi esegue l'azione
@@ -188,4 +220,6 @@ public class Board {
         }
         return actionSpace;
     }
+
+
 }

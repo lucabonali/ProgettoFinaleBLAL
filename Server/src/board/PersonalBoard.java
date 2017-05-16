@@ -65,8 +65,8 @@ public class PersonalBoard {
     private void initializeFamilyMembers() {
         familyMemberList = new ArrayList<>();
         familyMemberList.add(new FamilyMember(this, ORANGE_DICE));
-        familyMemberList.add(new FamilyMember(this, BLACK_DICE));
         familyMemberList.add(new FamilyMember(this, WHITE_DICE));
+        familyMemberList.add(new FamilyMember(this, BLACK_DICE));
         familyMemberList.add(new FamilyMember(this, NEUTRAL_DICE));
     }
 
@@ -113,7 +113,7 @@ public class PersonalBoard {
      */
     public FamilyMember getFamilyMember(FamilyMemberType type){
         for(FamilyMember member: familyMemberList){
-            if (member.getDiceColor() == type)
+            if (member.getType() == type)
                 return member;
         }
         return null;
@@ -137,4 +137,12 @@ public class PersonalBoard {
             card.activePermanentEffects();
         }
     }
+
+    public void setDiceValues(int o , int w, int b){
+        familyMemberList.get(0).setValue(o);
+        familyMemberList.get(1).setValue(w);
+        familyMemberList.get(2).setValue(b);
+        familyMemberList.get(3).setValue(0);
+    }
+
 }

@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static types.CardType.TERRITORY;
+
 /**
  * @author Luca
  * @author Andrea
@@ -34,7 +36,7 @@ public class Deck {
     private List<Card> territoriesList;
     private List<Card> charactersList;
     private List<Card> buildingsList;
-    private List<Card> enterprisesList;
+    private List<Card> venturesList;
 
 
     public Deck() {
@@ -42,7 +44,7 @@ public class Deck {
 //        territoriesList = createTerritoriesList();
 //        charactersList = createCharactersList();
 //        buildingsList = createBuildingList();
-//        enterprisesList = createEnterprisesList();
+//        venturesList = createEnterprisesList();
     }
 
     /**
@@ -52,7 +54,7 @@ public class Deck {
      * @param turn turno compreso fra [1,2]
      * @return lista di carte
      */
-    public List<Card> drawCards(int period, int turn) {
+    public List<Card> drawCards(int period, int turn, CardType type) {
         int initPos=0, finalpos=0;
         switch (period) {
             case 1:
@@ -71,19 +73,28 @@ public class Deck {
             finalpos += 4;
         }
         List<Card> list = new ArrayList<>();
-        for(int cont=initPos; cont<finalpos; cont++) {
-            list.add(territoriesList.get(cont));
+        switch (type.getCode()) {
+            case "TERRITORY":
+                for (int cont = initPos; cont < finalpos; cont++) {
+                list.add(territoriesList.get(cont));
+                }
+                break;
+            case "CHARACTER":
+                for (int cont = initPos; cont < finalpos; cont++) {
+                list.add(charactersList.get(cont));
+                }
+                break;
+            case "BUILDING":
+                for (int cont = initPos; cont < finalpos; cont++) {
+                    list.add(buildingsList.get(cont));
+                }
+                break;
+            case "VENTURES":
+                for (int cont = initPos; cont < finalpos; cont++) {
+                    list.add(venturesList.get(cont));
+                }
+                break;
         }
-        for(int cont=initPos; cont<finalpos; cont++) {
-            list.add(charactersList.get(cont));
-        }
-        for(int cont=initPos; cont<finalpos; cont++) {
-            list.add(buildingsList.get(cont));
-        }
-        for(int cont=initPos; cont<finalpos; cont++) {
-            list.add(enterprisesList.get(cont));
-        }
-
         return list;
     }
 
@@ -93,7 +104,7 @@ public class Deck {
      */
     private List<Card> createTerritoriesList() {
         ResultSet rs = connectionDB.executeQuery(QUERY_TERRITORY);
-        return createCardList(CardType.TERRITORY, rs);
+        return createCardList(TERRITORY, rs);
     }
 
     /**

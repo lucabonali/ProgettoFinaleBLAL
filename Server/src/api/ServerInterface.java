@@ -11,7 +11,6 @@ import java.util.List;
  */
 public interface ServerInterface extends Remote {
 
-    PlayerInterface playerRMIRequest(int idGame,ClientInterface clientInterface) throws RemoteException;
+    PlayerInterface login(ClientInterface clientInterface) throws RemoteException;
 
-    List<Integer> getGamesMap() throws RemoteException;
 }

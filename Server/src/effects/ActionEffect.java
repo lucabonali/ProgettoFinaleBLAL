@@ -15,14 +15,20 @@ import board.PersonalBoard;
 public class ActionEffect implements Effect{
     private ActionSpaceInterface actionSpace;
     private int value;
+    private Action action;
 
     public ActionEffect(ActionSpaceInterface actionSpace, int value) {
         this.actionSpace = actionSpace;
         this.value = value;
     }
 
+
+    /**
+     * andrà richiamato il metodo doAction passandogli una azione che verrà settata nel costruttore
+     * @param personalBoard la plancia sulla quale eseguire
+     */
     @Override
     public void active(PersonalBoard personalBoard) {
-        personalBoard.doAction(new Action(actionSpace, value, null));
+        actionSpace.doAction();
     }
 }

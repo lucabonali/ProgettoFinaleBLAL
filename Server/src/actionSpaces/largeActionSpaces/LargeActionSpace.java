@@ -34,7 +34,9 @@ public abstract class LargeActionSpace implements ActionSpaceInterface {
         this.effects = effect;
     }
 
-    public void getFamilyMembers(){}
+    public List<FamilyMember> getFamilyMembers(){
+        return familyMembers;
+    }
 
     public void addFamilyMember(FamilyMember familyMember){
         this.familyMembers.add(familyMember);
