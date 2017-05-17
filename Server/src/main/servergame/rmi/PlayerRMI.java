@@ -1,6 +1,5 @@
 package main.servergame.rmi;
 
-import main.api.exceptions.LorenzoException;
 import main.api.messages.MessageGame;
 import main.controller.board.FamilyMember;
 import main.servergame.AbstractPlayer;
@@ -45,18 +44,24 @@ public class PlayerRMI extends AbstractPlayer {
         getClientInterface().notifyNewAction(value, codeAction);
     }
 
+    @Override
+    public void notifyError(String errorMessage) throws RemoteException {
+        getClientInterface().notifyMessage(errorMessage);
+    }
+
+    @Override
+    public void updateResources() throws RemoteException {
+        getClientInterface().updateResources(getPersonalBoard().getQtaResources());
+    }
+
 
     //metodi erediati da PLAYER INTERFACE /////////////////////////////////////////////////////////
 
     @Override
     public void doAction(MessageGame msg) throws RemoteException {
         FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
-        try {
-            getGame().doAction(this, msg, familyMember);
-            getClientInterface().updateResources(getPersonalBoard().getQtaResources());
-        } catch (LorenzoException e) {
-            getClientInterface().notifyMessage(e.getMessage());
-        }
+        getGame().doAction(this, msg, familyMember);
+        getClientInterface().updateResources(getPersonalBoard().getQtaResources());
     }
 
 }

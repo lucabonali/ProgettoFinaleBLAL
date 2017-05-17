@@ -62,15 +62,50 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         return this.game;
     }
 
+    /**
+     * mi notifica che la partita è cominciata
+     * @throws RemoteException
+     */
     public abstract void gameIsStarted() throws RemoteException;
 
+    /**
+     * mi notifica che è il mio turno
+     * @throws RemoteException
+     */
     public abstract void isYourTurn() throws RemoteException;
 
+    /**
+     * mi notifica che ho vinto
+     * @throws RemoteException
+     */
     public abstract void youWin() throws RemoteException;
 
+    /**
+     * mi notifica che ho perso
+     * @throws RemoteException
+     */
     public abstract void youLose() throws RemoteException;
 
+    /**
+     * mi notifica che devo fare un'altra azione
+     * @param value valore dell'azione
+     * @param codeAction codice che mi identifica che tipo di azione posso fare
+     * @throws RemoteException
+     */
     public abstract void notifyNewAction(int value, char codeAction) throws RemoteException;
+
+    /**
+     * mi notifica un messaggio di errore
+     * @param message messaggio
+     * @throws RemoteException
+     */
+    public abstract void notifyError(String message) throws RemoteException;
+
+    /**
+     * mi notifica i cambiamenti nella mia plancia in seguito alla mia mossa
+     * @throws RemoteException
+     */
+    public abstract void updateResources() throws RemoteException;
 
     /// metodi implementatti della PlayerInterface
 

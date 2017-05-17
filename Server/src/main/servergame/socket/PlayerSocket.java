@@ -1,6 +1,5 @@
 package main.servergame.socket;
 
-import main.api.exceptions.LorenzoException;
 import main.api.messages.MessageGame;
 import main.api.messages.MessageGameType;
 import main.controller.board.FamilyMember;
@@ -57,6 +56,23 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
 
     }
 
+    @Override
+    public void notifyError(String errorMessage) throws RemoteException {
+        printMsgToClient(errorMessage);
+    }
+
+    @Override
+    public void updateResources() throws RemoteException {
+        MessageGame response = new MessageGame(MessageGameType.ACTION_RESULT);
+        response.setQtaList(getPersonalBoard().getQtaResources());
+        try {
+            out.writeObject(response);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void printMsgToClient(String content){
         MessageGame outMsg = new MessageGame(MessageGameType.INFORMATION);
         outMsg.setContent(content);
@@ -68,45 +84,19 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
         }
     }
 
+    // metodi eredita dalla PLAYER INTERFACE ////////////////////////////////////////
+
+    @Override
+    public void doAction(MessageGame msg) throws RemoteException {
+        FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
+        getGame().doAction(this, msg, familyMember);
+    }
+
     public void setSocketConnection(Socket socket, ObjectInputStream in, ObjectOutputStream out) {
         this.socketClient = socket;
         this.in = in;
         this.out = out;
     }
-
-    // metodi eredita dalla PLAYER INTERFACE ////////////////////////////////////////
-
-    @Override
-    public void doAction(MessageGame msg) {
-        FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
-        try {
-            getGame().doAction(this, msg, familyMember);
-            //se arrivo ad eseguire questa parte vuol dire che l'azione è andata
-            //a buon fine
-            MessageGame response = new MessageGame(MessageGameType.ACTION_RESULT);
-            response.setQtaList(getPersonalBoard().getQtaResources());
-            out.writeObject(response);
-            out.flush();
-            try {
-                out.writeObject(response);
-                out.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (LorenzoException e) {
-            MessageGame response = new MessageGame(MessageGameType.INFORMATION);
-            response.setContent(e.getMessage());
-            try {
-                out.writeObject(response);
-                out.flush();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @Override
     public void run() {

@@ -95,15 +95,18 @@ public class Game {
      * @param familyMember familiare da spostare, già ricavato dall classe che lo invoca
      * @throws LorenzoException in caso si verifichino errori
      */
-    public void doAction(AbstractPlayer player, MessageGame msg, FamilyMember familyMember) throws LorenzoException, RemoteException {
-        checkTurn(player);
-        if (familyMember.isPositioned())
-            throw new LorenzoException("il familiare è già stato posizionato!!");
+    public void doAction(AbstractPlayer player, MessageGame msg, FamilyMember familyMember) throws RemoteException {
         try {
+            checkTurn(player);
+            if (familyMember.isPositioned())
+                throw new LorenzoException("il familiare è già stato posizionato!!");
             board.doAction(msg, player, familyMember);
+            player.updateResources();
             endMove();
         } catch (NewActionException e) {
             //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
+        } catch (LorenzoException e) {
+            player.notifyError(e.getMessage());
         }
     }
 
