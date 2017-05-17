@@ -1,3 +1,5 @@
+package client;
+
 import main.api.ServerInterface;
 
 import java.io.BufferedReader;
@@ -12,7 +14,8 @@ import java.rmi.registry.Registry;
  * @author lampa
  */
 public class MainClient {
-    public static void main(String[] args) throws IOException, NotBoundException {
+
+    public void startClient() throws IOException, NotBoundException {
 
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         int cmd;

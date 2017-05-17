@@ -1,0 +1,36 @@
+package GUI; /**
+ * Created by Luca on 16/05/2017.
+ */
+
+import client.MainClient;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.rmi.NotBoundException;
+
+
+public class Launcher extends Application {
+    public static void main(String[] args) throws IOException, NotBoundException {
+
+        MainClient mainClient = new MainClient();
+        mainClient.startClient();
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("launcherView.fxml"));
+        primaryStage.centerOnScreen();
+        primaryStage.setScene(new Scene(root, 600, 350));
+        primaryStage.setTitle("Lorenzo Il Magnifico");
+        primaryStage.show();
+
+
+    }
+
+
+}

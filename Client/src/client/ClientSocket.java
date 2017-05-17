@@ -1,3 +1,5 @@
+package client;
+
 import main.api.MessageLogin;
 import main.api.MessageLoginType;
 

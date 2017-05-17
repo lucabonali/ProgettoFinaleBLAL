@@ -1,3 +1,5 @@
+package client;
+
 import main.api.ClientInterface;
 
 import java.io.Serializable;
