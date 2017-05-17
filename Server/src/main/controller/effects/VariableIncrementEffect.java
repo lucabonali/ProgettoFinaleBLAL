@@ -5,7 +5,7 @@ import main.controller.fields.Field;
 import main.controller.fields.Resource;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 import java.util.List;
 

@@ -1,9 +1,8 @@
-package main.game.rmi;
+package main.servergame.rmi;
 
 import main.api.PlayerInterface;
-import main.game.AbstractServer;
-import main.game.Game;
-import main.game.socket.PlayerSocket;
+import main.servergame.AbstractServer;
+import main.servergame.Game;
 
 import java.rmi.RemoteException;
 

@@ -1,6 +1,6 @@
 package main.controller.effects;
 
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 /**
  * @author lampa

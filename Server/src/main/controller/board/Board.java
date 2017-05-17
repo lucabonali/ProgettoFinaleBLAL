@@ -14,7 +14,7 @@ import main.api.messages.MessageGame;
 import main.api.exceptions.LorenzoException;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
 import java.util.List;

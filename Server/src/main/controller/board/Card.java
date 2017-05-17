@@ -5,7 +5,7 @@ import main.controller.effects.Effect;
 import main.api.exceptions.LorenzoException;
 import main.controller.fields.Field;
 import main.api.types.CardType;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
 import java.util.List;

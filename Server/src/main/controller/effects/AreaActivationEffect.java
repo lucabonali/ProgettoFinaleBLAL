@@ -1,7 +1,7 @@
 package main.controller.effects;
 
 import main.controller.fields.Field;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 /**
  * @author lampa

@@ -1,33 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Diagram>
   <ID>JAVA</ID>
-  <OriginalElement>controller.actionSpaces</OriginalElement>
+  <OriginalElement>main.controller.actionSpaces</OriginalElement>
   <nodes>
-    <node x="196.0" y="79.0">controller.actionSpaces.singleActionSpaces</node>
-    <node x="107.25" y="0.0">controller.actionSpaces.ActionSpaceInterface</node>
-    <node x="0.0" y="79.0">controller.actionSpaces.largeActionSpaces</node>
-    <node x="0.0" y="153.0">controller.actionSpaces.Action</node>
+    <node x="2048.0" y="604.0">main.controller.actionSpaces.singleActionSpaces.FloorActionSpace</node>
+    <node x="2502.0" y="604.0">main.controller.actionSpaces.singleActionSpaces.ProductionActionSpace</node>
+    <node x="345.3125000000002" y="134.0">main.controller.actionSpaces.largeActionSpaces.LargeActionSpace</node>
+    <node x="0.0" y="622.5">main.controller.actionSpaces.largeActionSpaces.LargeProductionActionSpace</node>
+    <node x="1653.0" y="622.5">main.controller.actionSpaces.singleActionSpaces.HarvestActionSpace</node>
+    <node x="790.0000000000001" y="622.5">main.controller.actionSpaces.largeActionSpaces.CouncilActionSpace</node>
+    <node x="1845.25" y="134.0">main.controller.actionSpaces.singleActionSpaces.ActionSpace</node>
+    <node x="1262.8125" y="0.0">main.controller.actionSpaces.ActionSpaceInterface</node>
+    <node x="395.0000000000001" y="622.5">main.controller.actionSpaces.largeActionSpaces.LargeHarvestActionSpace</node>
+    <node x="0.0" y="883.0">main.controller.actionSpaces.Action</node>
+    <node x="1185.0" y="641.0">main.controller.actionSpaces.singleActionSpaces.MarketActionSpace</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="controller.actionSpaces.singleActionSpaces" target="controller.actionSpaces.ActionSpaceInterface">
-      <point x="0.0" y="-14.5" />
-      <point x="286.5" y="54.0" />
-      <point x="227.25" y="54.0" />
-      <point x="40.0" y="14.5" />
+    <edge source="main.controller.actionSpaces.largeActionSpaces.LargeProductionActionSpace" target="main.controller.actionSpaces.largeActionSpaces.LargeActionSpace">
+      <point x="0.0" y="-98.5" />
+      <point x="187.5" y="584.0" />
+      <point x="422.8125000000002" y="584.0" />
+      <point x="-155.0" y="210.0" />
     </edge>
-    <edge source="controller.actionSpaces.largeActionSpaces" target="controller.actionSpaces.ActionSpaceInterface">
-      <point x="0.0" y="-14.5" />
-      <point x="88.0" y="54.0" />
-      <point x="147.25" y="54.0" />
-      <point x="-40.0" y="14.5" />
+    <edge source="main.controller.actionSpaces.largeActionSpaces.CouncilActionSpace" target="main.controller.actionSpaces.largeActionSpaces.LargeActionSpace">
+      <point x="-1.1368683772161603E-13" y="-98.5" />
+      <point x="977.5" y="584.0" />
+      <point x="732.8125000000002" y="584.0" />
+      <point x="155.0" y="210.0" />
+    </edge>
+    <edge source="main.controller.actionSpaces.largeActionSpaces.LargeActionSpace" target="main.controller.actionSpaces.ActionSpaceInterface">
+      <point x="0.0" y="-210.0" />
+      <point x="577.8125000000002" y="109.0" />
+      <point x="1330.3125" y="109.0" />
+      <point x="-67.5" y="42.0" />
+    </edge>
+    <edge source="main.controller.actionSpaces.singleActionSpaces.FloorActionSpace" target="main.controller.actionSpaces.singleActionSpaces.ActionSpace">
+      <point x="0.0" y="-117.0" />
+      <point x="2265.0" y="584.0" />
+      <point x="2104.625" y="584.0" />
+      <point x="51.875" y="210.0" />
+    </edge>
+    <edge source="main.controller.actionSpaces.singleActionSpaces.HarvestActionSpace" target="main.controller.actionSpaces.singleActionSpaces.ActionSpace">
+      <point x="0.0" y="-98.5" />
+      <point x="1840.5" y="584.0" />
+      <point x="2000.875" y="584.0" />
+      <point x="-51.875" y="210.0" />
+    </edge>
+    <edge source="main.controller.actionSpaces.singleActionSpaces.ActionSpace" target="main.controller.actionSpaces.ActionSpaceInterface">
+      <point x="0.0" y="-210.0" />
+      <point x="2052.75" y="109.0" />
+      <point x="1465.3125" y="109.0" />
+      <point x="67.5" y="42.0" />
+    </edge>
+    <edge source="main.controller.actionSpaces.singleActionSpaces.MarketActionSpace" target="main.controller.actionSpaces.singleActionSpaces.ActionSpace">
+      <point x="0.0" y="-80.0" />
+      <point x="1409.0" y="574.0" />
+      <point x="1897.125" y="574.0" />
+      <point x="-155.625" y="210.0" />
+    </edge>
+    <edge source="main.controller.actionSpaces.largeActionSpaces.LargeHarvestActionSpace" target="main.controller.actionSpaces.largeActionSpaces.LargeActionSpace">
+      <point x="0.0" y="-98.5" />
+      <point x="582.5000000000001" y="584.0" />
+      <point x="577.8125000000002" y="584.0" />
+      <point x="0.0" y="210.0" />
+    </edge>
+    <edge source="main.controller.actionSpaces.singleActionSpaces.ProductionActionSpace" target="main.controller.actionSpaces.singleActionSpaces.ActionSpace">
+      <point x="0.0" y="-117.0" />
+      <point x="2699.5" y="574.0" />
+      <point x="2208.375" y="574.0" />
+      <point x="155.625" y="210.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="188.5" y="91.0" />
-  <SelectedNodes>
-    <node>controller.actionSpaces.largeActionSpaces</node>
-  </SelectedNodes>
-  <Categories />
+  <settings layout="Hierarchic Group" zoom="1.0" x="697.0" y="523.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>
 </Diagram>

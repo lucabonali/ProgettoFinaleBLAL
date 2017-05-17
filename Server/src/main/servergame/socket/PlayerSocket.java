@@ -1,10 +1,10 @@
-package main.game.socket;
+package main.servergame.socket;
 
 import main.api.exceptions.LorenzoException;
 import main.api.messages.MessageGame;
 import main.api.messages.MessageGameType;
 import main.controller.board.FamilyMember;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

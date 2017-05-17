@@ -17,9 +17,6 @@ import java.util.List;
  * Generalizza gli spazi azione multipli
  */
 public abstract class LargeActionSpace implements ActionSpaceInterface {
-    public static final char COD_L_HAR_PROD = 'l';
-    public static final char COD_COUNCIL = 'c';
-
     private int value;
     private List<FamilyMember> familyMembers;
     private List<Effect> effects;

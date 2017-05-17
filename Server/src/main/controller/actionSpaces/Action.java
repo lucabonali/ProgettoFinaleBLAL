@@ -3,7 +3,7 @@ package main.controller.actionSpaces;
 import main.api.exceptions.NewActionException;
 import main.controller.board.FamilyMember;
 import main.api.exceptions.LorenzoException;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
 

@@ -1,4 +1,4 @@
-package main.game;
+package main.servergame;
 
 import main.api.messages.MessageGame;
 import main.api.PlayerInterface;

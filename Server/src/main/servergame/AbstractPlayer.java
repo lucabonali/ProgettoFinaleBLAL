@@ -1,4 +1,4 @@
-package main.game;
+package main.servergame;
 
 import main.api.ClientInterface;
 import main.api.exceptions.NewActionException;

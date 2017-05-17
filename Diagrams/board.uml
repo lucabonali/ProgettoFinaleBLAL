@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Diagram>
   <ID>JAVA</ID>
-  <OriginalElement>controller.board</OriginalElement>
+  <OriginalElement>main.controller.board</OriginalElement>
   <nodes>
-    <node x="0.0" y="0.0">controller.board.ExcomCardDeck</node>
-    <node x="170.0" y="148.0">controller.board.PersonalBoard</node>
-    <node x="119.0" y="296.0">controller.board.Card</node>
-    <node x="0.0" y="296.0">controller.board.Deck</node>
-    <node x="126.0" y="222.0">controller.board.Board</node>
-    <node x="0.0" y="148.0">controller.board.ConnectionDB</node>
-    <node x="0.0" y="222.0">controller.board.Tower</node>
-    <node x="0.0" y="74.0">controller.board.FamilyMember</node>
+    <node x="0.0" y="1019.0">main.controller.board.Deck</node>
+    <node x="579.0" y="1815.0">main.controller.board.FamilyMember</node>
+    <node x="935.0" y="0.0">main.controller.board.Board</node>
+    <node x="0.0" y="1815.0">main.controller.board.Tower</node>
+    <node x="1707.0" y="1019.0">main.controller.board.ConnectionDB</node>
+    <node x="1200.0" y="1019.0">main.controller.board.Card</node>
+    <node x="705.0" y="1019.0">main.controller.board.ExcomCardDeck</node>
+    <node x="835.5" y="1450.0">main.controller.board.ExcomCardDeck.ExcomCard</node>
+    <node x="-552.3848238482386" y="64.98644986449864">main.controller.board.PersonalBoard</node>
   </nodes>
   <notes />
-  <edges />
-  <settings layout="Hierarchic Group" zoom="1.0" x="147.0" y="162.5" />
+  <edges>
+    <edge source="main.controller.board.ExcomCardDeck.ExcomCard" target="main.controller.board.ExcomCardDeck">
+      <point x="0.0" y="-42.0" />
+      <point x="0.0" y="190.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.3385321100917431" x="1023.0" y="1080.0" />
   <SelectedNodes>
-    <node>controller.board.ExcomCardDeck</node>
+    <node>main.controller.board.PersonalBoard</node>
   </SelectedNodes>
-  <Categories />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+  </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>
 </Diagram>

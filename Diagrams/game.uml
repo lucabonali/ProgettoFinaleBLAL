@@ -1,49 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Diagram>
   <ID>JAVA</ID>
-  <OriginalElement>game</OriginalElement>
+  <OriginalElement>main.game</OriginalElement>
   <nodes>
-    <node x="717.875" y="587.0">game.rmi.ServerRMI</node>
-    <node x="645.0" y="750.0">game.MainServer</node>
-    <node x="521.5" y="609.5">game.socket</node>
-    <node x="644.0" y="209.5">game.AbstractServer</node>
-    <node x="0.0" y="0.0">game.AbstractPlayer</node>
-    <node x="0.0" y="750.0">game.Game</node>
-    <node x="89.875" y="543.0">game.rmi.PlayerRMI</node>
+    <node x="870.0" y="691.0">main.game.Game</node>
+    <node x="179.95000000000005" y="1906.0">main.game.rmi.ServerRMI</node>
+    <node x="812.9954545454547" y="1850.0">main.game.socket.SocketServer</node>
+    <node x="552.9954545454547" y="1641.0">main.game.AbstractServer</node>
+    <node x="0.0" y="988.0">main.game.rmi.PlayerRMI</node>
+    <node x="1174.7386363636365" y="259.5">main.game.Game.Timer</node>
+    <node x="626.7386363636364" y="0.0">main.game.AbstractPlayer</node>
+    <node x="381.00000000000006" y="876.5">main.game.socket.PlayerSocket</node>
+    <node x="919.4886363636364" y="1604.0">main.game.socket.SocketServer.PlayerSocketRequest</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="game.socket" target="game.AbstractServer">
-      <point x="28.25" y="-14.5" />
-      <point x="606.25" y="518.0" />
-      <point x="688.0" y="518.0" />
-      <point x="-44.0" y="37.0" />
+    <edge source="main.game.socket.SocketServer" target="main.game.socket.SocketServer.PlayerSocketRequest">
+      <point x="38.75" y="-98.0" />
+      <point x="1006.7454545454547" y="1825.0" />
+      <point x="985.7386363636364" y="1825.0" />
+      <point x="-66.25" y="98.0" />
     </edge>
-    <edge source="game.rmi.PlayerRMI" target="game.AbstractPlayer">
-      <point x="0.0" y="-81.0" />
-      <point x="221.875" y="518.0" />
-      <point x="156.0" y="518.0" />
-      <point x="-156.0" y="246.5" />
+    <edge source="main.game.socket.SocketServer" target="main.game.socket.PlayerSocket">
+      <point x="-38.75" y="-98.0" />
+      <point x="929.2454545454547" y="1825.0" />
+      <point x="908.9886363636364" y="1825.0" />
+      <point x="908.9886363636364" y="1574.0" />
+      <point x="615.5" y="1574.0" />
+      <point x="0.0" y="246.0" />
     </edge>
-    <edge source="game.socket" target="game.AbstractPlayer">
-      <point x="-28.25" y="-14.5" />
-      <point x="549.75" y="518.0" />
-      <point x="468.0" y="518.0" />
-      <point x="156.0" y="246.5" />
+    <edge source="main.game.Game" target="main.game.AbstractPlayer">
+      <point x="-131.0" y="-431.5" />
+      <point x="1066.5" y="671.0" />
+      <point x="996.3386363636364" y="671.0" />
+      <point x="105.60000000000002" y="320.5" />
     </edge>
-    <edge source="game.rmi.ServerRMI" target="game.AbstractServer">
-      <point x="0.0" y="-37.0" />
-      <point x="794.375" y="518.0" />
-      <point x="776.0" y="518.0" />
-      <point x="44.0" y="37.0" />
+    <edge source="main.game.socket.PlayerSocket" target="main.game.AbstractPlayer">
+      <point x="0.0" y="-246.0" />
+      <point x="615.5" y="671.0" />
+      <point x="785.1386363636364" y="671.0" />
+      <point x="-105.60000000000002" y="320.5" />
+    </edge>
+    <edge source="main.game.rmi.PlayerRMI" target="main.game.AbstractPlayer">
+      <point x="0.0" y="-134.5" />
+      <point x="180.5" y="661.0" />
+      <point x="679.5386363636364" y="661.0" />
+      <point x="-211.2" y="320.5" />
+    </edge>
+    <edge source="main.game.Game.Timer" target="main.game.Game">
+      <point x="51.5" y="61.0" />
+      <point x="1329.2386363636365" y="661.0" />
+      <point x="1459.5" y="661.0" />
+      <point x="262.0" y="-431.5" />
+    </edge>
+    <edge source="main.game.AbstractServer" target="main.game.Game">
+      <point x="0.0" y="-61.0" />
+      <point x="722.4954545454547" y="1584.0" />
+      <point x="1197.5" y="1584.0" />
+      <point x="0.0" y="431.5" />
+    </edge>
+    <edge source="main.game.socket.SocketServer.PlayerSocketRequest" target="main.game.socket.SocketServer">
+      <point x="66.25" y="98.0" />
+      <point x="1118.2386363636365" y="1825.0" />
+      <point x="1084.2454545454548" y="1825.0" />
+      <point x="116.25000000000003" y="-98.0" />
+    </edge>
+    <edge source="main.game.Game" target="main.game.Game.Timer">
+      <point x="131.0" y="-431.5" />
+      <point x="1328.5" y="671.0" />
+      <point x="1226.2386363636365" y="671.0" />
+      <point x="-51.5" y="61.0" />
+    </edge>
+    <edge source="main.game.rmi.ServerRMI" target="main.game.AbstractServer">
+      <point x="88.5" y="-42.0" />
+      <point x="445.45000000000005" y="1825.0" />
+      <point x="637.7454545454547" y="1825.0" />
+      <point x="-84.75" y="61.0" />
+    </edge>
+    <edge source="main.game.socket.SocketServer" target="main.game.AbstractServer">
+      <point x="-116.25" y="-98.0" />
+      <point x="851.7454545454547" y="1825.0" />
+      <point x="807.2454545454547" y="1825.0" />
+      <point x="84.75" y="61.0" />
+    </edge>
+    <edge source="main.game.rmi.ServerRMI" target="main.game.rmi.PlayerRMI">
+      <point x="-88.5" y="-42.0" />
+      <point x="268.45000000000005" y="1825.0" />
+      <point x="180.5" y="1825.0" />
+      <point x="0.0" y="134.5" />
+    </edge>
+    <edge source="main.game.AbstractPlayer" target="main.game.Game">
+      <point x="211.20000000000005" y="320.5" />
+      <point x="1101.9386363636363" y="671.0" />
+      <point x="1197.5" y="671.0" />
+      <point x="0.0" y="-431.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.5000000000000001" x="553.9999999999998" y="408.9999999999999" />
+  <settings layout="Hierarchic Group" zoom="0.39402028830752805" x="443.95121951219494" y="1326.5" />
   <SelectedNodes />
   <Categories>
     <Category>Fields</Category>
-    <Category>Constructors</Category>
     <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
   </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>

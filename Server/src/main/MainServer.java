@@ -1,8 +1,8 @@
 package main;
 
-import main.game.Game;
-import main.game.rmi.ServerRMI;
-import main.game.socket.SocketServer;
+import main.servergame.Game;
+import main.servergame.rmi.ServerRMI;
+import main.servergame.socket.SocketServer;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;

@@ -6,7 +6,7 @@ import main.controller.actionSpaces.largeActionSpaces.LargeProductionActionSpace
 import main.controller.actionSpaces.singleActionSpaces.FloorActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.HarvestActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.ProductionActionSpace;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 /**
  * @author Luca

@@ -17,10 +17,6 @@ import java.rmi.RemoteException;
  * Generalizza gli spazi azione singoli
  */
 public abstract class ActionSpace implements ActionSpaceInterface {
-    public static final char COD_FLOOR = 'f';
-    public static final char COD_HAR_PROD = 'z';
-    public static final char COD_MARKET = 'm';
-
     private FamilyMember familyMember;
     private int actionValue;
     private Effect effect;

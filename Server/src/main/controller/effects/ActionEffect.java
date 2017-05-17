@@ -1,7 +1,7 @@
 package main.controller.effects;
 
 import main.api.exceptions.NewActionException;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
 

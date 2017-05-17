@@ -1,9 +1,9 @@
-package main.game.rmi;
+package main.servergame.rmi;
 
 import main.api.exceptions.LorenzoException;
 import main.api.messages.MessageGame;
 import main.controller.board.FamilyMember;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
 

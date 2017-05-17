@@ -2,7 +2,7 @@ package main.controller.effects;
 
 import main.controller.fields.Field;
 import main.controller.fields.Resource;
-import main.game.AbstractPlayer;
+import main.servergame.AbstractPlayer;
 
 /**
  * @author Luca
