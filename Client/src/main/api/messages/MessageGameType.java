@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author lampa
  */
 public enum MessageGameType implements Serializable{
-    ACTION("ACTION"), ACTION_RESULT("ACTION_RESULT"), INFORMATION("INFORMATION");
+    ACTION("ACTION"), ACTION_RESULT("ACTION_RESULT"), INFORMATION("INFORMATION"), NEW_ACTION("NEW_ACTION");
 
     private String code;
 
