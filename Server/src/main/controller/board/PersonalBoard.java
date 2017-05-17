@@ -1,17 +1,19 @@
 package main.controller.board;
 
-import main.api.types.FamilyMemberType;
 import main.api.exceptions.NewActionException;
+import main.api.types.CardType;
+import main.api.types.FamilyMemberType;
+import main.api.types.ResourceType;
 import main.controller.actionSpaces.Action;
 import main.controller.effects.ExcomEffect;
 import main.controller.fields.Field;
 import main.controller.fields.Resource;
-import main.api.types.CardType;
-import main.api.types.ResourceType;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static main.api.types.FamilyMemberType.*;
 
@@ -26,7 +28,8 @@ public class PersonalBoard {
     private List<FamilyMember> familyMemberList;
 
     // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
-    private List<Resource> resourceList;
+    //private List<Resource> resourceList;
+    private Map<ResourceType, Resource> resourceList;
 
     //liste delle carte in possesso, al massimo 6 per tipo
     private List<Card> territoriesList; //gli effetti permanenti verranno attivati solo dopo azione raccolta
@@ -74,15 +77,16 @@ public class PersonalBoard {
     }
 
     private void initializeResources(){
-        resourceList = new ArrayList<>();
-        resourceList.add(new Resource(2, ResourceType.WOOD));
-        resourceList.add(new Resource(2, ResourceType.STONE));
-        resourceList.add(new Resource(3, ResourceType.SERVANTS));
+        //resourceList = new ArrayList<>();
+        resourceList = new HashMap<>();
+        resourceList.put(ResourceType.WOOD, new Resource(2, ResourceType.WOOD));
+        resourceList.put(ResourceType.STONE, new Resource(2, ResourceType.STONE));
+        resourceList.put(ResourceType.SERVANTS, new Resource(3, ResourceType.SERVANTS));
         int qta = 4;
-        resourceList.add(new Resource(qta+id, ResourceType.WOOD));
-        resourceList.add(new Resource(0, ResourceType.VICTORY));
-        resourceList.add(new Resource(0, ResourceType.FAITH));
-        resourceList.add(new Resource(0, ResourceType.MILITARY));
+        resourceList.put(ResourceType.COINS, new Resource(qta+id, ResourceType.COINS));
+        resourceList.put(ResourceType.VICTORY, new Resource(0, ResourceType.VICTORY));
+        resourceList.put(ResourceType.FAITH, new Resource(0, ResourceType.FAITH));
+        resourceList.put(ResourceType.MILITARY, new Resource(0, ResourceType.MILITARY));
     }
 
     public List<Card> getCardsList(CardType cardType){
@@ -100,12 +104,10 @@ public class PersonalBoard {
 
     /**
      * viene richiamato da Effect e modifica la risorsa passata come parametro
-     * @param field
+     * @param effectResource
      */
-    public void modifyResources(Field field){
-        for(Resource r : resourceList){
-            r.modify(field);
-        }
+    public void modifyResources(Field effectResource){
+        resourceList.get(effectResource.getType()).modify(effectResource);
     }
 
     /**
@@ -114,11 +116,8 @@ public class PersonalBoard {
      * @return true se le ho, false altrimenti
      */
     public boolean checkResources(Field cost){
-        for (Field res : resourceList) {
-            if (res.getType() == cost.getType())
-                if (res.getQta() < cost.getQta())
-                    return false;
-        }
+        if(resourceList.get(cost.getType()).getQta() < cost.getQta())
+            return false;
         return true;
     }
 
@@ -139,12 +138,16 @@ public class PersonalBoard {
      * metodo che mi ritorna la lista delle qta delle mie risorse
      * @return Lista delle quantità
      */
-    public List<Integer> getQtaResources() {
-        List<Integer> qtaResourcesList = new ArrayList<>();
-        for(Resource res : resourceList) {
-            qtaResourcesList.add(res.getQta());
-        }
-        return qtaResourcesList;
+    public Map<ResourceType,Integer> getQtaResources() {
+        Map<ResourceType,Integer> qtaResourceMap = new HashMap<>();
+        resourceList.forEach(((resourceType, resource) -> {
+            qtaResourceMap.put(resourceType, resource.getQta());
+        }));
+//        List<Integer> qtaResourcesList = new ArrayList<>();
+//        for(Resource res : resourceList.values()) {
+//            qtaResourcesList.add(res.getQta());
+//        }
+        return qtaResourceMap;
     }
 
     public void activeTerritoriesEffects(Action action) throws RemoteException, NewActionException {

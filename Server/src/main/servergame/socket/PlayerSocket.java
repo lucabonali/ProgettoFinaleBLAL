@@ -64,7 +64,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     @Override
     public void updateResources() throws RemoteException {
         MessageGame response = new MessageGame(MessageGameType.ACTION_RESULT);
-        response.setQtaList(getPersonalBoard().getQtaResources());
+        response.setQtaMap(getPersonalBoard().getQtaResources());
         try {
             out.writeObject(response);
             out.flush();

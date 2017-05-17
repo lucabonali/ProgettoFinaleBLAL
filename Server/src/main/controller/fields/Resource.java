@@ -54,9 +54,8 @@ public class Resource implements Field {
 
     @Override
     public void setType(ResourceType type) {
-        if(type==null)
+        if (this.type == null)
             this.type = type;
-        return;
     }
 
     /**

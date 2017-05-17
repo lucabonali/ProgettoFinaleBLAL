@@ -16,8 +16,9 @@ public class FamilyMember {
 
 
     /**
-     * I quattro familiari di un giocatore avranno un riferimento alla stessa Plancia, passata del Costruttore
-     * @param personalBoard
+     * rappresenta il singolo familiare del giocatore, viene identificato dagli altr
+     * dal tipo.
+     * @param personalBoard plancia di riferimento del familiare
      */
     public FamilyMember(PersonalBoard personalBoard , FamilyMemberType type){
         this.personalBoard = personalBoard;
@@ -34,7 +35,7 @@ public class FamilyMember {
 
     /**
      * Richiamato a inizio di ogni turno quando vengono tirati i dadi
-     * @param value
+     * @param value valore del familiare (dipende dal tiro del dado)
      */
     public void setValue(int value) {
         this.value = value;

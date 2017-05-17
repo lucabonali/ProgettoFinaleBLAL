@@ -1,6 +1,11 @@
 package test.controller.fields;
 
-import org.junit.Test;
+import main.api.types.ResourceType;
+import main.controller.effects.EffectsCreator;
+import main.controller.fields.Resource;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author lampa
@@ -8,14 +13,28 @@ import org.junit.Test;
 class ResourceTest {
     @Test
     void getQta() {
+        Resource res = new Resource(10, ResourceType.COINS);
+        assertEquals(10, res.getQta());
     }
 
     @Test
     void getType() {
+        Resource res = new Resource(10, ResourceType.COINS);
+        assertEquals(ResourceType.COINS, res.getType());
     }
 
     @Test
-    void modify() {
+    void modify1() {
+        Resource res = new Resource(10, ResourceType.COINS);
+        res.modify(new Resource(-5, ResourceType.COINS));
+        assertEquals(5, res.getQta());
+    }
+
+    @Test
+    void modify2() {
+        Resource res = new Resource(10, ResourceType.COINS);
+        res.modify(new Resource(-5, ResourceType.WOOD));
+        assertEquals(10, res.getQta());
     }
 
     @Test
@@ -24,6 +43,22 @@ class ResourceTest {
 
     @Test
     void setType() {
+    }
+
+    @Test
+    void createResource1() {
+        String cod = "2" + EffectsCreator.CHAR_COIN;
+        Resource res = Resource.createResource(cod, false);
+        //assertEquals(2, res.getQta());
+        assertEquals(ResourceType.COINS, res.getType());
+    }
+
+    @Test
+    void createResource2() {
+        String cod = "2";
+        cod += EffectsCreator.CHAR_COIN;
+        Resource res = Resource.createResource(cod, true);
+        assertEquals(-2, res.getQta());
     }
 
 }

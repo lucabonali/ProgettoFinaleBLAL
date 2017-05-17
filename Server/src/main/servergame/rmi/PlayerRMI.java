@@ -61,7 +61,6 @@ public class PlayerRMI extends AbstractPlayer {
     public void doAction(MessageGame msg) throws RemoteException {
         FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
         getGame().doAction(this, msg, familyMember);
-        getClientInterface().updateResources(getPersonalBoard().getQtaResources());
     }
 
 }
