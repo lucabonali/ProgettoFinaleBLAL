@@ -1,4 +1,4 @@
-package main.controller.types;
+package main.api.types;
 
 /**
  * @author Luca
@@ -11,7 +11,7 @@ package main.controller.types;
 
 public enum ResourceType {
     WOOD("WOOD"),STONE("STONE"),SERVANTS("SERVANTS"),COINS("COINS"),
-    FAITH("FAITH"),MILITARY("MILITARY"),VICTORY("VICTORY");
+    FAITH("FAITH"),MILITARY("MILITARY"),VICTORY("VICTORY"), PRIVILEGE("PRIVILEGE");
 
     private String code;
 

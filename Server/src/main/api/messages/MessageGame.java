@@ -1,4 +1,9 @@
-package main.api;
+package main.api.messages;
+
+import main.api.types.ActionSpacesType;
+import main.api.types.FamilyMemberType;
+import main.api.types.CardType;
+import main.api.types.MarketActionType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +16,10 @@ public class MessageGame implements Serializable{
     private MessageGameType messageGameType;
     private String cardName;
     private FamilyMemberType familyMemberType;
-    private String actionSpaceCode;
+    private ActionSpacesType actionSpacesType;
+    private CardType cardType;
+    private int numFloor;
+    private MarketActionType marketActionType;
     private String content;
     // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
     private List<Integer> qtaList;
@@ -32,8 +40,8 @@ public class MessageGame implements Serializable{
         this.familyMemberType = familyMemberType;
     }
 
-    public void setActionSpaceCode(String actionSpaceCode) {
-        this.actionSpaceCode = actionSpaceCode;
+    public void setActionSpacesType(ActionSpacesType actionSpacesType) {
+        this.actionSpacesType = actionSpacesType;
     }
 
     public void setContent(String content) {
@@ -52,8 +60,8 @@ public class MessageGame implements Serializable{
         return familyMemberType;
     }
 
-    public String getActionSpaceCode() {
-        return actionSpaceCode;
+    public ActionSpacesType getActionSpacesType() {
+        return actionSpacesType;
     }
 
     public String getContent() {
@@ -64,4 +72,27 @@ public class MessageGame implements Serializable{
         return qtaList;
     }
 
+    public CardType getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
+    }
+
+    public int getNumFloor() {
+        return numFloor;
+    }
+
+    public void setNumFloor(int numFloor) {
+        this.numFloor = numFloor;
+    }
+
+    public MarketActionType getMarketActionType() {
+        return marketActionType;
+    }
+
+    public void setMarketActionType(MarketActionType marketActionType) {
+        this.marketActionType = marketActionType;
+    }
 }

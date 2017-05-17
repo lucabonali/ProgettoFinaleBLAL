@@ -1,4 +1,4 @@
-package main.api;
+package main.api.messages;
 
 import java.io.Serializable;
 

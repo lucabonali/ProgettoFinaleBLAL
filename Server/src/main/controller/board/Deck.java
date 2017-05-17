@@ -2,16 +2,17 @@ package main.controller.board;
 
 import main.controller.effects.Effect;
 import main.controller.effects.EffectsCreator;
+import main.controller.effects.VariableIncrementEffect;
 import main.controller.fields.Field;
 import main.controller.fields.Resource;
-import main.controller.types.CardType;
+import main.api.types.CardType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static main.controller.types.CardType.TERRITORY;
+import static main.api.types.CardType.TERRITORY;
 
 /**
  * @author Luca
@@ -25,10 +26,10 @@ import static main.controller.types.CardType.TERRITORY;
 
 public class Deck {
     //query che uso sempre per interrogare il db
-    private static final String QUERY_TERRITORY = "";
-    private static final String QUERY_CHARACTERS = "";
-    private static final String QUERY_BUILDINGS = "";
-    private static final String QUERY_ENTERPRISES = "";
+    private static final String QUERY_TERRITORY = "SELECT * FROM cards WHERE type = \"territories\"";
+    private static final String QUERY_CHARACTERS = "SELECT * FROM cards WHERE type = \"characters\"";
+    private static final String QUERY_BUILDINGS = "SELECT * FROM cards WHERE type = \"buildings\"";
+    private static final String QUERY_ENTERPRISES = "SELECT * FROM cards WHERE type = \"ventures\"";
 
     private ConnectionDB connectionDB;
 
@@ -138,11 +139,11 @@ public class Deck {
         List<Card> list = new ArrayList<>();
         try {
             while(rs.next()) {
-                String name = rs.getString(0);
-                int period = rs.getInt(1);
-                String codcost = rs.getString(2);
-                String codQuickEffect = rs.getString(3);
-                String codPermanentEffect = rs.getString(4);
+                int period = rs.getInt("period");
+                String name = rs.getString("name");
+                String codcost = rs.getString("cost");
+                String codQuickEffect = rs.getString("quick_effect");
+                String codPermanentEffect = rs.getString("permanent_effect");
                 //creo la carta
                 Card card = new Card(type, name, createCostsList(codcost),
                         createQuickEffectList(codQuickEffect), createPermanentEffectList(codPermanentEffect),
@@ -157,17 +158,27 @@ public class Deck {
 
     private List<Field> createCostsList(String cod) {
         //creo la lista degli effetti immediati
-        List<Field> playerFieldsList = new ArrayList<>();
-        playerFieldsList.add(Resource.createResource(cod.substring(0,2)));
-        if (cod.length() == 4) {
-            playerFieldsList.add(Resource.createResource(cod.substring(2,4)));
+        List<Field> costsList = new ArrayList<>();
+        if(cod == null){
+            return null;
         }
-        return playerFieldsList;
+        costsList.add(Resource.createResource(cod.substring(0,2), true));
+        if (cod.length() == 4) {
+            costsList.add(Resource.createResource(cod.substring(2,4), true));
+        }
+        if (cod.length() == 6) {
+            costsList.add(Resource.createResource(cod.substring(4,6), true));
+        }
+        return costsList;
     }
 
     private List<Effect> createQuickEffectList(String cod) {
         //creo la lista degli effetti immediati
         List<Effect> effectList = new ArrayList<>();
+        if (cod.charAt(0) == 'g') {
+            effectList.add(VariableIncrementEffect.createInstance(cod.substring(1)));
+            return effectList;
+        }
         effectList.add(EffectsCreator.createEffect(cod.substring(0,2)));
         if (cod.length() == 4) {
             effectList.add(EffectsCreator.createEffect(cod.substring(2,4)));

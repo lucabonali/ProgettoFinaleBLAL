@@ -1,12 +1,14 @@
 package main.controller.actionSpaces.singleActionSpaces;
 
+import main.api.exceptions.NewActionException;
 import main.controller.actionSpaces.Action;
 import main.controller.effects.Effect;
 import main.controller.effects.FixedIncrementEffect;
-import main.api.LorenzoException;
+import main.api.exceptions.LorenzoException;
 import main.controller.fields.Resource;
-import main.controller.types.ResourceType;
+import main.api.types.ResourceType;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -40,15 +42,16 @@ public class HarvestActionSpace extends ActionSpace {
     }
 
     @Override
-    public void doAction(Action action) throws LorenzoException {
+    public void doAction(Action action) throws LorenzoException, RemoteException, NewActionException {
         if (getActionValue() > action.getValue())
             throw new LorenzoException("non hai abbastanza forza per eseguire l'azione");
 
         setFamilyMember(action.getFamilyMember());
         for(Effect effect : bonusEffectList)
-            effect.active(action.getFamilyMember().getPersonalBoard());
+            effect.active(action.getPlayer());
 
-        //devo attivare gli effetti delle carte territorio
+        //attivo gli effetti delle carte territorio
+        action.getPlayer().getPersonalBoard().activeTerritoriesEffects(action);
     }
 
 }

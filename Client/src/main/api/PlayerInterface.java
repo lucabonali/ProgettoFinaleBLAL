@@ -1,16 +1,18 @@
 package main.api;
 
 
+import main.api.exceptions.LorenzoException;
+import main.api.messages.MessageGame;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 /**
  * @author Luca
  * @author Andrea
  *
  * interfaccia implementata nel server che avrà tutti i metodi comuni tra
- * i due "tipi di giocatori" e vengono invocati su richiesta del client
+ * i due "tipi di giocatori" e vengono invocati su richiesta del main.client
  */
 public interface PlayerInterface extends Remote {
 
@@ -24,17 +26,17 @@ public interface PlayerInterface extends Remote {
 
 
     /**
-     * Serve al client per conoscere la lista delle partite attive
-     * @return lista partite
-     * @throws RemoteException
-     */
-    List<Integer> getGamesMap() throws RemoteException;
-
-    /**
-     * mi aggiunge all'oggetto player la sua client interface
+     * mi aggiunge all'oggetto player la sua main.client interface
      * @param clientInterface
      * @throws RemoteException
      */
     void addClientInterface(ClientInterface clientInterface) throws RemoteException;
+
+    /**
+     * metodo chiamato per il lancio del dado, solo il primo giocatore può farlo
+     * in caso viene lanciata una LorenzoException
+     * @throws RemoteException
+     */
+    void shotDice() throws RemoteException, LorenzoException;
 
 }

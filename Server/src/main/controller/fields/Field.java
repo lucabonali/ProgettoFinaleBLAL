@@ -1,6 +1,6 @@
 package main.controller.fields;
 
-import main.controller.types.ResourceType;
+import main.api.types.ResourceType;
 
 /**
  * @author Luca

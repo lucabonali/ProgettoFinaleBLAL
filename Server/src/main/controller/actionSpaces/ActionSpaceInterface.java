@@ -1,6 +1,9 @@
 package main.controller.actionSpaces;
 
-import main.api.LorenzoException;
+import main.api.exceptions.LorenzoException;
+import main.api.exceptions.NewActionException;
+
+import java.rmi.RemoteException;
 
 /**
  * @author Luca
@@ -17,5 +20,5 @@ public interface ActionSpaceInterface {
      * come parametro.
      * @param action azione da eseguire
      */
-    void doAction(Action action) throws LorenzoException;
+    void doAction(Action action) throws LorenzoException, RemoteException, NewActionException;
 }

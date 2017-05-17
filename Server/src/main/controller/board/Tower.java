@@ -2,7 +2,7 @@ package main.controller.board;
 
 import main.controller.actionSpaces.singleActionSpaces.ActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.FloorActionSpace;
-import main.controller.types.CardType;
+import main.api.types.CardType;
 
 import java.util.List;
 

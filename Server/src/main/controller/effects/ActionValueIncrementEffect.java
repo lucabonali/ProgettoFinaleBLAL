@@ -6,7 +6,7 @@ import main.controller.actionSpaces.largeActionSpaces.LargeProductionActionSpace
 import main.controller.actionSpaces.singleActionSpaces.FloorActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.HarvestActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.ProductionActionSpace;
-import main.controller.board.PersonalBoard;
+import main.game.AbstractPlayer;
 
 /**
  * @author Luca
@@ -30,29 +30,29 @@ public class ActionValueIncrementEffect implements Effect{
      * metodo che fa a verificare la azione corrente che si stà per eseguire dalla
      * plancia ricevuta come parametro, e verifica se sono dello stesso tipo
      * attraverso 'instanceof' e se combacia allora incrementa/decrementa il suo valore.
-     * @param personalBoard la plancia sulla quale eseguire
+     * @param player giocatore che esegue l'azione
      */
     @Override
-    public void active(PersonalBoard personalBoard) {
+    public void active(AbstractPlayer player) {
         if (FloorActionSpace.class.isInstance(actionSpace)) {
             FloorActionSpace floorActionSpace = (FloorActionSpace) actionSpace;
-            if (actionSpace.getClass().isInstance(personalBoard.getCurrentAction().getActionSpace())) {
-                FloorActionSpace myFloorActionSpace = (FloorActionSpace) personalBoard.getCurrentAction().getActionSpace();
+            if (actionSpace.getClass().isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace())) {
+                FloorActionSpace myFloorActionSpace = (FloorActionSpace) player.getPersonalBoard().getCurrentAction().getActionSpace();
                 if (floorActionSpace.getCardType() == myFloorActionSpace.getCardType()){
-                    personalBoard.getCurrentAction().modifyValue(value);
+                    player.getPersonalBoard().getCurrentAction().modifyValue(value);
                 }
             }
         }
         else if (HarvestActionSpace.class.isInstance(actionSpace)){
-            if(HarvestActionSpace.class.isInstance(personalBoard.getCurrentAction().getActionSpace()) ||
-                    LargeHarvestActionSpace.class.isInstance(personalBoard.getCurrentAction().getActionSpace())){
-                personalBoard.getCurrentAction().modifyValue(value);
+            if(HarvestActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace()) ||
+                    LargeHarvestActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace())){
+                player.getPersonalBoard().getCurrentAction().modifyValue(value);
             }
         }
         else if (ProductionActionSpace.class.isInstance(actionSpace)){
-            if(ProductionActionSpace.class.isInstance(personalBoard.getCurrentAction().getActionSpace()) ||
-                    LargeProductionActionSpace.class.isInstance(personalBoard.getCurrentAction().getActionSpace())){
-                personalBoard.getCurrentAction().modifyValue(value);
+            if(ProductionActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace()) ||
+                    LargeProductionActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace())){
+                player.getPersonalBoard().getCurrentAction().modifyValue(value);
             }
         }
     }

@@ -1,8 +1,9 @@
 package main.controller.effects;
 
-import main.controller.actionSpaces.Action;
-import main.controller.actionSpaces.ActionSpaceInterface;
-import main.controller.board.PersonalBoard;
+import main.api.exceptions.NewActionException;
+import main.game.AbstractPlayer;
+
+import java.rmi.RemoteException;
 
 /**
  * @author Luca
@@ -13,22 +14,27 @@ import main.controller.board.PersonalBoard;
  * mio familiare.
  */
 public class ActionEffect implements Effect{
-    private ActionSpaceInterface actionSpace;
     private int value;
-    private Action action;
+    private char codActionSpace;
 
-    public ActionEffect(ActionSpaceInterface actionSpace, int value) {
-        this.actionSpace = actionSpace;
+    public ActionEffect(char codActionSpace, int value) {
+        this.codActionSpace = codActionSpace;
         this.value = value;
     }
 
 
     /**
-     * andrà richiamato il metodo doAction passandogli una azione che verrà settata nel costruttore
-     * @param personalBoard la plancia sulla quale eseguire
+     * metodo che mi esegue una nuova azione chiedendo al client quale
+     * @param player giocatore che esegue l'azione
      */
     @Override
-    public void active(PersonalBoard personalBoard) {
-        //actionSpace.doAction();
+    public void active(AbstractPlayer player) throws RemoteException, NewActionException {
+        player.notifyNewAction(value, codActionSpace);
+        throw new NewActionException();
+    }
+
+    public static ActionEffect createInstance(String code){
+        int value = Integer.parseInt(code.substring(0,1));
+        return new ActionEffect(code.charAt(1), value);
     }
 }

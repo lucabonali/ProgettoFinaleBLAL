@@ -1,6 +1,6 @@
 package main.controller.board;
 
-import main.api.FamilyMemberType;
+import main.api.types.FamilyMemberType;
 
 /**
  * @author Luca

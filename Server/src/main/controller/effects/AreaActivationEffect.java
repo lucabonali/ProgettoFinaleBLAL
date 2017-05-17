@@ -1,7 +1,7 @@
 package main.controller.effects;
 
-import main.controller.board.PersonalBoard;
 import main.controller.fields.Field;
+import main.game.AbstractPlayer;
 
 /**
  * @author lampa
@@ -16,9 +16,8 @@ public class AreaActivationEffect implements Effect{
     }
 
     @Override
-    public void active(PersonalBoard personalBoard) {
-        if (personalBoard.getCurrentAction().getValue() >= minValue)
-            personalBoard.modifyResources(field);
-
+    public void active(AbstractPlayer player) {
+        if (player.getPersonalBoard().getCurrentAction().getValue() >= minValue)
+            player.getPersonalBoard().modifyResources(field);
     }
 }

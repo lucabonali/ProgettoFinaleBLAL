@@ -1,8 +1,9 @@
 package main.game;
 
 import main.api.ClientInterface;
-import main.api.FamilyMemberType;
-import main.api.LorenzoException;
+import main.api.exceptions.NewActionException;
+import main.api.types.FamilyMemberType;
+import main.api.exceptions.LorenzoException;
 import main.api.PlayerInterface;
 import main.controller.board.FamilyMember;
 import main.controller.board.PersonalBoard;
@@ -33,7 +34,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         idPlayer = game.getId(this);
     }
 
-    public int calculateVictoryPoints(){
+    public int calculateVictoryPoints() throws RemoteException, NewActionException {
         return personalBoard.calculateVictoryPoints();
     }
 
@@ -68,6 +69,8 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     public abstract void youWin() throws RemoteException;
 
     public abstract void youLose() throws RemoteException;
+
+    public abstract void notifyNewAction(int value, char codeAction) throws RemoteException;
 
     /// metodi implementatti della PlayerInterface
 

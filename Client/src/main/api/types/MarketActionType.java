@@ -1,4 +1,4 @@
-package main.controller.types;
+package main.api.types;
 
 
 /**

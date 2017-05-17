@@ -1,9 +1,12 @@
 package main.controller.actionSpaces.singleActionSpaces;
 
+import main.api.exceptions.NewActionException;
 import main.controller.actionSpaces.Action;
 import main.controller.board.Card;
-import main.api.LorenzoException;
-import main.controller.types.CardType;
+import main.api.exceptions.LorenzoException;
+import main.api.types.CardType;
+
+import java.rmi.RemoteException;
 
 /**
  * @author Luca
@@ -38,13 +41,14 @@ public class FloorActionSpace extends ActionSpace {
     }
 
     @Override
-    public void doAction(Action action) throws LorenzoException {
+    public void doAction(Action action) throws LorenzoException, RemoteException, NewActionException {
         if (getActionValue() > action.getValue())
             throw new LorenzoException("non hai abbastanza forza per eseguire l'azione!!");
 
-        card.setPersonalBoard(action.getFamilyMember().getPersonalBoard());
+        card.setPlayer(action.getPlayer());
         setFamilyMember(action.getFamilyMember());
-        getEffect().active(action.getFamilyMember().getPersonalBoard());
+        getEffect().active(action.getPlayer());
+        card.activeQuickEffects();
     }
 
 

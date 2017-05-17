@@ -1,7 +1,8 @@
 package main.controller.effects;
 
-import main.controller.board.PersonalBoard;
 import main.controller.fields.Field;
+import main.controller.fields.Resource;
+import main.game.AbstractPlayer;
 
 /**
  * @author Luca
@@ -19,7 +20,11 @@ public class FixedIncrementEffect implements Effect{
     }
 
     @Override
-    public void active(PersonalBoard personalBoard) {
-        personalBoard.modifyResources(field);
+    public void active(AbstractPlayer player) {
+        player.getPersonalBoard().modifyResources(field);
+    }
+
+    public static FixedIncrementEffect createInstance(String code){
+        return new FixedIncrementEffect(Resource.createResource(code, false));
     }
 }

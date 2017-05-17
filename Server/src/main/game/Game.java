@@ -1,12 +1,13 @@
 package main.game;
 
-import main.api.MessageGame;
+import main.api.messages.MessageGame;
 import main.api.PlayerInterface;
+import main.api.exceptions.NewActionException;
 import main.controller.board.Board;
 import main.controller.board.FamilyMember;
-import main.api.LorenzoException;
+import main.api.exceptions.LorenzoException;
 import main.controller.fields.Resource;
-import main.controller.types.ResourceType;
+import main.api.types.ResourceType;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -98,8 +99,12 @@ public class Game {
         checkTurn(player);
         if (familyMember.isPositioned())
             throw new LorenzoException("il familiare è già stato posizionato!!");
-        board.doAction(msg, familyMember);
-        endMove();
+        try {
+            board.doAction(msg, player, familyMember);
+            endMove();
+        } catch (NewActionException e) {
+            //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
+        }
     }
 
     /**
@@ -107,7 +112,7 @@ public class Game {
      * controlla se è finito il giro o no
      * @throws RemoteException
      */
-    private void endMove() throws RemoteException {
+    private void endMove() throws RemoteException, NewActionException {
         for(int i = 0 ; i < numPlayers ; i++){
             if(currentPlayer == turnOrder.get(i)) {
                 if (i == numPlayers - 1)
@@ -125,7 +130,7 @@ public class Game {
      * controlla se è finito il turno.
      * @throws RemoteException
      */
-    private void endLap() throws RemoteException {
+    private void endLap() throws RemoteException, NewActionException {
         if (lap == 4){
             lap = 1;
             endTurn();
@@ -141,7 +146,7 @@ public class Game {
      * controlla se è finito il periodo, cioè questo è l'ultimo turno di costui
      * @throws RemoteException
      */
-    private void endTurn() throws RemoteException {
+    private void endTurn() throws RemoteException, NewActionException {
         if(turn == 2){
             turn = 1;
             endPeriod();
@@ -156,7 +161,7 @@ public class Game {
      * controlla se è l'ultimo periodo, cioè è finita la partita.
      * @throws RemoteException
      */
-    private void endPeriod() throws RemoteException {
+    private void endPeriod() throws RemoteException, NewActionException {
         if(period == 3){
             endGame();
         }
@@ -214,7 +219,7 @@ public class Game {
      * metodo chiamato al termine della gara, non fa altro che calcolare
      * tutti i punti vittoria di ciascun giocatore e decretare il vincitore.
      */
-    private void endGame() throws RemoteException {
+    private void endGame() throws RemoteException, NewActionException {
         //military points
         Map<AbstractPlayer, Integer> militaryMap = new HashMap<>();
         for (AbstractPlayer player: turnOrder){

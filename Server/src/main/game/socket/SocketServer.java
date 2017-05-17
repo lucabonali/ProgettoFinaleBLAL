@@ -1,6 +1,6 @@
 package main.game.socket;
 
-import main.api.MessageLogin;
+import main.api.messages.MessageLogin;
 import main.api.PlayerInterface;
 import main.game.AbstractServer;
 import main.game.Game;

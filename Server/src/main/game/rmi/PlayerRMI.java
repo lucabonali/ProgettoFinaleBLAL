@@ -1,7 +1,7 @@
 package main.game.rmi;
 
-import main.api.LorenzoException;
-import main.api.MessageGame;
+import main.api.exceptions.LorenzoException;
+import main.api.messages.MessageGame;
 import main.controller.board.FamilyMember;
 import main.game.AbstractPlayer;
 
@@ -38,6 +38,11 @@ public class PlayerRMI extends AbstractPlayer {
 
     public void youLose() throws RemoteException {
         getClientInterface().notifyMessage("Hai perso :( ");
+    }
+
+    @Override
+    public void notifyNewAction(int value, char codeAction) throws RemoteException {
+        getClientInterface().notifyNewAction(value, codeAction);
     }
 
 

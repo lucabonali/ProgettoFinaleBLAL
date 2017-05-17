@@ -1,16 +1,19 @@
 package main.controller.board;
 
+import main.api.types.FamilyMemberType;
+import main.api.exceptions.NewActionException;
 import main.controller.actionSpaces.Action;
-import main.api.FamilyMemberType;
 import main.controller.effects.ExcomEffect;
 import main.controller.fields.Field;
 import main.controller.fields.Resource;
-import main.controller.types.ResourceType;
+import main.api.types.CardType;
+import main.api.types.ResourceType;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static main.api.FamilyMemberType.*;
+import static main.api.types.FamilyMemberType.*;
 
 /**
  * @author Luca
@@ -82,6 +85,19 @@ public class PersonalBoard {
         resourceList.add(new Resource(0, ResourceType.MILITARY));
     }
 
+    public List<Card> getCardsList(CardType cardType){
+        switch (cardType){
+            case BUILDING:
+                return buildingsList;
+            case CHARACTER:
+                return charactersList;
+            case TERRITORY:
+                return territoriesList;
+            default: //ventures
+                return venturesList;
+        }
+    }
+
     /**
      * viene richiamato da Effect e modifica la risorsa passata come parametro
      * @param field
@@ -131,14 +147,28 @@ public class PersonalBoard {
         return qtaResourcesList;
     }
 
-    public void activeCharacterEffects(Action action) {
+    public void activeTerritoriesEffects(Action action) throws RemoteException, NewActionException {
+        this.currentAction = action;
+        for (Card card : territoriesList) {
+            card.activePermanentEffects();
+        }
+    }
+
+    public void activeBuildingsEffects(Action action) throws RemoteException, NewActionException {
+        this.currentAction = action;
+        for (Card card : buildingsList) {
+            card.activePermanentEffects();
+        }
+    }
+
+    public void activeCharacterEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
         for (Card card : charactersList) {
             card.activePermanentEffects();
         }
     }
 
-    private void activeVentueresEffects(){
+    private void activeVentueresEffects() throws RemoteException, NewActionException {
         for (Card card : venturesList){
             card.activePermanentEffects();
         }
@@ -151,7 +181,7 @@ public class PersonalBoard {
         familyMemberList.get(3).setValue(0);
     }
 
-    public int calculateVictoryPoints() {
+    public int calculateVictoryPoints() throws RemoteException, NewActionException {
         activeVentueresEffects();
         int sum = 0;
         sum += resourceList.get(5).getQta(); //aggiungo i punti vittoria
@@ -213,4 +243,5 @@ public class PersonalBoard {
         }
         return tmp;
     }
+
 }

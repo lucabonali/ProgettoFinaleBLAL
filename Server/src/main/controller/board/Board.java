@@ -1,5 +1,7 @@
 package main.controller.board;
 
+import main.api.types.ActionSpacesType;
+import main.api.exceptions.NewActionException;
 import main.controller.actionSpaces.Action;
 import main.controller.actionSpaces.ActionSpaceInterface;
 import main.controller.actionSpaces.largeActionSpaces.CouncilActionSpace;
@@ -8,16 +10,14 @@ import main.controller.actionSpaces.largeActionSpaces.LargeProductionActionSpace
 import main.controller.actionSpaces.singleActionSpaces.HarvestActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.MarketActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.ProductionActionSpace;
-import main.api.MessageGame;
-import main.api.LorenzoException;
-import main.controller.types.CardType;
-import main.controller.types.MarketActionType;
+import main.api.messages.MessageGame;
+import main.api.exceptions.LorenzoException;
+import main.api.types.CardType;
+import main.api.types.MarketActionType;
+import main.game.AbstractPlayer;
 
+import java.rmi.RemoteException;
 import java.util.List;
-
-import static main.controller.actionSpaces.largeActionSpaces.LargeActionSpace.COD_COUNCIL;
-import static main.controller.actionSpaces.largeActionSpaces.LargeActionSpace.COD_L_HAR_PROD;
-import static main.controller.actionSpaces.singleActionSpaces.ActionSpace.*;
 
 /**
  * @author Luca
@@ -120,106 +120,64 @@ public class Board {
      * @param familyMember familiare
      * @throws LorenzoException in caso la mosssa non vada abuon fine
      */
-    public void doAction(MessageGame msg, FamilyMember familyMember) throws LorenzoException {
+    public void doAction(MessageGame msg, AbstractPlayer player, FamilyMember familyMember) throws LorenzoException, RemoteException, NewActionException {
         ActionSpaceInterface actionSpace = convertActionMessage(msg);
-        currentAction = new Action(actionSpace, familyMember.getValue(), familyMember);
+        if (actionSpace == null)
+            throw new LorenzoException("codice spazio azione errato");
+        currentAction = new Action(actionSpace, familyMember.getValue(), familyMember, player);
         currentAction.commitAction();
     }
 
 
     /**
-     * SI PUO' FARE MEGLIO!!!!!!!!
-     * metodo che mi converte un messaggio d'azione in un'azione vera e propria
+     * metodo che in base al messaggio come parametro mi ritorna
+     * lo spazio azione corretto del mio tabellone
      * @param msg messaggio da convertire
-     * @return Action, cioè l'azione
+     * @return lo spazioe azione corretto.
      */
     private ActionSpaceInterface convertActionMessage(MessageGame msg) {
         ActionSpaceInterface actionSpace;
-        char[] code = msg.getActionSpaceCode().toCharArray();
-        switch (code[0]) {
-            case COD_HAR_PROD:
-                char zoneType = code[1];
-                switch (zoneType) {
-                    case 'h':
-                        actionSpace = harvestActionSpace;
-                        break;
-                    case 'p':
-                        actionSpace = productionActionSpace;
-                        break;
+        ActionSpacesType code = msg.getActionSpacesType();
+        switch (code) {
+            case MARKET:
+                switch (msg.getMarketActionType()){
+                    case BLUE:
+                        return blueMarket;
+                    case GRAY:
+                        return grayMarket;
+                    case PURPLE:
+                        return purpleMarket;
+                    case YELLOW:
+                        return yellowMarket;
                     default:
-                        //di default council
-                        actionSpace = councilActionSpace;
-                        break;
+                        return null;
                 }
-                break;
-            case COD_FLOOR:
-                char tower = code[1];
-                int numFloor = Integer.parseInt(msg.getActionSpaceCode().substring(2,3));
-                switch (tower) {
-                    case '1':
-                        actionSpace = territoryTower.getFloor(numFloor);
-                        break;
-                    case '2':
-                        actionSpace = characterTower.getFloor(numFloor);
-                        break;
-                    case '3':
-                        actionSpace = buildingTower.getFloor(numFloor);
-                        break;
-                    case '4':
-                        actionSpace = venturesTower.getFloor(numFloor);
-                        break;
+            case TOWERS:
+                int numFloor = msg.getNumFloor();
+                switch (msg.getCardType()){
+                    case BUILDING:
+                        return buildingTower.getFloor(numFloor);
+                    case CHARACTER:
+                        return characterTower.getFloor(numFloor);
+                    case VENTURES:
+                        return venturesTower.getFloor(numFloor);
+                    case TERRITORY:
+                        return territoryTower.getFloor(numFloor);
                     default:
-                        //di default council
-                        actionSpace = councilActionSpace;
-                        break;
+                        return null;
                 }
-                break;
-            case COD_MARKET:
-                char which = code[1];
-                switch (which) {
-                    case '1':
-                        actionSpace = yellowMarket;
-                        break;
-                    case '2':
-                        actionSpace = purpleMarket;
-                        break;
-                    case '3':
-                        actionSpace = blueMarket;
-                        break;
-                    case '4':
-                        actionSpace = grayMarket;
-                        break;
-                    default:
-                        //di default council
-                        actionSpace = councilActionSpace;
-                        break;
-                }
-                break;
-            case COD_L_HAR_PROD:
-                char lZoneType = code[1];
-                switch (lZoneType) {
-                    case 'h':
-                        actionSpace = harvestActionSpace;
-                        break;
-                    case 'p':
-                        actionSpace = productionActionSpace;
-                        break;
-                    default:
-                        //di default council
-                        actionSpace = councilActionSpace;
-                        break;
-                }
-                break;
-            case COD_COUNCIL:
-                actionSpace = councilActionSpace;
-                break;
+            case COUNCIL:
+                return councilActionSpace;
+            case SINGLE_HARVEST:
+                return harvestActionSpace;
+            case LARGE_HARVEST:
+                return largeHarvestActionSpace;
+            case SINGLE_PRODUCTION:
+                return productionActionSpace;
+            case LARGE_PRODUCTION:
+                return largeProductionActionSpace;
             default:
-                //di default council
-                actionSpace = councilActionSpace;
-                break;
+                return null;
         }
-        return actionSpace;
     }
-
-
 }

@@ -1,8 +1,8 @@
-package GUI; /**
+package main.GUI; /**
  * Created by Luca on 16/05/2017.
  */
 
-import client.MainClient;
+import main.client.MainClient;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

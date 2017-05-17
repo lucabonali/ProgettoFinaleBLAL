@@ -1,8 +1,8 @@
 package main.game.socket;
 
-import main.api.LorenzoException;
-import main.api.MessageGame;
-import main.api.MessageGameType;
+import main.api.exceptions.LorenzoException;
+import main.api.messages.MessageGame;
+import main.api.messages.MessageGameType;
 import main.controller.board.FamilyMember;
 import main.game.AbstractPlayer;
 
@@ -50,6 +50,11 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     @Override
     public void youLose() throws RemoteException {
         printMsgToClient("Hai perso :(");
+    }
+
+    @Override
+    public void notifyNewAction(int value, char codeAction) throws RemoteException {
+
     }
 
     private void printMsgToClient(String content){

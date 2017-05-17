@@ -1,4 +1,4 @@
-package client;
+package main.client;
 
 import main.api.ClientInterface;
 
@@ -35,6 +35,11 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
 
     @Override
     public void setDiceValues(int orange, int white, int black) throws RemoteException {
+
+    }
+
+    @Override
+    public void notifyNewAction(int value, char codeAction) throws RemoteException {
 
     }
 }

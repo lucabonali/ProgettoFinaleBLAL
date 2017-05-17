@@ -1,12 +1,14 @@
 package main.controller.actionSpaces.largeActionSpaces;
 
+import main.api.exceptions.NewActionException;
 import main.controller.actionSpaces.Action;
 import main.controller.effects.Effect;
 import main.controller.effects.FixedIncrementEffect;
-import main.api.LorenzoException;
+import main.api.exceptions.LorenzoException;
 import main.controller.fields.Resource;
-import main.controller.types.ResourceType;
+import main.api.types.ResourceType;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -37,15 +39,17 @@ public class LargeProductionActionSpace extends LargeActionSpace {
     }
 
     @Override
-    public void doAction(Action action) throws LorenzoException {
+    public void doAction(Action action) throws LorenzoException, RemoteException, NewActionException {
         if(getValue() > action.getValue())
             throw new LorenzoException("la tua azione non ha abbastanza forza!!");
 
         addFamilyMember(action.getFamilyMember());
         for (Effect effect : bonusEffectList){
-            effect.active(action.getFamilyMember().getPersonalBoard());
+            effect.active(action.getPlayer());
         }
-        //devo anche attivare gli effetti delle carte edificio
+
+        //attivo gli effetti delle carte territorio
+        action.getPlayer().getPersonalBoard().activeBuildingsEffects(action);
     }
 
 }

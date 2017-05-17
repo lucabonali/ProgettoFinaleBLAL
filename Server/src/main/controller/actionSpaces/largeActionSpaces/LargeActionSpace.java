@@ -1,11 +1,13 @@
 package main.controller.actionSpaces.largeActionSpaces;
 
+import main.api.exceptions.NewActionException;
 import main.controller.actionSpaces.Action;
 import main.controller.actionSpaces.ActionSpaceInterface;
 import main.controller.board.FamilyMember;
 import main.controller.effects.Effect;
-import main.api.LorenzoException;
+import main.api.exceptions.LorenzoException;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -50,5 +52,5 @@ public abstract class LargeActionSpace implements ActionSpaceInterface {
         return value;
     }
 
-    public abstract void doAction(Action action) throws LorenzoException;
+    public abstract void doAction(Action action) throws LorenzoException, RemoteException, NewActionException;
 }

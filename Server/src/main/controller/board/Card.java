@@ -1,10 +1,13 @@
 package main.controller.board;
 
+import main.api.exceptions.NewActionException;
 import main.controller.effects.Effect;
-import main.api.LorenzoException;
+import main.api.exceptions.LorenzoException;
 import main.controller.fields.Field;
-import main.controller.types.CardType;
+import main.api.types.CardType;
+import main.game.AbstractPlayer;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -15,7 +18,7 @@ import java.util.List;
  */
 
 public class Card {
-    private PersonalBoard personalBoard;
+    private AbstractPlayer player;
     private final CardType type;
     private final String name;
     private final List<Field> costs;
@@ -53,19 +56,18 @@ public class Card {
         return permanentEffects;
     }
 
-    public PersonalBoard getPersonalBoard() {
-        return personalBoard;
+    public AbstractPlayer getPlayer() {
+        return player;
     }
 
-    public void setPersonalBoard(PersonalBoard personalBoard) throws LorenzoException {
+    public void setPlayer(AbstractPlayer player) throws LorenzoException {
         for (Field cost : costs) {
-            if (!personalBoard.checkResources(cost))
+            if (!this.player.getPersonalBoard().checkResources(cost))
                 throw new LorenzoException("non hai abbastanza fondi per eseguire l'azione");
         }
         //se ho abbastanza risorse posso pescare e quindi pago il costo e attivo l'effetto immediato
-        this.personalBoard = personalBoard;
+        this.player = player;
         activeCosts();
-        activeQuickEffects();
     }
 
     public int getPeriod() {
@@ -73,27 +75,27 @@ public class Card {
     }
 
     /**
-     * chiama il metodo che modifica le risorse nella personalBoard
+     * chiama il metodo che modifica le risorse nella player
      * passandogli la lista dei costi che sarà tutto negativo
      */
     public void activeCosts(){
         for (Field res : costs)
-            personalBoard.modifyResources(res);
+            player.getPersonalBoard().modifyResources(res);
     }
 
     /**
      * metodo che attiva tutti gli effetti immediati chiamando il metodo
      * active(PersonalBoard) di ciascun effetto.
      */
-    public void activeQuickEffects() {
+    public void activeQuickEffects() throws RemoteException, NewActionException {
         for(Effect effect: quickEffects) {
-            effect.active(personalBoard);
+            effect.active(player);
         }
     }
 
-    public void activePermanentEffects() {
+    public void activePermanentEffects() throws RemoteException, NewActionException {
         for(Effect effect: permanentEffects) {
-            effect.active(personalBoard);
+            effect.active(player);
         }
     }
 }

@@ -1,8 +1,11 @@
 package main.controller.actionSpaces.singleActionSpaces;
 
+import main.api.exceptions.NewActionException;
 import main.controller.actionSpaces.Action;
-import main.api.LorenzoException;
-import main.controller.types.MarketActionType;
+import main.api.exceptions.LorenzoException;
+import main.api.types.MarketActionType;
+
+import java.rmi.RemoteException;
 
 /**
  * @author Luca
@@ -24,11 +27,11 @@ public class MarketActionSpace extends ActionSpace {
     }
 
     @Override
-    public void doAction(Action action) throws LorenzoException {
+    public void doAction(Action action) throws LorenzoException, RemoteException, NewActionException {
         if (getActionValue() > action.getValue())
             throw new LorenzoException("non hai abbastanza forza per effettuare l'azione");
 
         setFamilyMember(action.getFamilyMember());
-        getEffect().active(action.getFamilyMember().getPersonalBoard());
+        getEffect().active(action.getPlayer());
     }
 }

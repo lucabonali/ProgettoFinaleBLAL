@@ -1,6 +1,9 @@
 package main.controller.effects;
 
-import main.controller.board.PersonalBoard;
+import main.api.exceptions.NewActionException;
+import main.game.AbstractPlayer;
+
+import java.rmi.RemoteException;
 
 /**
  * @author Luca
@@ -18,9 +21,9 @@ public interface Effect {
      * metodo che mi attiva l'effetto specifico, ciascun effetto
      * che implementa questa interfaccia implementerà questo
      * metodo nella maniera propriamente corretta.
-     * @param personalBoard la plancia sulla quale eseguire
+     * @param player il giocatore che sta attivando l'effetto
      */
-    public void active(PersonalBoard personalBoard);
+    public void active(AbstractPlayer player) throws RemoteException, NewActionException;
 
 
 }

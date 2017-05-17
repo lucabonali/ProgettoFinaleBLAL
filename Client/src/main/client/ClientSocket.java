@@ -1,7 +1,7 @@
-package client;
+package main.client;
 
-import main.api.MessageLogin;
-import main.api.MessageLoginType;
+import main.api.messages.MessageLogin;
+import main.api.messages.MessageLoginType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

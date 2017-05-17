@@ -1,6 +1,8 @@
 package main.controller.fields;
 
-import main.controller.types.ResourceType;
+import main.api.types.ResourceType;
+
+import static main.controller.effects.EffectsCreator.*;
 
 /**
  * @author  Luca
@@ -11,14 +13,6 @@ import main.controller.types.ResourceType;
  */
 
 public class Resource implements Field {
-    //caratteri che uso come codici per identificare le risorse
-    private static final char CHAR_COIN ='a';
-    private static final char CHAR_STONE ='b';
-    private static final char CHAR_WOOD ='c';
-    private static final char CHAR_SERVANT ='d';
-    private static final char CHAR_MILITARY ='e';
-    private static final char CHAR_FAITH ='f';
-    private static final char CHAR_VICTORY ='g';
 
     private int qta;
     private ResourceType type;
@@ -75,9 +69,11 @@ public class Resource implements Field {
      * @param cod codice
      * @return la risorsa creata in base al codice
      */
-    public static Resource createResource(String cod) {
+    public static Resource createResource(String cod, boolean isCost) {
         //il primo carattere mi indica il numero intero del costo, e lo rendo subito negativo
         int qta = Integer.parseInt(cod.substring(0,1));
+        if (isCost)
+            qta = -qta;
         //il secondo carattere mi indica la risorsa
         char charCod = cod.charAt(1);
         //inizializzo la risorsa e il punto passandogli solo la qta che sarà negativa
@@ -89,21 +85,29 @@ public class Resource implements Field {
                 res.setType(ResourceType.COINS);
                 break;
             case CHAR_STONE:
+                res.setType(ResourceType.STONE);
                 break;
             case CHAR_WOOD:
+                res.setType(ResourceType.WOOD);
                 break;
             case CHAR_SERVANT:
+                res.setType(ResourceType.SERVANTS);
                 break;
             case CHAR_MILITARY:
+                res.setType(ResourceType.MILITARY);
                 break;
             case CHAR_FAITH:
+                res.setType(ResourceType.FAITH);
                 break;
             case CHAR_VICTORY:
+                res.setType(ResourceType.VICTORY);
+                break;
+            case CHAR_PRIVILEGE:
+                res.setType(ResourceType.PRIVILEGE);
                 break;
             default:
                 break;
         }
-
         return res;
     }
 }
