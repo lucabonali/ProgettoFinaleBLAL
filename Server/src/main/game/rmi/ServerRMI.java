@@ -3,11 +3,9 @@ package main.game.rmi;
 import main.api.PlayerInterface;
 import main.game.AbstractServer;
 import main.game.Game;
-import main.MainServer;
+import main.game.socket.PlayerSocket;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Luca
@@ -21,18 +19,12 @@ public class ServerRMI extends AbstractServer {
 
     }
 
-
     @Override
     public PlayerInterface startGame(String username) throws RemoteException {
-        List<Game> games = new ArrayList<>(MainServer.gamesMap.values());
-        for (Game g : games) {
-            if(!g.isFull()){
-                PlayerRMI playerRMI = new PlayerRMI(username);
-                playerRMI.setGame(g);
-                g.addPlayer(playerRMI);
-                return playerRMI;
-            }
-        }
-        return null;
+        Game game = getFreeGame(); //la prima partita libera trovata
+        PlayerRMI playerRMI = new PlayerRMI(username);
+        playerRMI.setGame(getFreeGame());
+        game.addPlayer(playerRMI);
+        return playerRMI;
     }
 }

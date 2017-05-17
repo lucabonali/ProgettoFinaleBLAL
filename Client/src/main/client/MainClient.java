@@ -30,7 +30,6 @@ public class MainClient {
                 case 0:
                     registry = LocateRegistry.getRegistry(1099);
                     server = (ServerInterface) registry.lookup("serverRMI");
-                    System.out.println("Lista:");
                     //true se login va a buon fine, false altrimenti
                     System.out.println(server.login("andrea", "lol"));
                     break;

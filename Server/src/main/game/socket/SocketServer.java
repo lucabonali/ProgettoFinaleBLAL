@@ -1,10 +1,9 @@
 package main.game.socket;
 
-import main.api.messages.MessageLogin;
 import main.api.PlayerInterface;
+import main.api.messages.MessageLogin;
 import main.game.AbstractServer;
 import main.game.Game;
-import main.MainServer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,8 +11,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -34,16 +31,11 @@ public class SocketServer extends AbstractServer implements Runnable {
 
     @Override
     public PlayerInterface startGame(String username) throws RemoteException {
-        List<Game> games = new ArrayList<>(MainServer.gamesMap.values());
-        for (Game g : games) {
-            if(!g.isFull()){
-                PlayerSocket playerSocket = new PlayerSocket(username);
-                playerSocket.setGame(g);
-                g.addPlayer(playerSocket);
-                return playerSocket;
-            }
-        }
-        return null;
+        Game game = getFreeGame(); //la prima partita libera trovata
+        PlayerSocket playerSocket = new PlayerSocket(username);
+        playerSocket.setGame(getFreeGame());
+        game.addPlayer(playerSocket);
+        return playerSocket;
     }
 
     public void run(){

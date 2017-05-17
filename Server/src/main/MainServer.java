@@ -16,6 +16,7 @@ import java.util.Map;
  * @author lampa
  */
 public class MainServer {
+    public static int counter = 0;
     public static Map<Integer,Game> gamesMap = Collections.synchronizedMap(new HashMap<>());
     public static Map<String,String> playersMap = Collections.synchronizedMap(new HashMap<>());
 
