@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static main.api.types.FamilyMemberType.*;
+import static main.api.types.ResourceType.*;
 
 /**
  * @author Luca
@@ -25,7 +26,7 @@ import static main.api.types.FamilyMemberType.*;
  */
 public class PersonalBoard {
     //lista dei familiari in possesso, uno neutro e tre personali
-    private List<FamilyMember> familyMemberList;
+    private Map<FamilyMemberType,FamilyMember> familyMemberList;
 
     // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
     //private List<Resource> resourceList;
@@ -69,17 +70,17 @@ public class PersonalBoard {
     }
 
     private void initializeFamilyMembers() {
-        familyMemberList = new ArrayList<>();
-        familyMemberList.add(new FamilyMember(this, ORANGE_DICE));
-        familyMemberList.add(new FamilyMember(this, WHITE_DICE));
-        familyMemberList.add(new FamilyMember(this, BLACK_DICE));
-        familyMemberList.add(new FamilyMember(this, NEUTRAL_DICE));
+        familyMemberList = new HashMap<>();
+        familyMemberList.put(ORANGE_DICE, new FamilyMember(this, ORANGE_DICE));
+        familyMemberList.put(WHITE_DICE, new FamilyMember(this, WHITE_DICE));
+        familyMemberList.put(BLACK_DICE, new FamilyMember(this, BLACK_DICE));
+        familyMemberList.put(NEUTRAL_DICE, new FamilyMember(this, NEUTRAL_DICE));
     }
 
     private void initializeResources(){
         //resourceList = new ArrayList<>();
         resourceList = new HashMap<>();
-        resourceList.put(ResourceType.WOOD, new Resource(2, ResourceType.WOOD));
+        resourceList.put(WOOD, new Resource(2, WOOD));
         resourceList.put(ResourceType.STONE, new Resource(2, ResourceType.STONE));
         resourceList.put(ResourceType.SERVANTS, new Resource(3, ResourceType.SERVANTS));
         int qta = 4;
@@ -100,6 +101,13 @@ public class PersonalBoard {
             default: //ventures
                 return venturesList;
         }
+    }
+
+    /**
+     * metodo che mi rimuove dal tabellone tutti i miei familiari
+     */
+    public void removeAllFamilyMembers() {
+        familyMemberList.forEach(((familyMemberType, familyMember) -> familyMember.setPositioned(false)));
     }
 
     /**
@@ -127,11 +135,7 @@ public class PersonalBoard {
      * @return il familiare corretto
      */
     public FamilyMember getFamilyMember(FamilyMemberType type){
-        for(FamilyMember member: familyMemberList){
-            if (member.getType() == type)
-                return member;
-        }
-        return null;
+        return familyMemberList.get(type);
     }
 
     /**
@@ -177,23 +181,25 @@ public class PersonalBoard {
         }
     }
 
-    public void setDiceValues(int o , int w, int b){
-        familyMemberList.get(0).setValue(o);
-        familyMemberList.get(1).setValue(w);
-        familyMemberList.get(2).setValue(b);
-        familyMemberList.get(3).setValue(0);
+    public void setDiceValues(int orange , int white, int black){
+        familyMemberList.get(ORANGE_DICE).setValue(orange);
+        familyMemberList.get(WHITE_DICE).setValue(white);
+        familyMemberList.get(BLACK_DICE).setValue(black);
+        familyMemberList.get(NEUTRAL_DICE).setValue(0);
     }
 
     public int calculateVictoryPoints() throws RemoteException, NewActionException {
         activeVentueresEffects();
-        int sum = 0;
-        sum += resourceList.get(5).getQta(); //aggiungo i punti vittoria
+        int sum = resourceList.get(ResourceType.VICTORY).getQta(); //aggiungo i punti vittoria
         //adesso devo convertire gli altri
         int sumResources = 0;
-        for (int i=0; i<4; i++){
-            sumResources += resourceList.get(i).getQta();
-        }
-        sum += sumResources%5;
+        //conto le risorse totali
+        sumResources += resourceList.get(ResourceType.WOOD).getQta();
+        sumResources += resourceList.get(ResourceType.STONE).getQta();
+        sumResources += resourceList.get(ResourceType.SERVANTS).getQta();
+        sumResources += resourceList.get(ResourceType.COINS).getQta();
+        sumResources = sumResources/5;
+        sum += sumResources;
         sum += calcNumOfCharacters();
         sum += calcNumOfTerritories();
         return sum;

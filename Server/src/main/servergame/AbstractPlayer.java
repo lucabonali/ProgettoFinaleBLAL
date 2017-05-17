@@ -62,6 +62,11 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         return this.game;
     }
 
+
+    public void removeAllFamilyMembers(){
+        personalBoard.removeAllFamilyMembers();
+    };
+
     /**
      * mi notifica che la partita è cominciata
      * @throws RemoteException

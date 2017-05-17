@@ -1,8 +1,10 @@
 package main.api;
 
+import main.api.types.ResourceType;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Interfaccia implementata nel main.client e invocata dal server (PLayerRMI) per modificare il main.client (Serve solo per rmi)
@@ -12,10 +14,10 @@ public interface ClientInterface extends Remote{
 
     /** metodo che mi andrà ad aggiornare tutte le mie risorse
      * // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
-     * @param qtaResourcesList lista di risorse
+     * @param qtaResourcesMap lista di risorse
      * @throws RemoteException in caso qualcosa vada storto
      */
-    void updateResources(List<Integer> qtaResourcesList) throws RemoteException;
+    void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException;
 
     /**
      * mi notifica un messaggio di informazione

@@ -41,10 +41,6 @@ public class FamilyMember {
         this.value = value;
     }
 
-    public void modifyValue(int n){
-        this.value += n;
-    }
-
     public boolean isPositioned() {
         return positioned;
     }

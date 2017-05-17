@@ -101,6 +101,7 @@ public class Game {
             if (familyMember.isPositioned())
                 throw new LorenzoException("il familiare è già stato posizionato!!");
             board.doAction(msg, player, familyMember);
+            familyMember.setPositioned(true);
             player.updateResources();
             endMove();
         } catch (NewActionException e) {
@@ -118,14 +119,16 @@ public class Game {
     private void endMove() throws RemoteException, NewActionException {
         for(int i = 0 ; i < numPlayers ; i++){
             if(currentPlayer == turnOrder.get(i)) {
-                if (i == numPlayers - 1)
+                if (i == numPlayers - 1) {
                     endLap();
+                    return;
+                }
                 else{
                     currentPlayer = turnOrder.get(i+1);
                     currentPlayer.isYourTurn();
+                    return;
                 }
             }
-
         }
     }
 
@@ -214,6 +217,7 @@ public class Game {
             turnOrder = newTurnOrder;
         }
         board.initializeTurn(period, turn);
+        playerMap.forEach(((integer, abstractPlayer) -> abstractPlayer.removeAllFamilyMembers()));
         currentPlayer = turnOrder.get(0);
         currentPlayer.isYourTurn();
     }

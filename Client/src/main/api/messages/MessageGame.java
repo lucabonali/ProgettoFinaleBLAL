@@ -1,12 +1,9 @@
 package main.api.messages;
 
-import main.api.types.ActionSpacesType;
-import main.api.types.CardType;
-import main.api.types.FamilyMemberType;
-import main.api.types.MarketActionType;
+import main.api.types.*;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author Luca
@@ -22,14 +19,14 @@ public class MessageGame implements Serializable{
     private MarketActionType marketActionType;
     private String content;
     // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
-    private List<Integer> qtaList;
+    private Map<ResourceType,Integer> qtaMap;
 
     public MessageGame(MessageGameType messageGameType) {
         this.messageGameType = messageGameType;
     }
 
-    public void setQtaList(List<Integer> qtaList) {
-        this.qtaList = qtaList;
+    public void setQtaMap(Map<ResourceType,Integer> qtaMap) {
+        this.qtaMap = qtaMap;
     }
 
     public void setCardName(String cardName) {
@@ -68,8 +65,8 @@ public class MessageGame implements Serializable{
         return content;
     }
 
-    public List<Integer> getQtaList() {
-        return qtaList;
+    public Map<ResourceType,Integer> getQtaMap() {
+        return qtaMap;
     }
 
     public CardType getCardType() {

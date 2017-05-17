@@ -1,7 +1,11 @@
 package main.controller.board;
 
-import main.api.types.ActionSpacesType;
+import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;
+import main.api.messages.MessageGame;
+import main.api.types.ActionSpacesType;
+import main.api.types.CardType;
+import main.api.types.MarketActionType;
 import main.controller.actionSpaces.Action;
 import main.controller.actionSpaces.ActionSpaceInterface;
 import main.controller.actionSpaces.largeActionSpaces.CouncilActionSpace;
@@ -10,14 +14,12 @@ import main.controller.actionSpaces.largeActionSpaces.LargeProductionActionSpace
 import main.controller.actionSpaces.singleActionSpaces.HarvestActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.MarketActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.ProductionActionSpace;
-import main.api.messages.MessageGame;
-import main.api.exceptions.LorenzoException;
-import main.api.types.CardType;
-import main.api.types.MarketActionType;
 import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Luca
@@ -28,12 +30,12 @@ import java.util.List;
 public class Board {
     private int numPlayers;
 
-    private Tower territoryTower, characterTower, buildingTower, venturesTower;
+    private Map<CardType, Tower> towerMap;
     private HarvestActionSpace harvestActionSpace;
     private ProductionActionSpace productionActionSpace;
     private LargeHarvestActionSpace largeHarvestActionSpace;
     private LargeProductionActionSpace largeProductionActionSpace;
-    private MarketActionSpace yellowMarket, purpleMarket, blueMarket, grayMarket;
+    private Map<MarketActionType, MarketActionSpace> marketActionSpaceMap;
     private CouncilActionSpace councilActionSpace;
 
     private ExcomCardDeck excomCardDeck;
@@ -53,18 +55,19 @@ public class Board {
      * Metodo che inizializza gli spazi azione
      */
     private void initializeActionSpaces() {
+        marketActionSpaceMap = new HashMap<>();
         harvestActionSpace = new HarvestActionSpace(1);
         productionActionSpace = new ProductionActionSpace(1);
         councilActionSpace = new CouncilActionSpace(1);
-        yellowMarket = new MarketActionSpace(MarketActionType.YELLOW);
-        purpleMarket = new MarketActionSpace(MarketActionType.PURPLE);
+        marketActionSpaceMap.put(MarketActionType.YELLOW,new MarketActionSpace(MarketActionType.YELLOW));
+        marketActionSpaceMap.put(MarketActionType.PURPLE,new MarketActionSpace(MarketActionType.PURPLE));
         if (numPlayers > 2) {
             largeHarvestActionSpace = new LargeHarvestActionSpace(1);
             largeProductionActionSpace = new LargeProductionActionSpace(1);
         }
         if(numPlayers > 3) {
-            blueMarket = new MarketActionSpace(MarketActionType.BLUE);
-            grayMarket = new MarketActionSpace(MarketActionType.GRAY);
+            marketActionSpaceMap.put(MarketActionType.BLUE,new MarketActionSpace(MarketActionType.BLUE));
+            marketActionSpaceMap.put(MarketActionType.GRAY,new MarketActionSpace(MarketActionType.GRAY));
         }
     }
 
@@ -72,10 +75,11 @@ public class Board {
      * Metodo che inizializza le torri
      */
     private void initializeTowers() {
-        territoryTower = new Tower(CardType.TERRITORY);
-        characterTower = new Tower(CardType.CHARACTER);
-        buildingTower = new Tower(CardType.BUILDING);
-        venturesTower = new Tower(CardType.VENTURES);
+        towerMap = new HashMap<>();
+        towerMap.put(CardType.TERRITORY, new Tower(CardType.TERRITORY));
+        towerMap.put(CardType.CHARACTER, new Tower(CardType.CHARACTER));
+        towerMap.put(CardType.BUILDING, new Tower(CardType.BUILDING));
+        towerMap.put(CardType.VENTURES, new Tower(CardType.VENTURES));
     }
 
     private void initializeDecks(){
@@ -85,27 +89,21 @@ public class Board {
 
 
     public void initializeTurn(int period, int turn){
-        territoryTower.removeFamilyMembers();
-        characterTower.removeFamilyMembers();
-        buildingTower.removeFamilyMembers();
-        venturesTower.removeFamilyMembers();
+        towerMap.forEach(((cardType, tower) -> tower.removeFamilyMembers()));
         harvestActionSpace.removeFamilyMember();
         largeHarvestActionSpace.removeFamilyMembers();
         productionActionSpace.removeFamilyMember();
         largeProductionActionSpace.removeFamilyMembers();
-        yellowMarket.removeFamilyMember();
-        purpleMarket.removeFamilyMember();
-        blueMarket.removeFamilyMember();
-        grayMarket.removeFamilyMember();
+        marketActionSpaceMap.forEach(((marketActionType, marketActionSpace) -> marketActionSpace.removeFamilyMember()));
         councilActionSpace.removeFamilyMembers();
         setCards(period,turn);
     }
 
     private void setCards(int period, int turn) {
-        territoryTower.setCards(deck.drawCards(period,turn,CardType.TERRITORY));
-        characterTower.setCards(deck.drawCards(period,turn,CardType.CHARACTER));
-        buildingTower.setCards(deck.drawCards(period,turn,CardType.BUILDING));
-        venturesTower.setCards(deck.drawCards(period,turn,CardType.VENTURES));
+        towerMap.get(CardType.TERRITORY).setCards(deck.drawCards(period,turn,CardType.TERRITORY));
+        towerMap.get(CardType.CHARACTER).setCards(deck.drawCards(period,turn,CardType.CHARACTER));
+        towerMap.get(CardType.BUILDING).setCards(deck.drawCards(period,turn,CardType.BUILDING));
+        towerMap.get(CardType.VENTURES).setCards(deck.drawCards(period,turn,CardType.VENTURES));
     }
 
     public List<FamilyMember> getOrder() {
@@ -140,32 +138,10 @@ public class Board {
         ActionSpacesType code = msg.getActionSpacesType();
         switch (code) {
             case MARKET:
-                switch (msg.getMarketActionType()){
-                    case BLUE:
-                        return blueMarket;
-                    case GRAY:
-                        return grayMarket;
-                    case PURPLE:
-                        return purpleMarket;
-                    case YELLOW:
-                        return yellowMarket;
-                    default:
-                        return null;
-                }
+                return marketActionSpaceMap.get(msg.getMarketActionType());
             case TOWERS:
                 int numFloor = msg.getNumFloor();
-                switch (msg.getCardType()){
-                    case BUILDING:
-                        return buildingTower.getFloor(numFloor);
-                    case CHARACTER:
-                        return characterTower.getFloor(numFloor);
-                    case VENTURES:
-                        return venturesTower.getFloor(numFloor);
-                    case TERRITORY:
-                        return territoryTower.getFloor(numFloor);
-                    default:
-                        return null;
-                }
+                return towerMap.get(msg.getCardType()).getFloor(numFloor);
             case COUNCIL:
                 return councilActionSpace;
             case SINGLE_HARVEST:
@@ -180,4 +156,5 @@ public class Board {
                 return null;
         }
     }
+
 }

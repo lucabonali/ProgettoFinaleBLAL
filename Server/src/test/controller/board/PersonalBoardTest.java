@@ -1,13 +1,19 @@
 package test.controller.board;
 
+import main.api.exceptions.NewActionException;
+import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
+import main.controller.board.FamilyMember;
 import main.controller.board.PersonalBoard;
 import main.controller.fields.Resource;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
 import java.util.Map;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author lampa
@@ -19,10 +25,6 @@ class PersonalBoardTest {
         PersonalBoard pb = new PersonalBoard(id);
     }
 
-    @Test
-    void getResourceList() {
-
-    }
 
     @Test
     void getCurrentAction() {
@@ -51,10 +53,18 @@ class PersonalBoardTest {
 
     @Test
     void checkResources() {
+        int id = 4;
+        PersonalBoard pb = new PersonalBoard(id);
+        assertFalse(pb.checkResources(new Resource(4, ResourceType.WOOD)));
+        assertTrue(pb.checkResources(new Resource(3, ResourceType.COINS)));
     }
 
     @Test
     void getFamilyMember() {
+        int id = 4;
+        PersonalBoard pb = new PersonalBoard(id);
+        FamilyMember f = pb.getFamilyMember(FamilyMemberType.BLACK_DICE);
+        assertTrue(f.getType() == FamilyMemberType.BLACK_DICE);
     }
 
     @Test
@@ -62,7 +72,7 @@ class PersonalBoardTest {
         int id = 4;
         PersonalBoard personalBoard = new PersonalBoard(id);
         Map<ResourceType, Integer> map = personalBoard.getQtaResources();
-        assertTrue(8 == map.get(ResourceType.COINS));
+        assertTrue(0 == map.get(ResourceType.VICTORY));
     }
 
     @Test
@@ -79,10 +89,27 @@ class PersonalBoardTest {
 
     @Test
     void setDiceValues() {
+        int id = 4;
+        PersonalBoard pb = new PersonalBoard(id);
+        pb.setDiceValues(2,3,4);
+        assertTrue(pb.getFamilyMember(FamilyMemberType.ORANGE_DICE).getValue() == 2);
+        assertFalse(pb.getFamilyMember(FamilyMemberType.BLACK_DICE).getValue() == 5);
     }
 
     @Test
-    void calculateVictoryPoints() {
+    void calculateVictoryPoints() throws RemoteException, NewActionException {
+        PersonalBoard pb = new PersonalBoard(3);
+        //2 wood, 2 stone, 3 servants e 4+3 coins, totale=14 --> 2 victory
+        assertEquals(2, pb.calculateVictoryPoints());
+    }
+
+    @Test
+    void removeAllFamilyMembers() {
+        PersonalBoard pb = new PersonalBoard(1);
+        FamilyMember f = pb.getFamilyMember(FamilyMemberType.ORANGE_DICE);
+        f.setPositioned(true);
+        pb.removeAllFamilyMembers();
+        assertFalse(f.isPositioned());
     }
 
 }
