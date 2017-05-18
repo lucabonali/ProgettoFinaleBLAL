@@ -175,13 +175,13 @@ public class Deck {
     private List<Effect> createQuickEffectList(String cod) {
         //creo la lista degli effetti immediati
         List<Effect> effectList = new ArrayList<>();
-        if (cod.charAt(0) == 'g') {
+        if (cod.charAt(1) == 'g') {
             effectList.add(VariableIncrementEffect.createInstance(cod.substring(1)));
             return effectList;
         }
-        effectList.add(EffectsCreator.createEffect(cod.substring(0,2)));
-        if (cod.length() == 4) {
-            effectList.add(EffectsCreator.createEffect(cod.substring(2,4)));
+        effectList.add(EffectsCreator.createEffect(cod.substring(1,3)));
+        if (cod.length() == 5) {
+            effectList.add(EffectsCreator.createEffect(cod.substring(3,5)));
         }
         return effectList;
     }

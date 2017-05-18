@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- * @author lampa
+ * @author Andrea,Luca
  */
 public abstract class AbstractPlayer extends UnicastRemoteObject implements PlayerInterface {
     private ClientInterface clientInterface;

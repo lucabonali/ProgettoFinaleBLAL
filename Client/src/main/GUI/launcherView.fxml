@@ -4,11 +4,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -51,5 +53,24 @@
             </VBox>
          </center>
       </BorderPane>
+      <Pane layoutX="386.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <HBox layoutY="42.0" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Pane prefHeight="100.0" prefWidth="83.0" />
+                  <RadioButton fx:id="RMI" onAction="#select" mnemonicParsing="false" text="RMI" textFill="#f2eeee">
+                     <font>
+                        <Font name="AR JULIAN" size="13.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="socket" onAction="#select" mnemonicParsing="false" text="Socket" textFill="WHITE">
+                     <font>
+                        <Font name="AR JULIAN" size="13.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
    </children>
 </Pane>

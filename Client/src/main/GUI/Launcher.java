@@ -16,8 +16,7 @@ import java.rmi.NotBoundException;
 public class Launcher extends Application {
     public static void main(String[] args) throws IOException, NotBoundException {
 
-        MainClient mainClient = new MainClient();
-        mainClient.startClient();
+
         launch(args);
     }
 

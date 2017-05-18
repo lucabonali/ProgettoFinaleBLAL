@@ -11,7 +11,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 /**
- * @author lampa
+ * @author lampa,Luca
  */
 public class MainClient {
 
