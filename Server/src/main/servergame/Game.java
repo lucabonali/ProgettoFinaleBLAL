@@ -16,6 +16,7 @@ import java.util.*;
  * @author Luca
  * @author Andrea
  *
+
  * Classe che gestisce il comportamento della singola partita
  */
 public class Game {
@@ -34,10 +35,15 @@ public class Game {
         turnOrder = new ArrayList<>();
     }
 
+    public AbstractPlayer getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public void addPlayer(AbstractPlayer abstractPlayer) throws RemoteException {
         numPlayers++;
         playerMap.put(numPlayers , abstractPlayer);
         abstractPlayer.createPersonalBoard(numPlayers);
+        turnOrder.add(abstractPlayer);
         if(numPlayers == 2)
             new Timer();
         if(numPlayers == 4)
@@ -47,9 +53,6 @@ public class Game {
     private void startGame() throws RemoteException {
         this.isStarted = true;
         board = new Board(numPlayers);
-        for(int i = 1 ; i <= numPlayers ; i++ ){
-            turnOrder.add(playerMap.get(i));
-        }
         currentPlayer = turnOrder.get(0);
         currentPlayer.isYourTurn();
     }
@@ -62,9 +65,7 @@ public class Game {
         orange = new Random().nextInt(5)+1;
         white = new Random().nextInt(5)+1;
         black = new Random().nextInt(5)+1;
-        for(AbstractPlayer p : turnOrder){
-            p.setDiceValues(orange,white,black);
-        }
+        turnOrder.forEach(abstractPlayer -> abstractPlayer.setDiceValues(orange, white, black));
     }
 
 
@@ -77,14 +78,22 @@ public class Game {
     }
 
     public boolean isFull(){
-        if(isStarted)
-            return true;
-        return false;
+        return isStarted;
     }
 
     public void checkTurn(AbstractPlayer player) throws LorenzoException {
-        if(!(player == currentPlayer))
+        if(player != currentPlayer)
             throw new LorenzoException("non è il tuo turno");
+    }
+
+    private void isAlreadyPositioned(FamilyMember familyMember) throws LorenzoException {
+        if (familyMember.isPositioned())
+            throw new LorenzoException("il familiare è già stato posizionato!!");
+    }
+
+    private void isStarted() throws LorenzoException {
+        if (!isStarted)
+            throw new LorenzoException("la partita non è ancora cominciata!!");
     }
 
     /**
@@ -93,13 +102,13 @@ public class Game {
      * @param player giocatore che la esegue
      * @param msg messggio da decodificare
      * @param familyMember familiare da spostare, già ricavato dall classe che lo invoca
-     * @throws LorenzoException in caso si verifichino errori
+     * @throws RemoteException in caso si verifichino errori
      */
     public void doAction(AbstractPlayer player, MessageGame msg, FamilyMember familyMember) throws RemoteException {
         try {
+            isStarted();
             checkTurn(player);
-            if (familyMember.isPositioned())
-                throw new LorenzoException("il familiare è già stato posizionato!!");
+            isAlreadyPositioned(familyMember);
             board.doAction(msg, player, familyMember);
             familyMember.setPositioned(true);
             player.updateResources();
@@ -114,7 +123,9 @@ public class Game {
     /**
      * viene chiamato dopo che il giocatore ha eseguito la mossa
      * controlla se è finito il giro o no
-     * @throws RemoteException
+     * @throws RemoteException in caso di problemi di connesisone
+     * @throws NewActionException non si dovrebbe mai verificare, perché gli edifici non lanciano questi
+     *                              effetti
      */
     private void endMove() throws RemoteException, NewActionException {
         for(int i = 0 ; i < numPlayers ; i++){
@@ -266,13 +277,14 @@ public class Game {
 
 
     private class Timer extends Thread{
+        private final int MIN_INTERVAL_TO_START = 5;
         private int seconds = 0;
         public Timer () {
             this.start();
         }
 
         public void run(){
-            while (seconds < 30){
+            while (seconds < MIN_INTERVAL_TO_START){
                 try {
                     Thread.sleep(1000);
                     seconds++;
@@ -288,6 +300,4 @@ public class Game {
         }
 
     }
-
-
 }

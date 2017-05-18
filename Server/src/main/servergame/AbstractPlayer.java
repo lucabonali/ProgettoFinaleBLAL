@@ -2,6 +2,7 @@ package main.servergame;
 
 import main.api.ClientInterface;
 import main.api.exceptions.NewActionException;
+import main.api.messages.MessageGame;
 import main.api.types.FamilyMemberType;
 import main.api.exceptions.LorenzoException;
 import main.api.PlayerInterface;
@@ -123,6 +124,12 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     @Override
     public void addClientInterface(ClientInterface clientInterface) throws RemoteException {
         setClientInterface(clientInterface);
+    }
+
+    @Override
+    public void doAction(MessageGame msg) throws RemoteException {
+        FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
+        getGame().doAction(this, msg, familyMember);
     }
 
 }

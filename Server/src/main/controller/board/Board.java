@@ -6,6 +6,7 @@ import main.api.messages.MessageGame;
 import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
+import main.api.types.ResourceType;
 import main.controller.actionSpaces.Action;
 import main.controller.actionSpaces.ActionSpaceInterface;
 import main.controller.actionSpaces.largeActionSpaces.CouncilActionSpace;
@@ -43,12 +44,26 @@ public class Board {
 
     private Action currentAction;
 
-
     public Board(int numPlayers){
         initializeTowers();
         this.numPlayers = numPlayers;
         initializeActionSpaces();
         initializeDecks();
+    }
+
+    //rimuovere
+    public Map<MarketActionType, MarketActionSpace> getMarketActionSpaceMap(){
+        return marketActionSpaceMap;
+    }
+
+    //rimuovere
+    public LargeProductionActionSpace getLargeProductionActionSpace() {
+        return largeProductionActionSpace;
+    }
+
+    //rimuovere
+    public LargeHarvestActionSpace getLargeHarvestActionSpace() {
+        return largeHarvestActionSpace;
     }
 
     /**
@@ -76,10 +91,10 @@ public class Board {
      */
     private void initializeTowers() {
         towerMap = new HashMap<>();
-        towerMap.put(CardType.TERRITORY, new Tower(CardType.TERRITORY));
-        towerMap.put(CardType.CHARACTER, new Tower(CardType.CHARACTER));
-        towerMap.put(CardType.BUILDING, new Tower(CardType.BUILDING));
-        towerMap.put(CardType.VENTURES, new Tower(CardType.VENTURES));
+        towerMap.put(CardType.TERRITORY, new Tower(CardType.TERRITORY, ResourceType.WOOD));
+        towerMap.put(CardType.CHARACTER, new Tower(CardType.CHARACTER, ResourceType.STONE));
+        towerMap.put(CardType.BUILDING, new Tower(CardType.BUILDING, ResourceType.MILITARY));
+        towerMap.put(CardType.VENTURES, new Tower(CardType.VENTURES, ResourceType.COINS));
     }
 
     private void initializeDecks(){
@@ -110,6 +125,9 @@ public class Board {
         return councilActionSpace.getFamilyMembers();
     }
 
+    public Action getCurrentAction() {
+        return currentAction;
+    }
 
     /**
      * mi crea l'azione da messaggio codificato e dopodiché mi esegue l'azione
@@ -125,7 +143,6 @@ public class Board {
         currentAction = new Action(actionSpace, familyMember.getValue(), familyMember, player);
         currentAction.commitAction();
     }
-
 
     /**
      * metodo che in base al messaggio come parametro mi ritorna

@@ -9,6 +9,7 @@ import main.controller.fields.Resource;
 import main.api.types.ResourceType;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public class CouncilActionSpace extends LargeActionSpace {
     }
 
     private void initializeBonus() {
+        bonusEffectList = new ArrayList<>();
         bonusEffectList.add(new FixedIncrementEffect(
                 new Resource(1, ResourceType.COINS)
         ));

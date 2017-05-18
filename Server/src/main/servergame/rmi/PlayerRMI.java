@@ -1,7 +1,5 @@
 package main.servergame.rmi;
 
-import main.api.messages.MessageGame;
-import main.controller.board.FamilyMember;
 import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
@@ -57,10 +55,5 @@ public class PlayerRMI extends AbstractPlayer {
 
     //metodi erediati da PLAYER INTERFACE /////////////////////////////////////////////////////////
 
-    @Override
-    public void doAction(MessageGame msg) throws RemoteException {
-        FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
-        getGame().doAction(this, msg, familyMember);
-    }
 
 }

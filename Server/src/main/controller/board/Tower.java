@@ -1,8 +1,9 @@
 package main.controller.board;
 
+import main.api.types.CardType;
+import main.api.types.ResourceType;
 import main.controller.actionSpaces.singleActionSpaces.ActionSpace;
 import main.controller.actionSpaces.singleActionSpaces.FloorActionSpace;
-import main.api.types.CardType;
 
 import java.util.List;
 
@@ -18,12 +19,12 @@ public class Tower {
     private FloorActionSpace[] floorActionSpaces;
     private CardType towerType;
 
-    public Tower(CardType type){
+    public Tower(CardType type, ResourceType resourceTypeQuickEffect){
         this.towerType = type;
         this.floorActionSpaces = new FloorActionSpace[4];
         for(int i = 0 ; i<4 ; i++){
             //devo aggiungere gli effetti ai piani 3 e 4 di ciascuna torre
-            floorActionSpaces[i] = new FloorActionSpace(i, towerType);
+            floorActionSpaces[i] = new FloorActionSpace(i, towerType, resourceTypeQuickEffect);
         }
     }
 
@@ -35,7 +36,6 @@ public class Tower {
         for(int i = 0 ; i<4 ; i++){
             floorActionSpaces[i].setCard(cards.get(i));
         }
-
     }
 
     public void removeCards(){

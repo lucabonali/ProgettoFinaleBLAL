@@ -9,6 +9,7 @@ import main.controller.fields.Resource;
 import main.api.types.ResourceType;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class HarvestActionSpace extends ActionSpace {
      * metodo di servizio che mi inizializza il bonus della zona produzione
      */
     private void initializeBonus() {
+        bonusEffectList = new ArrayList<>();
         bonusEffectList.add(new FixedIncrementEffect(
                 new Resource(1, ResourceType.WOOD)
         ));

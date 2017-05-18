@@ -86,11 +86,6 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
 
     // metodi eredita dalla PLAYER INTERFACE ////////////////////////////////////////
 
-    @Override
-    public void doAction(MessageGame msg) throws RemoteException {
-        FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
-        getGame().doAction(this, msg, familyMember);
-    }
 
     public void setSocketConnection(Socket socket, ObjectInputStream in, ObjectOutputStream out) {
         this.socketClient = socket;

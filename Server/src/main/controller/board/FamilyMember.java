@@ -23,6 +23,7 @@ public class FamilyMember {
     public FamilyMember(PersonalBoard personalBoard , FamilyMemberType type){
         this.personalBoard = personalBoard;
         this.type = type;
+        this.value = 0;
     }
 
     public PersonalBoard getPersonalBoard() {
