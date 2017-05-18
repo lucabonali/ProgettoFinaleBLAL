@@ -4,35 +4,37 @@ import main.api.exceptions.LorenzoException;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
 import main.controller.board.Card;
+import main.controller.effects.Effect;
+import main.controller.effects.FixedIncrementEffect;
 import main.controller.fields.Field;
 import main.controller.fields.Resource;
-import main.servergame.Game;
 import main.servergame.rmi.PlayerRMI;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * @author Luca
- * @author Andrea
+ * @author lampa
  */
-class CardTest {
+public class CardTest {
     @Test
-    void getType() {
+    public void getType() throws Exception {
         Card c = new Card(CardType.TERRITORY, "valle", null, null, null, 1);
         assertEquals(CardType.TERRITORY, c.getType());
     }
 
     @Test
-    void getName() {
+    public void getName() throws Exception {
+        Card c = new Card(CardType.TERRITORY, "valle", null, null, null, 1);
+        assertEquals("valle", c.getName());
     }
 
     @Test
-    void getCosts() {
+    public void getCosts() throws Exception {
         List<Field> costs = new ArrayList<>();
         costs.add(new Resource(2, ResourceType.COINS));
         Card c = new Card(CardType.TERRITORY, "valle", costs, null, null, 1);
@@ -40,50 +42,66 @@ class CardTest {
     }
 
     @Test
-    void getQuickEffects() {
+    public void getQuickEffects() throws Exception {
+
     }
 
     @Test
-    void getPermanentEffects() {
+    public void getPermanentEffects() throws Exception {
     }
 
-    @Test
-    void getPlayer() {
-    }
-
-    @Test
-    void setPlayer() {
-    }
-
-    @Test
-    void getPeriod() throws RemoteException {Game g = new Game();
-        PlayerRMI p1 = new PlayerRMI("andrea");
-        p1.setGame(g);
-        PlayerRMI p2 = new PlayerRMI("luca");
-        p2.setGame(g);
-        g.addPlayer(p1);
-        g.addPlayer(p2);
-    }
-
-    @Test
-    void activeCosts() throws RemoteException, LorenzoException {
+    @Test(expected = LorenzoException.class)
+    public void getPlayer() throws Exception {
         PlayerRMI p1 = new PlayerRMI("andrea");
         p1.createPersonalBoard(1);
         List<Field> costs = new ArrayList<>();
-        costs.add(new Resource(2, ResourceType.WOOD));
+        costs.add(new Resource(-5, ResourceType.COINS));
+        costs.add(new Resource(-5, ResourceType.WOOD));
         Card c = new Card(CardType.TERRITORY, "valle", costs, null, null, 1);
         c.setPlayer(p1);
-        c.activeCosts();
-        //assertTrue(4 == p1.getPersonalBoard().getQtaResources().get(ResourceType.WOOD));
-        assertEquals(java.util.Optional.of(4), p1.getPersonalBoard().getQtaResources().get(ResourceType.WOOD));
+        assertEquals(null, c.getPlayer());
+    }
+
+    @Test(expected = LorenzoException.class)
+    public void setPlayer() throws Exception {
+        PlayerRMI p1 = new PlayerRMI("andrea");
+        p1.createPersonalBoard(1);
+        List<Field> costs = new ArrayList<>();
+        costs.add(new Resource(-5, ResourceType.COINS));
+        costs.add(new Resource(-5, ResourceType.WOOD));
+        Card c = new Card(CardType.TERRITORY, "valle", costs, null, null, 1);
+        c.setPlayer(p1);
     }
 
     @Test
-    void activeQuickEffects() {
+    public void activeCosts() throws Exception {
+        PlayerRMI p1 = new PlayerRMI("andrea");
+        p1.createPersonalBoard(1);
+        List<Field> costs = new ArrayList<>();
+        costs.add(new Resource(-1, ResourceType.COINS));
+        costs.add(new Resource(-1, ResourceType.WOOD));
+        Card c = new Card(CardType.TERRITORY, "valle", costs, null, null, 1);
+        c.setPlayer(p1);
+        assertEquals(Optional.of(4), Optional.of(p1.getPersonalBoard().getQtaResources().get(ResourceType.COINS)));
+        assertEquals(Optional.of(1), Optional.of(p1.getPersonalBoard().getQtaResources().get(ResourceType.WOOD)));
     }
 
     @Test
-    void activePermanentEffects() {
+    public void activeQuickEffects() throws Exception {
+        PlayerRMI p1 = new PlayerRMI("andrea");
+        p1.createPersonalBoard(1);
+        List<Effect> effectList = new ArrayList<>();
+        Effect effect = new FixedIncrementEffect(new Resource(3, ResourceType.COINS));
+        effectList.add(effect);
+        Card c = new Card(CardType.TERRITORY, "valle", null, effectList, null, 1);
+        c.setPlayer(p1);
+        c.activeQuickEffects();
+        assertEquals(Optional.of(8), Optional.of(p1.getPersonalBoard().getQtaResources().get(ResourceType.COINS)));
+        assertEquals(Optional.of(3), Optional.of(p1.getPersonalBoard().getQtaResources().get(ResourceType.SERVANTS)));
+    }
+
+    @Test
+    public void activePermanentEffects() throws Exception {
     }
 
 }

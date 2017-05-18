@@ -61,10 +61,12 @@ public class Card {
     }
 
     public void setPlayer(AbstractPlayer player) throws LorenzoException {
-        for (Field cost : costs) {
-            if (!player.getPersonalBoard().checkResources(cost))
-                throw new LorenzoException("non hai abbastanza fondi per eseguire l'azione");
-        }
+         if (costs!=null){
+             for (Field cost : costs) {
+                 if (!player.getPersonalBoard().checkResources(cost))
+                     throw new LorenzoException("non hai abbastanza fondi per eseguire l'azione");
+             }
+         }
         //se ho abbastanza risorse posso pescare e quindi pago il costo e attivo l'effetto immediato
         this.player = player;
         activeCosts();
@@ -80,8 +82,7 @@ public class Card {
      */
     public void activeCosts(){
         if (costs != null) {
-            for (Field res : costs)
-                player.getPersonalBoard().modifyResources(res);
+            costs.forEach(field -> player.getPersonalBoard().modifyResources(field));
         }
     }
 

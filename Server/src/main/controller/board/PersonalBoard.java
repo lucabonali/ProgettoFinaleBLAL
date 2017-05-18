@@ -112,7 +112,7 @@ public class PersonalBoard {
 
     /**
      * viene richiamato da Effect e modifica la risorsa passata come parametro
-     * @param effectResource
+     * @param effectResource mi indica la variazione dell'effetto
      */
     public void modifyResources(Field effectResource){
         resourceList.get(effectResource.getType()).modify(effectResource);
@@ -124,9 +124,7 @@ public class PersonalBoard {
      * @return true se le ho, false altrimenti
      */
     public boolean checkResources(Field cost){
-        if(resourceList.get(cost.getType()).getQta() < cost.getQta())
-            return false;
-        return true;
+        return resourceList.get(cost.getType()).getQta() >= Math.abs(cost.getQta());
     }
 
     /**
