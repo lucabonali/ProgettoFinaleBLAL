@@ -18,11 +18,12 @@ import java.rmi.RemoteException;
  */
 public abstract class ActionSpace implements ActionSpaceInterface {
     private FamilyMember familyMember;
-    private int actionValue;
+    private int minValue;
     private Effect effect;
 
-    public ActionSpace(int actionValue){
-        this.actionValue = actionValue;
+    public ActionSpace(int minValue){
+        this.minValue = minValue;
+        familyMember = null;
     }
 
     public Effect getEffect() {
@@ -38,7 +39,7 @@ public abstract class ActionSpace implements ActionSpaceInterface {
     }
 
     public void setFamilyMember(FamilyMember familyMember) throws LorenzoException {
-        if (familyMember != null)
+        if (this.familyMember != null)
             throw new LorenzoException("lo spazio azione è già occupato");
         this.familyMember = familyMember;
     }
@@ -47,8 +48,8 @@ public abstract class ActionSpace implements ActionSpaceInterface {
         this.familyMember=null;
     }
 
-     public int getActionValue() {
-         return actionValue;
+     public int getMinValue() {
+         return minValue;
      }
 
      public abstract void doAction(Action action) throws LorenzoException, RemoteException, NewActionException;

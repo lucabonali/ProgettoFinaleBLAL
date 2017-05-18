@@ -17,13 +17,13 @@ import main.servergame.AbstractPlayer;
  */
 public class ActionValueIncrementEffect implements Effect{
     //incremento di valore dell'azione
-    private int value;
+    private int incrementValue;
     //spazio azione sulla quale viene eseguita l'azione da incrementare
     private ActionSpaceInterface actionSpace;
 
-    public ActionValueIncrementEffect(ActionSpaceInterface actionSpace, int value) {
+    public ActionValueIncrementEffect(ActionSpaceInterface actionSpace, int incrementValue) {
         this.actionSpace = actionSpace;
-        this.value = value;
+        this.incrementValue = incrementValue;
     }
 
     /**
@@ -39,20 +39,20 @@ public class ActionValueIncrementEffect implements Effect{
             if (actionSpace.getClass().isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace())) {
                 FloorActionSpace myFloorActionSpace = (FloorActionSpace) player.getPersonalBoard().getCurrentAction().getActionSpace();
                 if (floorActionSpace.getCardType() == myFloorActionSpace.getCardType()){
-                    player.getPersonalBoard().getCurrentAction().modifyValue(value);
+                    player.getPersonalBoard().getCurrentAction().modifyValue(incrementValue);
                 }
             }
         }
         else if (HarvestActionSpace.class.isInstance(actionSpace)){
             if(HarvestActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace()) ||
                     LargeHarvestActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace())){
-                player.getPersonalBoard().getCurrentAction().modifyValue(value);
+                player.getPersonalBoard().getCurrentAction().modifyValue(incrementValue);
             }
         }
         else if (ProductionActionSpace.class.isInstance(actionSpace)){
             if(ProductionActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace()) ||
                     LargeProductionActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace())){
-                player.getPersonalBoard().getCurrentAction().modifyValue(value);
+                player.getPersonalBoard().getCurrentAction().modifyValue(incrementValue);
             }
         }
     }

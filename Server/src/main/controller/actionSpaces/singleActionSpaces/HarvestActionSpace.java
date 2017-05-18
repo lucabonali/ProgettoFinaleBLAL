@@ -45,7 +45,7 @@ public class HarvestActionSpace extends ActionSpace {
 
     @Override
     public void doAction(Action action) throws LorenzoException, RemoteException, NewActionException {
-        if (getActionValue() > action.getValue())
+        if (getMinValue() > action.getValue())
             throw new LorenzoException("non hai abbastanza forza per eseguire l'azione");
 
         setFamilyMember(action.getFamilyMember());

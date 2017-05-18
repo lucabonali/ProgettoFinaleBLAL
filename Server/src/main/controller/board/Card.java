@@ -67,9 +67,10 @@ public class Card {
                      throw new LorenzoException("non hai abbastanza fondi per eseguire l'azione");
              }
          }
-        //se ho abbastanza risorse posso pescare e quindi pago il costo e attivo l'effetto immediato
-        this.player = player;
-        activeCosts();
+         //se ho abbastanza risorse posso pescare e quindi pago il costo e attivo l'effetto immediato
+         this.player = player;
+         this.player.getPersonalBoard().addCard(this);
+         activeCosts();
     }
 
     public int getPeriod() {
@@ -98,7 +99,7 @@ public class Card {
     }
 
     public void activePermanentEffects() throws RemoteException, NewActionException {
-        if (quickEffects != null) {
+        if (permanentEffects != null) {
             for (Effect effect : permanentEffects)
                 effect.active(player);
         }

@@ -33,10 +33,11 @@ public class PersonalBoard {
     private Map<ResourceType, Resource> resourceList;
 
     //liste delle carte in possesso, al massimo 6 per tipo
-    private List<Card> territoriesList; //gli effetti permanenti verranno attivati solo dopo azione raccolta
-    private List<Card> buildingsList; //gli effetti permanenti verranno attivati solo dopo azione produzione
-    private List<Card> charactersList; //gli effetti permanenti saranno attivati su ogni azione
-    private List<Card> venturesList; //gli effetti permanenti vengono attivati solo alla fine della partita
+    private Map<CardType, List<Card>> cardsMap;
+    //private List<Card> territoriesList; //gli effetti permanenti verranno attivati solo dopo azione raccolta
+    //private List<Card> buildingsList; //gli effetti permanenti verranno attivati solo dopo azione produzione
+    //private List<Card> charactersList; //gli effetti permanenti saranno attivati su ogni azione
+    //private List<Card> venturesList; //gli effetti permanenti vengono attivati solo alla fine della partita
 
     //lista degli effetti ottenuti in seguito a scomuniche
     private List<ExcomEffect> excomEffectList; //vengono attivati ogni azione
@@ -57,16 +58,22 @@ public class PersonalBoard {
         initializeCardsLists();
     }
 
-    //Metodi Getter e setter da mettere
+
     public Action getCurrentAction() {
         return currentAction;
     }
 
+    //rimuovere
+    public void setCurrentAction(Action action) {
+        this.currentAction = action;
+    }
+
     private void initializeCardsLists() {
-        territoriesList = new ArrayList<>();
-        buildingsList = new ArrayList<>();
-        charactersList = new ArrayList<>();
-        venturesList = new ArrayList<>();
+        cardsMap = new HashMap<>();
+        cardsMap.put(CardType.TERRITORY, new ArrayList<>());
+        cardsMap.put(CardType.CHARACTER, new ArrayList<>());
+        cardsMap.put(CardType.BUILDING, new ArrayList<>());
+        cardsMap.put(CardType.VENTURES, new ArrayList<>());
     }
 
     private void initializeFamilyMembers() {
@@ -90,17 +97,22 @@ public class PersonalBoard {
         resourceList.put(ResourceType.MILITARY, new Resource(0, ResourceType.MILITARY));
     }
 
+    /**
+     * metodo che mi ritorna la lista di carte in possesso del tipo passato
+     * come parametro
+     * @param cardType tipo di carte che voglio
+     * @return la lista corretta
+     */
     public List<Card> getCardsList(CardType cardType){
-        switch (cardType){
-            case BUILDING:
-                return buildingsList;
-            case CHARACTER:
-                return charactersList;
-            case TERRITORY:
-                return territoriesList;
-            default: //ventures
-                return venturesList;
-        }
+        return cardsMap.get(cardType);
+    }
+
+    /**
+     * mi aggiunge la carta alla lista delle mie carte
+     * @param card carta da aggiungere
+     */
+    public void addCard(Card card) {
+        cardsMap.get(card.getType()).add(card);
     }
 
     /**
@@ -145,36 +157,33 @@ public class PersonalBoard {
         resourceList.forEach(((resourceType, resource) -> {
             qtaResourceMap.put(resourceType, resource.getQta());
         }));
-//        List<Integer> qtaResourcesList = new ArrayList<>();
-//        for(Resource res : resourceList.values()) {
-//            qtaResourcesList.add(res.getQta());
-//        }
         return qtaResourceMap;
     }
 
     public void activeTerritoriesEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
-        for (Card card : territoriesList) {
-            card.activePermanentEffects();
-        }
+        cardsMap.get(CardType.TERRITORY).get(0).activePermanentEffects();
+//        for (Card card : cardsMap.get(CardType.TERRITORY)) {
+//            card.activePermanentEffects();
+//        }
     }
 
     public void activeBuildingsEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
-        for (Card card : buildingsList) {
+        for (Card card : cardsMap.get(CardType.BUILDING)) {
             card.activePermanentEffects();
         }
     }
 
     public void activeCharacterEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
-        for (Card card : charactersList) {
+        for (Card card : cardsMap.get(CardType.CHARACTER)) {
             card.activePermanentEffects();
         }
     }
 
     private void activeVentueresEffects() throws RemoteException, NewActionException {
-        for (Card card : venturesList){
+        for (Card card : cardsMap.get(CardType.VENTURES)){
             card.activePermanentEffects();
         }
     }
@@ -205,7 +214,7 @@ public class PersonalBoard {
 
     private int calcNumOfCharacters(){
         int tmp = 0;
-        switch (charactersList.size()){
+        switch (cardsMap.get(CardType.CHARACTER).size()){
             case 1:
                 tmp += 1;
                 break;
@@ -232,7 +241,7 @@ public class PersonalBoard {
 
     private int calcNumOfTerritories(){
         int tmp = 0;
-        switch (territoriesList.size()){
+        switch (cardsMap.get(CardType.TERRITORY).size()){
             case 3:
                 tmp += 1;
                 break;

@@ -1,23 +1,31 @@
 package main.controller.effects;
 
-import main.controller.fields.Field;
+import main.api.exceptions.NewActionException;
 import main.servergame.AbstractPlayer;
 
+import java.rmi.RemoteException;
+
 /**
- * @author lampa
+ * @author Luca
+ * @author Andrea
+ *
+ * mi identifa gli effetti permanenti degli edifici e dei territori
+ * che vengono attivati solo quando si va in zona raccolto/produzione
+ * e solo se l'azione ha un valore superiore al valore minimo
+ * di questo effetto.
  */
 public class AreaActivationEffect implements Effect{
-    private Field field;
+    private Effect effect;
     private int minValue;
 
-    public AreaActivationEffect(Field field, int minValue){
-        this.field = field;
+    public AreaActivationEffect(Effect effect, int minValue){
+        this.effect = effect;
         this.minValue = minValue;
     }
 
     @Override
-    public void active(AbstractPlayer player) {
+    public void active(AbstractPlayer player) throws RemoteException, NewActionException {
         if (player.getPersonalBoard().getCurrentAction().getValue() >= minValue)
-            player.getPersonalBoard().modifyResources(field);
+            effect.active(player);
     }
 }
