@@ -1,16 +1,18 @@
 package main.servergame;
 
 import main.api.ClientInterface;
+import main.api.PlayerInterface;
+import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;
 import main.api.messages.MessageGame;
 import main.api.types.FamilyMemberType;
-import main.api.exceptions.LorenzoException;
-import main.api.PlayerInterface;
-import main.controller.board.FamilyMember;
-import main.controller.board.PersonalBoard;
+import main.model.board.Card;
+import main.model.board.FamilyMember;
+import main.model.board.PersonalBoard;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 /**
  * @author Andrea,Luca
@@ -39,6 +41,12 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         return personalBoard.calculateVictoryPoints();
     }
 
+    /**
+     * metodo che mi setta il valore a tutti i miei familiari
+     * @param orange valore dell'arancione
+     * @param white valore del bianco
+     * @param black valore del nero
+     */
     public void setDiceValues(int orange, int white, int black) {
         personalBoard.setDiceValues(orange,white,black);
     }
@@ -63,7 +71,10 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         return this.game;
     }
 
-
+    /**
+     * metodo che mi rimuove tutti i familiari dalle loro postazione
+     * cioè mi setterà a false il boolean isPositioned di ciascuno.
+     */
     public void removeAllFamilyMembers(){
         personalBoard.removeAllFamilyMembers();
     };
@@ -112,6 +123,14 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      * @throws RemoteException
      */
     public abstract void updateResources() throws RemoteException;
+
+    /**
+     * metodo che viene chiamato per inizializzare il turno, cioè mi invia al
+     * client tutte le carte che sono state pescate in questo turno
+     * @param towersCardsList lista di stringhe che mi indica i nomi delle carte pescate
+     * @throws RemoteException
+     */
+    public abstract void initializeBoard(List<Card> towersCardsList) throws RemoteException;
 
     /// metodi implementatti della PlayerInterface
 

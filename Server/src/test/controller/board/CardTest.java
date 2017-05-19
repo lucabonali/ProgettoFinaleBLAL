@@ -3,11 +3,11 @@ package test.controller.board;
 import main.api.exceptions.LorenzoException;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.controller.board.Card;
-import main.controller.effects.Effect;
-import main.controller.effects.FixedIncrementEffect;
-import main.controller.fields.Field;
-import main.controller.fields.Resource;
+import main.model.board.Card;
+import main.model.effects.Effect;
+import main.model.effects.FixedIncrementEffect;
+import main.model.fields.Field;
+import main.model.fields.Resource;
 import main.servergame.rmi.PlayerRMI;
 import org.junit.Test;
 

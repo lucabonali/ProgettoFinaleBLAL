@@ -1,7 +1,7 @@
 package test.controller.board;
 
 import main.api.types.MarketActionType;
-import main.controller.board.Board;
+import main.model.board.Board;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

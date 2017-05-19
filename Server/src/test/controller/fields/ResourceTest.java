@@ -1,8 +1,8 @@
 package test.controller.fields;
 
 import main.api.types.ResourceType;
-import main.controller.effects.EffectsCreator;
-import main.controller.fields.Resource;
+import main.model.effects.EffectsCreator;
+import main.model.fields.Resource;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;

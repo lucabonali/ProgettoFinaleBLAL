@@ -3,27 +3,85 @@
   <ID>JAVA</ID>
   <OriginalElement>main.controller.board</OriginalElement>
   <nodes>
-    <node x="0.0" y="1019.0">main.controller.board.Deck</node>
-    <node x="579.0" y="1815.0">main.controller.board.FamilyMember</node>
-    <node x="935.0" y="0.0">main.controller.board.Board</node>
-    <node x="0.0" y="1815.0">main.controller.board.Tower</node>
-    <node x="1707.0" y="1019.0">main.controller.board.ConnectionDB</node>
-    <node x="1200.0" y="1019.0">main.controller.board.Card</node>
-    <node x="705.0" y="1019.0">main.controller.board.ExcomCardDeck</node>
-    <node x="835.5" y="1450.0">main.controller.board.ExcomCardDeck.ExcomCard</node>
-    <node x="-552.3848238482386" y="64.98644986449864">main.controller.board.PersonalBoard</node>
+    <node x="1065.0" y="599.0">main.controller.board.Deck</node>
+    <node x="339.5" y="1771.5">main.controller.board.FamilyMember</node>
+    <node x="1693.766203703704" y="1493.0">main.controller.board.Board</node>
+    <node x="1444.8912037037037" y="37.5">main.controller.board.ConnectionDB</node>
+    <node x="2215.0" y="802.0">main.controller.board.Tower</node>
+    <node x="688.2037037037037" y="0.0">main.controller.board.Card</node>
+    <node x="1745.0" y="784.0">main.controller.board.ExcomCardDeck</node>
+    <node x="1937.8125" y="186.0">main.controller.board.ExcomCardDeck.ExcomCard</node>
+    <node x="0.0" y="506.0">main.controller.board.PersonalBoard</node>
   </nodes>
   <notes />
   <edges>
+    <edge source="main.controller.board.ExcomCardDeck" target="main.controller.board.ExcomCardDeck.ExcomCard">
+      <point x="0.0" y="-190.5" />
+      <point x="-63.0" y="42.0" />
+    </edge>
+    <edge source="main.controller.board.Board" target="main.controller.board.ExcomCardDeck">
+      <point x="47.666666666666515" y="-376.0" />
+      <point x="2027.4328703703704" y="1473.0" />
+      <point x="2082.5" y="1473.0" />
+      <point x="112.5" y="190.5" />
+    </edge>
+    <edge source="main.controller.board.ExcomCardDeck" target="main.controller.board.ConnectionDB">
+      <point x="-90.0" y="-190.5" />
+      <point x="1880.0" y="476.0" />
+      <point x="1741.5162037037037" y="476.0" />
+      <point x="127.125" y="190.5" />
+    </edge>
+    <edge source="main.controller.board.Board" target="main.controller.board.Tower">
+      <point x="238.33333333333326" y="-376.0" />
+      <point x="2218.099537037037" y="1473.0" />
+      <point x="2615.5" y="1473.0" />
+      <point x="133.5" y="172.5" />
+    </edge>
+    <edge source="main.controller.board.PersonalBoard" target="main.controller.board.Card">
+      <point x="0.0" y="-468.5" />
+      <point x="522.5" y="486.0" />
+      <point x="765.2037037037037" y="486.0" />
+      <point x="-154.0" y="228.0" />
+    </edge>
+    <edge source="main.controller.board.Board" target="main.controller.board.Deck">
+      <point x="-238.33333333333348" y="-376.0" />
+      <point x="1741.4328703703704" y="1473.0" />
+      <point x="1230.0" y="1473.0" />
+      <point x="-165.0" y="375.5" />
+    </edge>
+    <edge source="main.controller.board.FamilyMember" target="main.controller.board.PersonalBoard">
+      <point x="-122.0" y="-97.5" />
+      <point x="400.5" y="1473.0" />
+      <point x="174.16666666666674" y="1473.0" />
+      <point x="-348.3333333333333" y="468.5" />
+    </edge>
+    <edge source="main.controller.board.PersonalBoard" target="main.controller.board.FamilyMember">
+      <point x="348.33333333333326" y="468.5" />
+      <point x="870.8333333333333" y="1473.0" />
+      <point x="644.5" y="1473.0" />
+      <point x="122.0" y="-97.5" />
+    </edge>
     <edge source="main.controller.board.ExcomCardDeck.ExcomCard" target="main.controller.board.ExcomCardDeck">
-      <point x="0.0" y="-42.0" />
-      <point x="0.0" y="190.5" />
+      <point x="63.0" y="42.0" />
+      <point x="2095.3125" y="486.0" />
+      <point x="2150.0" y="486.0" />
+      <point x="180.0" y="-190.5" />
+    </edge>
+    <edge source="main.controller.board.Deck" target="main.controller.board.ConnectionDB">
+      <point x="247.5" y="-375.5" />
+      <point x="1642.5" y="486.0" />
+      <point x="1572.0162037037037" y="486.0" />
+      <point x="-42.375" y="190.5" />
+    </edge>
+    <edge source="main.controller.board.Deck" target="main.controller.board.Card">
+      <point x="-247.5" y="-375.5" />
+      <point x="1147.5" y="486.0" />
+      <point x="919.2037037037037" y="486.0" />
+      <point x="0.0" y="228.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.3385321100917431" x="1023.0" y="1080.0" />
-  <SelectedNodes>
-    <node>main.controller.board.PersonalBoard</node>
-  </SelectedNodes>
+  <settings layout="Hierarchic Group" zoom="0.3258278145695364" x="1374.5" y="1122.5" />
+  <SelectedNodes />
   <Categories>
     <Category>Fields</Category>
     <Category>Inner Classes</Category>

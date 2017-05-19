@@ -1,13 +1,15 @@
 package main.servergame;
 
-import main.api.messages.MessageGame;
 import main.api.PlayerInterface;
-import main.api.exceptions.NewActionException;
-import main.controller.board.Board;
-import main.controller.board.FamilyMember;
 import main.api.exceptions.LorenzoException;
-import main.controller.fields.Resource;
+import main.api.exceptions.NewActionException;
+import main.api.messages.MessageGame;
+import main.api.types.CardType;
 import main.api.types.ResourceType;
+import main.model.board.Board;
+import main.model.board.Card;
+import main.model.board.FamilyMember;
+import main.model.fields.Resource;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -229,6 +231,18 @@ public class Game {
         }
         board.initializeTurn(period, turn);
         playerMap.forEach(((integer, abstractPlayer) -> abstractPlayer.removeAllFamilyMembers()));
+        List<Card> cardsList = new ArrayList<>();
+        cardsList.addAll(board.getCardsFromTower(CardType.TERRITORY));
+        cardsList.addAll(board.getCardsFromTower(CardType.CHARACTER));
+        cardsList.addAll(board.getCardsFromTower(CardType.BUILDING));
+        cardsList.addAll(board.getCardsFromTower(CardType.VENTURES));
+        playerMap.forEach(((integer, abstractPlayer) -> {
+            try {
+                abstractPlayer.initializeBoard(cardsList);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }));
         currentPlayer = turnOrder.get(0);
         currentPlayer.isYourTurn();
     }

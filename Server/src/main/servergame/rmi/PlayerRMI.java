@@ -1,8 +1,10 @@
 package main.servergame.rmi;
 
+import main.model.board.Card;
 import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 
 /**
@@ -50,6 +52,11 @@ public class PlayerRMI extends AbstractPlayer {
     @Override
     public void updateResources() throws RemoteException {
         //getClientInterface().updateResources(getPersonalBoard().getQtaResources());
+    }
+
+    @Override
+    public void initializeBoard(List<Card> towersCardsList) throws RemoteException {
+        //implementare
     }
 
 

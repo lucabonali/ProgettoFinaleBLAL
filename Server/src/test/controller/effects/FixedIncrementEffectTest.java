@@ -1,8 +1,8 @@
 package test.controller.effects;
 
 import main.api.types.ResourceType;
-import main.controller.effects.FixedIncrementEffect;
-import main.controller.fields.Resource;
+import main.model.effects.FixedIncrementEffect;
+import main.model.fields.Resource;
 import main.servergame.socket.PlayerSocket;
 import org.junit.Test;
 

@@ -2,9 +2,9 @@ package test.controller.effects;
 
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.controller.board.Card;
-import main.controller.effects.VariableIncrementEffect;
-import main.controller.fields.Resource;
+import main.model.board.Card;
+import main.model.effects.VariableIncrementEffect;
+import main.model.fields.Resource;
 import main.servergame.socket.PlayerSocket;
 import org.junit.Test;
 

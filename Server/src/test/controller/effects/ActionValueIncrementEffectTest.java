@@ -1,10 +1,10 @@
 package test.controller.effects;
 
 import main.api.types.FamilyMemberType;
-import main.controller.actionSpaces.Action;
-import main.controller.actionSpaces.singleActionSpaces.HarvestActionSpace;
-import main.controller.actionSpaces.singleActionSpaces.ProductionActionSpace;
-import main.controller.effects.ActionValueIncrementEffect;
+import main.model.actionSpaces.Action;
+import main.model.actionSpaces.singleActionSpaces.HarvestActionSpace;
+import main.model.actionSpaces.singleActionSpaces.ProductionActionSpace;
+import main.model.effects.ActionValueIncrementEffect;
 import main.servergame.rmi.PlayerRMI;
 import org.junit.Test;
 
