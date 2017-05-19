@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>main.controller</OriginalElement>
+  <nodes>
+    <node x="56.99702380952377" y="331.0">main.controller.actionSpaces</node>
+    <node x="102.03869047619048" y="97.0">main.controller.effects</node>
+    <node x="57.375" y="0.0">main.controller.fields</node>
+    <node x="39.999999999999986" y="194.0">main.controller.board</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.controller.board" target="main.controller.board">
+      <point x="-70.41666666666667" y="23.5" />
+      <point x="54.083333333333314" y="261.0" />
+      <point x="20.0" y="261.0" />
+      <point x="20.0" y="233.16666666666666" />
+      <point x="-84.5" y="15.666666666666657" />
+    </edge>
+    <edge source="main.controller.board" target="main.controller.effects">
+      <point x="63.375000000000014" y="-23.5" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="main.controller.effects" target="main.controller.fields">
+      <point x="43.25" y="-23.5" />
+      <point x="231.78869047619048" y="72.0" />
+      <point x="200.0" y="72.0" />
+      <point x="61.125" y="23.5" />
+    </edge>
+    <edge source="main.controller.effects" target="main.controller.actionSpaces">
+      <point x="57.666666666666664" y="23.5" />
+      <point x="246.20535714285714" y="169.0" />
+      <point x="240.74107142857142" y="169.0" />
+      <point x="240.74107142857142" y="311.0" />
+      <point x="252.99702380952377" y="311.0" />
+      <point x="84.0" y="-23.5" />
+    </edge>
+    <edge source="main.controller.actionSpaces" target="main.controller.board">
+      <point x="-84.0" y="-23.5" />
+      <point x="84.99702380952377" y="301.0" />
+      <point x="138.58333333333331" y="301.0" />
+      <point x="14.083333333333329" y="23.5" />
+    </edge>
+    <edge source="main.controller.board" target="main.controller.fields">
+      <point x="-21.124999999999986" y="-23.5" />
+      <point x="103.375" y="169.0" />
+      <point x="91.53869047619048" y="169.0" />
+      <point x="91.53869047619048" y="72.0" />
+      <point x="118.5" y="72.0" />
+      <point x="-20.375" y="23.5" />
+    </edge>
+    <edge source="main.controller.board" target="main.controller.actionSpaces">
+      <point x="70.41666666666664" y="23.5" />
+      <point x="194.91666666666663" y="311.0" />
+      <point x="196.99702380952377" y="311.0" />
+      <point x="28.0" y="-23.5" />
+    </edge>
+    <edge source="main.controller.actionSpaces" target="main.controller.actionSpaces">
+      <point x="0.0" y="23.5" />
+      <point x="168.99702380952377" y="398.0" />
+      <point x="36.99702380952377" y="398.0" />
+      <point x="36.99702380952377" y="354.5" />
+      <point x="-112.0" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="112.0" y="161.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
