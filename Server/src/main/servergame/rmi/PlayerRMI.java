@@ -22,34 +22,34 @@ public class PlayerRMI extends AbstractPlayer {
 
     @Override
     public void gameIsStarted() throws RemoteException {
-        getClientInterface().notifyMessage("La partita è iniziata");
+        //getClientInterface().notifyMessage("La partita è iniziata");
     }
 
     public void isYourTurn() throws RemoteException {
-        getClientInterface().notifyMessage("Tocca a te!!");
+        //getClientInterface().notifyMessage("Tocca a te!!");
     }
 
     public void youWin() throws RemoteException {
-        getClientInterface().notifyMessage("Hai vinto, complimenti!!");
+        //getClientInterface().notifyMessage("Hai vinto, complimenti!!");
     }
 
     public void youLose() throws RemoteException {
-        getClientInterface().notifyMessage("Hai perso :( ");
+        //getClientInterface().notifyMessage("Hai perso :( ");
     }
 
     @Override
     public void notifyNewAction(int value, char codeAction) throws RemoteException {
-        getClientInterface().notifyNewAction(value, codeAction);
+        //getClientInterface().notifyNewAction(value, codeAction);
     }
 
     @Override
     public void notifyError(String errorMessage) throws RemoteException {
-        getClientInterface().notifyMessage(errorMessage);
+        //getClientInterface().notifyMessage(errorMessage);
     }
 
     @Override
     public void updateResources() throws RemoteException {
-        getClientInterface().updateResources(getPersonalBoard().getQtaResources());
+        //getClientInterface().updateResources(getPersonalBoard().getQtaResources());
     }
 
 

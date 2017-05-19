@@ -81,7 +81,7 @@ public class Game {
         return isStarted;
     }
 
-    public void checkTurn(AbstractPlayer player) throws LorenzoException {
+    private void checkTurn(AbstractPlayer player) throws LorenzoException {
         if(player != currentPlayer)
             throw new LorenzoException("non è il tuo turno");
     }
