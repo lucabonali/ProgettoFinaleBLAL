@@ -1,5 +1,6 @@
 package main.model.effects;
 
+import main.api.types.CardType;
 import main.model.actionSpaces.ActionSpaceInterface;
 import main.model.actionSpaces.largeActionSpaces.LargeHarvestActionSpace;
 import main.model.actionSpaces.largeActionSpaces.LargeProductionActionSpace;
@@ -55,5 +56,32 @@ public class ActionValueIncrementEffect implements Effect{
                 player.getPersonalBoard().getCurrentAction().modifyValue(incrementValue);
             }
         }
+    }
+
+    public static Effect createInstance(String cod) {
+        int value = Integer.parseInt(cod.substring(1,2));
+        ActionSpaceInterface actionSpace = null;
+        switch(cod.charAt(2)){
+            case EffectsCreator.CHAR_BUILDINGS:
+                actionSpace = new FloorActionSpace(1, CardType.BUILDING,null);
+                break;
+            case EffectsCreator.CHAR_CHARACTERS:
+                actionSpace = new FloorActionSpace(1, CardType.CHARACTER,null);
+                break;
+            case EffectsCreator.CHAR_TERRITORY:
+                actionSpace = new FloorActionSpace(1, CardType.TERRITORY,null);
+                break;
+            case EffectsCreator.CHAR_VENTURES:
+                actionSpace = new FloorActionSpace(1, CardType.VENTURES,null);
+                break;
+            case EffectsCreator.CHAR_HARVEST:
+                actionSpace = new HarvestActionSpace(1);
+                break;
+            case EffectsCreator.CHAR_PRODUCTION:
+                actionSpace = new ProductionActionSpace(1);
+                break;
+        }
+        return new ActionValueIncrementEffect(actionSpace,value);
+
     }
 }

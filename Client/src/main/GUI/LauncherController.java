@@ -4,8 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import main.client.MainClient;
 
 import javax.swing.text.html.ImageView;
+import java.io.IOException;
+import java.rmi.NotBoundException;
 
 /**
  * Created by Luca on 16/05/2017.
@@ -23,25 +26,33 @@ public class LauncherController {
     private RadioButton RMI,socket;
     private ToggleGroup toggleGroup;
 
-    public void submit(ActionEvent actionEvent) {
+    @FXML
+    /**
+     * Metodo che gestisce l' evento sul bottone di login,
+     * @param actionEvent
+     * @throws IOException
+     * @throws NotBoundException
+     */
+    public void submit(ActionEvent actionEvent) throws IOException, NotBoundException {
+        checkFields();
         if(socket.isSelected() ) {
-            //socketConnection();
+            new MainClient(0, userName.getText(), password.getText()).startClient();
         }
         if(RMI.isSelected()) {
-            //RMI connection();
+            new MainClient(1, userName.getText(), password.getText()).startClient();
         }
-        else
+        else {
             launchAlert("Non hai selezionato il metodo di connessione");
+        }
 
 
     }
 
-    public void checkPassword() {
+    private void checkFields() {
+
 
     }
 
-    public void checkUserName() {
-    }
 
 
     private void launchAlert(String s) {

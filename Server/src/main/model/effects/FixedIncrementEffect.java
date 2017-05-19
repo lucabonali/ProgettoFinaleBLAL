@@ -27,4 +27,11 @@ public class FixedIncrementEffect implements Effect{
     public static FixedIncrementEffect createInstance(String code){
         return new FixedIncrementEffect(Resource.createResource(code, false));
     }
+
+    public static Effect createInstance(String substring, boolean incDec) {
+        if(incDec)
+            return FixedIncrementEffect.createInstance(substring);
+        else
+            return new FixedIncrementEffect(Resource.createResource(substring, true));
+    }
 }

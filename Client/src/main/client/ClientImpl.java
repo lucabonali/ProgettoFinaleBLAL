@@ -1,11 +1,13 @@
 package main.client;
 
 import main.api.ClientInterface;
+import main.api.types.ResourceType;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lampa
@@ -22,8 +24,14 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
         System.out.println(name);
     }
 
+
+    //@Override
+    //public void updateResources(List<Integer> qtaResourcesList) throws RemoteException {
+
+    //}
+
     @Override
-    public void updateResources(List<Integer> qtaResourcesList) throws RemoteException {
+    public void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
 
     }
 

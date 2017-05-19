@@ -30,7 +30,7 @@
                         <Font name="AR JULIAN" size="18.0" />
                      </font>
                   </Label>
-                  <TextField onInputMethodTextChanged="#checkPassword">
+                  <TextField >
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -42,7 +42,7 @@
                         <Font name="AR JULIAN" size="18.0" />
                      </font>
                   </Label>
-                  <PasswordField onInputMethodTextChanged="#checkUserName" />
+                  <PasswordField  />
                   <Pane prefHeight="26.0" prefWidth="200.0" />
                   <Button fx:id="buttonLogin" mnemonicParsing="false" onAction="#submit" onMouseEntered="#showButton" onMouseExited="#hideButton" opacity="0.47" prefHeight="25.0" prefWidth="204.0" text="Login" textAlignment="CENTER">
                      <font>

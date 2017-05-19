@@ -1,5 +1,5 @@
 package main.GUI; /**
- * Created by Luca on 16/05/2017.
+ * Created by Luca,Andrea on 16/05/2017.
  */
 
 import javafx.application.Application;
@@ -15,8 +15,6 @@ import java.rmi.NotBoundException;
 
 public class Launcher extends Application {
     public static void main(String[] args) throws IOException, NotBoundException {
-
-
         launch(args);
     }
 
