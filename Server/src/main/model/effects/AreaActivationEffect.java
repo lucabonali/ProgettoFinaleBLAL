@@ -23,6 +23,12 @@ public class AreaActivationEffect implements Effect{
         this.minValue = minValue;
     }
 
+    /**
+     * Permette l' attivazione dell' azione
+     * @param player il giocatore che sta attivando l'effetto
+     * @throws RemoteException
+     * @throws NewActionException
+     */
     @Override
     public void active(AbstractPlayer player) throws RemoteException, NewActionException {
         if (player.getPersonalBoard().getCurrentAction().getValue() >= minValue)
@@ -51,6 +57,14 @@ public class AreaActivationEffect implements Effect{
         return new AreaActivationEffect(VariableIncrementEffect.createInstance(cod.substring(2)),cod.charAt(0));
     }
 
+
+    /**
+     * ulteriore overloading del metodo precedente che crea l' effetto di conversione di due o più risorse,
+     * quando richiamato da una zona produzione o raccolta
+     * @param increment
+     * @param decrement
+     * @return
+     */
     public static AreaActivationEffect createInstance(String increment, String decrement) {
         int minValue = Integer.parseInt(increment.charAt(0)+"");
         return new AreaActivationEffect(ConvertionEffect.createInstance(increment.substring(1),decrement), minValue);

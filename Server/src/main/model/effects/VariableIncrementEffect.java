@@ -42,6 +42,10 @@ public class VariableIncrementEffect implements Effect{
         player.getPersonalBoard().modifyResources(newRes);
     }
 
+    /**
+     * @param cod
+     * @return
+     */
     public static VariableIncrementEffect createInstance(String cod) {
         int qtaToIncrement = Integer.parseInt(cod.substring(0,1));
         char resToIncrement = cod.charAt(1);

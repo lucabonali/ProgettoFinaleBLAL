@@ -49,6 +49,15 @@ public class FloorActionSpace extends ActionSpace {
         return cardType;
     }
 
+
+    /**
+     * Metodo che raccoglie la carta dalla torre , e la assegna al giocatore che ha attivato lo spazio azione
+     * attraverso il piazzamento legittimo del familiare
+     * @param action
+     * @throws LorenzoException
+     * @throws RemoteException
+     * @throws NewActionException
+     */
     @Override
     public void doAction(Action action) throws LorenzoException, RemoteException, NewActionException {
         if (getMinValue() > action.getValue())

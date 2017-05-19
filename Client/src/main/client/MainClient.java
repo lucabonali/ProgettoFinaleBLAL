@@ -1,5 +1,6 @@
 package main.client;
 
+import main.GUI.GameSelection;
 import main.api.ServerInterface;
 
 import java.io.BufferedReader;
@@ -12,7 +13,7 @@ import java.rmi.registry.Registry;
 
 /**
  * Classe che serve per inizializzare la connessione in base a uno dei due metodi RMI  o  Socket
- * @author lampa,Luca
+ * @author Andrea,Luca
  */
 public class MainClient {
     private int connection;
@@ -32,7 +33,10 @@ public class MainClient {
             registry = LocateRegistry.getRegistry(1099);
             server = (ServerInterface) registry.lookup("serverRMI");
             //true se login va a buon fine, false altrimenti
-            System.out.println(server.login("andrea", "lol"));
+            if(server.login(userName,password)){
+                GameSelection gameSelection = new GameSelection();
+                gameSelection.launchGameSelection();
+            }
         } else {
             ClientSocket clientSocket = new ClientSocket(new Socket("localhost", 4000));
             new Thread(clientSocket).start();

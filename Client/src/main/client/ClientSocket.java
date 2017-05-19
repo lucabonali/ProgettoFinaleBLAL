@@ -9,7 +9,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * @author lampa
+ * @author Andrea
+ * @author Luca
  */
 public class ClientSocket implements Runnable{
     private Socket socket;

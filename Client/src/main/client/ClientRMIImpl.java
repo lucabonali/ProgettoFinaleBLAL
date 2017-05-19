@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author lampa
+ * @author Andrea
+ * @author Luca
  */
-public class ClientImpl extends UnicastRemoteObject implements ClientInterface, Serializable {
+public class ClientRMIImpl extends UnicastRemoteObject implements ClientInterface, Serializable {
     private String username, password;
 
-    public ClientImpl(String username, String password) throws RemoteException {
+    public ClientRMIImpl(String username, String password) throws RemoteException {
         this.username = username;
         this.password = password;
     }
@@ -24,11 +25,13 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface, 
         System.out.println(name);
     }
 
-
     //@Override
     //public void updateResources(List<Integer> qtaResourcesList) throws RemoteException {
 
     //}
+
+
+
 
     @Override
     public void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {

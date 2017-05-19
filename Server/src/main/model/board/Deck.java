@@ -184,6 +184,12 @@ public class Deck {
         return shuffle(list);
     }
 
+
+    /**
+     * Crea fli effetti delle carte di tipo Personaggio
+     * @param cod
+     * @return
+     */
     private List<Effect> createPermanentEffectListCharacters(String cod) {
         List<Effect> permanentEffectList = new ArrayList<>();
         if(cod != null){
@@ -193,6 +199,11 @@ public class Deck {
         return null;
     }
 
+    /**
+     * Crea gli effetti delle carte di tipo Imprese
+     * @param cod
+     * @return
+     */
     private List<Effect> createPermanentEffectListVentures(String cod) {
         List<Effect> permanentEffectList = new ArrayList<>();
         if(cod != null){
@@ -202,6 +213,11 @@ public class Deck {
         return null;
     }
 
+    /**
+     * crea la lista degli effetti delle carte di tipo edificio
+     * @param cod
+     * @return
+     */
     private List<Effect> createPermanentEffectListBuildings(String cod) {
         List<Effect> permanentEffectList = new ArrayList<>();
         if(cod != null){
@@ -227,6 +243,12 @@ public class Deck {
         return null;
     }
 
+    /**
+     * Crea la lista degli effetti delle carte di tipo territorio
+     * @param cod
+     * @return
+     */
+
     private List<Effect> createPermanentEffectListTerritory(String cod) {
         List<Effect> permanentEffectList = new ArrayList<>();
         if(cod != null){
@@ -241,6 +263,12 @@ public class Deck {
         }
         return null;
     }
+
+    /**
+     * Da qui in poi metodi che creano gli effetti dei tipo rapido
+     * @param cod
+     * @return
+     */
 
     private List<Effect> createQuickEffectListVC(String cod) {
         List<Effect> effectList = new ArrayList<>();
@@ -274,6 +302,11 @@ public class Deck {
     }
 
 
+    /**
+     * crea la lista dei costi di ogni carta, metodo chiamato dal metodo createCardList
+     * @param cod
+     * @return
+     */
     private List<Field> createCostsList(String cod) {
         //creo la lista degli effetti immediati
         List<Field> costsList = new ArrayList<>();
@@ -288,16 +321,6 @@ public class Deck {
             costsList.add(Resource.createResource(cod.substring(4,6), true));
         }
         return costsList;
-    }
-
-    private List<Effect> createPermanentEffectList(String cod) {
-        //creo la lista degli effetti permanenti
-        List<Effect> permanentEffectList = new ArrayList<>();
-        permanentEffectList.add(EffectsCreator.createEffect(cod.substring(0,2)));
-        if (cod.length() == 4) {
-            permanentEffectList.add(EffectsCreator.createEffect(cod.substring(2,4)));
-        }
-        return permanentEffectList;
     }
 
     /**

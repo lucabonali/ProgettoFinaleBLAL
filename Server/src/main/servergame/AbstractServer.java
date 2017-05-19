@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lampa
+ * @author Andrea
+ * @author Luca
  */
 public abstract class AbstractServer extends UnicastRemoteObject implements ServerInterface{
 
