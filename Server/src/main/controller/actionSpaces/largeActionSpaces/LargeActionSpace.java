@@ -8,6 +8,7 @@ import main.controller.effects.Effect;
 import main.api.exceptions.LorenzoException;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ public abstract class LargeActionSpace implements ActionSpaceInterface {
 
     public LargeActionSpace(int value){
         this.value = value;
+        this.familyMembers = new ArrayList<>();
     }
 
     public List<Effect> getEffects() {
@@ -42,7 +44,7 @@ public abstract class LargeActionSpace implements ActionSpaceInterface {
     }
 
     public void removeFamilyMembers(){
-        //Da implementare, rimuove tutti i familiari presenti nello spazio azione (da utilizzare a fine turno)
+        this.familyMembers = new ArrayList<>();
     }
 
     public int getValue() {

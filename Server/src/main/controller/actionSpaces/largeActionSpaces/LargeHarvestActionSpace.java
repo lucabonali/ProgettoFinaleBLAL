@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lampa
+ * @author Luca
+ * @author Andrea
+ *
+ * classe che mi rappresenta lo spazio azione raccolta grande.
  */
 public class LargeHarvestActionSpace extends LargeActionSpace{
     private List<Effect> bonusEffectList;
