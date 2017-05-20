@@ -16,7 +16,8 @@ import java.util.List;
  * scaricando l'oggetto dal registro.
  */
 public class ServerRMI extends AbstractServer {
-    private List<ClientInterface> playerRMIList;
+    //Lista dei giocatorei connessi tramite RMI
+    private static List<ClientInterface> playerRMIList; // Interfaccia del client su cui posso richiamare i metodi
 
     public ServerRMI() throws RemoteException {
     }

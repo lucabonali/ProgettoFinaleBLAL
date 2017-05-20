@@ -31,7 +31,7 @@ public class Excommunication {
         connectionDB = new ConnectionDB();
         excomPlayerMap = new HashMap<>();
         excomPlayerMap.forEach(((integer, abstractPlayers) -> abstractPlayers = new ArrayList<>()));
-        prelameCardFirtPeriodFromDB();
+        prelameCardFirstPeriodFromDB();
         prelameCardSecondPeriodFromDB();
         prelameCardThirdPeriodFromDB();
     }
@@ -41,7 +41,7 @@ public class Excommunication {
      * le carte in ciascuna tabella sono univoche per id
      * iniziale che va da 1 a 7.
      */
-    private void prelameCardFirtPeriodFromDB() {
+    private void prelameCardFirstPeriodFromDB() {
         Random rand = new Random();
         ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_1 + rand.nextInt(7));
         try {

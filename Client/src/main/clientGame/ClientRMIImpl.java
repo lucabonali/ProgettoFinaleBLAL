@@ -25,35 +25,7 @@ public class ClientRMIImpl extends AbstractClient implements  Serializable {
         System.out.println(name);
     }
 
-    //@Override
-    //public void updateResources(List<Integer> qtaResourcesList) throws RemoteException {
 
-    //}
 
-    @Override
-    public void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
 
-    }
-
-    @Override
-    public void notifyMessage(String msg) throws RemoteException {
-
-    }
-
-    /**
-     * metodo che serve per notificare al server di lanciare i dadi
-     * @param orange
-     * @param white
-     * @param black
-     * @throws RemoteException
-     */
-    @Override
-    public void setDiceValues(int orange, int white, int black) throws RemoteException {
-
-    }
-
-    @Override
-    public void notifyNewAction(int value, char codeAction) throws RemoteException {
-
-    }
 }

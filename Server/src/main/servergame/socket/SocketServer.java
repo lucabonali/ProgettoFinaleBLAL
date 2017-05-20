@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.List;
 
 
 /**
@@ -21,6 +22,7 @@ import java.rmi.RemoteException;
  * ma qui i metodi verranno chiamati in seguito a messaggi provenienti dal clientGame e codificati.
  */
 public class SocketServer extends AbstractServer implements Runnable {
+    private List<PlayerSocket> playerSocketList;
     ServerSocket server = null;
     int port = 4000;
 
