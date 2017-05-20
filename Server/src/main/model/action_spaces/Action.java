@@ -1,4 +1,4 @@
-package main.model.actionSpaces;
+package main.model.action_spaces;
 
 import main.api.exceptions.NewActionException;
 import main.model.board.FamilyMember;

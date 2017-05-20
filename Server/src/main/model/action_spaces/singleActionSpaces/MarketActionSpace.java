@@ -1,7 +1,7 @@
-package main.model.actionSpaces.singleActionSpaces;
+package main.model.action_spaces.singleActionSpaces;
 
 import main.api.exceptions.NewActionException;
-import main.model.actionSpaces.Action;
+import main.model.action_spaces.Action;
 import main.api.exceptions.LorenzoException;
 import main.api.types.MarketActionType;
 

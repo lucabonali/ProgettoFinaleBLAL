@@ -1,10 +1,10 @@
 package test.controller.effects;
 
 import main.api.types.FamilyMemberType;
-import main.model.actionSpaces.Action;
-import main.model.actionSpaces.singleActionSpaces.HarvestActionSpace;
-import main.model.actionSpaces.singleActionSpaces.ProductionActionSpace;
-import main.model.effects.ActionValueIncrementEffect;
+import main.model.action_spaces.Action;
+import main.model.action_spaces.singleActionSpaces.HarvestActionSpace;
+import main.model.action_spaces.singleActionSpaces.ProductionActionSpace;
+import main.model.effects.development_effects.ActionValueModifyingEffect;
 import main.servergame.rmi.PlayerRMI;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class ActionValueIncrementEffectTest {
         p.createPersonalBoard(1);
         HarvestActionSpace has = new HarvestActionSpace(1);
         p.getPersonalBoard().setCurrentAction(new Action(has, 3, p.getFamilyMember(FamilyMemberType.ORANGE_DICE), p));
-        ActionValueIncrementEffect avie = new ActionValueIncrementEffect(new ProductionActionSpace(1), 2);
+        ActionValueModifyingEffect avie = new ActionValueModifyingEffect(new ProductionActionSpace(1), 2);
         avie.active(p);
         assertEquals(3, p.getPersonalBoard().getCurrentAction().getValue());
     }
@@ -35,7 +35,7 @@ public class ActionValueIncrementEffectTest {
         p.createPersonalBoard(1);
         HarvestActionSpace has = new HarvestActionSpace(1);
         p.getPersonalBoard().setCurrentAction(new Action(has, 3, p.getFamilyMember(FamilyMemberType.ORANGE_DICE), p));
-        ActionValueIncrementEffect avie = new ActionValueIncrementEffect(new HarvestActionSpace(1), 2);
+        ActionValueModifyingEffect avie = new ActionValueModifyingEffect(new HarvestActionSpace(1), 2);
         avie.active(p);
         assertEquals(5, p.getPersonalBoard().getCurrentAction().getValue());
     }

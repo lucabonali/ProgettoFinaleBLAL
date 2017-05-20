@@ -1,4 +1,4 @@
-package main.model.effects;
+package main.model.effects.development_effects;
 
 import main.model.fields.Field;
 import main.model.fields.Resource;

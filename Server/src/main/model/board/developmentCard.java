@@ -1,7 +1,7 @@
 package main.model.board;
 
 import main.api.exceptions.NewActionException;
-import main.model.effects.Effect;
+import main.model.effects.development_effects.Effect;
 import main.api.exceptions.LorenzoException;
 import main.model.fields.Field;
 import main.api.types.CardType;
@@ -17,7 +17,7 @@ import java.util.List;
  * classe che mi rappresenta una singola carta sviluppo
  */
 
-public class Card {
+public class developmentCard {
     private AbstractPlayer player;
     private final CardType type;
     private final String name;
@@ -26,8 +26,8 @@ public class Card {
     private final List<Effect> permanentEffects;
     private final int period;
 
-    public Card(CardType type, String name, List<Field> costs,
-                List<Effect> qeffs, List<Effect> peffs, int period){
+    public developmentCard(CardType type, String name, List<Field> costs,
+                           List<Effect> qeffs, List<Effect> peffs, int period){
         this.type = type;
         this.name = name;
         this.costs = costs;

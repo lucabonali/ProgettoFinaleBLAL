@@ -7,14 +7,14 @@ import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
 import main.api.types.ResourceType;
-import main.model.actionSpaces.Action;
-import main.model.actionSpaces.ActionSpaceInterface;
-import main.model.actionSpaces.largeActionSpaces.CouncilActionSpace;
-import main.model.actionSpaces.largeActionSpaces.LargeHarvestActionSpace;
-import main.model.actionSpaces.largeActionSpaces.LargeProductionActionSpace;
-import main.model.actionSpaces.singleActionSpaces.HarvestActionSpace;
-import main.model.actionSpaces.singleActionSpaces.MarketActionSpace;
-import main.model.actionSpaces.singleActionSpaces.ProductionActionSpace;
+import main.model.action_spaces.Action;
+import main.model.action_spaces.ActionSpaceInterface;
+import main.model.action_spaces.largeActionSpaces.CouncilActionSpace;
+import main.model.action_spaces.largeActionSpaces.LargeHarvestActionSpace;
+import main.model.action_spaces.largeActionSpaces.LargeProductionActionSpace;
+import main.model.action_spaces.singleActionSpaces.HarvestActionSpace;
+import main.model.action_spaces.singleActionSpaces.MarketActionSpace;
+import main.model.action_spaces.singleActionSpaces.ProductionActionSpace;
 import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
@@ -39,8 +39,8 @@ public class Board {
     private Map<MarketActionType, MarketActionSpace> marketActionSpaceMap;
     private CouncilActionSpace councilActionSpace;
 
-    private ExcomCardDeck excomCardDeck;
-    private Deck deck;
+    private ExcommunicatingDeck excommunicatingDeck;
+    private DevelopmentDeck developmentDeck;
 
     private Action currentAction;
 
@@ -98,8 +98,8 @@ public class Board {
     }
 
     private void initializeDecks(){
-        excomCardDeck = new ExcomCardDeck();
-        deck = new Deck();
+        excommunicatingDeck = new ExcommunicatingDeck();
+        developmentDeck = new DevelopmentDeck();
     }
 
 
@@ -115,13 +115,13 @@ public class Board {
     }
 
     private void setCards(int period, int turn) {
-        towerMap.get(CardType.TERRITORY).setCards(deck.drawCards(period,turn,CardType.TERRITORY));
-        towerMap.get(CardType.CHARACTER).setCards(deck.drawCards(period,turn,CardType.CHARACTER));
-        towerMap.get(CardType.BUILDING).setCards(deck.drawCards(period,turn,CardType.BUILDING));
-        towerMap.get(CardType.VENTURES).setCards(deck.drawCards(period,turn,CardType.VENTURES));
+        towerMap.get(CardType.TERRITORY).setCards(developmentDeck.drawCards(period,turn,CardType.TERRITORY));
+        towerMap.get(CardType.CHARACTER).setCards(developmentDeck.drawCards(period,turn,CardType.CHARACTER));
+        towerMap.get(CardType.BUILDING).setCards(developmentDeck.drawCards(period,turn,CardType.BUILDING));
+        towerMap.get(CardType.VENTURES).setCards(developmentDeck.drawCards(period,turn,CardType.VENTURES));
     }
 
-    public List<Card> getCardsFromTower(CardType cardType){
+    public List<developmentCard> getCardsFromTower(CardType cardType){
         return towerMap.get(cardType).getCards();
     }
 

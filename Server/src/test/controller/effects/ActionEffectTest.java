@@ -1,7 +1,7 @@
 package test.controller.effects;
 
 import main.api.exceptions.NewActionException;
-import main.model.effects.ActionEffect;
+import main.model.effects.development_effects.ActionEffect;
 import main.servergame.rmi.PlayerRMI;
 import org.junit.Test;
 

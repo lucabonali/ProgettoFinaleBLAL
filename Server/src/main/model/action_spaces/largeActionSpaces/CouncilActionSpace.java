@@ -1,9 +1,9 @@
-package main.model.actionSpaces.largeActionSpaces;
+package main.model.action_spaces.largeActionSpaces;
 
 import main.api.exceptions.NewActionException;
-import main.model.actionSpaces.Action;
-import main.model.effects.Effect;
-import main.model.effects.FixedIncrementEffect;
+import main.model.action_spaces.Action;
+import main.model.effects.development_effects.Effect;
+import main.model.effects.development_effects.FixedIncrementEffect;
 import main.api.exceptions.LorenzoException;
 import main.model.fields.Resource;
 import main.api.types.ResourceType;

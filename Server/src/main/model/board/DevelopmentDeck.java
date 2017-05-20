@@ -1,6 +1,6 @@
 package main.model.board;
 
-import main.model.effects.*;
+import main.model.effects.development_effects.*;
 import main.model.fields.Field;
 import main.model.fields.Resource;
 import main.api.types.CardType;
@@ -8,7 +8,6 @@ import main.api.types.CardType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +23,7 @@ import static main.api.types.CardType.TERRITORY;
  * le carte.
  */
 
-public class Deck {
+public class DevelopmentDeck {
     //query che uso sempre per interrogare il db
     private static final String QUERY_TERRITORY = "SELECT * FROM cards WHERE type = \"territories\"";
     private static final String QUERY_CHARACTERS = "SELECT * FROM cards WHERE type = \"characters\"";
@@ -34,13 +33,13 @@ public class Deck {
     private ConnectionDB connectionDB;
 
     //saranno tutte liste di 24 carte ciascuna
-    private List<Card> territoriesList;
-    private List<Card> charactersList;
-    private List<Card> buildingsList;
-    private List<Card> venturesList;
+    private List<developmentCard> territoriesList;
+    private List<developmentCard> charactersList;
+    private List<developmentCard> buildingsList;
+    private List<developmentCard> venturesList;
 
 
-    public Deck() {
+    public DevelopmentDeck() {
         connectionDB = new ConnectionDB();
 //        territoriesList = createTerritoriesList();
 //        charactersList = createCharactersList();
@@ -55,7 +54,7 @@ public class Deck {
      * @param turn turno compreso fra [1,2]
      * @return lista di carte
      */
-    public List<Card> drawCards(int period, int turn, CardType type) {
+    public List<developmentCard> drawCards(int period, int turn, CardType type) {
         int initPos=0, finalpos=0;
         switch (period) {
             case 1:
@@ -73,7 +72,7 @@ public class Deck {
             initPos += 4;
             finalpos += 4;
         }
-        List<Card> list = new ArrayList<>();
+        List<developmentCard> list = new ArrayList<>();
         switch (type.getCode()) {
             case "TERRITORY":
                 for (int cont = initPos; cont < finalpos; cont++) {
@@ -103,7 +102,7 @@ public class Deck {
      * mi crea la lista ordinata per periodi dei territori
      * @return la lista
      */
-    private List<Card> createTerritoriesList() {
+    private List<developmentCard> createTerritoriesList() {
         ResultSet rs = connectionDB.executeQuery(QUERY_TERRITORY);
         return createCardList(TERRITORY, rs);
     }
@@ -112,7 +111,7 @@ public class Deck {
      * crea la lista dei personaggi ordinata per periodi
      * @return la lista
      */
-    private List<Card> createCharactersList() {
+    private List<developmentCard> createCharactersList() {
         ResultSet rs = connectionDB.executeQuery(QUERY_CHARACTERS);
         return createCardList(CardType.CHARACTER, rs);
     }
@@ -121,7 +120,7 @@ public class Deck {
      * crea la lista degli edifici ordinati per periodo
      * @return la lista
      */
-    private List<Card> createBuildingList() {
+    private List<developmentCard> createBuildingList() {
         ResultSet rs = connectionDB.executeQuery(QUERY_BUILDINGS);
         return createCardList(CardType.BUILDING, rs);
     }
@@ -130,7 +129,7 @@ public class Deck {
      * crea la lista delle imprese ordinata per periodi
      * @return la lista
      */
-    private List<Card> createEnterprisesList() {
+    private List<developmentCard> createEnterprisesList() {
         ResultSet rs = connectionDB.executeQuery(QUERY_ENTERPRISES);
         return createCardList(CardType.VENTURES, rs);
     }
@@ -142,9 +141,9 @@ public class Deck {
      * @param rs risultato integgogazione db
      * @return lista carte
      */
-    private List<Card> createCardList(CardType type, ResultSet rs) {
-        Card card=null;
-        List<Card> list = new ArrayList<>();
+    private List<developmentCard> createCardList(CardType type, ResultSet rs) {
+        developmentCard developmentCard =null;
+        List<developmentCard> list = new ArrayList<>();
         try {
             while(rs.next()) {
                 int period = rs.getInt("period");
@@ -155,28 +154,28 @@ public class Deck {
                 //creo la carta
                 switch(type){
                     case TERRITORY:
-                        card = new Card(type, name, createCostsList(codcost),
+                        developmentCard = new developmentCard(type, name, createCostsList(codcost),
                                 createQuickEffectListTB(codQuickEffect), createPermanentEffectListTerritory(codPermanentEffect),
                                 period);
                     case BUILDING:
-                        card = new Card(type, name, createCostsList(codcost),
+                        developmentCard = new developmentCard(type, name, createCostsList(codcost),
                                 createQuickEffectListTB(codQuickEffect), createPermanentEffectListBuildings(codPermanentEffect),
                                 period);
                         break;
                     case VENTURES:
-                        card = new Card(type, name, createCostsList(codcost),
+                        developmentCard = new developmentCard(type, name, createCostsList(codcost),
                                 createQuickEffectListVC(codQuickEffect), createPermanentEffectListVentures(codPermanentEffect),
                                 period);
                         break;
                     case CHARACTER:
-                        card = new Card(type, name, createCostsList(codcost),
+                        developmentCard = new developmentCard(type, name, createCostsList(codcost),
                                 createQuickEffectListVC(codQuickEffect), createPermanentEffectListCharacters(codPermanentEffect),
                                 period);
                         break;
                     default:
                         break;
                 }
-                list.add(card);
+                list.add(developmentCard);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -193,7 +192,7 @@ public class Deck {
     private List<Effect> createPermanentEffectListCharacters(String cod) {
         List<Effect> permanentEffectList = new ArrayList<>();
         if(cod != null){
-            permanentEffectList.add(ActionValueIncrementEffect.createInstance(cod.substring(0,2)));
+            permanentEffectList.add(ActionValueModifyingEffect.createInstance(cod.substring(0,2)));
             return permanentEffectList;
         }
         return null;
@@ -328,12 +327,12 @@ public class Deck {
      * @param list lista da mischiare
      * @return la lista mischiata
      */
-    private List<Card> shuffle(List<Card> list) {
-        List<Card> shuffledList1 = new ArrayList<>();
-        List<Card> shuffledList2 = new ArrayList<>();
-        List<Card> shuffledList3 = new ArrayList<>();
+    private List<developmentCard> shuffle(List<developmentCard> list) {
+        List<developmentCard> shuffledList1 = new ArrayList<>();
+        List<developmentCard> shuffledList2 = new ArrayList<>();
+        List<developmentCard> shuffledList3 = new ArrayList<>();
 
-        for(Card c : list){
+        for(developmentCard c : list){
             if(c.getPeriod() == 1){
                 shuffledList1.add(c);
             }

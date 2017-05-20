@@ -3,8 +3,8 @@ package test.controller.actionSpaces;
 import main.api.exceptions.LorenzoException;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
-import main.model.actionSpaces.Action;
-import main.model.actionSpaces.largeActionSpaces.CouncilActionSpace;
+import main.model.action_spaces.Action;
+import main.model.action_spaces.largeActionSpaces.CouncilActionSpace;
 import main.servergame.rmi.PlayerRMI;
 import org.junit.Test;
 

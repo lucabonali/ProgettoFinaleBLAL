@@ -1,12 +1,12 @@
-package main.model.actionSpaces.singleActionSpaces;
+package main.model.action_spaces.singleActionSpaces;
 
 import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.model.actionSpaces.Action;
-import main.model.board.Card;
-import main.model.effects.FixedIncrementEffect;
+import main.model.action_spaces.Action;
+import main.model.board.developmentCard;
+import main.model.effects.development_effects.FixedIncrementEffect;
 import main.model.fields.Resource;
 
 import java.rmi.RemoteException;
@@ -19,7 +19,7 @@ import java.rmi.RemoteException;
  * è una dei 5 tipi diversi di spazi azione
  */
 public class FloorActionSpace extends ActionSpace {
-    private Card card;
+    private developmentCard developmentCard;
     private CardType cardType;
 
     public FloorActionSpace(int value, CardType cardType, ResourceType resourceTypeQuickEffect) {
@@ -33,16 +33,16 @@ public class FloorActionSpace extends ActionSpace {
         super.setEffect(new FixedIncrementEffect(resource)); //eventualmente null
     }
 
-    public void setCard(Card card){
-        this.card = card;
+    public void setDevelopmentCard(developmentCard developmentCard){
+        this.developmentCard = developmentCard;
     }
 
-    public Card getCard(){
-        return card;
+    public developmentCard getDevelopmentCard(){
+        return developmentCard;
     }
 
     public void removeCard(){
-        this.card = null;
+        this.developmentCard = null;
     }
 
     public CardType getCardType() {
@@ -63,11 +63,11 @@ public class FloorActionSpace extends ActionSpace {
         if (getMinValue() > action.getValue())
             throw new LorenzoException("non hai abbastanza forza per eseguire l'azione!!");
 
-        card.setPlayer(action.getPlayer());
+        developmentCard.setPlayer(action.getPlayer());
         setFamilyMember(action.getFamilyMember());
         if (getEffect() != null)
             getEffect().active(action.getPlayer());
-        card.activeQuickEffects();
+        developmentCard.activeQuickEffects();
     }
 
 

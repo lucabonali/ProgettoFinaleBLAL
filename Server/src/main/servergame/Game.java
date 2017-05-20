@@ -7,7 +7,7 @@ import main.api.messages.MessageGame;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
 import main.model.board.Board;
-import main.model.board.Card;
+import main.model.board.developmentCard;
 import main.model.board.FamilyMember;
 import main.model.fields.Resource;
 
@@ -231,7 +231,7 @@ public class Game {
         }
         board.initializeTurn(period, turn);
         playerMap.forEach(((integer, abstractPlayer) -> abstractPlayer.removeAllFamilyMembers()));
-        List<Card> cardsList = new ArrayList<>();
+        List<developmentCard> cardsList = new ArrayList<>();
         cardsList.addAll(board.getCardsFromTower(CardType.TERRITORY));
         cardsList.addAll(board.getCardsFromTower(CardType.CHARACTER));
         cardsList.addAll(board.getCardsFromTower(CardType.BUILDING));

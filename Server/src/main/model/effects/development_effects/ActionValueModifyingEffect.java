@@ -1,12 +1,12 @@
-package main.model.effects;
+package main.model.effects.development_effects;
 
 import main.api.types.CardType;
-import main.model.actionSpaces.ActionSpaceInterface;
-import main.model.actionSpaces.largeActionSpaces.LargeHarvestActionSpace;
-import main.model.actionSpaces.largeActionSpaces.LargeProductionActionSpace;
-import main.model.actionSpaces.singleActionSpaces.FloorActionSpace;
-import main.model.actionSpaces.singleActionSpaces.HarvestActionSpace;
-import main.model.actionSpaces.singleActionSpaces.ProductionActionSpace;
+import main.model.action_spaces.ActionSpaceInterface;
+import main.model.action_spaces.largeActionSpaces.LargeHarvestActionSpace;
+import main.model.action_spaces.largeActionSpaces.LargeProductionActionSpace;
+import main.model.action_spaces.singleActionSpaces.FloorActionSpace;
+import main.model.action_spaces.singleActionSpaces.HarvestActionSpace;
+import main.model.action_spaces.singleActionSpaces.ProductionActionSpace;
 import main.servergame.AbstractPlayer;
 
 /**
@@ -16,15 +16,15 @@ import main.servergame.AbstractPlayer;
  * classe che mi identifica un effetto che mi aumenta il valore
  * di un'azione di un preciso tipo
  */
-public class ActionValueIncrementEffect implements Effect{
-    //incremento di valore dell'azione
-    private int incrementValue;
+public class ActionValueModifyingEffect implements Effect {
+    //incremento/decremento di valore dell'azione
+    private int changeValue;
     //spazio azione sulla quale viene eseguita l'azione da incrementare
     private ActionSpaceInterface actionSpace;
 
-    public ActionValueIncrementEffect(ActionSpaceInterface actionSpace, int incrementValue) {
+    public ActionValueModifyingEffect(ActionSpaceInterface actionSpace, int changeValue) {
         this.actionSpace = actionSpace;
-        this.incrementValue = incrementValue;
+        this.changeValue = changeValue;
     }
 
     /**
@@ -40,20 +40,20 @@ public class ActionValueIncrementEffect implements Effect{
             if (actionSpace.getClass().isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace())) {
                 FloorActionSpace myFloorActionSpace = (FloorActionSpace) player.getPersonalBoard().getCurrentAction().getActionSpace();
                 if (floorActionSpace.getCardType() == myFloorActionSpace.getCardType()){
-                    player.getPersonalBoard().getCurrentAction().modifyValue(incrementValue);
+                    player.getPersonalBoard().getCurrentAction().modifyValue(changeValue);
                 }
             }
         }
         else if (HarvestActionSpace.class.isInstance(actionSpace)){
             if(HarvestActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace()) ||
                     LargeHarvestActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace())){
-                player.getPersonalBoard().getCurrentAction().modifyValue(incrementValue);
+                player.getPersonalBoard().getCurrentAction().modifyValue(changeValue);
             }
         }
         else if (ProductionActionSpace.class.isInstance(actionSpace)){
             if(ProductionActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace()) ||
                     LargeProductionActionSpace.class.isInstance(player.getPersonalBoard().getCurrentAction().getActionSpace())){
-                player.getPersonalBoard().getCurrentAction().modifyValue(incrementValue);
+                player.getPersonalBoard().getCurrentAction().modifyValue(changeValue);
             }
         }
     }
@@ -87,7 +87,29 @@ public class ActionValueIncrementEffect implements Effect{
                 actionSpace = new ProductionActionSpace(1);
                 break;
         }
-        return new ActionValueIncrementEffect(actionSpace,value);
+        return new ActionValueModifyingEffect(actionSpace,value);
+    }
 
+    public static Effect createExcomInstance(String cod){
+        ActionSpaceInterface actionSpace = null;
+        switch (cod.charAt(0)){
+            case EffectsCreator.CHAR_HARVEST:
+                return new ActionValueModifyingEffect(new HarvestActionSpace(1), -3);
+            case EffectsCreator.CHAR_PRODUCTION:
+                return new ActionValueModifyingEffect(new ProductionActionSpace(1), -3);
+            case EffectsCreator.CHAR_BUILDINGS:
+                actionSpace = new FloorActionSpace(1,CardType.BUILDING, null);
+                break;
+            case EffectsCreator.CHAR_CHARACTERS:
+                actionSpace = new FloorActionSpace(1,CardType.CHARACTER, null);
+                break;
+            case EffectsCreator.CHAR_TERRITORY:
+                actionSpace = new FloorActionSpace(1,CardType.TERRITORY, null);
+                break;
+            case EffectsCreator.CHAR_VENTURES:
+                actionSpace = new FloorActionSpace(1,CardType.VENTURES, null);
+                break;
+        }
+        return new ActionValueModifyingEffect(actionSpace, -4);
     }
 }

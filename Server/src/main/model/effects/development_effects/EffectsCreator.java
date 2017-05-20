@@ -1,4 +1,4 @@
-package main.model.effects;
+package main.model.effects.development_effects;
 
 /**
  * @author Luca
@@ -25,6 +25,8 @@ public class EffectsCreator {
     public static final char CHAR_PRODUCTION = 'e';
     public static final char CHAR_HARVEST = 'h';
     public static final char CHAR_TOWER_ACTION = 'a';
+    public static final char CHAR_FAMILY_MEMBER = 'l';
+    public static final char CHAR_RESOURCE = 'r';
 
     /**
      * metodo statico che in base al codice mi crea l'effetto

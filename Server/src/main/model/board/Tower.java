@@ -2,8 +2,8 @@ package main.model.board;
 
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.model.actionSpaces.singleActionSpaces.ActionSpace;
-import main.model.actionSpaces.singleActionSpaces.FloorActionSpace;
+import main.model.action_spaces.singleActionSpaces.ActionSpace;
+import main.model.action_spaces.singleActionSpaces.FloorActionSpace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +31,11 @@ public class Tower {
 
     /**
      * setta le carte di ogni piano
-     * @param cards
+     * @param developmentCards
      */
-    public void setCards(List<Card> cards){
+    public void setCards(List<developmentCard> developmentCards){
         for(int i = 0 ; i<4 ; i++){
-            floorActionSpaces[i].setCard(cards.get(i));
+            floorActionSpaces[i].setDevelopmentCard(developmentCards.get(i));
         }
     }
 
@@ -50,8 +50,8 @@ public class Tower {
      * @param n
      * @return carta pescata
      */
-    private Card draw(int n){
-        return floorActionSpaces[n].getCard();
+    private developmentCard draw(int n){
+        return floorActionSpaces[n].getDevelopmentCard();
     }
 
     /**
@@ -77,10 +77,10 @@ public class Tower {
         return floorActionSpaces[numFloor];
     }
 
-    public List<Card> getCards() {
-        List<Card> list = new ArrayList<>();
+    public List<developmentCard> getCards() {
+        List<developmentCard> list = new ArrayList<>();
         for (int i=0; i < 4; i++){
-            list.add(floorActionSpaces[i].getCard());
+            list.add(floorActionSpaces[i].getDevelopmentCard());
         }
         return list;
     }

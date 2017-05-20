@@ -1,6 +1,6 @@
-package main.model.effects;
+package main.model.effects.development_effects;
 
-import main.model.board.Card;
+import main.model.board.developmentCard;
 import main.model.fields.Field;
 import main.model.fields.Resource;
 import main.api.types.CardType;
@@ -8,8 +8,6 @@ import main.api.types.ResourceType;
 import main.servergame.AbstractPlayer;
 
 import java.util.List;
-
-import static main.model.effects.EffectsCreator.*;
 
 /**
  * @author Luca
@@ -36,7 +34,7 @@ public class VariableIncrementEffect implements Effect{
 
     @Override
     public void active(AbstractPlayer player) {
-        List<Card> list = player.getPersonalBoard().getCardsList(cardType);
+        List<developmentCard> list = player.getPersonalBoard().getCardsList(cardType);
         int qta = field.getQta()*list.size();
         Resource newRes = new Resource(qta, field.getType());
         player.getPersonalBoard().modifyResources(newRes);
@@ -53,13 +51,13 @@ public class VariableIncrementEffect implements Effect{
         char toCheck = cod.charAt(3);
         CardType cardType;
         switch (toCheck){
-            case CHAR_BUILDINGS:
+            case EffectsCreator.CHAR_BUILDINGS:
                 cardType = CardType.BUILDING;
                 break;
-            case CHAR_CHARACTERS:
+            case EffectsCreator.CHAR_CHARACTERS:
                 cardType = CardType.CHARACTER;
                 break;
-            case CHAR_TERRITORY:
+            case EffectsCreator.CHAR_TERRITORY:
                 cardType = CardType.TERRITORY;
                 break;
             default: //ventures
@@ -68,7 +66,7 @@ public class VariableIncrementEffect implements Effect{
         }
         Resource res;
         switch (resToIncrement){
-            case CHAR_VICTORY:
+            case EffectsCreator.CHAR_VICTORY:
                 res = new Resource(qtaToIncrement, ResourceType.VICTORY);
                 break;
             default: //coins

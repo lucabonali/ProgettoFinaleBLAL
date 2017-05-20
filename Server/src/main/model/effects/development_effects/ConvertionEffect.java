@@ -1,6 +1,5 @@
-package main.model.effects;
+package main.model.effects.development_effects;
 
-import com.sun.org.apache.regexp.internal.RE;
 import main.api.exceptions.NewActionException;
 import main.model.fields.Field;
 import main.model.fields.Resource;
@@ -11,8 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe che implementa l' effetto di sostituzione di una o più risorse con altre
- * Created by Luca, Andrea on 19/05/2017.
+ * @author Luca
+ * @author Andrea
+ *
+ * classe che identifica l'effetto di conversione, mi toglie un tot di risorse, se le ho
+ * e me ne aggiunge altre.
  */
 public class ConvertionEffect implements Effect{
     private List<Field> fieldToIncrement;
@@ -20,8 +22,8 @@ public class ConvertionEffect implements Effect{
 
     /**
      * Costruttore della classe
-     * @param fieldToIncrement
-     * @param fieldToDecrement
+     * @param fieldToIncrement lista di risorse da aumentare
+     * @param fieldToDecrement lista di risorse da diminuire
      */
     public ConvertionEffect(List<Field> fieldToIncrement, List<Field> fieldToDecrement){
         this.fieldToDecrement = fieldToDecrement;

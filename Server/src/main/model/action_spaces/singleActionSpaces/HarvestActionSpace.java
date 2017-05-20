@@ -1,9 +1,9 @@
-package main.model.actionSpaces.singleActionSpaces;
+package main.model.action_spaces.singleActionSpaces;
 
 import main.api.exceptions.NewActionException;
-import main.model.actionSpaces.Action;
-import main.model.effects.Effect;
-import main.model.effects.FixedIncrementEffect;
+import main.model.action_spaces.Action;
+import main.model.effects.development_effects.Effect;
+import main.model.effects.development_effects.FixedIncrementEffect;
 import main.api.exceptions.LorenzoException;
 import main.model.fields.Resource;
 import main.api.types.ResourceType;
@@ -13,12 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lampa
+ * @author Luca
+ * @author Andrea
+ *
+ * classe che mi identifica una zona del mio tabellone
+ * essa può essere di raccolta o di produzione (si usa l'enumerazione)
  */
-public class ProductionActionSpace extends ActionSpace{
+public class HarvestActionSpace extends ActionSpace {
     private List<Effect> bonusEffectList;
 
-    public ProductionActionSpace(int value){
+    public HarvestActionSpace(int value){
         super(value);
         initializeBonus();
     }
@@ -28,18 +32,6 @@ public class ProductionActionSpace extends ActionSpace{
      */
     private void initializeBonus() {
         bonusEffectList = new ArrayList<>();
-        bonusEffectList.add(new FixedIncrementEffect(
-                new Resource(1, ResourceType.MILITARY)
-        ));
-        bonusEffectList.add(new FixedIncrementEffect(
-                new Resource(1, ResourceType.COINS)
-        ));
-    }
-
-    /**
-     * metodo di servizio che richiamo quando creo lo spazio azione raccolta
-     */
-    private void initializeHarvestBonus(){
         bonusEffectList.add(new FixedIncrementEffect(
                 new Resource(1, ResourceType.WOOD)
         ));
@@ -60,8 +52,8 @@ public class ProductionActionSpace extends ActionSpace{
         for(Effect effect : bonusEffectList)
             effect.active(action.getPlayer());
 
-
         //attivo gli effetti delle carte territorio
-        action.getPlayer().getPersonalBoard().activeBuildingsEffects(action);
+        action.getPlayer().getPersonalBoard().activeTerritoriesEffects(action);
     }
+
 }

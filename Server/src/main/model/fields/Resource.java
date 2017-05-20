@@ -2,7 +2,7 @@ package main.model.fields;
 
 import main.api.types.ResourceType;
 
-import static main.model.effects.EffectsCreator.*;
+import static main.model.effects.development_effects.EffectsCreator.*;
 
 /**
  * @author  Luca

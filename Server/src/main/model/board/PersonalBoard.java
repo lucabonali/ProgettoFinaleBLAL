@@ -4,8 +4,7 @@ import main.api.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
-import main.model.actionSpaces.Action;
-import main.model.effects.ExcomEffect;
+import main.model.action_spaces.Action;
 import main.model.fields.Field;
 import main.model.fields.Resource;
 
@@ -33,14 +32,14 @@ public class PersonalBoard {
     private Map<ResourceType, Resource> resourceList;
 
     //liste delle carte in possesso, al massimo 6 per tipo
-    private Map<CardType, List<Card>> cardsMap;
-    //private List<Card> territoriesList; //gli effetti permanenti verranno attivati solo dopo azione raccolta
-    //private List<Card> buildingsList; //gli effetti permanenti verranno attivati solo dopo azione produzione
-    //private List<Card> charactersList; //gli effetti permanenti saranno attivati su ogni azione
-    //private List<Card> venturesList; //gli effetti permanenti vengono attivati solo alla fine della partita
+    private Map<CardType, List<developmentCard>> cardsMap;
+    //private List<developmentCard> territoriesList; //gli effetti permanenti verranno attivati solo dopo azione raccolta
+    //private List<developmentCard> buildingsList; //gli effetti permanenti verranno attivati solo dopo azione produzione
+    //private List<developmentCard> charactersList; //gli effetti permanenti saranno attivati su ogni azione
+    //private List<developmentCard> venturesList; //gli effetti permanenti vengono attivati solo alla fine della partita
 
-    //lista degli effetti ottenuti in seguito a scomuniche
-    private List<ExcomEffect> excomEffectList; //vengono attivati ogni azione
+    //lista delle carte scomunica di questa partita, la chiave è il periodo.
+    private Map<Integer,ExcommunicatingCard> excommunicatingCardmap;
 
     //id del giocatore e quindi della plancia
     private int id;
@@ -103,16 +102,16 @@ public class PersonalBoard {
      * @param cardType tipo di carte che voglio
      * @return la lista corretta
      */
-    public List<Card> getCardsList(CardType cardType){
+    public List<developmentCard> getCardsList(CardType cardType){
         return cardsMap.get(cardType);
     }
 
     /**
      * mi aggiunge la carta alla lista delle mie carte
-     * @param card carta da aggiungere
+     * @param developmentCard carta da aggiungere
      */
-    public void addCard(Card card) {
-        cardsMap.get(card.getType()).add(card);
+    public void addCard(developmentCard developmentCard) {
+        cardsMap.get(developmentCard.getType()).add(developmentCard);
     }
 
     /**
@@ -163,28 +162,28 @@ public class PersonalBoard {
     public void activeTerritoriesEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
         cardsMap.get(CardType.TERRITORY).get(0).activePermanentEffects();
-//        for (Card card : cardsMap.get(CardType.TERRITORY)) {
+//        for (developmentCard card : cardsMap.get(CardType.TERRITORY)) {
 //            card.activePermanentEffects();
 //        }
     }
 
     public void activeBuildingsEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
-        for (Card card : cardsMap.get(CardType.BUILDING)) {
-            card.activePermanentEffects();
+        for (developmentCard developmentCard : cardsMap.get(CardType.BUILDING)) {
+            developmentCard.activePermanentEffects();
         }
     }
 
     public void activeCharacterEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
-        for (Card card : cardsMap.get(CardType.CHARACTER)) {
-            card.activePermanentEffects();
+        for (developmentCard developmentCard : cardsMap.get(CardType.CHARACTER)) {
+            developmentCard.activePermanentEffects();
         }
     }
 
     private void activeVentueresEffects() throws RemoteException, NewActionException {
-        for (Card card : cardsMap.get(CardType.VENTURES)){
-            card.activePermanentEffects();
+        for (developmentCard developmentCard : cardsMap.get(CardType.VENTURES)){
+            developmentCard.activePermanentEffects();
         }
     }
 

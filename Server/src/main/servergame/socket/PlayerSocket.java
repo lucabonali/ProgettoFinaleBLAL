@@ -2,7 +2,7 @@ package main.servergame.socket;
 
 import main.api.messages.MessageGame;
 import main.api.messages.MessageGameType;
-import main.model.board.Card;
+import main.model.board.developmentCard;
 import main.servergame.AbstractPlayer;
 
 import java.io.IOException;
@@ -75,7 +75,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     }
 
     @Override
-    public void initializeBoard(List<Card> towersCardsList) throws RemoteException {
+    public void initializeBoard(List<developmentCard> towersCardsList) throws RemoteException {
         //da implementare
     }
 

@@ -1,7 +1,7 @@
 package test.controller.fields;
 
 import main.api.types.ResourceType;
-import main.model.effects.EffectsCreator;
+import main.model.effects.development_effects.EffectsCreator;
 import main.model.fields.Resource;
 import org.junit.jupiter.api.Test;
 

@@ -42,6 +42,18 @@ public class FamilyMember {
         this.value = value;
     }
 
+    /**
+     * mi modifica il valore della forza del familiare
+     * @param modValue valore di modifica
+     */
+    public void modifyValue(int modValue) {
+        this.value += modValue;
+    }
+
+    /**
+     * mi dice se il familiare in esame è già posizionato oppure no
+     * @return true se posizionato, false altrimenti.
+     */
     public boolean isPositioned() {
         return positioned;
     }
