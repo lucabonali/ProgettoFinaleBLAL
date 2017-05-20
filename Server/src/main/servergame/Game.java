@@ -99,6 +99,25 @@ public class Game {
     }
 
     /**
+     * mi scomunica il giocatore preciso
+     * @param player giocatore
+     */
+    public void excommunicatePlayer(AbstractPlayer player){
+        board.excommunicatePlayer(period-1, player);
+    }
+
+    /**
+     * metodo che rappresenta l'azione di dare sostegno alla chiesa
+     * @param player giocatore
+     */
+    public void giveChurchSupport(AbstractPlayer player) {
+        int faithPoints = player.getPersonalBoard().getQtaResources().get(ResourceType.FAITH);
+        Resource res = new Resource(faithPoints, ResourceType.VICTORY);
+        player.getPersonalBoard().modifyResources(res);
+        player.getPersonalBoard().modifyResources(new Resource(-faithPoints, ResourceType.FAITH));
+    }
+
+    /**
      * metodo che mi controlla se è il turno del mio giocatore e se il familiare
      * è già stato posizionato o meno
      * @param player giocatore che la esegue
@@ -168,12 +187,17 @@ public class Game {
     private void endTurn() throws RemoteException, NewActionException {
         if(turn == 2){
             turn = 1;
+            startExcommunicationPhase();
             endPeriod();
         }
         else{
             turn++;
             sortPlayerOrder();
         }
+    }
+
+    private void startExcommunicationPhase() {
+        //inizia la fase di scomunica
     }
 
     /**

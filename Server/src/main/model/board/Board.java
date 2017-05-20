@@ -39,7 +39,7 @@ public class Board {
     private Map<MarketActionType, MarketActionSpace> marketActionSpaceMap;
     private CouncilActionSpace councilActionSpace;
 
-    private ExcommunicatingDeck excommunicatingDeck;
+    private Excommunication excommunication;
     private DevelopmentDeck developmentDeck;
 
     private Action currentAction;
@@ -98,7 +98,7 @@ public class Board {
     }
 
     private void initializeDecks(){
-        excommunicatingDeck = new ExcommunicatingDeck();
+        excommunication = new Excommunication();
         developmentDeck = new DevelopmentDeck();
     }
 
@@ -139,6 +139,31 @@ public class Board {
      */
     public Action getCurrentAction() {
         return currentAction;
+    }
+
+    /**
+     * mi rappresenta la fase di scomunica dove verifica se il giocatore deve essere scomunicato per
+     * forza oppure no
+     * @param period periodo
+     * @param player giocatore
+     */
+    public void excommunicationPhase(int period, AbstractPlayer player){
+        int minValue = period+2;
+        if (player.getPersonalBoard().getQtaResources().get(ResourceType.FAITH) < minValue)
+            excommunication.addPlayer(period, player);
+        else {
+            //notifico attraverso un apposito messaggio che deve decidere dare sostegno alla chiesa
+            //oppure coccarsi la scomunica
+        }
+    }
+
+    /**
+     * mi scomunica il giocatore preciso
+     * @param period
+     * @param player
+     */
+    public void excommunicatePlayer(int period, AbstractPlayer player){
+        excommunication.addPlayer(period, player);
     }
 
     /**
