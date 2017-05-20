@@ -7,8 +7,8 @@ import main.api.messages.MessageGame;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
 import main.model.board.Board;
-import main.model.board.developmentCard;
 import main.model.board.FamilyMember;
+import main.model.board.developmentCard;
 import main.model.fields.Resource;
 
 import java.rmi.RemoteException;
@@ -29,6 +29,7 @@ public class Game {
     private Map<Integer, AbstractPlayer> playerMap;
     private List<AbstractPlayer> turnOrder;
     private AbstractPlayer currentPlayer;
+    private Phases phase;
 
 
     public Game() {
@@ -41,6 +42,11 @@ public class Game {
         return currentPlayer;
     }
 
+    /**
+     * metodo che mi aggiunge un giocatore alla partita.
+     * @param abstractPlayer
+     * @throws RemoteException
+     */
     public void addPlayer(AbstractPlayer abstractPlayer) throws RemoteException {
         numPlayers++;
         playerMap.put(numPlayers , abstractPlayer);
@@ -52,22 +58,34 @@ public class Game {
             startGame();
     }
 
+    /**
+     * metodo che mi fa partire la partita
+     * @throws RemoteException
+     */
     private void startGame() throws RemoteException {
         this.isStarted = true;
         board = new Board(numPlayers);
+        phase = Phases.ACTION;
         currentPlayer = turnOrder.get(0);
         currentPlayer.isYourTurn();
     }
 
-    public void shotDice(AbstractPlayer player) throws LorenzoException {
-        checkTurn(player);
-        if(!(player == turnOrder.get(0)))
-            throw new LorenzoException("I dadi sono già stati tirati");
-        int orange,white,black;
-        orange = new Random().nextInt(5)+1;
-        white = new Random().nextInt(5)+1;
-        black = new Random().nextInt(5)+1;
-        turnOrder.forEach(abstractPlayer -> abstractPlayer.setDiceValues(orange, white, black));
+    /**
+     * simula il lancio dei dadi!!
+     * @param player
+     * @throws LorenzoException
+     */
+    public void shotDice(AbstractPlayer player, int orange, int white, int black) throws  RemoteException {
+        try{
+            checkTurn(player);
+            if(!(player == turnOrder.get(0)))
+                player.notifyError("I dadi sono già stati tirati");
+            else
+                turnOrder.forEach(abstractPlayer -> abstractPlayer.setDiceValues(orange, white, black));
+        }
+        catch (LorenzoException e) {
+            player.notifyError(e.getMessage());
+        }
     }
 
 
@@ -79,20 +97,38 @@ public class Game {
         return -1;
     }
 
+    /**
+     * mi dice se la partita è al completo o comunque se è già cominciata!
+     * @return
+     */
     public boolean isFull(){
         return isStarted;
     }
 
+    /**
+     * metodo che controlla se è il turno del giocatore passato come parametro
+     * @param player
+     * @throws LorenzoException
+     */
     private void checkTurn(AbstractPlayer player) throws LorenzoException {
-        if(player != currentPlayer)
+        if (player != currentPlayer)
             throw new LorenzoException("non è il tuo turno");
     }
 
+    /**
+     * controlla se il familiare è già posizionato
+     * @param familyMember
+     * @throws LorenzoException
+     */
     private void isAlreadyPositioned(FamilyMember familyMember) throws LorenzoException {
         if (familyMember.isPositioned())
             throw new LorenzoException("il familiare è già stato posizionato!!");
     }
 
+    /**
+     * controlla se la partita è cominciata
+     * @throws LorenzoException
+     */
     private void isStarted() throws LorenzoException {
         if (!isStarted)
             throw new LorenzoException("la partita non è ancora cominciata!!");
@@ -102,19 +138,46 @@ public class Game {
      * mi scomunica il giocatore preciso
      * @param player giocatore
      */
-    public void excommunicatePlayer(AbstractPlayer player){
-        board.excommunicatePlayer(period-1, player);
+    public void excommunicatePlayer(AbstractPlayer player) throws RemoteException {
+        if (phase == Phases.EXCOMMUNICATION){
+            try {
+                checkTurn(player);
+                board.excommunicatePlayer(period, player);
+            }
+            catch (LorenzoException e) {
+               player.notifyError(e.getMessage());
+            }
+        }
+        else {
+            player.notifyError("non sei nella fase di scomunica!!!");
+        }
     }
 
     /**
-     * metodo che rappresenta l'azione di dare sostegno alla chiesa
+     * metodo che rappresenta l'azione di dare sostegno alla chiesa, se può, se no
+     * mi scomunica automaticamente il giocatore
      * @param player giocatore
      */
-    public void giveChurchSupport(AbstractPlayer player) {
-        int faithPoints = player.getPersonalBoard().getQtaResources().get(ResourceType.FAITH);
-        Resource res = new Resource(faithPoints, ResourceType.VICTORY);
-        player.getPersonalBoard().modifyResources(res);
-        player.getPersonalBoard().modifyResources(new Resource(-faithPoints, ResourceType.FAITH));
+    public void giveChurchSupport(AbstractPlayer player) throws RemoteException {
+        if (phase == Phases.EXCOMMUNICATION){
+            try {
+                checkTurn(player);
+                if (board.canGiveSupport(period, player)) {
+                    int faithPoints = player.getPersonalBoard().getQtaResources().get(ResourceType.FAITH);
+                    Resource res = new Resource(faithPoints, ResourceType.VICTORY);
+                    player.getPersonalBoard().modifyResources(res);
+                    player.getPersonalBoard().modifyResources(new Resource(-faithPoints, ResourceType.FAITH));
+                }
+                else {
+                    excommunicatePlayer(player);
+                }
+            } catch (LorenzoException e) {
+                player.notifyError(e.getMessage());
+            }
+        }
+        else {
+            player.notifyError("non sei nella fase di scomunica!!!");
+        }
     }
 
     /**
@@ -126,18 +189,23 @@ public class Game {
      * @throws RemoteException in caso si verifichino errori
      */
     public void doAction(AbstractPlayer player, MessageGame msg, FamilyMember familyMember) throws RemoteException {
-        try {
-            isStarted();
-            checkTurn(player);
-            isAlreadyPositioned(familyMember);
-            board.doAction(msg, player, familyMember);
-            familyMember.setPositioned(true);
-            player.updateResources();
-            endMove();
-        } catch (NewActionException e) {
-            //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
-        } catch (LorenzoException e) {
-            player.notifyError(e.getMessage());
+        if (phase == Phases.ACTION){
+            try {
+                isStarted();
+                checkTurn(player);
+                isAlreadyPositioned(familyMember);
+                board.doAction(msg, player, familyMember);
+                familyMember.setPositioned(true);
+                player.updateResources();
+                endMove(); //mi esegue la fine de turno
+            } catch (NewActionException e) {
+                //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
+            } catch (LorenzoException e) {
+                player.notifyError(e.getMessage());
+            }
+        }
+        else {
+            player.notifyError("non sei nella fase azione della partita!!!");
         }
     }
 
@@ -148,7 +216,7 @@ public class Game {
      * @throws NewActionException non si dovrebbe mai verificare, perché gli edifici non lanciano questi
      *                              effetti
      */
-    private void endMove() throws RemoteException, NewActionException {
+    public void endMove() throws RemoteException, NewActionException {
         for(int i = 0 ; i < numPlayers ; i++){
             if(currentPlayer == turnOrder.get(i)) {
                 if (i == numPlayers - 1) {
@@ -157,7 +225,10 @@ public class Game {
                 }
                 else{
                     currentPlayer = turnOrder.get(i+1);
-                    currentPlayer.isYourTurn();
+                    if (phase == Phases.ACTION)
+                        currentPlayer.isYourTurn();
+                    else
+                        currentPlayer.isYourExcommunicationTurn();
                     return;
                 }
             }
@@ -169,11 +240,17 @@ public class Game {
      * @throws RemoteException
      */
     private void endLap() throws RemoteException, NewActionException {
-        if (lap == 4){
+        if (lap == 1 && phase == Phases.EXCOMMUNICATION){
+            phase = Phases.ACTION;
+            lap = 1;
+            endTurn();
+        }
+        else if (lap == 4 && phase == Phases.ACTION){
             lap = 1;
             endTurn();
         }
         else{
+            //sempre nella fase azione
             lap++;
             currentPlayer = turnOrder.get(0);
             currentPlayer.isYourTurn();
@@ -185,20 +262,24 @@ public class Game {
      * @throws RemoteException
      */
     private void endTurn() throws RemoteException, NewActionException {
-        if(turn == 2){
+        if(turn == 2 && phase == Phases.ACTION){
+            turn++;
+            phase = Phases.EXCOMMUNICATION;
+            currentPlayer = turnOrder.get(0);
+            currentPlayer.isYourExcommunicationTurn();
+        }
+        else if(turn == 3 && phase == Phases.EXCOMMUNICATION) {
             turn = 1;
-            startExcommunicationPhase();
+            phase = Phases.ACTION;
             endPeriod();
         }
         else{
+            //siamo nella fase azione, nel primo turno
             turn++;
             sortPlayerOrder();
         }
     }
 
-    private void startExcommunicationPhase() {
-        //inizia la fase di scomunica
-    }
 
     /**
      * controlla se è l'ultimo periodo, cioè è finita la partita.
@@ -253,6 +334,7 @@ public class Game {
             }
             turnOrder = newTurnOrder;
         }
+        //inizializza il turno sul tabellone
         board.initializeTurn(period, turn);
         playerMap.forEach(((integer, abstractPlayer) -> abstractPlayer.removeAllFamilyMembers()));
         List<developmentCard> cardsList = new ArrayList<>();

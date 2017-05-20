@@ -2,6 +2,7 @@ package main.api;
 
 
 import main.api.exceptions.LorenzoException;
+import main.api.exceptions.NewActionException;
 import main.api.messages.MessageGame;
 
 import java.rmi.Remote;
@@ -37,6 +38,18 @@ public interface PlayerInterface extends Remote {
      * in caso viene lanciata una LorenzoException
      * @throws RemoteException
      */
-    void shotDice() throws RemoteException, LorenzoException;
+    void shotDice(int orange, int white, int black) throws RemoteException, LorenzoException;
 
+    /**
+     * metodo chiamato per indicare la fine del turno del giocatore
+     * @throws RemoteException
+     */
+    void endMove() throws RemoteException, NewActionException;
+
+    /**
+     * metodo che mi identifica la scelta di dare sostegno o meno alla chiesa
+     * @param choice true accetto la scomunica, false do sostegno
+     * @throws RemoteException
+     */
+    void excommunicationChoice(boolean choice) throws RemoteException;
 }

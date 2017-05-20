@@ -28,10 +28,6 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         this.userName = userName;
     }
 
-    public void setClientInterface(ClientInterface clientInterface) {
-        this.clientInterface = clientInterface;
-    }
-
     public void setGame(Game game) {
         this.game = game;
         idPlayer = game.getId(this);
@@ -92,6 +88,12 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     public abstract void isYourTurn() throws RemoteException;
 
     /**
+     * metodo che notifica al client che è il suo turno di scelta se scomunicarsi o no.
+     * @throws RemoteException
+     */
+    public abstract void isYourExcommunicationTurn() throws RemoteException;
+
+    /**
      * mi notifica che ho vinto
      * @throws RemoteException
      */
@@ -132,23 +134,43 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      */
     public abstract void initializeBoard(List<developmentCard> towersCardsList) throws RemoteException;
 
-    /// metodi implementatti della PlayerInterface
+    /// metodi implementatti della PlayerInterface /////////////////////////////////////////
 
     @Override
-    public void shotDice() throws RemoteException, LorenzoException {
-        getGame().shotDice(this);
+    public void shotDice(int orange, int white, int black) throws RemoteException, LorenzoException {
+        game.shotDice(this, orange, white, black);
     }
 
 
     @Override
     public void addClientInterface(ClientInterface clientInterface) throws RemoteException {
-        setClientInterface(clientInterface);
+        this.clientInterface = clientInterface;
     }
 
     @Override
-    public void doAction(MessageGame msg) throws RemoteException {
+    public synchronized void doAction(MessageGame msg) throws RemoteException {
         FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
-        getGame().doAction(this, msg, familyMember);
+        game.doAction(this, msg, familyMember);
+    }
+
+    @Override
+    public void endMove() throws RemoteException, NewActionException {
+        game.endMove();
+    }
+
+    /**
+     * identifica la scelta nella fase di scomunica.
+     * @param choice true accetto la scomunica, false do sostegno
+     * @throws RemoteException
+     */
+    @Override
+    public synchronized void excommunicationChoice(boolean choice) throws RemoteException {
+        if (choice){
+            game.excommunicatePlayer(this);
+        }
+        else {
+            game.giveChurchSupport(this);
+        }
     }
 
 }

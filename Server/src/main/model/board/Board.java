@@ -158,6 +158,18 @@ public class Board {
     }
 
     /**
+     * metodo che mi dice se posso dare sostegno alla chiesa oppure no
+     * @param player giocatore da controllare
+     * @return
+     */
+    public boolean canGiveSupport(int period, AbstractPlayer player) {
+        int minValue = period+2;
+        if (player.getPersonalBoard().getQtaResources().get(ResourceType.FAITH) < minValue)
+            return false;
+        return true;
+    }
+
+    /**
      * mi scomunica il giocatore preciso
      * @param period
      * @param player

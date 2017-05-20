@@ -144,4 +144,5 @@ public class Excommunication {
     public Effect getExcommunicatingEffect(int period){
         return excomEffectList.get(period-1);
     }
+
 }

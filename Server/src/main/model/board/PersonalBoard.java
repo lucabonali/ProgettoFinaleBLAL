@@ -33,13 +33,6 @@ public class PersonalBoard {
 
     //liste delle carte in possesso, al massimo 6 per tipo
     private Map<CardType, List<developmentCard>> cardsMap;
-    //private List<developmentCard> territoriesList; //gli effetti permanenti verranno attivati solo dopo azione raccolta
-    //private List<developmentCard> buildingsList; //gli effetti permanenti verranno attivati solo dopo azione produzione
-    //private List<developmentCard> charactersList; //gli effetti permanenti saranno attivati su ogni azione
-    //private List<developmentCard> venturesList; //gli effetti permanenti vengono attivati solo alla fine della partita
-
-    //lista delle carte scomunica di questa partita, la chiave è il periodo.
-    private Map<Integer,ExcommunicatingCard> excommunicatingCardmap;
 
     //id del giocatore e quindi della plancia
     private int id;

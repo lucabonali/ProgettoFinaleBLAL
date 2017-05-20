@@ -39,7 +39,12 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
 
     @Override
     public void isYourTurn() throws RemoteException {
-        printMsgToClient("è il tuo turno!");
+        //mandare un messaggio particolare per notificare che è il suo turno
+    }
+
+    @Override
+    public void isYourExcommunicationTurn() throws RemoteException {
+        //da implementare
     }
 
     @Override

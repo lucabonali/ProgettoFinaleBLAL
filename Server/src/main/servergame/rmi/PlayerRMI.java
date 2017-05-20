@@ -27,8 +27,17 @@ public class PlayerRMI extends AbstractPlayer {
         //getClientInterface().notifyMessage("La partita è iniziata");
     }
 
+    /**
+     * notifco al giocatore che è il suo turno
+     * @throws RemoteException
+     */
     public void isYourTurn() throws RemoteException {
-        //getClientInterface().notifyMessage("Tocca a te!!");
+        //getClientInterface().notifyYourTurn();
+    }
+
+    @Override
+    public void isYourExcommunicationTurn() throws RemoteException {
+        //getClientInterface().notifyYourExcommunicationTurn();
     }
 
     public void youWin() throws RemoteException {
