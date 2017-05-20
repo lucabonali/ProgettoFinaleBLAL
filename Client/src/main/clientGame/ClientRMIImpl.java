@@ -1,4 +1,4 @@
-package main.client;
+package main.clientGame;
 
 import main.api.ClientInterface;
 import main.api.types.ResourceType;
@@ -6,14 +6,14 @@ import main.api.types.ResourceType;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
 import java.util.Map;
 
 /**
+ * Classe che sarà condivisa i cui metodi saranno chiamati dal server per notificare e modificare l' interfaccia utente
  * @author Andrea
  * @author Luca
  */
-public class ClientRMIImpl extends UnicastRemoteObject implements ClientInterface, Serializable {
+public class ClientRMIImpl extends AbstractClient implements  Serializable {
     private String username, password;
 
     public ClientRMIImpl(String username, String password) throws RemoteException {
@@ -30,9 +30,6 @@ public class ClientRMIImpl extends UnicastRemoteObject implements ClientInterfac
 
     //}
 
-
-
-
     @Override
     public void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
 
@@ -43,7 +40,13 @@ public class ClientRMIImpl extends UnicastRemoteObject implements ClientInterfac
 
     }
 
-
+    /**
+     * metodo che serve per notificare al server di lanciare i dadi
+     * @param orange
+     * @param white
+     * @param black
+     * @throws RemoteException
+     */
     @Override
     public void setDiceValues(int orange, int white, int black) throws RemoteException {
 

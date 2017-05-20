@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import main.client.MainClient;
+import main.clientGame.ClientConnectionInit;
 
 import javax.swing.text.html.ImageView;
 import java.io.IOException;
@@ -39,11 +39,11 @@ public class LauncherController {
             return;
         }
         if(socket.isSelected() ) {
-            new MainClient(0, userName.getText(), password.getText()).startClient();
+            new ClientConnectionInit(0, userName.getText(), password.getText());
 
         }
         if(RMI.isSelected()) {
-            new MainClient(1, userName.getText(), password.getText()).startClient();
+            new ClientConnectionInit(1, userName.getText(), password.getText());
         }
         else if(!(socket.isSelected() || RMI.isSelected())) {
             launchAlert("Non hai selezionato il metodo di connessione");

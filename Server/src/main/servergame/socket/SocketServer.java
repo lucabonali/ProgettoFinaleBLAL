@@ -18,7 +18,7 @@ import java.rmi.RemoteException;
  * @author Andrea
  *
  * classe che mi identifica il server Socket che implementa la stessa interfaccia del server RMI
- * ma qui i metodi verranno chiamati in seguito a messaggi provenienti dal client e codificati.
+ * ma qui i metodi verranno chiamati in seguito a messaggi provenienti dal clientGame e codificati.
  */
 public class SocketServer extends AbstractServer implements Runnable {
     ServerSocket server = null;

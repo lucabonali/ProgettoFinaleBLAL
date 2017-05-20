@@ -1,4 +1,4 @@
-package main.client;
+package main.clientGame;
 
 import main.api.messages.MessageLogin;
 import main.api.messages.MessageLoginType;
@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
+ * Classe che identifica i messaggi dal server tramite il socket e che modifica l' interfaccia utente
  * @author Andrea
  * @author Luca
  */

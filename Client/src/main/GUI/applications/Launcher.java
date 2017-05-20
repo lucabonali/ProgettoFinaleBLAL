@@ -1,4 +1,4 @@
-package main.GUI;
+package main.GUI.applications;
 
 /**
  *
@@ -17,7 +17,7 @@ import java.rmi.NotBoundException;
 
 public class Launcher extends Application {
     /**
-     * Metodo Main del client, che lancia il metodo start di questa classe
+     * Metodo Main del clientGame, che lancia il metodo start di questa classe
      * @param args
      * @throws IOException
      * @throws NotBoundException
