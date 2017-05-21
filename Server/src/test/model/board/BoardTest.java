@@ -1,4 +1,4 @@
-package test.controller.board;
+package test.model.board;
 
 import main.api.types.MarketActionType;
 import main.model.board.Board;

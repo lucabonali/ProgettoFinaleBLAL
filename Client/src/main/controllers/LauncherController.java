@@ -116,7 +116,7 @@ public class LauncherController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/resources/views/game_selection_view.fxml"));
         Parent window = (Pane) fxmlLoader.load();
         GameSelectionController gsController = fxmlLoader.getController();
-        AbstractClient.getInstance().setGameSelectionController(gsController); //setto il controller
+        AbstractClient.getInstance().setGameSelectionController(gsController); //setto il model
         Platform.runLater(()->{
             Stage stage = (Stage) userName.getScene().getWindow();
             Scene scene = new Scene(window);

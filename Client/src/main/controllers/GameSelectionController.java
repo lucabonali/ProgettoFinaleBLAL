@@ -31,7 +31,7 @@ public class GameSelectionController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/resources/views/game_view.fxml"));
         Parent window = (Pane) fxmlLoader.load();
         GameController controller = fxmlLoader.getController();
-        AbstractClient.getInstance().setGameController(controller); //setto il controller
+        AbstractClient.getInstance().setGameController(controller); //setto il model
         Platform.runLater(()->{
             Stage stage = (Stage) startGameButton.getScene().getWindow();
             Scene scene = new Scene(window);

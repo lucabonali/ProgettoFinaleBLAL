@@ -1,4 +1,4 @@
-package test.controller.fields;
+package test.model.fields;
 
 import main.api.types.ResourceType;
 import main.model.effects.development_effects.EffectsCreator;

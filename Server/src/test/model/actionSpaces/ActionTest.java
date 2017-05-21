@@ -1,4 +1,4 @@
-package test.controller.actionSpaces;
+package test.model.actionSpaces;
 
 import org.junit.jupiter.api.Test;
 

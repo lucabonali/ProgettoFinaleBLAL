@@ -2,6 +2,7 @@ package main.servergame;
 
 import main.MainServer;
 import main.api.ServerInterface;
+import main.model.Game;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

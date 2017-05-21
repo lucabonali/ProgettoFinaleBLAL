@@ -3,7 +3,7 @@ package main.servergame.socket;
 import main.api.PlayerInterface;
 import main.api.messages.MessageLogin;
 import main.servergame.AbstractServer;
-import main.servergame.Game;
+import main.model.Game;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

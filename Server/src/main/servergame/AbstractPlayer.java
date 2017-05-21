@@ -6,6 +6,7 @@ import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;
 import main.api.messages.MessageGame;
 import main.api.types.FamilyMemberType;
+import main.model.Game;
 import main.model.board.developmentCard;
 import main.model.board.FamilyMember;
 import main.model.board.PersonalBoard;

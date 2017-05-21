@@ -20,15 +20,16 @@ import java.util.*;
  * numero casuale per tabella e me la crea.
  */
 public class Excommunication {
-    private final String QUERY_PERIOD_1 = "SELECT FROM excommunicatingcards WHERE period=1 AND id=";
-    private final String QUERY_PERIOD_2 = "SELECT FROM excommunicatingcards WHERE period=2 AND id=";
-    private final String QUERY_PERIOD_3 = "SELECT FROM excommunicatingcards WHERE period=3 AND id=";
+    private final String QUERY_PERIOD_1 = "SELECT * FROM excommunicatingcards WHERE period=1 AND id=";
+    private final String QUERY_PERIOD_2 = "SELECT * FROM excommunicatingcards WHERE period=2 AND id=";
+    private final String QUERY_PERIOD_3 = "SELECT * FROM excommunicatingcards WHERE period=3 AND id=";
     private ConnectionDB connectionDB;
     private List<Effect> excomEffectList;
     private Map<Integer,List<AbstractPlayer>> excomPlayerMap;
 
     public Excommunication(){
         connectionDB = new ConnectionDB();
+        excomEffectList = new ArrayList<>();
         excomPlayerMap = new HashMap<>();
         excomPlayerMap.forEach(((integer, abstractPlayers) -> abstractPlayers = new ArrayList<>()));
         prelameCardFirstPeriodFromDB();
@@ -43,8 +44,9 @@ public class Excommunication {
      */
     private void prelameCardFirstPeriodFromDB() {
         Random rand = new Random();
-        ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_1 + rand.nextInt(7));
+        ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_1 + (rand.nextInt(5)+1));
         try {
+            rs.next();
             String codEffect = rs.getString("effect_code");
             excomEffectList.add(ExcommunicatingEffectCreator.createInstanceFirstPeriod(codEffect));
         } catch (SQLException e) {
@@ -59,8 +61,9 @@ public class Excommunication {
      */
     private void prelameCardSecondPeriodFromDB() {
         Random rand = new Random();
-        ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_2 + rand.nextInt(7));
+        ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_2 + (rand.nextInt(3)+1));
         try {
+            rs.next();
             String codEffect = rs.getString("effect_code");
             excomEffectList.add(ExcommunicatingEffectCreator.createInstanceSecondPeriod(codEffect));
         } catch (SQLException e) {
@@ -75,8 +78,9 @@ public class Excommunication {
      */
     private void prelameCardThirdPeriodFromDB() {
         Random rand = new Random();
-        ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_3 + rand.nextInt(7));
+        ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_3 + (rand.nextInt(5)+1));
         try {
+            rs.next();
             String codEffect = rs.getString("effect_code");
             excomEffectList.add(ExcommunicatingEffectCreator.createInstanceThirdPeriod(codEffect));
         } catch (SQLException e) {

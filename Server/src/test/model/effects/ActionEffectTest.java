@@ -1,4 +1,4 @@
-package test.controller.effects;
+package test.model.effects;
 
 import main.api.exceptions.NewActionException;
 import main.model.effects.development_effects.ActionEffect;

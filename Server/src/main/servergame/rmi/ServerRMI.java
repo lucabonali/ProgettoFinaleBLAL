@@ -3,7 +3,7 @@ package main.servergame.rmi;
 import main.api.ClientInterface;
 import main.api.PlayerInterface;
 import main.servergame.AbstractServer;
-import main.servergame.Game;
+import main.model.Game;
 
 import java.rmi.RemoteException;
 import java.util.List;

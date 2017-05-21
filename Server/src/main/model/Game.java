@@ -1,15 +1,17 @@
-package main.servergame;
+package main.model;
 
 import main.api.PlayerInterface;
 import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;
 import main.api.messages.MessageGame;
 import main.api.types.CardType;
+import main.api.types.Phases;
 import main.api.types.ResourceType;
 import main.model.board.Board;
 import main.model.board.FamilyMember;
 import main.model.board.developmentCard;
 import main.model.fields.Resource;
+import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -18,7 +20,6 @@ import java.util.*;
  * @author Luca
  * @author Andrea
  *
-
  * Classe che gestisce il comportamento della singola partita
  */
 public class Game {
@@ -78,7 +79,7 @@ public class Game {
     public void shotDice(AbstractPlayer player, int orange, int white, int black) throws  RemoteException {
         try{
             checkTurn(player);
-            if(!(player == turnOrder.get(0)))
+            if(!(player == turnOrder.get(0)) && (lap == 1) && (phase == Phases.ACTION))
                 player.notifyError("I dadi sono già stati tirati");
             else
                 turnOrder.forEach(abstractPlayer -> abstractPlayer.setDiceValues(orange, white, black));

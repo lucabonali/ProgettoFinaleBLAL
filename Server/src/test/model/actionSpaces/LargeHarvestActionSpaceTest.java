@@ -1,4 +1,4 @@
-package test.controller.actionSpaces;
+package test.model.actionSpaces;
 
 import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;

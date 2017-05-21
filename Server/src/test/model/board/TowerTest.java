@@ -1,4 +1,4 @@
-package test.controller.board;
+package test.model.board;
 
 import org.junit.Test;
 

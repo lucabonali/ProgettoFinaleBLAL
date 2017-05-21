@@ -1,6 +1,6 @@
 package main;
 
-import main.servergame.Game;
+import main.model.Game;
 import main.servergame.rmi.ServerRMI;
 import main.servergame.socket.SocketServer;
 

@@ -1,4 +1,4 @@
-package test.controller.effects;
+package test.model.effects;
 
 import main.api.types.FamilyMemberType;
 import main.model.action_spaces.Action;
