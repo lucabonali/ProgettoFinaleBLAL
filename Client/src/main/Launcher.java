@@ -1,4 +1,4 @@
-package main.GUI.applications;
+package main;
 
 /**
  *
@@ -34,7 +34,8 @@ public class Launcher extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/launcherView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main/resources/views/launcher_view.fxml"));
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
         primaryStage.centerOnScreen();
         primaryStage.setScene(new Scene(root, 600, 350));
         primaryStage.setTitle("Lorenzo Il Magnifico");

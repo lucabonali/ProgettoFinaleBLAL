@@ -43,4 +43,16 @@ public interface ClientInterface extends Remote{
      * @throws RemoteException
      */
     void notifyNewAction(int value, char codeAction) throws RemoteException;
+
+    /**
+     * metodo che mi notifica l'inizio del mio turno di gioco
+     * @throws RemoteException
+     */
+    void notifyYourTurn() throws RemoteException;
+
+    /**
+     * notifica al client che è il suo turno della fase scomunica
+     * @throws RemoteException
+     */
+    void notifyYourExcommunicationTurn() throws RemoteException;
 }

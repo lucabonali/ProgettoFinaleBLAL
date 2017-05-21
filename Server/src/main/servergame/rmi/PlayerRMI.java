@@ -55,7 +55,7 @@ public class PlayerRMI extends AbstractPlayer {
 
     @Override
     public void notifyError(String errorMessage) throws RemoteException {
-        //getClientInterface().notifyMessage(errorMessage);
+        getClientInterface().notifyMessage(errorMessage);
     }
 
     @Override
