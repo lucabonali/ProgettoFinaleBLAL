@@ -52,6 +52,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     }
 
     public void createPersonalBoard(int id) {
+        this.idPlayer = id;
         personalBoard = new PersonalBoard(id);
     }
 
@@ -65,6 +66,10 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     public Game getGame() {
         return this.game;
+    }
+
+    public int getIdPlayer() {
+        return idPlayer;
     }
 
     /**
@@ -156,6 +161,11 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     @Override
     public void endMove() throws RemoteException, NewActionException {
         game.endMove();
+    }
+
+    @Override
+    public synchronized void abandon() throws RemoteException {
+
     }
 
     /**

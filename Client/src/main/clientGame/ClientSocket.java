@@ -6,14 +6,12 @@ import main.api.messages.MessageLogin;
 import main.api.messages.MessageLoginType;
 import main.api.types.ActionSpacesType;
 import main.api.types.FamilyMemberType;
-import main.api.types.ResourceType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.Map;
 
 /**
  * Classe che identifica i messaggi dal server tramite il socket e che modifica l' interfaccia utente
@@ -98,15 +96,20 @@ public class ClientSocket extends AbstractClient implements Runnable{
             //System.out.println(resp);
             while (true) {
                 try {
-                    MessageGame msg = (MessageGame) in.readObject();
-                    switch (msg.getMessageGameType()) {
-                        case ACTION_RESULT:
-                            Map<ResourceType,Integer> qtaResourcesMap = msg.getQtaMap();
-                            break;
-                        case INFORMATION:
-                            notifyMessage(msg.getContent());
-                            break;
+                    Object msg = in.readObject();
+                    if (msg instanceof MessageGame){
+                        MessageGame realMsg = (MessageGame) msg;
+                        notifyMessage(realMsg.getContent());
                     }
+//                    MessageGame msg = (MessageGame) in.readObject();
+//                    switch (msg.getMessageGameType()) {
+//                        case ACTION_RESULT:
+//                            Map<ResourceType,Integer> qtaResourcesMap = msg.getQtaMap();
+//                            break;
+//                        case INFORMATION:
+//                            notifyMessage(msg.getContent());
+//                            break;
+//                    }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

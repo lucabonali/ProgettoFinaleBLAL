@@ -52,4 +52,10 @@ public interface PlayerInterface extends Remote {
      * @throws RemoteException
      */
     void excommunicationChoice(boolean choice) throws RemoteException;
+
+    /**
+     * mi abbandona la partita in corso.
+     * @throws RemoteException
+     */
+    void abandon() throws RemoteException;
 }

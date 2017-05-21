@@ -1,7 +1,6 @@
 package main.servergame;
 
 import main.MainServer;
-import main.api.ClientInterface;
 import main.api.ServerInterface;
 
 import java.rmi.RemoteException;
@@ -30,13 +29,14 @@ public abstract class AbstractServer extends UnicastRemoteObject implements Serv
         }
     }
 
-    /**
-     * metodo richiamato dal clientGame nella classe clientRMIImpl che serve al serverRMI per ricevere un' istanza
-     * del clientGame RMI, e poter quindi chiamare i metodi su di essa
-     * @param clientInterface
-     */
     @Override
-    public void addPlayerRMI(ClientInterface clientInterface) throws RemoteException {   }
+    public boolean logout(String username) throws RemoteException {
+        if (MainServer.playersMap.containsKey(username)) {
+            MainServer.playersMap.remove(username);
+            return true;
+        }
+        return false;
+    }
 
     public Game getFreeGame() {
         List<Game> games = new ArrayList<>(MainServer.gamesMap.values());

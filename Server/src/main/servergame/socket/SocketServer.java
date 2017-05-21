@@ -85,18 +85,16 @@ public class SocketServer extends AbstractServer implements Runnable {
                         msgLogin = (MessageLogin) in.readObject();
                         switch (msgLogin.getType()) {
                             case LOGIN:
-                                out.writeBoolean(login(msgLogin.getUsername(), msgLogin.getPassword()));
+                                out.writeObject(login(msgLogin.getUsername(), msgLogin.getPassword()));
                                 break;
                             case START_GAME:
                                 PlayerSocket player = (PlayerSocket) startGame(msgLogin.getUsername());
                                 if (player != null) {
                                     player.setSocketConnection(socket, in, out);
                                     new Thread(player).start();
-                                    //out.writeBoolean(true);
                                     isAssociated = true;
                                 }
                                 else {
-                                    //out.writeBoolean(false);
                                 }
                                 break;
                         }

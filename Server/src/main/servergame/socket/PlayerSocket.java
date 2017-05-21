@@ -107,27 +107,36 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     @Override
     public void run() {
 
-        while (!socketClient.isClosed()) {
-            try {
-                MessageGame msg = (MessageGame) in.readObject();
-                MessageGame response;
-                MessageGameType type = msg.getMessageGameType();
-                switch (type) {
-                    case ACTION:
-                        doAction(msg);
-                        break;
+        try{
+            while (!socketClient.isClosed()) {
+                try {
+                    MessageGame msg = (MessageGame) in.readObject();
+                    switch (msg.getMessageGameType()) {
+                        case ACTION:
+                            doAction(msg);
+                            break;
+                    }
+                }
+                catch (IOException | ClassNotFoundException e) {
+                    try {
+                        in.close();
+                        in = null;
+                        out.close();
+                        out = null;
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
-            catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            finally {
-                try {
+        }
+        finally {
+            try {
+                if (in != null && out != null){
                     in.close();
                     out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

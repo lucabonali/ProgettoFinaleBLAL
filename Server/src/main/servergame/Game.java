@@ -29,7 +29,7 @@ public class Game {
     private Map<Integer, AbstractPlayer> playerMap;
     private List<AbstractPlayer> turnOrder;
     private AbstractPlayer currentPlayer;
-    private Phases phase;
+    private Phases phase = Phases.ACTION;
 
 
     public Game() {
@@ -393,6 +393,23 @@ public class Game {
         for (AbstractPlayer player: turnOrder)
             if(player != winner)
                 player.youLose();
+    }
+
+    /**
+     * mi rimuove il giocatore passato come paramentro dalla partita
+     * e verifica se la parittiaha ancora un numero sufficiente di giocatori
+     * @param player
+     */
+    public void removePlayer(AbstractPlayer player) {
+        playerMap.remove(player.getIdPlayer());
+        for (int i=0; i<numPlayers; i++){
+            if (turnOrder.get(i) == player)
+                turnOrder.remove(i);
+        }
+        numPlayers--;
+        if (numPlayers<2){
+            //la partita è finita e l'ultimo giocatorer rimasto è il vincitore.
+        }
     }
 
 
