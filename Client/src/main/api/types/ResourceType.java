@@ -1,5 +1,7 @@
 package main.api.types;
 
+import java.io.Serializable;
+
 /**
  * @author Luca
  * @author Andrea
@@ -9,7 +11,7 @@ package main.api.types;
  *            punti vittoria.
  */
 
-public enum ResourceType {
+public enum ResourceType implements Serializable {
     WOOD("WOOD"),STONE("STONE"),SERVANTS("SERVANTS"),COINS("COINS"),
     FAITH("FAITH"),MILITARY("MILITARY"),VICTORY("VICTORY"), PRIVILEGE("PRIVILEGE");
 

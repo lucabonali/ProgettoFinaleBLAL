@@ -3,8 +3,7 @@ package main.api.types;
 import java.io.Serializable;
 
 /**
- * @author Andrea
- * @author Luca
+ * @author lampa
  */
 public enum FamilyMemberType implements Serializable{
     ORANGE_DICE('o'), BLACK_DICE('b'), WHITE_DICE('w'), NEUTRAL_DICE('n');

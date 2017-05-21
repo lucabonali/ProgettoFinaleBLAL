@@ -1,13 +1,19 @@
 package main.clientGame;
 
+import main.api.messages.MessageGame;
+import main.api.messages.MessageGameType;
 import main.api.messages.MessageLogin;
 import main.api.messages.MessageLoginType;
+import main.api.types.ActionSpacesType;
+import main.api.types.FamilyMemberType;
+import main.api.types.ResourceType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.Map;
 
 /**
  * Classe che identifica i messaggi dal server tramite il socket e che modifica l' interfaccia utente
@@ -27,53 +33,82 @@ public class ClientSocket extends AbstractClient implements Runnable{
 
     @Override
     public void doAction() {
-        //da implementare
+        try {
+            MessageGame msg = new MessageGame(MessageGameType.ACTION);
+            msg.setFamilyMemberType(FamilyMemberType.ORANGE_DICE);
+            msg.setActionSpacesType(ActionSpacesType.COUNCIL);
+            out.writeObject(msg);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public boolean login() {
-        return false;
-    }
-
-    @Override
-    public void startGame() throws RemoteException {
-        //da implementare
-    }
-
-    @Override
-    public void addClientInterfaceToServer() throws RemoteException {
-        //da implementare
-    }
-
-    @Override
-    public void run() {
         try {
             this.socket = new Socket("localhost", PORT);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
-        try{
+        try {
             out = new ObjectOutputStream(socket.getOutputStream());
             MessageLogin msgToLogin = new MessageLogin(MessageLoginType.LOGIN);
-            msgToLogin.setUsername("andrea");
-            msgToLogin.setPassword("ciao");
+            msgToLogin.setUsername(getUsername());
+            msgToLogin.setPassword(getPassword());
             out.writeObject(msgToLogin);
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());
             boolean resp = in.readBoolean();
             System.out.println(resp);
+            return resp;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-            /*while (true) {
-                Message msg = (Message) in.readObject();
-                switch (msg.getMessageType()) {
-                    case ACTION_RESULT:
-                        List<Integer> qtaResourcesList = msg.getQtaList();
-                        break;
-                    case INFORMATION:
-                        System.out.println(msg.getContent());
-                        break;
+    @Override
+    public void startGame() throws RemoteException {
+        try{
+            MessageLogin msg = new MessageLogin(MessageLoginType.START_GAME);
+            msg.setUsername(getUsername());
+            out.writeObject(msg);
+            out.flush();
+            new Thread(this).start();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addClientInterfaceToServer() throws RemoteException {
+        //non fa nulla
+    }
+
+    @Override
+    public void run() {
+        try{
+            while (true) {
+                try {
+                    MessageGame msg = (MessageGame) in.readObject();
+                    switch (msg.getMessageGameType()) {
+                        case ACTION_RESULT:
+                            Map<ResourceType,Integer> qtaResourcesMap = msg.getQtaMap();
+                            break;
+                        case INFORMATION:
+                            notifyMessage(msg.getContent());
+                            break;
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
-            }*/
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

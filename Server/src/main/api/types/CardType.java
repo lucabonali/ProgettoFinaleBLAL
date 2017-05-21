@@ -1,5 +1,7 @@
 package main.api.types;
 
+import java.io.Serializable;
+
 /**
  * @author Luca
  * @author Andrea
@@ -8,7 +10,7 @@ package main.api.types;
  * in ordine: territorio, personaggi, imprese, imprese.
  */
 
-public enum CardType {
+public enum CardType implements Serializable {
     TERRITORY("TERRITORY"),CHARACTER("CHARACTER"),BUILDING("BUILDING"),VENTURES("VENTURES");
 
     private String code;

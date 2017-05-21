@@ -115,6 +115,10 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         logged = true;
     }
 
+    public boolean isLogged() {
+        return logged;
+    }
+
     public void setGameController(GameController controller) {
         this.gameController = controller;
     }
