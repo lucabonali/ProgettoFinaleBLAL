@@ -94,6 +94,8 @@ public class ClientSocket extends AbstractClient implements Runnable{
     @Override
     public void run() {
         try{
+            //boolean resp = in.readBoolean();
+            //System.out.println(resp);
             while (true) {
                 try {
                     MessageGame msg = (MessageGame) in.readObject();
@@ -109,8 +111,19 @@ public class ClientSocket extends AbstractClient implements Runnable{
                     e.printStackTrace();
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
+            System.out.println("errore EOF");
             e.printStackTrace();
+        }
+        finally {
+            try {
+                in.close();
+                out.close();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

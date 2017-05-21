@@ -107,7 +107,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     @Override
     public void run() {
 
-        while (socketClient.isConnected()) {
+        while (!socketClient.isClosed()) {
             try {
                 MessageGame msg = (MessageGame) in.readObject();
                 MessageGame response;
@@ -117,8 +117,17 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
                         doAction(msg);
                         break;
                 }
-            } catch (IOException | ClassNotFoundException e) {
+            }
+            catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
+            }
+            finally {
+                try {
+                    in.close();
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
