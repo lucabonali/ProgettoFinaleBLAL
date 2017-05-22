@@ -1,4 +1,4 @@
-package main.controllers;
+package main.gui;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

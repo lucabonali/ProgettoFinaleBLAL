@@ -1,4 +1,4 @@
-package main.controllers;
+package main.gui;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.clientGame.AbstractClient;
-import main.controllers.game_mode_selection.GameModeSelectionView;
+import main.gui.game_mode_selection.GameModeSelectionView;
 
 import javax.swing.text.html.ImageView;
 import java.io.IOException;

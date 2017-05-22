@@ -4,8 +4,8 @@ import main.api.ClientInterface;
 import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;
 import main.api.types.ResourceType;
-import main.controllers.GameController;
-import main.controllers.GameSelectionController;
+import main.gui.GameController;
+import main.gui.GameSelectionController;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

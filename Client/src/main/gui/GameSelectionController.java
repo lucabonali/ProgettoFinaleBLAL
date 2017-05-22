@@ -1,4 +1,4 @@
-package main.controllers;
+package main.gui;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -28,7 +28,7 @@ public class GameSelectionController {
     }
 
     private void startGameMode() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/resources/views/game_view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/views/game_view.fxml"));
         Parent window = (Pane) fxmlLoader.load();
         GameController controller = fxmlLoader.getController();
         AbstractClient.getInstance().setGameController(controller); //setto il model
