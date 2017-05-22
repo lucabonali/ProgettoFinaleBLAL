@@ -3,6 +3,7 @@ package main.gui;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,7 +12,6 @@ import javafx.stage.Stage;
 import main.clientGame.AbstractClient;
 import main.gui.game_mode_selection.GameModeSelectionView;
 
-import javax.swing.text.html.ImageView;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 
@@ -20,7 +20,6 @@ import java.rmi.NotBoundException;
  * @author Andrea
  */
 public class LoginController {
-    @FXML private ImageView imageLorenzo;
     @FXML private TextField userName;
     @FXML private PasswordField password;
     @FXML private Button buttonLogin;
@@ -122,6 +121,6 @@ public class LoginController {
     }
 
     public void initialize() {
-
+        buttonLogin.setCursor(Cursor.HAND);
     }
 }
