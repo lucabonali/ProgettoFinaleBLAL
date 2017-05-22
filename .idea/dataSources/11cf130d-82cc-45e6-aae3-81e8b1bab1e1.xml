@@ -3957,7 +3957,7 @@
       <DataType>varchar(15)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="874" parent="87" name="perman_enteffect">
+    <column id="874" parent="87" name="permanent_effect">
       <Position>5</Position>
       <DataType>varchar(10)|0</DataType>
     </column>
