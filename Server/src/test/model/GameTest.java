@@ -8,6 +8,8 @@ import main.model.Game;
 import main.servergame.rmi.PlayerRMI;
 import org.junit.Test;
 
+import java.rmi.RemoteException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -41,7 +43,7 @@ public class GameTest {
     }
 
     @Test
-    public void shotDice() throws Exception {
+    public void shotDice() throws RemoteException, InterruptedException, LorenzoException {
         Game g = new Game();
         PlayerRMI p1 = new PlayerRMI("gg");
         PlayerRMI p2 = new PlayerRMI("lol");
@@ -50,7 +52,7 @@ public class GameTest {
         p2.setGame(g);
         g.addPlayer(p2);
         Thread.sleep(6000);
-        p1.shotDice(4,5,6);
+        g.shotDice(p1,4,5,6);
         assertEquals(4, p2.getFamilyMember(FamilyMemberType.ORANGE_DICE).getValue());
     }
 
@@ -68,7 +70,7 @@ public class GameTest {
     }
 
     @Test
-    public void isFull() throws Exception {
+    public void isFull() throws RemoteException, InterruptedException {
         Game g = new Game();
         PlayerRMI p1 = new PlayerRMI("andrea");
         g.addPlayer(p1);
@@ -81,15 +83,15 @@ public class GameTest {
     }
 
     @Test
-    public void excommunicatePlayer() throws Exception {
+    public void excommunicatePlayer() {
     }
 
     @Test
-    public void giveChurchSupport() throws Exception {
+    public void giveChurchSupport() {
     }
 
-    @Test(expected = LorenzoException.class)
-    public void doAction() throws Exception {
+    @Test
+    public void doAction() throws RemoteException {
         Game g = new Game();
         PlayerRMI p1 = new PlayerRMI("andrea");
         g.addPlayer(p1);
@@ -101,6 +103,7 @@ public class GameTest {
 
     @Test
     public void endMove() throws Exception {
+
     }
 
     @Test

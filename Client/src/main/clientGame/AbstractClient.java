@@ -2,6 +2,7 @@ package main.clientGame;
 
 import main.api.ClientInterface;
 import main.api.exceptions.LorenzoException;
+import main.api.exceptions.NewActionException;
 import main.api.types.ResourceType;
 import main.controllers.GameController;
 import main.controllers.GameSelectionController;
@@ -162,6 +163,14 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     public abstract void addClientInterfaceToServer() throws RemoteException;
 
+
+    /**
+     * metyodo che viene chiamato dal client che notifica al server che la mossa è finita
+     * @throws RemoteException
+     */
+    public abstract void endMove() throws RemoteException, NewActionException;
+
+
     /**
      * metodo utilizzato per ritornarmi ogni volta l'istanza di giocatore corretta
      * @return AbstractClient
@@ -186,5 +195,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         }
         return instance;
     }
+
+
 
 }

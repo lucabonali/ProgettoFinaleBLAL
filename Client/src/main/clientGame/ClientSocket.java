@@ -1,5 +1,6 @@
 package main.clientGame;
 
+import main.api.exceptions.NewActionException;
 import main.api.messages.MessageGame;
 import main.api.messages.MessageGameType;
 import main.api.messages.MessageLogin;
@@ -87,6 +88,11 @@ public class ClientSocket extends AbstractClient implements Runnable{
     @Override
     public void addClientInterfaceToServer() throws RemoteException {
         //non fa nulla
+    }
+
+    @Override
+    public void endMove() throws RemoteException, NewActionException {
+
     }
 
     @Override

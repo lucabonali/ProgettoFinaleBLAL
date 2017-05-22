@@ -1,10 +1,12 @@
 package main.controllers;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import main.api.exceptions.LorenzoException;
+import main.api.exceptions.NewActionException;
 import main.clientGame.AbstractClient;
 
 import java.rmi.RemoteException;
@@ -16,7 +18,8 @@ import java.rmi.RemoteException;
 public class GameController {
     private AbstractClient client;
 
-    @FXML private Button doActionButton;
+    @FXML private Button doActionButton,endMoveButton;
+
 
     @FXML
     private void doAction() throws RemoteException, LorenzoException {
@@ -34,5 +37,9 @@ public class GameController {
 
     public void initialize() {
         client = AbstractClient.getInstance();
+    }
+
+    public void endMove(ActionEvent actionEvent) throws RemoteException, NewActionException {
+        client.endMove();
     }
 }

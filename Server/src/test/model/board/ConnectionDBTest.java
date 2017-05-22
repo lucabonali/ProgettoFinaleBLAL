@@ -1,7 +1,7 @@
 package test.model.board;
 
 import main.model.board.ConnectionDB;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,14 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ConnectionDBTest {
 
     @Test
-    void executeQuery() throws SQLException {
+    public void executeQuery() throws SQLException {
         ConnectionDB connectionDB = new ConnectionDB();
         ResultSet rs = connectionDB.executeQuery("SELECT * FROM cards");
         assertTrue(rs != null);
     }
 
     @Test
-    void closeConnection() {
+    public void closeConnection() {
     }
 
 }

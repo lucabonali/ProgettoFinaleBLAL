@@ -3,74 +3,74 @@
   <ID>JAVA</ID>
   <OriginalElement>main.model.action_spaces</OriginalElement>
   <nodes>
-    <node x="1260.25" y="97.0">main.model.action_spaces.singleActionSpaces.ActionSpace</node>
-    <node x="1352.0" y="194.0">main.model.action_spaces.singleActionSpaces.HarvestActionSpace</node>
-    <node x="323.0" y="194.0">main.model.action_spaces.largeActionSpaces.CouncilActionSpace</node>
-    <node x="1118.0" y="194.0">main.model.action_spaces.singleActionSpaces.FloorActionSpace</node>
-    <node x="1605.0" y="194.0">main.model.action_spaces.singleActionSpaces.ProductionActionSpace</node>
-    <node x="330.5" y="97.0">main.model.action_spaces.largeActionSpaces.LargeActionSpace</node>
-    <node x="574.0" y="194.0">main.model.action_spaces.largeActionSpaces.LargeHarvestActionSpace</node>
-    <node x="0.0" y="286.0">main.model.action_spaces.Action</node>
-    <node x="0.0" y="194.0">main.model.action_spaces.largeActionSpaces.LargeProductionActionSpace</node>
-    <node x="870.0" y="194.0">main.model.action_spaces.singleActionSpaces.MarketActionSpace</node>
-    <node x="822.1875" y="0.0">main.model.action_spaces.ActionSpaceInterface</node>
+    <node x="1125.0" y="158.0">main.model.action_spaces.singleActionSpaces.HarvestActionSpace</node>
+    <node x="424.9999999999999" y="158.0">main.model.action_spaces.largeActionSpaces.CouncilActionSpace</node>
+    <node x="888.9999999999999" y="79.0">main.model.action_spaces.singleActionSpaces.ActionSpace</node>
+    <node x="963.9999999999999" y="158.0">main.model.action_spaces.singleActionSpaces.FloorActionSpace</node>
+    <node x="241.9999999999999" y="79.0">main.model.action_spaces.largeActionSpaces.LargeActionSpace</node>
+    <node x="770.9999999999999" y="158.0">main.model.action_spaces.singleActionSpaces.ProductionActionSpace</node>
+    <node x="221.9999999999999" y="158.0">main.model.action_spaces.largeActionSpaces.LargeHarvestActionSpace</node>
+    <node x="0.0" y="232.0">main.model.action_spaces.Action</node>
+    <node x="0.0" y="158.0">main.model.action_spaces.largeActionSpaces.LargeProductionActionSpace</node>
+    <node x="599.9999999999999" y="158.0">main.model.action_spaces.singleActionSpaces.MarketActionSpace</node>
+    <node x="586.8749999999999" y="0.0">main.model.action_spaces.ActionSpaceInterface</node>
   </nodes>
   <notes />
   <edges>
     <edge source="main.model.action_spaces.largeActionSpaces.LargeProductionActionSpace" target="main.model.action_spaces.largeActionSpaces.LargeActionSpace">
-      <point x="0.0" y="-23.5" />
-      <point x="151.5" y="174.0" />
-      <point x="366.5" y="174.0" />
-      <point x="-72.0" y="23.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="101.0" y="138.0" />
+      <point x="265.8333333333332" y="138.0" />
+      <point x="-47.666666666666686" y="14.5" />
     </edge>
     <edge source="main.model.action_spaces.largeActionSpaces.LargeActionSpace" target="main.model.action_spaces.ActionSpaceInterface">
-      <point x="0.0" y="-23.5" />
-      <point x="438.5" y="72.0" />
-      <point x="882.4375" y="72.0" />
-      <point x="-60.25" y="23.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="313.4999999999999" y="54.0" />
+      <point x="626.8749999999999" y="54.0" />
+      <point x="-40.0" y="14.5" />
     </edge>
     <edge source="main.model.action_spaces.singleActionSpaces.ProductionActionSpace" target="main.model.action_spaces.singleActionSpaces.ActionSpace">
-      <point x="0.0" y="-23.5" />
-      <point x="1735.0" y="164.0" />
-      <point x="1411.625" y="164.0" />
-      <point x="64.875" y="23.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="857.4999999999999" y="138.0" />
+      <point x="931.7499999999999" y="138.0" />
+      <point x="-14.25" y="14.5" />
     </edge>
     <edge source="main.model.action_spaces.singleActionSpaces.HarvestActionSpace" target="main.model.action_spaces.singleActionSpaces.ActionSpace">
-      <point x="0.0" y="-23.5" />
-      <point x="1468.5" y="174.0" />
-      <point x="1368.375" y="174.0" />
-      <point x="21.625" y="23.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="1202.0" y="128.0" />
+      <point x="988.7499999999999" y="128.0" />
+      <point x="42.75" y="14.5" />
     </edge>
     <edge source="main.model.action_spaces.largeActionSpaces.CouncilActionSpace" target="main.model.action_spaces.largeActionSpaces.LargeActionSpace">
-      <point x="0.0" y="-23.5" />
-      <point x="0.0" y="23.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="502.4999999999999" y="138.0" />
+      <point x="361.1666666666665" y="138.0" />
+      <point x="47.66666666666663" y="14.5" />
     </edge>
     <edge source="main.model.action_spaces.singleActionSpaces.FloorActionSpace" target="main.model.action_spaces.singleActionSpaces.ActionSpace">
-      <point x="0.0" y="-23.5" />
-      <point x="1225.0" y="174.0" />
-      <point x="1325.125" y="174.0" />
-      <point x="-21.625" y="23.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="1034.5" y="138.0" />
+      <point x="960.2499999999999" y="138.0" />
+      <point x="14.25" y="14.5" />
     </edge>
     <edge source="main.model.action_spaces.largeActionSpaces.LargeHarvestActionSpace" target="main.model.action_spaces.largeActionSpaces.LargeActionSpace">
-      <point x="0.0" y="-23.5" />
-      <point x="712.0" y="174.0" />
-      <point x="510.5" y="174.0" />
-      <point x="72.0" y="23.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
     </edge>
     <edge source="main.model.action_spaces.singleActionSpaces.MarketActionSpace" target="main.model.action_spaces.singleActionSpaces.ActionSpace">
-      <point x="0.0" y="-23.5" />
-      <point x="984.0" y="164.0" />
-      <point x="1281.875" y="164.0" />
-      <point x="-64.875" y="23.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="675.4999999999999" y="128.0" />
+      <point x="903.2499999999999" y="128.0" />
+      <point x="-42.75" y="14.5" />
     </edge>
     <edge source="main.model.action_spaces.singleActionSpaces.ActionSpace" target="main.model.action_spaces.ActionSpaceInterface">
-      <point x="0.0" y="-23.5" />
-      <point x="1346.75" y="72.0" />
-      <point x="1002.9375" y="72.0" />
-      <point x="60.25" y="23.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="945.9999999999999" y="54.0" />
+      <point x="706.8749999999999" y="54.0" />
+      <point x="40.0" y="14.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="280.0" y="118.0" />
+  <settings layout="Hierarchic Group" zoom="0.8136258660508083" x="639.4999999999999" y="130.5" />
   <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>

@@ -13,7 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author lampa
+ * Classe che lancia l' esecuzione del server
+ * @author lampa, Luca
  */
 public class MainServer {
     public static int counter = 0;
