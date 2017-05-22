@@ -17,7 +17,7 @@ import java.util.List;
  * classe che mi rappresenta una singola carta sviluppo
  */
 
-public class developmentCard {
+public class DevelopmentCard {
     private AbstractPlayer player;
     private final CardType type;
     private final String name;
@@ -26,7 +26,7 @@ public class developmentCard {
     private final List<Effect> permanentEffects;
     private final int period;
 
-    public developmentCard(CardType type, String name, List<Field> costs,
+    public DevelopmentCard(CardType type, String name, List<Field> costs,
                            List<Effect> qeffs, List<Effect> peffs, int period){
         this.type = type;
         this.name = name;

@@ -7,7 +7,7 @@ import main.api.exceptions.NewActionException;
 import main.api.messages.MessageGame;
 import main.api.types.FamilyMemberType;
 import main.model.Game;
-import main.model.board.developmentCard;
+import main.model.board.DevelopmentCard;
 import main.model.board.FamilyMember;
 import main.model.board.PersonalBoard;
 
@@ -138,7 +138,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      * @param towersCardsList lista di stringhe che mi indica i nomi delle carte pescate
      * @throws RemoteException
      */
-    public abstract void initializeBoard(List<developmentCard> towersCardsList) throws RemoteException;
+    public abstract void initializeBoard(List<DevelopmentCard> towersCardsList) throws RemoteException;
 
     /// metodi implementatti della PlayerInterface /////////////////////////////////////////
 

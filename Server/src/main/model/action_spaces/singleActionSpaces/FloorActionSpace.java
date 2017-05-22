@@ -5,7 +5,7 @@ import main.api.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
 import main.model.action_spaces.Action;
-import main.model.board.developmentCard;
+import main.model.board.DevelopmentCard;
 import main.model.effects.development_effects.FixedIncrementEffect;
 import main.model.fields.Resource;
 
@@ -19,7 +19,7 @@ import java.rmi.RemoteException;
  * è una dei 5 tipi diversi di spazi azione
  */
 public class FloorActionSpace extends ActionSpace {
-    private developmentCard developmentCard;
+    private DevelopmentCard DevelopmentCard;
     private CardType cardType;
 
     public FloorActionSpace(int value, CardType cardType, ResourceType resourceTypeQuickEffect) {
@@ -33,16 +33,16 @@ public class FloorActionSpace extends ActionSpace {
         super.setEffect(new FixedIncrementEffect(resource)); //eventualmente null
     }
 
-    public void setDevelopmentCard(developmentCard developmentCard){
-        this.developmentCard = developmentCard;
+    public void setDevelopmentCard(DevelopmentCard DevelopmentCard){
+        this.DevelopmentCard = DevelopmentCard;
     }
 
-    public developmentCard getDevelopmentCard(){
-        return developmentCard;
+    public DevelopmentCard getDevelopmentCard(){
+        return DevelopmentCard;
     }
 
     public void removeCard(){
-        this.developmentCard = null;
+        this.DevelopmentCard = null;
     }
 
     public CardType getCardType() {
@@ -63,11 +63,11 @@ public class FloorActionSpace extends ActionSpace {
         if (getMinValue() > action.getValue())
             throw new LorenzoException("non hai abbastanza forza per eseguire l'azione!!");
 
-        developmentCard.setPlayer(action.getPlayer());
+        DevelopmentCard.setPlayer(action.getPlayer());
         setFamilyMember(action.getFamilyMember());
         if (getEffect() != null)
             getEffect().active(action.getPlayer());
-        developmentCard.activeQuickEffects();
+        DevelopmentCard.activeQuickEffects();
     }
 
 

@@ -121,7 +121,7 @@ public class Board {
         towerMap.get(CardType.VENTURES).setCards(developmentDeck.drawCards(period,turn,CardType.VENTURES));
     }
 
-    public List<developmentCard> getCardsFromTower(CardType cardType){
+    public List<DevelopmentCard> getCardsFromTower(CardType cardType){
         return towerMap.get(cardType).getCards();
     }
 

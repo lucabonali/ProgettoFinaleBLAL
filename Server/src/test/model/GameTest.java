@@ -40,7 +40,7 @@ public class GameTest {
         assertEquals(1, g.getId(playerRMI));
     }
 
-    @Test(expected = LorenzoException.class)
+    @Test
     public void shotDice() throws Exception {
         Game g = new Game();
         PlayerRMI p1 = new PlayerRMI("gg");
@@ -50,8 +50,8 @@ public class GameTest {
         p2.setGame(g);
         g.addPlayer(p2);
         Thread.sleep(6000);
-        p2.shotDice(4,5,6);
-        //assertEquals(4, p1.getFamilyMember(FamilyMemberType.ORANGE_DICE).getValue());
+        p1.shotDice(4,5,6);
+        assertEquals(4, p2.getFamilyMember(FamilyMemberType.ORANGE_DICE).getValue());
     }
 
     @Test

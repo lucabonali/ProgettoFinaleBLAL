@@ -31,11 +31,11 @@ public class Tower {
 
     /**
      * setta le carte di ogni piano
-     * @param developmentCards
+     * @param DevelopmentCards
      */
-    public void setCards(List<developmentCard> developmentCards){
+    public void setCards(List<DevelopmentCard> DevelopmentCards){
         for(int i = 0 ; i<4 ; i++){
-            floorActionSpaces[i].setDevelopmentCard(developmentCards.get(i));
+            floorActionSpaces[i].setDevelopmentCard(DevelopmentCards.get(i));
         }
     }
 
@@ -50,7 +50,7 @@ public class Tower {
      * @param n
      * @return carta pescata
      */
-    private developmentCard draw(int n){
+    private DevelopmentCard draw(int n){
         return floorActionSpaces[n].getDevelopmentCard();
     }
 
@@ -77,8 +77,8 @@ public class Tower {
         return floorActionSpaces[numFloor];
     }
 
-    public List<developmentCard> getCards() {
-        List<developmentCard> list = new ArrayList<>();
+    public List<DevelopmentCard> getCards() {
+        List<DevelopmentCard> list = new ArrayList<>();
         for (int i=0; i < 4; i++){
             list.add(floorActionSpaces[i].getDevelopmentCard());
         }

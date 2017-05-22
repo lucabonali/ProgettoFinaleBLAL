@@ -1,6 +1,6 @@
 package main.servergame.rmi;
 
-import main.model.board.developmentCard;
+import main.model.board.DevelopmentCard;
 import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
@@ -55,7 +55,7 @@ public class PlayerRMI extends AbstractPlayer {
 
     @Override
     public void notifyError(String errorMessage) throws RemoteException {
-        getClientInterface().notifyMessage(errorMessage);
+        //getClientInterface().notifyMessage(errorMessage);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class PlayerRMI extends AbstractPlayer {
     }
 
     @Override
-    public void initializeBoard(List<developmentCard> towersCardsList) throws RemoteException {
+    public void initializeBoard(List<DevelopmentCard> towersCardsList) throws RemoteException {
         //implementare
     }
 

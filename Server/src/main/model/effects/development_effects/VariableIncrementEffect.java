@@ -1,6 +1,6 @@
 package main.model.effects.development_effects;
 
-import main.model.board.developmentCard;
+import main.model.board.DevelopmentCard;
 import main.model.fields.Field;
 import main.model.fields.Resource;
 import main.api.types.CardType;
@@ -34,7 +34,7 @@ public class VariableIncrementEffect implements Effect{
 
     @Override
     public void active(AbstractPlayer player) {
-        List<developmentCard> list = player.getPersonalBoard().getCardsList(cardType);
+        List<DevelopmentCard> list = player.getPersonalBoard().getCardsList(cardType);
         int qta = field.getQta()*list.size();
         Resource newRes = new Resource(qta, field.getType());
         player.getPersonalBoard().modifyResources(newRes);

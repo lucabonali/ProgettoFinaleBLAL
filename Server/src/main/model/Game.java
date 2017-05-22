@@ -9,7 +9,7 @@ import main.api.types.Phases;
 import main.api.types.ResourceType;
 import main.model.board.Board;
 import main.model.board.FamilyMember;
-import main.model.board.developmentCard;
+import main.model.board.DevelopmentCard;
 import main.model.fields.Resource;
 import main.servergame.AbstractPlayer;
 
@@ -79,7 +79,7 @@ public class Game {
     public void shotDice(AbstractPlayer player, int orange, int white, int black) throws  RemoteException {
         try{
             checkTurn(player);
-            if(!(player == turnOrder.get(0)) && (lap == 1) && (phase == Phases.ACTION))
+            if((player != turnOrder.get(0)) || (lap != 1) || (phase != Phases.ACTION))
                 player.notifyError("I dadi sono già stati tirati");
             else
                 turnOrder.forEach(abstractPlayer -> abstractPlayer.setDiceValues(orange, white, black));
@@ -338,7 +338,7 @@ public class Game {
         //inizializza il turno sul tabellone
         board.initializeTurn(period, turn);
         playerMap.forEach(((integer, abstractPlayer) -> abstractPlayer.removeAllFamilyMembers()));
-        List<developmentCard> cardsList = new ArrayList<>();
+        List<DevelopmentCard> cardsList = new ArrayList<>();
         cardsList.addAll(board.getCardsFromTower(CardType.TERRITORY));
         cardsList.addAll(board.getCardsFromTower(CardType.CHARACTER));
         cardsList.addAll(board.getCardsFromTower(CardType.BUILDING));

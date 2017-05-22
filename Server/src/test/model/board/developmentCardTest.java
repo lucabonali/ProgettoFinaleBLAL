@@ -3,7 +3,7 @@ package test.model.board;
 import main.api.exceptions.LorenzoException;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.model.board.developmentCard;
+import main.model.board.DevelopmentCard;
 import main.model.effects.development_effects.Effect;
 import main.model.effects.development_effects.FixedIncrementEffect;
 import main.model.fields.Field;
@@ -23,13 +23,13 @@ import static org.junit.Assert.assertEquals;
 public class developmentCardTest {
     @Test
     public void getType() throws Exception {
-        developmentCard c = new developmentCard(CardType.TERRITORY, "valle", null, null, null, 1);
+        DevelopmentCard c = new DevelopmentCard(CardType.TERRITORY, "valle", null, null, null, 1);
         assertEquals(CardType.TERRITORY, c.getType());
     }
 
     @Test
     public void getName() throws Exception {
-        developmentCard c = new developmentCard(CardType.TERRITORY, "valle", null, null, null, 1);
+        DevelopmentCard c = new DevelopmentCard(CardType.TERRITORY, "valle", null, null, null, 1);
         assertEquals("valle", c.getName());
     }
 
@@ -37,7 +37,7 @@ public class developmentCardTest {
     public void getCosts() throws Exception {
         List<Field> costs = new ArrayList<>();
         costs.add(new Resource(2, ResourceType.COINS));
-        developmentCard c = new developmentCard(CardType.TERRITORY, "valle", costs, null, null, 1);
+        DevelopmentCard c = new DevelopmentCard(CardType.TERRITORY, "valle", costs, null, null, 1);
         assertEquals(costs, c.getCosts());
     }
 
@@ -57,7 +57,7 @@ public class developmentCardTest {
         List<Field> costs = new ArrayList<>();
         costs.add(new Resource(-5, ResourceType.COINS));
         costs.add(new Resource(-5, ResourceType.WOOD));
-        developmentCard c = new developmentCard(CardType.TERRITORY, "valle", costs, null, null, 1);
+        DevelopmentCard c = new DevelopmentCard(CardType.TERRITORY, "valle", costs, null, null, 1);
         c.setPlayer(p1);
         assertEquals(null, c.getPlayer());
     }
@@ -69,7 +69,7 @@ public class developmentCardTest {
         List<Field> costs = new ArrayList<>();
         costs.add(new Resource(-5, ResourceType.COINS));
         costs.add(new Resource(-5, ResourceType.WOOD));
-        developmentCard c = new developmentCard(CardType.TERRITORY, "valle", costs, null, null, 1);
+        DevelopmentCard c = new DevelopmentCard(CardType.TERRITORY, "valle", costs, null, null, 1);
         c.setPlayer(p1);
     }
 
@@ -80,7 +80,7 @@ public class developmentCardTest {
         List<Field> costs = new ArrayList<>();
         costs.add(new Resource(-1, ResourceType.COINS));
         costs.add(new Resource(-1, ResourceType.WOOD));
-        developmentCard c = new developmentCard(CardType.TERRITORY, "valle", costs, null, null, 1);
+        DevelopmentCard c = new DevelopmentCard(CardType.TERRITORY, "valle", costs, null, null, 1);
         c.setPlayer(p1);
         assertEquals(Optional.of(4), Optional.of(p1.getPersonalBoard().getQtaResources().get(ResourceType.COINS)));
         assertEquals(Optional.of(1), Optional.of(p1.getPersonalBoard().getQtaResources().get(ResourceType.WOOD)));
@@ -93,7 +93,7 @@ public class developmentCardTest {
         List<Effect> effectList = new ArrayList<>();
         Effect effect = new FixedIncrementEffect(new Resource(3, ResourceType.COINS));
         effectList.add(effect);
-        developmentCard c = new developmentCard(CardType.TERRITORY, "valle", null, effectList, null, 1);
+        DevelopmentCard c = new DevelopmentCard(CardType.TERRITORY, "valle", null, effectList, null, 1);
         c.setPlayer(p1);
         c.activeQuickEffects();
         assertEquals(Optional.of(8), Optional.of(p1.getPersonalBoard().getQtaResources().get(ResourceType.COINS)));

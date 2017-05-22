@@ -32,7 +32,7 @@ public class PersonalBoard {
     private Map<ResourceType, Resource> resourceList;
 
     //liste delle carte in possesso, al massimo 6 per tipo
-    private Map<CardType, List<developmentCard>> cardsMap;
+    private Map<CardType, List<DevelopmentCard>> cardsMap;
 
     //id del giocatore e quindi della plancia
     private int id;
@@ -95,16 +95,16 @@ public class PersonalBoard {
      * @param cardType tipo di carte che voglio
      * @return la lista corretta
      */
-    public List<developmentCard> getCardsList(CardType cardType){
+    public List<DevelopmentCard> getCardsList(CardType cardType){
         return cardsMap.get(cardType);
     }
 
     /**
      * mi aggiunge la carta alla lista delle mie carte
-     * @param developmentCard carta da aggiungere
+     * @param DevelopmentCard carta da aggiungere
      */
-    public void addCard(developmentCard developmentCard) {
-        cardsMap.get(developmentCard.getType()).add(developmentCard);
+    public void addCard(DevelopmentCard DevelopmentCard) {
+        cardsMap.get(DevelopmentCard.getType()).add(DevelopmentCard);
     }
 
     /**
@@ -155,28 +155,28 @@ public class PersonalBoard {
     public void activeTerritoriesEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
         cardsMap.get(CardType.TERRITORY).get(0).activePermanentEffects();
-//        for (developmentCard card : cardsMap.get(CardType.TERRITORY)) {
+//        for (DevelopmentCard card : cardsMap.get(CardType.TERRITORY)) {
 //            card.activePermanentEffects();
 //        }
     }
 
     public void activeBuildingsEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
-        for (developmentCard developmentCard : cardsMap.get(CardType.BUILDING)) {
-            developmentCard.activePermanentEffects();
+        for (DevelopmentCard DevelopmentCard : cardsMap.get(CardType.BUILDING)) {
+            DevelopmentCard.activePermanentEffects();
         }
     }
 
     public void activeCharacterEffects(Action action) throws RemoteException, NewActionException {
         this.currentAction = action;
-        for (developmentCard developmentCard : cardsMap.get(CardType.CHARACTER)) {
-            developmentCard.activePermanentEffects();
+        for (DevelopmentCard DevelopmentCard : cardsMap.get(CardType.CHARACTER)) {
+            DevelopmentCard.activePermanentEffects();
         }
     }
 
     private void activeVentueresEffects() throws RemoteException, NewActionException {
-        for (developmentCard developmentCard : cardsMap.get(CardType.VENTURES)){
-            developmentCard.activePermanentEffects();
+        for (DevelopmentCard DevelopmentCard : cardsMap.get(CardType.VENTURES)){
+            DevelopmentCard.activePermanentEffects();
         }
     }
 

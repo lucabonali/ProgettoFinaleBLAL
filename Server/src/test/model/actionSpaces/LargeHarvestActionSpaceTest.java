@@ -7,7 +7,7 @@ import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
 import main.model.action_spaces.Action;
 import main.model.action_spaces.largeActionSpaces.LargeHarvestActionSpace;
-import main.model.board.developmentCard;
+import main.model.board.DevelopmentCard;
 import main.model.effects.development_effects.AreaActivationEffect;
 import main.model.effects.development_effects.Effect;
 import main.model.effects.development_effects.FixedIncrementEffect;
@@ -37,8 +37,8 @@ public class LargeHarvestActionSpaceTest {
                                             new Resource(5, ResourceType.WOOD)), 3);
         List<Effect> effectList = new ArrayList<>();
         effectList.add(areaActivationEffect);
-        developmentCard developmentCard = new developmentCard(CardType.TERRITORY, "zappa", null, null, effectList, 1);
-        developmentCard.setPlayer(player); //pesco la carta al giocatore
+        DevelopmentCard DevelopmentCard = new DevelopmentCard(CardType.TERRITORY, "zappa", null, null, effectList, 1);
+        DevelopmentCard.setPlayer(player); //pesco la carta al giocatore
         lhas.doAction(action);
         assertEquals(Optional.of(8), Optional.of(player.getPersonalBoard().getQtaResources().get(ResourceType.WOOD)));
         assertEquals(Optional.of(3), Optional.of(player.getPersonalBoard().getQtaResources().get(ResourceType.STONE)));
@@ -56,8 +56,8 @@ public class LargeHarvestActionSpaceTest {
                         new Resource(5, ResourceType.WOOD)), 5);
         List<Effect> effectList = new ArrayList<>();
         effectList.add(areaActivationEffect);
-        developmentCard developmentCard = new developmentCard(CardType.TERRITORY, "zappa", null, null, effectList, 1);
-        developmentCard.setPlayer(player); //pesco la carta al giocatore
+        DevelopmentCard DevelopmentCard = new DevelopmentCard(CardType.TERRITORY, "zappa", null, null, effectList, 1);
+        DevelopmentCard.setPlayer(player); //pesco la carta al giocatore
         lhas.doAction(action);
         assertEquals(Optional.of(3), Optional.of(player.getPersonalBoard().getQtaResources().get(ResourceType.WOOD)));
     }
