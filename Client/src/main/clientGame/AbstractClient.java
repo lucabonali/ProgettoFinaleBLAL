@@ -155,7 +155,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * metodo che manda un messaggio al server dicendo che voglio giocare.
      * @throws RemoteException
      */
-    public abstract void startGame() throws RemoteException;
+    public abstract void startGame(int gameMode) throws RemoteException;
 
     /**
      * mi aggiunge l'interfaccia remota al server

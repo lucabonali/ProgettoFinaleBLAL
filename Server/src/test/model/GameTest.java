@@ -1,8 +1,5 @@
 package test.model;
 
-import main.api.exceptions.LorenzoException;
-import main.api.messages.MessageGame;
-import main.api.messages.MessageGameType;
 import main.api.types.FamilyMemberType;
 import main.model.Game;
 import main.servergame.rmi.PlayerRMI;
@@ -10,9 +7,7 @@ import org.junit.Test;
 
 import java.rmi.RemoteException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Luca
@@ -21,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class GameTest {
     @Test
     public void getCurrentPlayer() throws Exception {
-        Game g = new Game();
+        Game g = new Game(1);
         PlayerRMI p1 = new PlayerRMI("gg");
         PlayerRMI p2 = new PlayerRMI("lol");
         p1.setGame(g);
@@ -35,7 +30,7 @@ public class GameTest {
 
     @Test
     public void addPlayer() throws Exception {
-        Game g = new Game();
+        Game g = new Game(1);
         PlayerRMI playerRMI = new PlayerRMI("andrea");
         g.addPlayer(playerRMI);
         playerRMI.setGame(g);
@@ -43,8 +38,8 @@ public class GameTest {
     }
 
     @Test
-    public void shotDice() throws RemoteException, InterruptedException, LorenzoException {
-        Game g = new Game();
+    public void shotDice() throws RemoteException, InterruptedException {
+        Game g = new Game(1);
         PlayerRMI p1 = new PlayerRMI("gg");
         PlayerRMI p2 = new PlayerRMI("lol");
         p1.setGame(g);
@@ -58,7 +53,7 @@ public class GameTest {
 
     @Test
     public void getId() throws Exception {
-        Game g = new Game();
+        Game g = new Game(1);
         PlayerRMI p1 = new PlayerRMI("andrea");
         p1.setGame(g);
         PlayerRMI p2 = new PlayerRMI("luca");
@@ -71,7 +66,7 @@ public class GameTest {
 
     @Test
     public void isFull() throws RemoteException, InterruptedException {
-        Game g = new Game();
+        Game g = new Game(1);
         PlayerRMI p1 = new PlayerRMI("andrea");
         g.addPlayer(p1);
         p1.setGame(g);
@@ -84,30 +79,25 @@ public class GameTest {
 
     @Test
     public void excommunicatePlayer() {
+
     }
 
     @Test
     public void giveChurchSupport() {
-    }
-
-    @Test
-    public void doAction() throws RemoteException {
-        Game g = new Game();
-        PlayerRMI p1 = new PlayerRMI("andrea");
-        g.addPlayer(p1);
-        p1.setGame(g);
-        MessageGame msg = new MessageGame(MessageGameType.ACTION);
-        msg.setFamilyMemberType(FamilyMemberType.ORANGE_DICE);
-        p1.doAction(msg);
-    }
-
-    @Test
-    public void endMove() throws Exception {
 
     }
 
     @Test
-    public void removePlayer() throws Exception {
+    public void doAction() throws Exception {
+
+    }
+
+    @Test
+    public void endMove() {
+    }
+
+    @Test
+    public void removePlayer() {
     }
 
 }

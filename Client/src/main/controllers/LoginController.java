@@ -3,30 +3,28 @@ package main.controllers;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import main.clientGame.AbstractClient;
+import main.controllers.game_mode_selection.GameModeSelectionView;
 
 import javax.swing.text.html.ImageView;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 
 /**
- * Created by Luca, Andrea on 16/05/2017.
+ * @author Luca
+ * @author Andrea
  */
-public class LauncherController {
+public class LoginController {
     @FXML private ImageView imageLorenzo;
     @FXML private TextField userName;
     @FXML private PasswordField password;
     @FXML private Button buttonLogin;
     @FXML private RadioButton RMI,socket;
-
-    private ToggleGroup toggleGroup;
 
 
     /**
@@ -39,7 +37,6 @@ public class LauncherController {
     public void submit(ActionEvent actionEvent) throws IOException, NotBoundException {
         if(!checkFields()){
             launchAlert("Non hai inserito username e password!!!!");
-            return;
         }
         else{
             if(socket.isSelected() ) {
@@ -67,7 +64,6 @@ public class LauncherController {
                 launchAlert("Non hai selezionato il metodo di connessione");
             }
         }
-
     }
 
     /**
@@ -75,20 +71,17 @@ public class LauncherController {
      * @return true se entrambi i campi sono pieni, false altrimenti
      */
     private boolean checkFields() {
-        if(userName.getText().isEmpty() || password.getText().isEmpty()){
-            return false;
-        }
-        return true;
+        return !(userName.getText().isEmpty() || password.getText().isEmpty());
     }
 
 
     /**
      * Metodo che visualizza a schermo un alert se i campi non sono pieni
-     * @param s
+     * @param content contenuto del messaggio
      */
-    private void launchAlert(String s) {
+    private void launchAlert(String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(s);
+        alert.setHeaderText(content);
         alert.setTitle("Errore di login");
         alert.show();
     }
@@ -107,21 +100,24 @@ public class LauncherController {
      * @param actionEvent
      */
     public void select(ActionEvent actionEvent) {
-        toggleGroup = new ToggleGroup();
+        ToggleGroup toggleGroup = new ToggleGroup();
         socket.setToggleGroup(toggleGroup);
         RMI.setToggleGroup(toggleGroup);
     }
 
     public void startGameSelectionView() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/resources/views/game_selection_view.fxml"));
-        Parent window = (Pane) fxmlLoader.load();
-        GameSelectionController gsController = fxmlLoader.getController();
-        AbstractClient.getInstance().setGameSelectionController(gsController); //setto il model
+        //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/resources/views/game_selection_view.fxml"));
+        //Parent window = (Pane) fxmlLoader.load();
+        //GameSelectionController gsController = fxmlLoader.getController();
+        //AbstractClient.getInstance().setGameSelectionController(gsController); //setto il model
+        GameModeSelectionView nextView = new GameModeSelectionView();
+        Parent window = nextView.createContent();
         Platform.runLater(()->{
             Stage stage = (Stage) userName.getScene().getWindow();
-            Scene scene = new Scene(window);
+            Scene scene = new Scene(window, 1000, 620);
             stage.setScene(scene);
             stage.setTitle("GAME SELECTION");
+            stage.centerOnScreen();
         });
     }
 

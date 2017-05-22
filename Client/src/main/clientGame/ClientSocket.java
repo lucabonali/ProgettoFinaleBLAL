@@ -72,10 +72,11 @@ public class ClientSocket extends AbstractClient implements Runnable{
     }
 
     @Override
-    public void startGame() throws RemoteException {
+    public void startGame(int gameMode) throws RemoteException {
         try{
             MessageLogin msg = new MessageLogin(MessageLoginType.START_GAME);
             msg.setUsername(getUsername());
+            msg.setGameMode(gameMode);
             out.writeObject(msg);
             out.flush();
             new Thread(this).start();

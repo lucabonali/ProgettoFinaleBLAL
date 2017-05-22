@@ -23,7 +23,7 @@ public class GameSelectionController {
 
     @FXML
     private void startGame() throws IOException {
-        client.startGame();
+        client.startGame(1);
         startGameMode();
     }
 

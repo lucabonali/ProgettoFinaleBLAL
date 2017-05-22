@@ -13,12 +13,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Classe che lancia l' esecuzione del server
- * @author lampa, Luca
+ * @author Luca
+ * @author Andrea
  */
 public class MainServer {
-    public static int counter = 0;
-    public static Map<Integer,Game> gamesMap = Collections.synchronizedMap(new HashMap<>());
+    public static final int RANDOM = 1;
+    public static final int TWO_PLAYERS = 2;
+    public static final int THREE_PLAYERS = 3;
+    public static final int FOUR_PLAYERS = 4;
+    public static int counterRandom = 0;
+    public static int counter2Players = 0;
+    public static int counter3Players = 0;
+    public static int counter4Players = 0;
+    public static Map<Integer,Game> randomGamesMap = Collections.synchronizedMap(new HashMap<>());
+    public static Map<Integer,Game> twoPlayerGamesMap = Collections.synchronizedMap(new HashMap<>());
+    public static Map<Integer,Game> threePlayersGamesMap = Collections.synchronizedMap(new HashMap<>());
+    public static Map<Integer,Game> fourPlayersGamesMap = Collections.synchronizedMap(new HashMap<>());
     public static Map<String,String> playersMap = Collections.synchronizedMap(new HashMap<>());
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {

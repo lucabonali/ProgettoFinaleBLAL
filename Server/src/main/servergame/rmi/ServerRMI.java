@@ -1,12 +1,10 @@
 package main.servergame.rmi;
 
-import main.api.ClientInterface;
 import main.api.PlayerInterface;
-import main.servergame.AbstractServer;
 import main.model.Game;
+import main.servergame.AbstractServer;
 
 import java.rmi.RemoteException;
-import java.util.List;
 
 /**
  * @author Luca
@@ -16,26 +14,16 @@ import java.util.List;
  * scaricando l'oggetto dal registro.
  */
 public class ServerRMI extends AbstractServer {
-    //Lista dei giocatorei connessi tramite RMI
-    private static List<ClientInterface> playerRMIList; // Interfaccia del client su cui posso richiamare i metodi
 
     public ServerRMI() throws RemoteException {
     }
 
     @Override
-    public PlayerInterface startGame(String username) throws RemoteException {
-        Game game = getFreeGame(); //la prima partita libera trovata
+    public PlayerInterface startGame(String username, int gameMode) throws RemoteException {
+        Game game = getFreeGame(gameMode); //la prima partita libera trovata
         PlayerRMI playerRMI = new PlayerRMI(username);
-        playerRMI.setGame(getFreeGame());
+        playerRMI.setGame(game);
         game.addPlayer(playerRMI);
         return playerRMI;
-    }
-
-    /**
-     * aggiunge l' interfaccia del clientGame nella lista di giocatori RMI
-     * @param clientInterface
-     */
-    public void addPlayerRMI(ClientInterface clientInterface){
-        playerRMIList.add(clientInterface);
     }
 }

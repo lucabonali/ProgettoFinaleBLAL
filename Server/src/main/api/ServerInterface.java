@@ -32,9 +32,14 @@ public interface ServerInterface extends Remote {
     /**
      * metodo che esegue l' inizio della partita,
      * @param username username del giocatore che vuole giocare
+     * @param gameMode modalità di gioco:
+     *                 1: random
+     *                 2: due giocatori
+     *                 3: tre giocatori
+     *                 4: 4 giocatori
      * @return
      * @throws RemoteException
      */
-    PlayerInterface startGame(String username) throws RemoteException;
+    PlayerInterface startGame(String username, int gameMode) throws RemoteException;
 
 }

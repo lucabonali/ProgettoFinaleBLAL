@@ -1,9 +1,5 @@
 package main;
 
-/**
- *
- * Created by Luca,Andrea on 16/05/2017.
- */
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +11,10 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 
 
+/**
+ * @author Luca
+ * @author Andrea
+ */
 public class Launcher extends Application {
     /**
      * Metodo Main del clientGame, che lancia il metodo start di questa classe
@@ -34,7 +34,7 @@ public class Launcher extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main/resources/views/launcher_view.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main/resources/views/login_view.fxml"));
         primaryStage.setOnCloseRequest(event -> System.exit(0));
         primaryStage.centerOnScreen();
         primaryStage.setScene(new Scene(root, 600, 350));

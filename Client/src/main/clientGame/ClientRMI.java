@@ -72,8 +72,8 @@ public class ClientRMI extends AbstractClient {
      * @throws RemoteException
      */
     @Override
-    public void startGame() throws RemoteException {
-        serverGame = (PlayerInterface) server.startGame(getUsername());
+    public void startGame(int gameMode) throws RemoteException {
+        serverGame = (PlayerInterface) server.startGame(getUsername(), gameMode);
         addClientInterfaceToServer();
     }
 

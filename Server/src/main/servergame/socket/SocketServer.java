@@ -32,10 +32,10 @@ public class SocketServer extends AbstractServer implements Runnable {
 
 
     @Override
-    public PlayerInterface startGame(String username) throws RemoteException {
-        Game game = getFreeGame(); //la prima partita libera trovata
+    public PlayerInterface startGame(String username, int gameMode) throws RemoteException {
+        Game game = getFreeGame(gameMode); //la prima partita libera trovata
         PlayerSocket playerSocket = new PlayerSocket(username);
-        playerSocket.setGame(getFreeGame());
+        playerSocket.setGame(game);
         game.addPlayer(playerSocket);
         return playerSocket;
     }
@@ -88,7 +88,7 @@ public class SocketServer extends AbstractServer implements Runnable {
                                 out.writeObject(login(msgLogin.getUsername(), msgLogin.getPassword()));
                                 break;
                             case START_GAME:
-                                PlayerSocket player = (PlayerSocket) startGame(msgLogin.getUsername());
+                                PlayerSocket player = (PlayerSocket) startGame(msgLogin.getUsername(), msgLogin.getGameMode());
                                 if (player != null) {
                                     player.setSocketConnection(socket, in, out);
                                     new Thread(player).start();

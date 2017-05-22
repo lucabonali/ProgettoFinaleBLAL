@@ -1,5 +1,6 @@
 package main.model;
 
+import main.MainServer;
 import main.api.PlayerInterface;
 import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;
@@ -8,8 +9,8 @@ import main.api.types.CardType;
 import main.api.types.Phases;
 import main.api.types.ResourceType;
 import main.model.board.Board;
-import main.model.board.FamilyMember;
 import main.model.board.DevelopmentCard;
+import main.model.board.FamilyMember;
 import main.model.fields.Resource;
 import main.servergame.AbstractPlayer;
 
@@ -31,9 +32,12 @@ public class Game {
     private List<AbstractPlayer> turnOrder;
     private AbstractPlayer currentPlayer;
     private Phases phase = Phases.ACTION;
+    //1->random; 2->2giocatori; 3->3giocatori; 4->4giocatori
+    private int gameMode; //automaticamente mi indica il numero di giocatori che devo attendere
 
 
-    public Game() {
+    public Game(int gameMode) {
+        this.gameMode = gameMode;
         this.numPlayers = 0;
         playerMap = new HashMap<>();
         turnOrder = new ArrayList<>();
@@ -53,10 +57,22 @@ public class Game {
         playerMap.put(numPlayers , abstractPlayer);
         abstractPlayer.createPersonalBoard(numPlayers);
         turnOrder.add(abstractPlayer);
-        if(numPlayers == 2)
+        if(numPlayers == 2 && gameMode == MainServer.RANDOM)
             new Timer();
-        if(numPlayers == 4)
+        if(checkMaxNumberReached())
             startGame();
+    }
+
+    private boolean checkMaxNumberReached(){
+        if (gameMode != MainServer.RANDOM){
+            if (numPlayers == gameMode)
+                return true;
+        }
+        else {
+            if (numPlayers == 4)
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -72,7 +88,7 @@ public class Game {
     }
 
     /**
-     * simula il lancio dei dadi!!
+     * metodo per il lancio dei dadi, controlla se è il tuo turno..
      * @param player
      * @throws LorenzoException
      */
@@ -111,7 +127,7 @@ public class Game {
      * @param player
      * @throws LorenzoException
      */
-    private void checkTurn(AbstractPlayer player) throws LorenzoException {
+    public void checkTurn(AbstractPlayer player) throws LorenzoException {
         if (player != currentPlayer)
             throw new LorenzoException("non è il tuo turno");
     }
