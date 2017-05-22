@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>main.model</OriginalElement>
+  <nodes>
+    <node x="52.24999999999994" y="224.0">main.model.action_spaces</node>
+    <node x="43.0" y="0.0">main.model.fields</node>
+    <node x="0.0" y="339.9130859375">main.model.effects</node>
+    <node x="40.0" y="97.0">main.model.board</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="main.model.board" target="main.model.board">
+      <point x="-42.25" y="23.5" />
+      <point x="82.25" y="174.0" />
+      <point x="10.0" y="174.0" />
+      <point x="10.0" y="120.5" />
+      <point x="-84.5" y="-0.0" />
+    </edge>
+    <edge source="main.model.board" target="main.model.action_spaces">
+      <point x="70.41666666666663" y="23.5" />
+      <point x="194.91666666666663" y="204.0" />
+      <point x="243.08333333333326" y="204.0" />
+      <point x="76.33333333333331" y="-23.5" />
+    </edge>
+    <edge source="main.model.action_spaces" target="main.model.board">
+      <point x="-76.33333333333331" y="-23.5" />
+      <point x="90.41666666666663" y="204.0" />
+      <point x="138.58333333333331" y="204.0" />
+      <point x="14.083333333333314" y="23.5" />
+    </edge>
+    <edge source="main.model.board" target="main.model.fields">
+      <point x="0.0" y="-23.5" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="main.model.action_spaces" target="main.model.action_spaces">
+      <point x="0.0" y="23.5" />
+      <point x="166.74999999999994" y="291.0" />
+      <point x="32.24999999999994" y="291.0" />
+      <point x="32.24999999999994" y="247.5" />
+      <point x="-114.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="114.5" y="161.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
