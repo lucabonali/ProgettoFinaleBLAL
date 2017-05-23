@@ -6,10 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import main.api.types.CardType;
 import main.clientGame.AbstractClient;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Luca
@@ -39,7 +41,7 @@ public class GameController {
     @FXML private GridPane whiteDice;
     @FXML private GridPane orangeDice;
 
-    private List<String> territoriesCards = new ArrayList<>();
+    private Map<CardType,String[]> cards = new HashMap<>();
 
     private void initializeTower(GridPane tower, List<String> cards) {
         for (int i=0; i<4; i++) {
@@ -59,6 +61,9 @@ public class GameController {
 
     public void initialize() {
         client = AbstractClient.getInstance();
-
+        cards.put(CardType.TERRITORY, new String[4]);
+        cards.put(CardType.CHARACTER, new String[4]);
+        cards.put(CardType.BUILDING, new String[4]);
+        cards.put(CardType.VENTURES, new String[4]);
     }
 }
