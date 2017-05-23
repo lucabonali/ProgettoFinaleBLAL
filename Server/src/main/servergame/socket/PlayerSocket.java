@@ -2,6 +2,7 @@ package main.servergame.socket;
 
 import main.api.messages.MessageGame;
 import main.api.messages.MessageGameType;
+import main.api.messages.SocketProtocol;
 import main.model.board.DevelopmentCard;
 import main.servergame.AbstractPlayer;
 
@@ -115,9 +116,9 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
                         doAction((MessageGame) msg);
                         break;
                     }
-                    else if (msg instanceof String){
-                        switch ((String) msg){
-                            case "SHOT_DICE":
+                    else if (msg instanceof SocketProtocol){
+                        switch ((SocketProtocol) msg){
+                            case SHOT_DICE:
                                 int orange = in.readInt();
                                 int white = in.readInt();
                                 int black = in.readInt();

@@ -1,9 +1,6 @@
 package main.clientGame;
 
-import main.api.messages.MessageGame;
-import main.api.messages.MessageGameType;
-import main.api.messages.MessageLogin;
-import main.api.messages.MessageLoginType;
+import main.api.messages.*;
 import main.api.types.ActionSpacesType;
 import main.api.types.FamilyMemberType;
 
@@ -87,7 +84,7 @@ public class ClientSocket extends AbstractClient implements Runnable{
 
     @Override
     public void shotDice(int orange, int white, int black) throws IOException {
-        out.writeObject("SHOT_DICE");
+        out.writeObject(SocketProtocol.SHOT_DICE);
         out.flush();
         out.writeInt(orange);
         out.flush();
@@ -129,7 +126,6 @@ public class ClientSocket extends AbstractClient implements Runnable{
             }
         }
         catch (IOException e) {
-            System.out.println("errore EOF");
             e.printStackTrace();
         }
         finally {
