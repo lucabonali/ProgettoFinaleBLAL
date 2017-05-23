@@ -4,7 +4,7 @@ import main.api.ClientInterface;
 import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;
 import main.api.types.ResourceType;
-import main.gui.GameController;
+import main.gui.game_view.GameController;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -54,7 +54,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyMessage(String msg) throws RemoteException {
-        gameController.showMessage(msg);
+        //gameController.showMessage(msg);
     }
 
     /**

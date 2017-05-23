@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="353.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.login.LoginController">
+   <children>
+      <ImageView fitHeight="381.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/sfondo_lorenzo.jpg" />
+         </image></ImageView>
+      <BorderPane layoutX="200.0" layoutY="188.0" prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="223.0" text="Username" textFill="WHITE">
+                     <font>
+                        <Font name="AR JULIAN" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="userName" >
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                     <effect>
+                        <DropShadow />
+                     </effect></TextField>
+                  <Label prefHeight="17.0" prefWidth="232.0" text="Password" textFill="#fffefe">
+                     <font>
+                        <Font name="AR JULIAN" size="18.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="password"  />
+                  <Pane prefHeight="26.0" prefWidth="200.0" />
+                  <Button fx:id="buttonLogin" mnemonicParsing="false" onAction="#submit" onMouseEntered="#showButton"
+                          onMouseExited="#hideButton" opacity="0.47" prefHeight="25.0" prefWidth="204.0"
+                          text="Login" textAlignment="CENTER">
+                     <font>
+                        <Font name="AR DESTINE" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+      <Pane layoutX="386.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <HBox layoutY="42.0" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Pane prefHeight="100.0" prefWidth="83.0" />
+                  <RadioButton fx:id="RMI" onAction="#select" mnemonicParsing="false" text="RMI" textFill="#f2eeee">
+                     <font>
+                        <Font name="AR JULIAN" size="13.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="socket" onAction="#select" mnemonicParsing="false" text="Socket" textFill="WHITE">
+                     <font>
+                        <Font name="AR JULIAN" size="13.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+   </children>
+</Pane>

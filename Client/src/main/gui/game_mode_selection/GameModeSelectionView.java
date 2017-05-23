@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import main.clientGame.AbstractClient;
-import main.gui.GameController;
+import main.gui.game_view.GameController;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -188,14 +188,16 @@ public class GameModeSelectionView {
         public void run() {
             try {
                 client.startGame(gameMode);
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/views/game_view.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/game_view.fxml"));
                 Parent window = (Pane) fxmlLoader.load();
                 GameController controller = fxmlLoader.getController();
                 AbstractClient.getInstance().setGameController(controller); //setto il model
                 Platform.runLater(()->{
                     Stage stage = (Stage) root.getScene().getWindow();
-                    Scene scene = new Scene(window);
+                    Scene scene = new Scene(window, 1920, 1080);
                     stage.setScene(scene);
+                    stage.centerOnScreen();
+                    //stage.sizeToScene();
                     stage.setTitle("LORENZO IL MAGNIFICO!");
                 });
             } catch (IOException e) {
