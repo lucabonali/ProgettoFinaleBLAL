@@ -110,11 +110,20 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
         try{
             while (!socketClient.isClosed()) {
                 try {
-                    MessageGame msg = (MessageGame) in.readObject();
-                    switch (msg.getMessageGameType()) {
-                        case ACTION:
-                            doAction(msg);
-                            break;
+                    Object msg = in.readObject();
+                    if (msg instanceof MessageGame){
+                        doAction((MessageGame) msg);
+                        break;
+                    }
+                    else if (msg instanceof String){
+                        switch ((String) msg){
+                            case "SHOT_DICE":
+                                int orange = in.readInt();
+                                int white = in.readInt();
+                                int black = in.readInt();
+                                shotDice(orange, white, black);
+                                break;
+                        }
                     }
                 }
                 catch (IOException | ClassNotFoundException e) {

@@ -233,23 +233,29 @@ public class Game {
      * @throws NewActionException non si dovrebbe mai verificare, perché gli edifici non lanciano questi
      *                              effetti
      */
-    public void endMove() throws RemoteException, NewActionException {
-        for(int i = 0 ; i < numPlayers ; i++){
-            if(currentPlayer == turnOrder.get(i)) {
-                if (i == numPlayers - 1) {
-                    endLap();
-                    return;
-                }
-                else{
-                    currentPlayer = turnOrder.get(i+1);
-                    if (phase == Phases.ACTION)
-                        currentPlayer.isYourTurn();
-                    else
-                        currentPlayer.isYourExcommunicationTurn();
-                    return;
+    public void endMove() throws RemoteException {
+        try {
+            for(int i = 0 ; i < numPlayers ; i++){
+                if(currentPlayer == turnOrder.get(i)) {
+                    if (i == numPlayers - 1) {
+                        endLap();
+                        return;
+                    }
+                    else{
+                        currentPlayer = turnOrder.get(i+1);
+                        if (phase == Phases.ACTION)
+                            currentPlayer.isYourTurn();
+                        else
+                            currentPlayer.isYourExcommunicationTurn();
+                        return;
+                    }
                 }
             }
+        } catch (NewActionException e) {
+            e.printStackTrace();
+            //non dovrebbe mai verificarsi
         }
+
     }
 
     /**

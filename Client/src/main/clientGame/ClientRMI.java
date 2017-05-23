@@ -3,7 +3,6 @@ package main.clientGame;
 import main.api.PlayerInterface;
 import main.api.ServerInterface;
 import main.api.exceptions.LorenzoException;
-import main.api.exceptions.NewActionException;
 import main.api.messages.MessageGame;
 import main.api.messages.MessageGameType;
 import main.api.types.ActionSpacesType;
@@ -45,7 +44,7 @@ public class ClientRMI extends AbstractClient {
      * @throws LorenzoException
      */
     @Override
-    public void doAction() throws RemoteException, LorenzoException {
+    public void doAction() throws RemoteException {
         MessageGame msg = new MessageGame(MessageGameType.ACTION);
         msg.setFamilyMemberType(FamilyMemberType.ORANGE_DICE);
         msg.setActionSpacesType(ActionSpacesType.COUNCIL);
@@ -74,18 +73,9 @@ public class ClientRMI extends AbstractClient {
     @Override
     public void startGame(int gameMode) throws RemoteException {
         serverGame = (PlayerInterface) server.startGame(getUsername(), gameMode);
-        addClientInterfaceToServer();
-    }
-
-    /**
-     * metodo che aggiunge la propria intefaccia client al server, su cui il server potrà chiamare metodi di notifica e modifica
-     * dell' interaccia
-     * @throws RemoteException
-     */
-    @Override
-    public void addClientInterfaceToServer() throws RemoteException {
         serverGame.addClientInterface(this);
     }
+
 
     /**
      * metyodo che viene chiamato dal client che notifica al server che la mossa è finita, chiamando
@@ -93,9 +83,24 @@ public class ClientRMI extends AbstractClient {
      * @throws RemoteException
      */
     @Override
-    public void endMove() throws RemoteException, NewActionException {
-            serverGame.endMove();
+    public void endMove() throws RemoteException {
+        serverGame.endMove();
     }
+
+    /**
+     * metodo che invia al server i risutlati del lancio dei dadi, il quale si occuperà di inviarlo
+     * a tutti gli altri giocatori
+     * @param orange dado arancione
+     * @param white bianco
+     * @param black nero
+     * @throws RemoteException
+     * @throws LorenzoException
+     */
+    @Override
+    public void shotDice(int orange, int white, int black) throws RemoteException{
+        serverGame.shotDice(orange, white, black);
+    }
+
 
     public void printString(String name) throws RemoteException {
         System.out.println(name);

@@ -1,6 +1,5 @@
 package main.clientGame;
 
-import main.api.exceptions.NewActionException;
 import main.api.messages.MessageGame;
 import main.api.messages.MessageGameType;
 import main.api.messages.MessageLogin;
@@ -28,21 +27,6 @@ public class ClientSocket extends AbstractClient implements Runnable{
 
     public ClientSocket(String username, String password) throws RemoteException {
         super(username, password);
-    }
-
-    @Override
-    public void doAction() {
-        try {
-            MessageGame msg = new MessageGame(MessageGameType.ACTION);
-            msg.setFamilyMemberType(FamilyMemberType.ORANGE_DICE);
-            msg.setActionSpacesType(ActionSpacesType.COUNCIL);
-            out.writeObject(msg);
-            out.flush();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @Override
@@ -87,12 +71,34 @@ public class ClientSocket extends AbstractClient implements Runnable{
     }
 
     @Override
-    public void addClientInterfaceToServer() throws RemoteException {
-        //non fa nulla
+    public void doAction() {
+        try {
+            MessageGame msg = new MessageGame(MessageGameType.ACTION);
+            msg.setFamilyMemberType(FamilyMemberType.ORANGE_DICE);
+            msg.setActionSpacesType(ActionSpacesType.COUNCIL);
+            out.writeObject(msg);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
-    public void endMove() throws RemoteException, NewActionException {
+    public void shotDice(int orange, int white, int black) throws IOException {
+        out.writeObject("SHOT_DICE");
+        out.flush();
+        out.writeInt(orange);
+        out.flush();
+        out.writeInt(white);
+        out.flush();
+        out.writeInt(black);
+        out.flush();
+    }
+
+    @Override
+    public void endMove() throws RemoteException {
 
     }
 

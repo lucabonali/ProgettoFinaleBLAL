@@ -2,7 +2,6 @@ package main.servergame;
 
 import main.api.ClientInterface;
 import main.api.PlayerInterface;
-import main.api.exceptions.LorenzoException;
 import main.api.exceptions.NewActionException;
 import main.api.messages.MessageGame;
 import main.api.types.FamilyMemberType;
@@ -140,10 +139,14 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      */
     public abstract void initializeBoard(List<DevelopmentCard> towersCardsList) throws RemoteException;
 
-    /// metodi implementatti della PlayerInterface /////////////////////////////////////////
+
+
+    /// METODI IMPLEMENTATI DALL'INTERFACCIA PLAYER INTERFACE ///////////////////////////////////////////////
+
+
 
     @Override
-    public void shotDice(int orange, int white, int black) throws RemoteException, LorenzoException {
+    public void shotDice(int orange, int white, int black) throws RemoteException{
         game.shotDice(this, orange, white, black);
     }
 
@@ -160,7 +163,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     }
 
     @Override
-    public void endMove() throws RemoteException, NewActionException {
+    public void endMove() throws RemoteException {
         game.endMove();
     }
 

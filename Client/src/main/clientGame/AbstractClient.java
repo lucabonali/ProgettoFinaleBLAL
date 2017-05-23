@@ -1,11 +1,10 @@
 package main.clientGame;
 
 import main.api.ClientInterface;
-import main.api.exceptions.LorenzoException;
-import main.api.exceptions.NewActionException;
 import main.api.types.ResourceType;
 import main.gui.game_view.GameController;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -66,7 +65,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void setDiceValues(int orange, int white, int black) throws RemoteException {
-        //forse si può togliere perché è il client a lanciare i dadi, quindi sa già i valori
+
     }
 
     /**
@@ -135,12 +134,6 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
 
 
     /**
-     * metodo che invia al server un'azione, verrà implementato nella maniera
-     * corretta dalle due sottoclassi.
-     */
-    public abstract void doAction() throws RemoteException, LorenzoException;
-
-    /**
      * metodo che mi tenta il login al server
      */
     public abstract boolean login() throws RemoteException, NotBoundException;
@@ -151,18 +144,28 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     public abstract void startGame(int gameMode) throws RemoteException;
 
+
     /**
-     * mi aggiunge l'interfaccia remota al server
+     * metodo che invia al server un'azione, verrà implementato nella maniera
+     * corretta dalle due sottoclassi.
+     */
+    public abstract void doAction() throws RemoteException;
+
+    /**
+     * il giocatore lancia i dadi, e invia i risultati al server!!
+     * @param orange dado arancione
+     * @param white bianco
+     * @param black nero
      * @throws RemoteException
      */
-    public abstract void addClientInterfaceToServer() throws RemoteException;
+    public abstract void shotDice(int orange, int white, int black) throws IOException;
 
 
     /**
      * metyodo che viene chiamato dal client che notifica al server che la mossa è finita
      * @throws RemoteException
      */
-    public abstract void endMove() throws RemoteException, NewActionException;
+    public abstract void endMove() throws RemoteException;
 
 
     /**
