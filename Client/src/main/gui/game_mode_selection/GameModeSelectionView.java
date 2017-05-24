@@ -111,7 +111,7 @@ public class GameModeSelectionView {
      * aggiungo lo sfondo
      */
     private void addBackground() {
-        ImageView imageView = new ImageView(new Image(getClass().getResource("res/sfondo_lorenzo.jpg").toExternalForm()));
+        ImageView imageView = new ImageView(new Image(getClass().getResource("res/sfondo_lorenzo_no_scritta.jpg").toExternalForm()));
         imageView.setFitWidth(WIDTH);
         imageView.setFitHeight(HEIGHT);
         imageView.fitWidthProperty().bind(root.widthProperty());

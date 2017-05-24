@@ -19,7 +19,7 @@
    <children>
       <ImageView fitHeight="381.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/sfondo_lorenzo.jpg" />
+            <Image url="@../images/sfondo_lorenzo_scritta.jpg" />
          </image></ImageView>
       <BorderPane layoutX="200.0" layoutY="188.0" prefHeight="200.0" prefWidth="200.0">
          <center>
