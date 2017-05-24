@@ -14,7 +14,7 @@ import java.util.List;
  * @author lampa
  */
 public class CouncilActionSpace extends Pane implements ActionSpaceInterface {
-    private static final int WIDTH = 218, HEIGHT = 55;
+    private static final int WIDTH = 240, HEIGHT = 55;
     private int counter;
     private List<GraphicFamilyMember> familyMemberList;
     private ActionSpacesType type;
