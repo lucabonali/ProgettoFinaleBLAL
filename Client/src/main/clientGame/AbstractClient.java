@@ -3,10 +3,12 @@ package main.clientGame;
 import main.api.ClientInterface;
 import main.api.types.ResourceType;
 import main.gui.game_view.GameController;
+import main.gui.game_view.MessagesController;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +25,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private String username,password;
     private int id;
     private GameController gameController;
+    private MessagesController messagesController;
 
     protected AbstractClient() throws RemoteException {
     }
@@ -34,6 +37,15 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     }
 
     /// METODI EREDITATI DALL'INTERFACCIA CLIENT INTERFACE ////////////////
+
+    /**
+     * metodo che mi setta sul tabellone tutte le carte ricevute dal server
+     * @param list lista dei nomi delle carte
+     * @throws RemoteException
+     */
+    public void setTowersCards(List<String> list) throws RemoteException {
+        gameController.setBoardCards(list);
+    }
 
     /**
      * metodo che aggiorna le mie risorse
@@ -52,7 +64,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyMessage(String msg) throws RemoteException {
-        //gameController.showMessage(msg);
+        messagesController.setMessage(msg);
     }
 
     /**
@@ -120,11 +132,15 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         this.gameController = controller;
     }
 
-    public String getUsername() {
+    public void setMessagesController(MessagesController controller) {
+        this.messagesController = controller;
+    }
+
+    String getUsername() {
         return username;
     }
 
-    public String getPassword() {
+    String getPassword() {
         return password;
     }
 

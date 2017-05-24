@@ -33,7 +33,6 @@ public class SingleActionSpace extends Pane implements ActionSpaceInterface{
                 .then(Color.color(1,1,1, 0.75))
                 .otherwise(Color.color(1,1,1,0.25))
         );
-        rectangle.setOnMouseClicked(event -> removeAllFamilyMembers());
         rectangle.setCursor(Cursor.HAND);
         getChildren().add(rectangle);
     }

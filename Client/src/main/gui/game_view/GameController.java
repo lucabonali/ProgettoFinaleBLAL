@@ -2,8 +2,11 @@ package main.gui.game_view;
 
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -14,7 +17,10 @@ import main.api.types.MarketActionType;
 import main.clientGame.AbstractClient;
 import main.gui.game_view.component.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +28,9 @@ import java.util.Map;
  * @author Andrea
  */
 public class GameController {
+    private static final String EXTENSION = ".png";
+    public static final int CARD_HEIGHT = 126;
+    public static final int CARD_WIDTH = 108;
     private AbstractClient client;
 
     @FXML private GridPane territoriesTower;
@@ -45,9 +54,10 @@ public class GameController {
     @FXML private GridPane whiteDice;
     @FXML private GridPane orangeDice;
 
+    @FXML private GridPane personalGridPane;
+
     //prova
     @FXML private ColorPicker colorPicker;
-    @FXML private ImageView card;
 
     private Map<CardType,String[]> cards = new HashMap<>();
 
@@ -58,6 +68,9 @@ public class GameController {
     private Map<ActionSpacesType, ActionSpaceInterface> actionSpacesMap = new HashMap<>();
     private Map<CardType, ActionSpaceInterface[]> towerMap = new HashMap<>();
     private Map<MarketActionType, ActionSpaceInterface> marketMap = new HashMap<>();
+
+    //lista delle immagini
+    private List<ImageView> imageList = new ArrayList<>();
 
     private void initializeHarvestProduction() {
         //raccolta singolo
@@ -129,17 +142,48 @@ public class GameController {
         gridPaneSpacesMarketMap.get(type).add(actionSpace, 0, 0);
     }
 
-    public void ingradisci(MouseEvent mouseEvent) {
+
+    private void initializeImageViewCards() {
+        for (int i=0; i<16; i++) {
+            ImageView img = new ImageView();
+            img.setOnMouseEntered(this::zoomIn);
+            img.setOnMouseExited(this::zoomOut);
+            img.setFitHeight(CARD_HEIGHT);
+            img.setFitWidth(CARD_WIDTH);
+            img.setPreserveRatio(false);
+            imageList.add(img);
+            if (i>=0 && i<4) {
+                territoriesTower.add(img,0, i);
+            }
+            else if (i>=4 && i<8) {
+                charactersTower.add(img,0, i-4);
+            }
+            else if (i>=8 && i<12) {
+                buildingsTower.add(img,0, i-8);
+            }
+            else if (i>=12 && i<16) {
+                venturesTower.add(img,0, i-12);
+            }
+        }
+    }
+
+    public void setBoardCards(List<String> namesList) {
+        for (int i=0; i<namesList.size(); i++) {
+            imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()));
+        }
+    }
+
+    private void zoomIn(MouseEvent mouseEvent) {
         ImageView img = (ImageView) mouseEvent.getSource();
         img.setCursor(Cursor.HAND);
         img.toFront();
         ScaleTransition st = new ScaleTransition(Duration.millis(500), img);
-        st.setToY(3);
-        st.setToX(2);
+        st.setToY(2);
+        st.setToX(1.5);
         st.play();
     }
 
-    public void diminuisci(MouseEvent mouseEvent) {
+    private void zoomOut(MouseEvent mouseEvent) {
         ImageView img = (ImageView) mouseEvent.getSource();
         ScaleTransition st = new ScaleTransition(Duration.millis(500), img);
         st.setToY(1);
@@ -158,7 +202,34 @@ public class GameController {
         initializeMarket(MarketActionType.BLUE, blueMarket);
         initializeMarket(MarketActionType.GRAY, greyMarket);
         initializeHarvestProduction();
+        initializeImageViewCards();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));
+            Parent messagesServer = fxmlLoader.load();
+            client.setMessagesController(fxmlLoader.getController());
+            personalGridPane.add(messagesServer, 0, 1);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<String> list = new ArrayList<String>();
+        list.add("ambasciatore");
+        list.add("araldo");
+        list.add("architetto");
+        list.add("badessa");
+        list.add("cardinale");
+        list.add("bosco");
+        list.add("castelletto");
+        list.add("caserma");
+        list.add("cattedrale");
+        list.add("citta");
+        list.add("cavaliere");
+        list.add("ducato");
+        list.add("dama");
+        list.add("esattoria");
+        list.add("eroe");
+        list.add("crociata");
+        setBoardCards(list);
     }
-
-
 }

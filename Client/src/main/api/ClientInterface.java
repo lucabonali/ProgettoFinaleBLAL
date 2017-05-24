@@ -4,6 +4,7 @@ import main.api.types.ResourceType;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,4 +56,11 @@ public interface ClientInterface extends Remote{
      * @throws RemoteException
      */
     void notifyYourExcommunicationTurn() throws RemoteException;
+
+    /**
+     * mi passa al client la lista delle 16 carte presenti sulle torri
+     * @param list lista dei nomi delle carte
+     * @throws RemoteException
+     */
+    void setTowersCards(List<String> list) throws RemoteException;
 }
