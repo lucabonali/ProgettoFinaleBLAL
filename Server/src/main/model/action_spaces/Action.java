@@ -1,8 +1,8 @@
 package main.model.action_spaces;
 
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.NewActionException;
 import main.model.board.FamilyMember;
-import main.api.exceptions.LorenzoException;
+import main.servergame.exceptions.LorenzoException;
 import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;

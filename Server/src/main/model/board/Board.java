@@ -1,8 +1,8 @@
 package main.model.board;
 
-import main.api.exceptions.LorenzoException;
-import main.api.exceptions.NewActionException;
-import main.api.messages.MessageGame;
+import main.api.messages.MessageAction;
+import main.servergame.exceptions.LorenzoException;
+import main.servergame.exceptions.NewActionException;
 import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
@@ -185,7 +185,7 @@ public class Board {
      * @param familyMember familiare
      * @throws LorenzoException in caso la mosssa non vada abuon fine
      */
-    public void doAction(MessageGame msg, AbstractPlayer player, FamilyMember familyMember) throws LorenzoException, RemoteException, NewActionException {
+    public void doAction(MessageAction msg, AbstractPlayer player, FamilyMember familyMember) throws LorenzoException, RemoteException, NewActionException {
         ActionSpaceInterface actionSpace = convertActionMessage(msg);
         if (actionSpace == null)
             throw new LorenzoException("codice spazio azione errato");
@@ -199,7 +199,7 @@ public class Board {
      * @param msg messaggio da convertire
      * @return lo spazioe azione corretto.
      */
-    private ActionSpaceInterface convertActionMessage(MessageGame msg) {
+    private ActionSpaceInterface convertActionMessage(MessageAction msg) {
         ActionSpaceInterface actionSpace;
         ActionSpacesType code = msg.getActionSpacesType();
         switch (code) {

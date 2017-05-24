@@ -1,8 +1,8 @@
 package main.model.action_spaces.singleActionSpaces;
 
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.NewActionException;
 import main.model.action_spaces.Action;
-import main.api.exceptions.LorenzoException;
+import main.servergame.exceptions.LorenzoException;
 import main.api.types.MarketActionType;
 
 import java.rmi.RemoteException;

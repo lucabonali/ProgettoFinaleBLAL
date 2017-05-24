@@ -2,9 +2,10 @@ package main.model;
 
 import main.MainServer;
 import main.api.PlayerInterface;
-import main.api.exceptions.LorenzoException;
-import main.api.exceptions.NewActionException;
-import main.api.messages.MessageGame;
+import main.api.messages.MessageAction;
+import main.api.messages.MessageNewAction;
+import main.servergame.exceptions.LorenzoException;
+import main.servergame.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.Phases;
 import main.api.types.ResourceType;
@@ -74,6 +75,7 @@ public class Game {
         }
         return false;
     }
+
 
     /**
      * metodo che mi fa partire la partita
@@ -205,7 +207,7 @@ public class Game {
      * @param familyMember familiare da spostare, già ricavato dall classe che lo invoca
      * @throws RemoteException in caso si verifichino errori
      */
-    public void doAction(AbstractPlayer player, MessageGame msg, FamilyMember familyMember) throws RemoteException {
+    public void doAction(AbstractPlayer player, MessageAction msg, FamilyMember familyMember) throws RemoteException {
         if (phase == Phases.ACTION){
             try {
                 isStarted();
@@ -217,9 +219,19 @@ public class Game {
                 endMove(); //mi esegue la fine de turno
             } catch (NewActionException e) {
                 //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
+                phase = Phases.NEW_ACTION;
             } catch (LorenzoException e) {
                 player.notifyError(e.getMessage());
             }
+        }
+        else {
+            player.notifyError("non sei nella fase azione della partita!!!");
+        }
+    }
+
+    public void doNewAction(AbstractPlayer player, MessageNewAction msg) throws RemoteException {
+        if (phase == Phases.NEW_ACTION) {
+
         }
         else {
             player.notifyError("non sei nella fase azione della partita!!!");

@@ -1,7 +1,6 @@
 package main.servergame.socket;
 
-import main.api.messages.MessageGame;
-import main.api.messages.MessageGameType;
+import main.api.messages.MessageAction;
 import main.api.messages.SocketProtocol;
 import main.model.board.DevelopmentCard;
 import main.servergame.AbstractPlayer;
@@ -70,14 +69,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
 
     @Override
     public void updateResources() throws RemoteException {
-        MessageGame response = new MessageGame(MessageGameType.ACTION_RESULT);
-        response.setQtaMap(getPersonalBoard().getQtaResources());
-        try {
-            out.writeObject(response);
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //devo mandare al giocatore tutte le sue risorse e tutte le sue carte
     }
 
     @Override
@@ -86,12 +78,13 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     }
 
     private void printMsgToClient(String content){
-        MessageGame outMsg = new MessageGame(MessageGameType.INFORMATION);
-        outMsg.setContent(content);
         try {
-            out.writeObject(outMsg);
+            out.writeObject(SocketProtocol.INFORMATION);
             out.flush();
-        } catch (IOException e) {
+            out.writeObject(content);
+            out.flush();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -112,8 +105,8 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
             while (!socketClient.isClosed()) {
                 try {
                     Object msg = in.readObject();
-                    if (msg instanceof MessageGame){
-                        doAction((MessageGame) msg);
+                    if (msg instanceof MessageAction){
+                        doAction((MessageAction) msg);
                         break;
                     }
                     else if (msg instanceof SocketProtocol){
@@ -123,6 +116,10 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
                                 int white = in.readInt();
                                 int black = in.readInt();
                                 shotDice(orange, white, black);
+                                break;
+                            case EXCOMMUNICATION_CHOICE:
+                                boolean choice = in.readBoolean();
+                                excommunicationChoice(choice);
                                 break;
                         }
                     }

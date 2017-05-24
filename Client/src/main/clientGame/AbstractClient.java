@@ -4,7 +4,6 @@ import main.api.ClientInterface;
 import main.api.types.ResourceType;
 import main.gui.game_view.GameController;
 
-import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -158,7 +157,14 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @param black nero
      * @throws RemoteException
      */
-    public abstract void shotDice(int orange, int white, int black) throws IOException;
+    public abstract void shotDice(int orange, int white, int black) throws RemoteException;
+
+    /**
+     * metodo che mi identifica la scelta di dare sostegno o meno alla chiesa
+     * @param choice true accetto la scomunica, false do sostegno
+     * @throws RemoteException
+     */
+    public abstract void excommunicationChoice(boolean choice) throws RemoteException;
 
 
     /**

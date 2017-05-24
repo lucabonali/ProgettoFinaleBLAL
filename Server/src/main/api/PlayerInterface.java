@@ -1,7 +1,8 @@
 package main.api;
 
 
-import main.api.messages.MessageGame;
+import main.api.messages.MessageAction;
+import main.api.messages.MessageNewAction;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -21,13 +22,21 @@ public interface PlayerInterface extends Remote {
      * @param msg messaggio che mi codifica l'azione
      * @throws RemoteException problemi con rmi
      */
-    void doAction(MessageGame msg) throws RemoteException;
+    void doAction(MessageAction msg) throws RemoteException;
+
+    /**
+     * metodo che mi rappresenta l'esecuzione di una mossa supplementare
+     * che posso fare solo se il server me lo concede
+     * @param msg messaggio che codifica la nuova azione
+     * @throws RemoteException problemi con rmi
+     */
+    void doNewAction(MessageNewAction msg) throws RemoteException;
 
 
     /**
      * mi aggiunge all'oggetto player la sua main.clientGame interface
-     * @param clientInterface
-     * @throws RemoteException
+     * @param clientInterface l'interfacccia client del giocatore
+     * @throws RemoteException problemi con rmi
      */
     void addClientInterface(ClientInterface clientInterface) throws RemoteException;
 

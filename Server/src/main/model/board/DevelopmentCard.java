@@ -1,8 +1,8 @@
 package main.model.board;
 
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.NewActionException;
 import main.model.effects.development_effects.Effect;
-import main.api.exceptions.LorenzoException;
+import main.servergame.exceptions.LorenzoException;
 import main.model.fields.Field;
 import main.api.types.CardType;
 import main.servergame.AbstractPlayer;

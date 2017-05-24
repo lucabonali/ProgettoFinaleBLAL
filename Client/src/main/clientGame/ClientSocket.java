@@ -36,10 +36,11 @@ public class ClientSocket extends AbstractClient implements Runnable{
         }
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
-            MessageLogin msgToLogin = new MessageLogin(MessageLoginType.LOGIN);
-            msgToLogin.setUsername(getUsername());
-            msgToLogin.setPassword(getPassword());
-            out.writeObject(msgToLogin);
+            out.writeObject(SocketProtocol.LOGIN);
+            out.flush();
+            out.writeObject(getUsername());
+            out.flush();
+            out.writeObject(getPassword());
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());
             boolean resp = in.readBoolean();
@@ -55,10 +56,11 @@ public class ClientSocket extends AbstractClient implements Runnable{
     @Override
     public void startGame(int gameMode) throws RemoteException {
         try{
-            MessageLogin msg = new MessageLogin(MessageLoginType.START_GAME);
-            msg.setUsername(getUsername());
-            msg.setGameMode(gameMode);
-            out.writeObject(msg);
+            out.writeObject(SocketProtocol.START_GAME);
+            out.flush();
+            out.writeObject(getUsername());
+            out.flush();
+            out.writeInt(gameMode);
             out.flush();
             new Thread(this).start();
         }
@@ -70,9 +72,7 @@ public class ClientSocket extends AbstractClient implements Runnable{
     @Override
     public void doAction() {
         try {
-            MessageGame msg = new MessageGame(MessageGameType.ACTION);
-            msg.setFamilyMemberType(FamilyMemberType.ORANGE_DICE);
-            msg.setActionSpacesType(ActionSpacesType.COUNCIL);
+            MessageAction msg = new MessageAction(ActionSpacesType.COUNCIL, FamilyMemberType.ORANGE_DICE);
             out.writeObject(msg);
             out.flush();
         }
@@ -83,15 +83,39 @@ public class ClientSocket extends AbstractClient implements Runnable{
     }
 
     @Override
-    public void shotDice(int orange, int white, int black) throws IOException {
-        out.writeObject(SocketProtocol.SHOT_DICE);
-        out.flush();
-        out.writeInt(orange);
-        out.flush();
-        out.writeInt(white);
-        out.flush();
-        out.writeInt(black);
-        out.flush();
+    public void shotDice(int orange, int white, int black) throws RemoteException{
+        try {
+            out.writeObject(SocketProtocol.SHOT_DICE);
+            out.flush();
+            out.writeInt(orange);
+            out.flush();
+            out.writeInt(white);
+            out.flush();
+            out.writeInt(black);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * metodo che rappresenta la scelta riguardante la decisione di farsi scomunicare
+     * oppure dare sostegno alla chiesa
+     * @param choice true accetto la scomunica, false do sostegno
+     * @throws RemoteException
+     */
+    @Override
+    public void excommunicationChoice(boolean choice) throws RemoteException {
+        try {
+            out.writeObject(SocketProtocol.EXCOMMUNICATION_CHOICE);
+            out.flush();
+            out.writeBoolean(choice);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -102,24 +126,15 @@ public class ClientSocket extends AbstractClient implements Runnable{
     @Override
     public void run() {
         try{
-            //boolean resp = in.readBoolean();
-            //System.out.println(resp);
             while (true) {
                 try {
                     Object msg = in.readObject();
-                    if (msg instanceof MessageGame){
-                        MessageGame realMsg = (MessageGame) msg;
-                        notifyMessage(realMsg.getContent());
+                    if (msg instanceof SocketProtocol){
+                        switch ((SocketProtocol) msg){
+                            case INFORMATION:
+                                String response = (String)in.readObject();
+                        }
                     }
-//                    MessageGame msg = (MessageGame) in.readObject();
-//                    switch (msg.getMessageGameType()) {
-//                        case ACTION_RESULT:
-//                            Map<ResourceType,Integer> qtaResourcesMap = msg.getQtaMap();
-//                            break;
-//                        case INFORMATION:
-//                            notifyMessage(msg.getContent());
-//                            break;
-//                    }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

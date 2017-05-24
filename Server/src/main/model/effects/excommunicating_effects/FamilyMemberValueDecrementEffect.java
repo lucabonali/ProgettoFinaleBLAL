@@ -1,6 +1,6 @@
 package main.model.effects.excommunicating_effects;
 
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.NewActionException;
 import main.api.types.FamilyMemberType;
 import main.model.action_spaces.Action;
 import main.model.effects.development_effects.Effect;

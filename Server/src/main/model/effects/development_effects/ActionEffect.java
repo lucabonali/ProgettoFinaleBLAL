@@ -1,6 +1,6 @@
 package main.model.effects.development_effects;
 
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.NewActionException;
 import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
@@ -30,6 +30,7 @@ public class ActionEffect implements Effect{
     @Override
     public void active(AbstractPlayer player) throws RemoteException, NewActionException {
         player.notifyNewAction(value, codActionSpace);
+
         throw new NewActionException();
     }
 

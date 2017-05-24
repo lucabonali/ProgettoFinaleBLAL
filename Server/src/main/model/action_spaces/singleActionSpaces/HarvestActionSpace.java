@@ -1,10 +1,10 @@
 package main.model.action_spaces.singleActionSpaces;
 
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.NewActionException;
 import main.model.action_spaces.Action;
 import main.model.effects.development_effects.Effect;
 import main.model.effects.development_effects.FixedIncrementEffect;
-import main.api.exceptions.LorenzoException;
+import main.servergame.exceptions.LorenzoException;
 import main.model.fields.Resource;
 import main.api.types.ResourceType;
 

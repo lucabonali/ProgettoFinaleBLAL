@@ -2,11 +2,7 @@ package main.clientGame;
 
 import main.api.PlayerInterface;
 import main.api.ServerInterface;
-import main.api.exceptions.LorenzoException;
-import main.api.messages.MessageGame;
-import main.api.messages.MessageGameType;
-import main.api.types.ActionSpacesType;
-import main.api.types.FamilyMemberType;
+import main.servergame.exceptions.LorenzoException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -45,10 +41,7 @@ public class ClientRMI extends AbstractClient {
      */
     @Override
     public void doAction() throws RemoteException {
-        MessageGame msg = new MessageGame(MessageGameType.ACTION);
-        msg.setFamilyMemberType(FamilyMemberType.ORANGE_DICE);
-        msg.setActionSpacesType(ActionSpacesType.COUNCIL);
-        serverGame.doAction(msg);
+        //creo l'azione
     }
 
 
@@ -99,6 +92,17 @@ public class ClientRMI extends AbstractClient {
     @Override
     public void shotDice(int orange, int white, int black) throws RemoteException{
         serverGame.shotDice(orange, white, black);
+    }
+
+    /**
+     * metodo che rappresenta la scelta riguardante la decisione di farsi scomunicare
+     * oppure dare sostegno alla chiesa
+     * @param choice true accetto la scomunica, false do sostegno
+     * @throws RemoteException
+     */
+    @Override
+    public void excommunicationChoice(boolean choice) throws RemoteException {
+        serverGame.excommunicationChoice(choice);
     }
 
 

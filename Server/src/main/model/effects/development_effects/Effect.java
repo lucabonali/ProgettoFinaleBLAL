@@ -1,6 +1,6 @@
 package main.model.effects.development_effects;
 
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.NewActionException;
 import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;

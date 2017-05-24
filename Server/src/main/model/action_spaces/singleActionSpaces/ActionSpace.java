@@ -1,11 +1,11 @@
 package main.model.action_spaces.singleActionSpaces;
 
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.NewActionException;
 import main.model.action_spaces.Action;
 import main.model.action_spaces.ActionSpaceInterface;
 import main.model.board.FamilyMember;
 import main.model.effects.development_effects.Effect;
-import main.api.exceptions.LorenzoException;
+import main.servergame.exceptions.LorenzoException;
 
 import java.rmi.RemoteException;
 

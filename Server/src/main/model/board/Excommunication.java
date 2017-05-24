@@ -1,6 +1,6 @@
 package main.model.board;
 
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.NewActionException;
 import main.model.effects.development_effects.Effect;
 import main.model.effects.excommunicating_effects.ExcommunicatingEffectCreator;
 import main.servergame.AbstractPlayer;

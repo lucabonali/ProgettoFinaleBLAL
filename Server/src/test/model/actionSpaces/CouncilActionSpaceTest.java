@@ -1,6 +1,6 @@
 package test.model.actionSpaces;
 
-import main.api.exceptions.LorenzoException;
+import main.servergame.exceptions.LorenzoException;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
 import main.model.action_spaces.Action;

@@ -2,8 +2,9 @@ package main.servergame;
 
 import main.api.ClientInterface;
 import main.api.PlayerInterface;
-import main.api.exceptions.NewActionException;
-import main.api.messages.MessageGame;
+import main.api.messages.MessageAction;
+import main.api.messages.MessageNewAction;
+import main.servergame.exceptions.NewActionException;
 import main.api.types.FamilyMemberType;
 import main.model.Game;
 import main.model.board.DevelopmentCard;
@@ -157,7 +158,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     }
 
     @Override
-    public synchronized void doAction(MessageGame msg) throws RemoteException {
+    public synchronized void doAction(MessageAction msg) throws RemoteException {
         FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
         game.doAction(this, msg, familyMember);
     }
@@ -169,6 +170,11 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     @Override
     public synchronized void abandon() throws RemoteException {
+
+    }
+
+    @Override
+    public void doNewAction(MessageNewAction msg) {
 
     }
 

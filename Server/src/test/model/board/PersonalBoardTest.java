@@ -1,7 +1,7 @@
 package test.model.board;
 
-import main.api.exceptions.LorenzoException;
-import main.api.exceptions.NewActionException;
+import main.servergame.exceptions.LorenzoException;
+import main.servergame.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;

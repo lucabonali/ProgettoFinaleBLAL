@@ -1,7 +1,7 @@
 package main.servergame.socket;
 
 import main.api.PlayerInterface;
-import main.api.messages.MessageLogin;
+import main.api.messages.SocketProtocol;
 import main.servergame.AbstractServer;
 import main.model.Game;
 
@@ -33,7 +33,7 @@ public class SocketServer extends AbstractServer implements Runnable {
 
     @Override
     public PlayerInterface startGame(String username, int gameMode) throws RemoteException {
-        Game game = getFreeGame(gameMode); //la prima partita libera trovata
+        Game game = getFreeGame(gameMode); //la prima partita libera trovata, in caso ne crea una nuova
         PlayerSocket playerSocket = new PlayerSocket(username);
         playerSocket.setGame(game);
         game.addPlayer(playerSocket);
@@ -72,23 +72,30 @@ public class SocketServer extends AbstractServer implements Runnable {
         @Override
         public void run() {
             try {
+                int gameMode;
                 in = new ObjectInputStream(socket.getInputStream());
-                MessageLogin msgLogin = (MessageLogin) in.readObject();
+                SocketProtocol msg = (SocketProtocol) in.readObject();
+                String username = (String) in.readObject();
+                String password = (String) in.readObject();
                 out = new ObjectOutputStream(socket.getOutputStream());
-                boolean resp = login(msgLogin.getUsername(), msgLogin.getPassword());
+                boolean resp = login(username, password);
                 System.out.println(resp);
                 out.writeBoolean(resp);
                 out.flush();
                 boolean isAssociated = false;
                 try{
                     while (!isAssociated) {
-                        msgLogin = (MessageLogin) in.readObject();
-                        switch (msgLogin.getType()) {
+                        msg = (SocketProtocol) in.readObject();
+                        switch (msg) {
                             case LOGIN:
-                                out.writeObject(login(msgLogin.getUsername(), msgLogin.getPassword()));
+                                username = (String) in.readObject();
+                                password = (String) in.readObject();
+                                out.writeObject(login(username, password));
                                 break;
                             case START_GAME:
-                                PlayerSocket player = (PlayerSocket) startGame(msgLogin.getUsername(), msgLogin.getGameMode());
+                                username = (String) in.readObject();
+                                gameMode = in.readInt();
+                                PlayerSocket player = (PlayerSocket) startGame(username, gameMode);
                                 if (player != null) {
                                     player.setSocketConnection(socket, in, out);
                                     new Thread(player).start();
