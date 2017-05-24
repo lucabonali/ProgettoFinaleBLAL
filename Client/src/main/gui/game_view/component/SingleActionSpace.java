@@ -12,7 +12,7 @@ import main.api.types.ActionSpacesType;
  * @author Andrea
  */
 public class SingleActionSpace extends Pane implements ActionSpaceInterface{
-    private static final double WIDTH = 60, HEIGHT = 30;
+    private static final double WIDTH = 64, HEIGHT = 38;
     private GraphicFamilyMember familyMember;
     private ActionSpacesType type;
     private Rectangle rectangle;
@@ -42,7 +42,7 @@ public class SingleActionSpace extends Pane implements ActionSpaceInterface{
     public void addFamilyMember(GraphicFamilyMember familyMember) {
         this.familyMember = familyMember;
         familyMember.setTranslateX(30);
-        familyMember.setTranslateY(15);
+        familyMember.setTranslateY(18);
         getChildren().add(familyMember);
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
  * @author Andrea
  */
 public class LargeActionSpace extends Pane implements ActionSpaceInterface{
-    private static final int WIDTH = 168, HEIGHT = 39;
+    private static final int WIDTH = 185, HEIGHT = 39;
     private int counter;
     private List<GraphicFamilyMember> familyMemberList;
     private ActionSpacesType type;
