@@ -4,6 +4,7 @@ import main.api.types.ResourceType;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,7 +18,7 @@ public interface ClientInterface extends Remote{
      * @param qtaResourcesMap lista di risorse
      * @throws RemoteException in caso qualcosa vada storto
      */
-    void updateResources(Map<ResourceType,Integer> qtaResourcesMap) throws RemoteException;
+    void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException;
 
     /**
      * mi notifica un messaggio di informazione
@@ -33,7 +34,7 @@ public interface ClientInterface extends Remote{
      * @param black
      * @throws RemoteException
      */
-    void setDiceValues(int orange, int white , int black) throws RemoteException;
+    void setDiceValues(int orange, int white, int black) throws RemoteException;
 
     /**
      * metodo che mi notifica al main.clientGame che deve fare una nuova azione del tipo
@@ -55,4 +56,11 @@ public interface ClientInterface extends Remote{
      * @throws RemoteException
      */
     void notifyYourExcommunicationTurn() throws RemoteException;
+
+    /**
+     * mi passa al client la lista delle 16 carte presenti sulle torri
+     * @param list lista dei nomi delle carte
+     * @throws RemoteException
+     */
+    void setTowersCards(List<String> list) throws RemoteException;
 }
