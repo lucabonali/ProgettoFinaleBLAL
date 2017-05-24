@@ -9,7 +9,7 @@ import java.util.Map;
  * @author Luca
  * @author Andrea
  */
-public class MessageAction implements Serializable{
+public class MessageAction implements Message, Serializable{
     private FamilyMemberType familyMemberType;
     private ActionSpacesType actionSpacesType;
     private CardType cardType;
@@ -56,27 +56,31 @@ public class MessageAction implements Serializable{
         this(actionSpacesType, null, 0, marketActionType, familyMemberType);
     }
 
-    public FamilyMemberType getFamilyMemberType() {
-        return familyMemberType;
-    }
-
+    @Override
     public ActionSpacesType getActionSpacesType() {
         return actionSpacesType;
     }
 
-    public Map<ResourceType,Integer> getQtaMap() {
-        return qtaMap;
-    }
-
+    @Override
     public CardType getCardType() {
         return cardType;
     }
 
+    @Override
     public int getNumFloor() {
         return numFloor;
     }
 
+    @Override
     public MarketActionType getMarketActionType() {
         return marketActionType;
+    }
+
+    public FamilyMemberType getFamilyMemberType() {
+        return familyMemberType;
+    }
+
+    public Map<ResourceType,Integer> getQtaMap() {
+        return qtaMap;
     }
 }

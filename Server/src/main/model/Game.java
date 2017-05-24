@@ -213,14 +213,16 @@ public class Game {
                 isStarted();
                 checkTurn(player);
                 isAlreadyPositioned(familyMember);
-                board.doAction(msg, player, familyMember);
+                board.doAction(player, msg, familyMember);
                 familyMember.setPositioned(true);
                 player.updateResources();
                 endMove(); //mi esegue la fine de turno
-            } catch (NewActionException e) {
+            }
+            catch (NewActionException e) {
                 //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
                 phase = Phases.NEW_ACTION;
-            } catch (LorenzoException e) {
+            }
+            catch (LorenzoException e) {
                 player.notifyError(e.getMessage());
             }
         }
@@ -229,9 +231,30 @@ public class Game {
         }
     }
 
+    /**
+     * rappresenta l'esecuzione di una nuova azione (senza familiare)
+     * mi controlla se sono nella fase corretta e se è il mio turno, dopodiché passa
+     * l'esecuzione della nuova azione al tabellone
+     * @param player
+     * @param msg
+     * @throws RemoteException
+     */
     public void doNewAction(AbstractPlayer player, MessageNewAction msg) throws RemoteException {
         if (phase == Phases.NEW_ACTION) {
-
+            try {
+                checkTurn(player);
+                board.doNewAction(player, msg);
+                player.updateResources();
+                phase = Phases.ACTION;
+                endMove();
+            }
+            catch (LorenzoException e) {
+                player.notifyError(e.getMessage());
+            }
+            catch (NewActionException e) {
+                //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
+                phase = Phases.NEW_ACTION;
+            }
         }
         else {
             player.notifyError("non sei nella fase azione della partita!!!");

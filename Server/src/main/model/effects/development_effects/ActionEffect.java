@@ -30,7 +30,6 @@ public class ActionEffect implements Effect{
     @Override
     public void active(AbstractPlayer player) throws RemoteException, NewActionException {
         player.notifyNewAction(value, codActionSpace);
-
         throw new NewActionException();
     }
 

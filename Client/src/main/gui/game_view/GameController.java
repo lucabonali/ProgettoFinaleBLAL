@@ -1,8 +1,13 @@
 package main.gui.game_view;
 
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
@@ -42,6 +47,7 @@ public class GameController {
 
     //prova
     @FXML private ColorPicker colorPicker;
+    @FXML private ImageView card;
 
     private Map<CardType,String[]> cards = new HashMap<>();
 
@@ -50,7 +56,7 @@ public class GameController {
 
     //mappe degli spazi azione
     private Map<ActionSpacesType, ActionSpaceInterface> actionSpacesMap = new HashMap<>();
-    private Map<CardType, ActionSpaceInterface> towerMap = new HashMap<>();
+    private Map<CardType, ActionSpaceInterface[]> towerMap = new HashMap<>();
     private Map<MarketActionType, ActionSpaceInterface> marketMap = new HashMap<>();
 
     private void initializeHarvestProduction() {
@@ -97,6 +103,8 @@ public class GameController {
     }
 
     private void initializeTowers(CardType type, GridPane gridPaneTower) {
+        SingleActionSpace[] array = new SingleActionSpace[4];
+        towerMap.put(type, array);
         for (int i=0; i<4; i++) {
             gridPaneSpacesTowersMap.put(type, gridPaneTower);
             SingleActionSpace actionSpace = new SingleActionSpace(ActionSpacesType.TOWERS);
@@ -104,8 +112,8 @@ public class GameController {
                 GraphicFamilyMember fm = new GraphicFamilyMember(colorPicker.getValue());
                 actionSpace.addFamilyMember(fm);
             });
+            array[i] = actionSpace;
             actionSpace.setOnMousePressed(event -> actionSpace.removeAllFamilyMembers());
-            towerMap.put(type, actionSpace);
             gridPaneSpacesTowersMap.get(type).add(actionSpace, 0, i);
         }
     }
@@ -121,6 +129,24 @@ public class GameController {
         gridPaneSpacesMarketMap.get(type).add(actionSpace, 0, 0);
     }
 
+    public void ingradisci(MouseEvent mouseEvent) {
+        ImageView img = (ImageView) mouseEvent.getSource();
+        img.setCursor(Cursor.HAND);
+        img.toFront();
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), img);
+        st.setToY(3);
+        st.setToX(2);
+        st.play();
+    }
+
+    public void diminuisci(MouseEvent mouseEvent) {
+        ImageView img = (ImageView) mouseEvent.getSource();
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), img);
+        st.setToY(1);
+        st.setToX(1);
+        st.play();
+    }
+
     public void initialize() {
         client = AbstractClient.getInstance();
         initializeTowers(CardType.TERRITORY, territoryTowersActionSpaces);
@@ -133,4 +159,6 @@ public class GameController {
         initializeMarket(MarketActionType.GRAY, greyMarket);
         initializeHarvestProduction();
     }
+
+
 }

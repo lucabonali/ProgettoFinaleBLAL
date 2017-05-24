@@ -16,7 +16,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
- * @author Andrea,Luca
+ * @author Luca
+ * @author Andrea
  */
 public abstract class AbstractPlayer extends UnicastRemoteObject implements PlayerInterface {
     private ClientInterface clientInterface;
@@ -159,7 +160,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     @Override
     public synchronized void doAction(MessageAction msg) throws RemoteException {
-        FamilyMember familyMember = getPersonalBoard().getFamilyMember(msg.getFamilyMemberType());
+        FamilyMember familyMember = personalBoard.getFamilyMember(msg.getFamilyMemberType());
         game.doAction(this, msg, familyMember);
     }
 
@@ -169,13 +170,13 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     }
 
     @Override
-    public synchronized void abandon() throws RemoteException {
-
+    public synchronized void surrender() throws RemoteException {
+        //da implementare, anche nella classe game
     }
 
     @Override
-    public void doNewAction(MessageNewAction msg) {
-
+    public void doNewAction(MessageNewAction msg) throws RemoteException {
+        game.doNewAction(this, msg);
     }
 
     /**

@@ -39,6 +39,18 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
+               <children>
+                  <ImageView fx:id="card" fitHeight="126.0" fitWidth="106.0" onMouseEntered="#ingradisci" onMouseExited="#diminuisci" pickOnBounds="true" GridPane.rowIndex="3">
+                     <image>
+                        <Image url="@../images/ImmaginiModificate/CarteSviluppo/Edifici/1per/arco_di_trionfo.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="card1" fitHeight="126.0" fitWidth="106.0" onMouseEntered="#ingradisci" onMouseExited="#diminuisci" pickOnBounds="true" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../images/ImmaginiModificate/CarteSviluppo/personaggi/3per/governatore.png" />
+                     </image>
+                  </ImageView>
+               </children>
             </GridPane>
             <GridPane fx:id="charactersTower" layoutX="264.0" layoutY="49.0" prefHeight="505.0" prefWidth="106.0">
                <columnConstraints>

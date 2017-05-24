@@ -1,8 +1,8 @@
 package main.model.board;
 
+import main.api.messages.Message;
 import main.api.messages.MessageAction;
-import main.servergame.exceptions.LorenzoException;
-import main.servergame.exceptions.NewActionException;
+import main.api.messages.MessageNewAction;
 import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
@@ -16,6 +16,8 @@ import main.model.action_spaces.singleActionSpaces.HarvestActionSpace;
 import main.model.action_spaces.singleActionSpaces.MarketActionSpace;
 import main.model.action_spaces.singleActionSpaces.ProductionActionSpace;
 import main.servergame.AbstractPlayer;
+import main.servergame.exceptions.LorenzoException;
+import main.servergame.exceptions.NewActionException;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -185,11 +187,20 @@ public class Board {
      * @param familyMember familiare
      * @throws LorenzoException in caso la mosssa non vada abuon fine
      */
-    public void doAction(MessageAction msg, AbstractPlayer player, FamilyMember familyMember) throws LorenzoException, RemoteException, NewActionException {
+    public void doAction(AbstractPlayer player, MessageAction msg,  FamilyMember familyMember) throws LorenzoException, RemoteException, NewActionException {
         ActionSpaceInterface actionSpace = convertActionMessage(msg);
         if (actionSpace == null)
             throw new LorenzoException("codice spazio azione errato");
         currentAction = new Action(actionSpace, familyMember.getValue(), familyMember, player);
+        currentAction.commitAction();
+    }
+
+
+    public void doNewAction(AbstractPlayer player, MessageNewAction msg) throws LorenzoException, RemoteException, NewActionException {
+        ActionSpaceInterface actionSpace = convertActionMessage(msg);
+        if (actionSpace == null)
+            throw new LorenzoException("codice spazio azione errato");
+        currentAction = new Action(actionSpace, msg.getValue(), null, player);
         currentAction.commitAction();
     }
 
@@ -199,7 +210,7 @@ public class Board {
      * @param msg messaggio da convertire
      * @return lo spazioe azione corretto.
      */
-    private ActionSpaceInterface convertActionMessage(MessageAction msg) {
+    private ActionSpaceInterface convertActionMessage(Message msg) {
         ActionSpaceInterface actionSpace;
         ActionSpacesType code = msg.getActionSpacesType();
         switch (code) {
@@ -222,5 +233,4 @@ public class Board {
                 return null;
         }
     }
-
 }

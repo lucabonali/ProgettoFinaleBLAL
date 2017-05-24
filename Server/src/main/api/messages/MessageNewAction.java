@@ -4,6 +4,8 @@ import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
 
+import java.io.Serializable;
+
 /**
  * @author Andrea
  * @author Luca
@@ -11,7 +13,7 @@ import main.api.types.MarketActionType;
  * rappresenta una nuova azione ottenuta in seguito ad un effetto di qualche carta, è caratterizzata
  * dal fatto che è senza familiare
  */
-public class MessageNewAction {
+public class MessageNewAction implements Message, Serializable{
     private ActionSpacesType actionSpacesType;
     private CardType cardType;
     private int numFloor;
@@ -56,18 +58,22 @@ public class MessageNewAction {
         this(actionSpacesType, null, 0, marketActionType, value);
     }
 
+    @Override
     public ActionSpacesType getActionSpacesType() {
         return actionSpacesType;
     }
 
+    @Override
     public CardType getCardType() {
         return cardType;
     }
 
+    @Override
     public int getNumFloor() {
         return numFloor;
     }
 
+    @Override
     public MarketActionType getMarketActionType() {
         return marketActionType;
     }

@@ -64,5 +64,5 @@ public interface PlayerInterface extends Remote {
      * mi abbandona la partita in corso.
      * @throws RemoteException
      */
-    void abandon() throws RemoteException;
+    void surrender() throws RemoteException;
 }
