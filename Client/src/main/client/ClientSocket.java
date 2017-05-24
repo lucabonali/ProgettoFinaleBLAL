@@ -1,4 +1,4 @@
-package main.clientGame;
+package main.client;
 
 import main.api.messages.*;
 import main.api.types.ActionSpacesType;

@@ -1,4 +1,4 @@
-package main.clientGame;
+package main.client;
 
 import main.api.ClientInterface;
 import main.api.types.ResourceType;

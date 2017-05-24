@@ -4,24 +4,24 @@ import main.model.board.ConnectionDB;
 import org.junit.Test;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author lampa
  */
-class ConnectionDBTest {
-
+public class ConnectionDBTest {
     @Test
-    public void executeQuery() throws SQLException {
-        ConnectionDB connectionDB = new ConnectionDB();
-        ResultSet rs = connectionDB.executeQuery("SELECT * FROM cards");
-        assertTrue(rs != null);
+    public void connection() {
+        ConnectionDB c = new ConnectionDB();
     }
 
     @Test
-    public void closeConnection() {
+    public void executeQuery() throws Exception {
+        ConnectionDB c = new ConnectionDB();
+        ResultSet res = c.executeQuery("SELECT * FROM cards WHERE type = \"character\"");
+    }
+
+    @Test
+    public void closeConnection() throws Exception {
     }
 
 }

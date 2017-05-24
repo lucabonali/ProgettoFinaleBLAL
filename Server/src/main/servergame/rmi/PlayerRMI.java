@@ -4,6 +4,7 @@ import main.model.board.DevelopmentCard;
 import main.servergame.AbstractPlayer;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -63,9 +64,16 @@ public class PlayerRMI extends AbstractPlayer {
         //getClientInterface().updateResources(getPersonalBoard().getQtaResources());
     }
 
+    /**
+     * metodo che invia al giocatore la lista delle carte sulle torri
+     * @param towersCardsList lista di stringhe che mi indica i nomi delle carte pescate
+     * @throws RemoteException
+     */
     @Override
     public void initializeBoard(List<DevelopmentCard> towersCardsList) throws RemoteException {
-        //implementare
+        List<String> list = new ArrayList<>();
+        towersCardsList.forEach((developmentCard -> list.add(developmentCard.getName())));
+        getClientInterface().setTowersCards(list);
     }
 
 

@@ -24,7 +24,7 @@ public class ActionEffect implements Effect{
 
 
     /**
-     * metodo che mi esegue una nuova azione chiedendo al clientGame quale
+     * metodo che mi esegue una nuova azione chiedendo al client quale
      * @param player giocatore che esegue l'azione
      */
     @Override

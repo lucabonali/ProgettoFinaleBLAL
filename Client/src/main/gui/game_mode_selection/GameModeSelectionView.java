@@ -20,7 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import main.clientGame.AbstractClient;
+import main.client.AbstractClient;
 import main.gui.game_view.GameController;
 
 import java.io.IOException;

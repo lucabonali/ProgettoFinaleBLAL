@@ -32,9 +32,9 @@ public class Excommunication {
         excomEffectList = new ArrayList<>();
         excomPlayerMap = new HashMap<>();
         excomPlayerMap.forEach(((integer, abstractPlayers) -> abstractPlayers = new ArrayList<>()));
-        prelameCardFirstPeriodFromDB();
-        prelameCardSecondPeriodFromDB();
-        prelameCardThirdPeriodFromDB();
+        //prelameCardFirstPeriodFromDB();
+        //prelameCardSecondPeriodFromDB();
+        //prelameCardThirdPeriodFromDB();
     }
 
     /**

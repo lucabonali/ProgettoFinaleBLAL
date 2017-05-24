@@ -1,4 +1,4 @@
-package main.clientGame;
+package main.client;
 
 import main.api.PlayerInterface;
 import main.api.ServerInterface;
@@ -65,8 +65,7 @@ public class ClientRMI extends AbstractClient {
      */
     @Override
     public void startGame(int gameMode) throws RemoteException {
-        serverGame = (PlayerInterface) server.startGame(getUsername(), gameMode);
-        serverGame.addClientInterface(this);
+        serverGame = (PlayerInterface) server.startGame(getUsername(), gameMode, this);
     }
 
 

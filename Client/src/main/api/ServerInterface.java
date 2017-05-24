@@ -5,7 +5,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * Interfaccia che saraà implementata dell' oggetto scaricabile dal clientGame RMI
+ * Interfaccia che saraà implementata dell' oggetto scaricabile dal client RMI
  * gli username sono univoci
  * Created by Luca, Andrea on 15/05/2017.
  */
@@ -40,6 +40,6 @@ public interface ServerInterface extends Remote {
      * @return
      * @throws RemoteException
      */
-    PlayerInterface startGame(String username, int gameMode) throws RemoteException;
+    PlayerInterface startGame(String username, int gameMode, ClientInterface clientInterface) throws RemoteException;
 
 }

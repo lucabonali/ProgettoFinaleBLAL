@@ -4,7 +4,6 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,10 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import main.clientGame.AbstractClient;
-import main.gui.game_mode_selection.GameModeSelectionView;
-import main.gui.game_view.GameController;
-import main.gui.login.LoginController;
 
 import java.io.IOException;
 import java.net.URL;

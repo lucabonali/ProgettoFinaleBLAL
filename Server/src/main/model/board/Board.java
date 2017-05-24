@@ -20,6 +20,7 @@ import main.servergame.exceptions.LorenzoException;
 import main.servergame.exceptions.NewActionException;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,6 +103,28 @@ public class Board {
     private void initializeDecks(){
         excommunication = new Excommunication();
         developmentDeck = new DevelopmentDeck();
+        drawStartCards();
+    }
+
+    private void drawStartCards() {
+        towerMap.get(CardType.TERRITORY).setCards(developmentDeck.drawCards(1,1,CardType.TERRITORY));
+        towerMap.get(CardType.CHARACTER).setCards(developmentDeck.drawCards(1,1,CardType.CHARACTER));
+        towerMap.get(CardType.BUILDING).setCards(developmentDeck.drawCards(1,1,CardType.BUILDING));
+        towerMap.get(CardType.VENTURES).setCards(developmentDeck.drawCards(1,1,CardType.VENTURES));
+    }
+
+    /**
+     * metodo che mi ritorna la lista di tutte le carte presenti sulle torre
+     * nell'ordine territori, personaggi, edifici, imprese.
+     * @return lista di carte sviluppo
+     */
+    public List<DevelopmentCard> getCompleteListTowersCards() {
+        List<DevelopmentCard> list = new ArrayList<>();
+        list.addAll(towerMap.get(CardType.TERRITORY).getCards());
+        list.addAll(towerMap.get(CardType.CHARACTER).getCards());
+        list.addAll(towerMap.get(CardType.BUILDING).getCards());
+        list.addAll(towerMap.get(CardType.VENTURES).getCards());
+        return list;
     }
 
 

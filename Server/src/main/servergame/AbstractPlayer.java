@@ -135,7 +135,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     /**
      * metodo che viene chiamato per inizializzare il turno, cioè mi invia al
-     * clientGame tutte le carte che sono state pescate in questo turno
+     * client tutte le carte che sono state pescate in questo turno
      * @param towersCardsList lista di stringhe che mi indica i nomi delle carte pescate
      * @throws RemoteException
      */

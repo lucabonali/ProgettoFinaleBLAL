@@ -1,5 +1,6 @@
 package main.servergame.socket;
 
+import main.api.ClientInterface;
 import main.api.PlayerInterface;
 import main.api.messages.SocketProtocol;
 import main.servergame.AbstractServer;
@@ -19,7 +20,7 @@ import java.util.List;
  * @author Andrea
  *
  * classe che mi identifica il server Socket che implementa la stessa interfaccia del server RMI
- * ma qui i metodi verranno chiamati in seguito a messaggi provenienti dal clientGame e codificati.
+ * ma qui i metodi verranno chiamati in seguito a messaggi provenienti dal client e codificati.
  */
 public class SocketServer extends AbstractServer implements Runnable {
     private List<PlayerSocket> playerSocketList;
@@ -32,7 +33,7 @@ public class SocketServer extends AbstractServer implements Runnable {
 
 
     @Override
-    public PlayerInterface startGame(String username, int gameMode) throws RemoteException {
+    public PlayerInterface startGame(String username, int gameMode, ClientInterface client) throws RemoteException {
         Game game = getFreeGame(gameMode); //la prima partita libera trovata, in caso ne crea una nuova
         PlayerSocket playerSocket = new PlayerSocket(username);
         playerSocket.setGame(game);
@@ -95,7 +96,7 @@ public class SocketServer extends AbstractServer implements Runnable {
                             case START_GAME:
                                 username = (String) in.readObject();
                                 gameMode = in.readInt();
-                                PlayerSocket player = (PlayerSocket) startGame(username, gameMode);
+                                PlayerSocket player = (PlayerSocket) startGame(username, gameMode, null);
                                 if (player != null) {
                                     player.setSocketConnection(socket, in, out);
                                     new Thread(player).start();

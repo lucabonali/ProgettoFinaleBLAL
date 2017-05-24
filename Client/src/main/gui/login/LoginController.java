@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import main.clientGame.AbstractClient;
+import main.client.AbstractClient;
 import main.gui.game_mode_selection.GameModeSelectionView;
 
 import java.io.IOException;

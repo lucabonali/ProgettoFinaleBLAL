@@ -59,9 +59,9 @@ public class Game {
         abstractPlayer.createPersonalBoard(numPlayers);
         turnOrder.add(abstractPlayer);
         if(numPlayers == 2 && gameMode == MainServer.RANDOM)
-            new Timer();
+            new Timer(10); //il parametro sono i secondi di attesa
         if(checkMaxNumberReached())
-            startGame();
+            new Timer(5);
     }
 
     private boolean checkMaxNumberReached(){
@@ -85,6 +85,14 @@ public class Game {
         this.isStarted = true;
         board = new Board(numPlayers);
         phase = Phases.ACTION;
+        playerMap.forEach(((integer, player) -> {
+            try {
+                player.initializeBoard(board.getCompleteListTowersCards());
+            }
+            catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }));
         currentPlayer = turnOrder.get(0);
         currentPlayer.isYourTurn();
     }
@@ -427,7 +435,7 @@ public class Game {
         Collections.sort(militaryValues);
         for (AbstractPlayer player : turnOrder){
             for(int i=0; i<numPlayers; i++) {
-                if (player.getPersonalBoard().getQtaResources().get(7) == militaryValues.get(i)) {
+                if (player.getPersonalBoard().getQtaResources().get(ResourceType.MILITARY) == militaryValues.get(i)) {
                     militaryWinners.add(player);
                     break;
                 }
@@ -472,9 +480,16 @@ public class Game {
 
 
     private class Timer extends Thread{
-        private final int MIN_INTERVAL_TO_START = 5;
+        private final long MIN_INTERVAL_TO_START;
         private int seconds = 0;
-        public Timer () {
+
+        /**
+         * costruttore che prende un parametro il quale indica i secondi che devo aspettare prima
+         * di far cominciare la partita
+         * @param seconds secondi
+         */
+        public Timer (long seconds) {
+            this.MIN_INTERVAL_TO_START = seconds;
             this.start();
         }
 

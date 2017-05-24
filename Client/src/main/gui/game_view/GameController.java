@@ -14,7 +14,7 @@ import javafx.util.Duration;
 import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
-import main.clientGame.AbstractClient;
+import main.client.AbstractClient;
 import main.gui.game_view.component.*;
 
 import java.io.IOException;
@@ -213,23 +213,23 @@ public class GameController {
             e.printStackTrace();
         }
 
-        List<String> list = new ArrayList<String>();
-        list.add("ambasciatore");
-        list.add("araldo");
-        list.add("architetto");
-        list.add("badessa");
-        list.add("cardinale");
-        list.add("bosco");
-        list.add("castelletto");
-        list.add("caserma");
-        list.add("cattedrale");
-        list.add("citta");
-        list.add("cavaliere");
-        list.add("ducato");
-        list.add("dama");
-        list.add("esattoria");
-        list.add("eroe");
-        list.add("crociata");
-        setBoardCards(list);
+//        List<String> list = new ArrayList<String>();
+//        list.add("ambasciatore");
+//        list.add("araldo");
+//        list.add("architetto");
+//        list.add("badessa");
+//        list.add("cardinale");
+//        list.add("bosco");
+//        list.add("castelletto");
+//        list.add("caserma");
+//        list.add("cattedrale");
+//        list.add("citta");
+//        list.add("cavaliere");
+//        list.add("ducato");
+//        list.add("dama");
+//        list.add("esattoria");
+//        list.add("eroe");
+//        list.add("crociata");
+//        setBoardCards(list);
     }
 }

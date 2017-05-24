@@ -1,17 +1,15 @@
 package main.model.board;
 
+import main.api.types.CardType;
 import main.model.effects.development_effects.*;
 import main.model.fields.Field;
 import main.model.fields.Resource;
-import main.api.types.CardType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static main.api.types.CardType.TERRITORY;
 
 /**
  * @author Luca
@@ -25,10 +23,7 @@ import static main.api.types.CardType.TERRITORY;
 
 public class DevelopmentDeck {
     //query che uso sempre per interrogare il db
-    private static final String QUERY_TERRITORY = "SELECT * FROM cards WHERE type = \"territories\"";
-    private static final String QUERY_CHARACTERS = "SELECT * FROM cards WHERE type = \"characters\"";
-    private static final String QUERY_BUILDINGS = "SELECT * FROM cards WHERE type = \"buildings\"";
-    private static final String QUERY_ENTERPRISES = "SELECT * FROM cards WHERE type = \"ventures\"";
+    private static final String QUERY_CARDS = "SELECT * FROM cards WHERE type = ";
 
     private ConnectionDB connectionDB;
 
@@ -41,10 +36,10 @@ public class DevelopmentDeck {
 
     public DevelopmentDeck() {
         connectionDB = new ConnectionDB();
-//        territoriesList = createTerritoriesList();
-//        charactersList = createCharactersList();
-//        buildingsList = createBuildingList();
-//        venturesList = createEnterprisesList();
+        territoriesList = createTerritoriesList();
+        charactersList = createCharactersList();
+        buildingsList = createBuildingList();
+        venturesList = createEnterprisesList();
     }
 
     /**
@@ -103,8 +98,8 @@ public class DevelopmentDeck {
      * @return la lista
      */
     private List<DevelopmentCard> createTerritoriesList() {
-        ResultSet rs = connectionDB.executeQuery(QUERY_TERRITORY);
-        return createCardList(TERRITORY, rs);
+        ResultSet rs = connectionDB.executeQuery(QUERY_CARDS + "\"territory\"");
+        return createCardList(CardType.TERRITORY, rs);
     }
 
     /**
@@ -112,7 +107,7 @@ public class DevelopmentDeck {
      * @return la lista
      */
     private List<DevelopmentCard> createCharactersList() {
-        ResultSet rs = connectionDB.executeQuery(QUERY_CHARACTERS);
+        ResultSet rs = connectionDB.executeQuery(QUERY_CARDS + "\"character\"");
         return createCardList(CardType.CHARACTER, rs);
     }
 
@@ -121,7 +116,7 @@ public class DevelopmentDeck {
      * @return la lista
      */
     private List<DevelopmentCard> createBuildingList() {
-        ResultSet rs = connectionDB.executeQuery(QUERY_BUILDINGS);
+        ResultSet rs = connectionDB.executeQuery(QUERY_CARDS + "\"building\"");
         return createCardList(CardType.BUILDING, rs);
     }
 
@@ -130,7 +125,7 @@ public class DevelopmentDeck {
      * @return la lista
      */
     private List<DevelopmentCard> createEnterprisesList() {
-        ResultSet rs = connectionDB.executeQuery(QUERY_ENTERPRISES);
+        ResultSet rs = connectionDB.executeQuery(QUERY_CARDS + "\"venture\"");
         return createCardList(CardType.VENTURES, rs);
     }
 
@@ -141,7 +136,7 @@ public class DevelopmentDeck {
      * @param rs risultato integgogazione db
      * @return lista carte
      */
-    private List<DevelopmentCard> createCardList(CardType type, ResultSet rs) {
+    public List<DevelopmentCard> createCardList(CardType type, ResultSet rs) {
         DevelopmentCard DevelopmentCard =null;
         List<DevelopmentCard> list = new ArrayList<>();
         try {
@@ -192,7 +187,7 @@ public class DevelopmentDeck {
     private List<Effect> createPermanentEffectListCharacters(String cod) {
         List<Effect> permanentEffectList = new ArrayList<>();
         if(cod != null){
-            permanentEffectList.add(ActionValueModifyingEffect.createInstance(cod.substring(0,2)));
+            permanentEffectList.add(ActionValueModifyingEffect.createInstance(cod));
             return permanentEffectList;
         }
         return null;
@@ -273,7 +268,7 @@ public class DevelopmentDeck {
         List<Effect> effectList = new ArrayList<>();
         if(cod != null){
             if (cod.charAt(0) == 'g') {
-                effectList.add(VariableIncrementEffect.createInstance(cod));
+                effectList.add(VariableIncrementEffect.createInstance(cod.substring(1)));
                 return effectList;
             }
             effectList.add(EffectsCreator.createEffect(cod.substring(0, 2)));
