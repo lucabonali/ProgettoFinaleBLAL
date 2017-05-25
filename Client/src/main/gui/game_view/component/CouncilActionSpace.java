@@ -25,6 +25,10 @@ public class CouncilActionSpace extends Pane implements ActionSpaceInterface {
         familyMemberList = new ArrayList<>();
         setMaxSize(WIDTH, HEIGHT);
         createPane();
+        setOnMouseClicked(event -> {
+            GraphicFamilyMember fm = new GraphicFamilyMember(Color.BLUE);
+            addFamilyMember(fm);
+        });
     }
 
     private void createPane() {

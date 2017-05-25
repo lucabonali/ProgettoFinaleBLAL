@@ -21,7 +21,10 @@ public class SingleActionSpace extends Pane implements ActionSpaceInterface{
         this.type = type;
         setMaxSize(WIDTH, HEIGHT);
         createPane();
-
+        setOnMouseClicked(event -> {
+            GraphicFamilyMember fm = new GraphicFamilyMember(Color.BLUE);
+            addFamilyMember(fm);
+        });
     }
 
     private void createPane() {

@@ -92,34 +92,18 @@ public class GameController {
         actionSpacesMap.put(harvest.getType(), harvest);
         //raccolta larga
         LargeActionSpace lHarvest = new LargeActionSpace(ActionSpacesType.LARGE_HARVEST);
-        lHarvest.setOnMouseClicked(event -> {
-            GraphicFamilyMember fm = new GraphicFamilyMember(colorPicker.getValue());
-            lHarvest.addFamilyMember(fm);
-        });
         largeHarvest.add(lHarvest, 0, 0);
         actionSpacesMap.put(lHarvest.getType(), lHarvest);
         //produzione singolo
         SingleActionSpace production = new SingleActionSpace(ActionSpacesType.SINGLE_PRODUCTION);
-        production.setOnMouseClicked(event -> {
-            GraphicFamilyMember fm = new GraphicFamilyMember(colorPicker.getValue());
-            production.addFamilyMember(fm);
-        });
         singleProduction.add(production, 0, 0);
         actionSpacesMap.put(production.getType(), production);
         //produzione larga
         LargeActionSpace lProduction = new LargeActionSpace(ActionSpacesType.LARGE_PRODUCTION);
-        lProduction.setOnMouseClicked(event -> {
-            GraphicFamilyMember fm = new GraphicFamilyMember(colorPicker.getValue());
-            lProduction.addFamilyMember(fm);
-        });
         largeProduction.add(lProduction, 0, 0);
         actionSpacesMap.put(lProduction.getType(), lProduction);
         //palazzo del consiglio
         CouncilActionSpace councilActionSpace = new CouncilActionSpace(ActionSpacesType.COUNCIL);
-        councilActionSpace.setOnMouseClicked(event -> {
-            GraphicFamilyMember fm = new GraphicFamilyMember(colorPicker.getValue());
-            councilActionSpace.addFamilyMember(fm);
-        });
         council.add(councilActionSpace, 0, 0);
         actionSpacesMap.put(councilActionSpace.getType(), councilActionSpace);
     }
@@ -130,10 +114,6 @@ public class GameController {
         for (int i=0; i<4; i++) {
             gridPaneSpacesTowersMap.put(type, gridPaneTower);
             SingleActionSpace actionSpace = new SingleActionSpace(ActionSpacesType.TOWERS);
-            actionSpace.setOnMouseClicked(event -> {
-                GraphicFamilyMember fm = new GraphicFamilyMember(colorPicker.getValue());
-                actionSpace.addFamilyMember(fm);
-            });
             array[i] = actionSpace;
             actionSpace.setOnMousePressed(event -> actionSpace.removeAllFamilyMembers());
             gridPaneSpacesTowersMap.get(type).add(actionSpace, 0, i);
@@ -143,10 +123,6 @@ public class GameController {
     private void initializeMarket(MarketActionType type, GridPane gridPaneMarket) {
         gridPaneSpacesMarketMap.put(type, gridPaneMarket);
         SingleActionSpace actionSpace = new SingleActionSpace(ActionSpacesType.MARKET);
-        actionSpace.setOnMouseClicked(event -> {
-            GraphicFamilyMember fm = new GraphicFamilyMember(colorPicker.getValue());
-            actionSpace.addFamilyMember(fm);
-        });
         marketMap.put(type, actionSpace);
         gridPaneSpacesMarketMap.get(type).add(actionSpace, 0, 0);
     }
