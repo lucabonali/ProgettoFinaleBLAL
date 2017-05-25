@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -39,6 +40,7 @@ public class Launcher extends Application {
         primaryStage.centerOnScreen();
         primaryStage.setScene(new Scene(root, 285, 435));
         primaryStage.setTitle("Lorenzo Il Magnifico");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("res/Icona_testa.png")));
         primaryStage.show();
     }
 
