@@ -13,9 +13,10 @@ import javafx.stage.Stage;
 public class GameTest extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/game_view_2.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/game_view.fxml"));
         Parent window = (Pane) fxmlLoader.load();
-        primaryStage.setScene(new Scene(window));
+        primaryStage.setScene(new Scene(window, 1700, 1000));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

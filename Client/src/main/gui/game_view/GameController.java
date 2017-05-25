@@ -1,6 +1,7 @@
 package main.gui.game_view;
 
 import javafx.animation.ScaleTransition;
+import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -9,7 +10,9 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
@@ -55,6 +58,12 @@ public class GameController {
     @FXML private GridPane orangeDice;
 
     @FXML private GridPane personalGridPane;
+    @FXML private ImageView backgroundImage;
+    @FXML private AnchorPane anchorPane;
+    @FXML private GridPane gridPaneContainer;
+
+    private DoubleProperty imageWidthProperty;
+    private DoubleProperty imageHeightProperty;
 
     //prova
     @FXML private ColorPicker colorPicker;
@@ -206,30 +215,23 @@ public class GameController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));
             Parent messagesServer = fxmlLoader.load();
-            client.setMessagesController(fxmlLoader.getController());
+            //client.setMessagesController(fxmlLoader.getController());
             personalGridPane.add(messagesServer, 0, 1);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-
-//        List<String> list = new ArrayList<String>();
-//        list.add("ambasciatore");
-//        list.add("araldo");
-//        list.add("architetto");
-//        list.add("badessa");
-//        list.add("cardinale");
-//        list.add("bosco");
-//        list.add("castelletto");
-//        list.add("caserma");
-//        list.add("cattedrale");
-//        list.add("citta");
-//        list.add("cavaliere");
-//        list.add("ducato");
-//        list.add("dama");
-//        list.add("esattoria");
-//        list.add("eroe");
-//        list.add("crociata");
-//        setBoardCards(list);
+        PersonalVictoryDisc p1 = new PersonalVictoryDisc(Color.BLACK);
+        PersonalVictoryDisc p2 = new PersonalVictoryDisc(Color.RED);
+        PersonalVictoryDisc p3 = new PersonalVictoryDisc(Color.GREEN);
+        PersonalVictoryDisc p4 = new PersonalVictoryDisc(Color.BLUE);
+        anchorPane.getChildren().add(p1);
+        anchorPane.getChildren().add(p2);
+        anchorPane.getChildren().add(p3);
+        anchorPane.getChildren().add(p4);
+        p1.setCurrentPosition(15);
+        p2.setCurrentPosition(15);
+        p3.setCurrentPosition(30);
+        p4.setCurrentPosition(30);
     }
 }
