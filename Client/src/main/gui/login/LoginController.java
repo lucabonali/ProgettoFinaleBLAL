@@ -127,6 +127,7 @@ public class LoginController {
 
     public void initialize() {
         buttonLogin.setCursor(Cursor.HAND);
+        toolbar.setCursor(Cursor.CLOSED_HAND);
         toolbar.setOnMousePressed(event -> {
             xOffset = Launcher.getPrimaryStage().getX() -event.getScreenX();
             yOffset = Launcher.getPrimaryStage().getY() -event.getScreenY();
@@ -137,7 +138,7 @@ public class LoginController {
             Launcher.getPrimaryStage().setX(event.getScreenX() + xOffset);
             Launcher.getPrimaryStage().setY(event.getScreenY() + yOffset);
         });
-        toolbar.setOnMouseReleased(event -> toolbar.setCursor(Cursor.DEFAULT));
+
     }
 
     public void closeWindow(ActionEvent actionEvent) {

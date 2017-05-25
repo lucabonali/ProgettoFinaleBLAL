@@ -7,7 +7,7 @@
 }
 #closeButton {
 
-    -fx-background-image: url("X.png");
+    -fx-background-image: url("../../login/res/X.png");
     -fx-background-repeat: no-repeat;
     -fx-background-color: transparent;
     -fx-background-position: center;
