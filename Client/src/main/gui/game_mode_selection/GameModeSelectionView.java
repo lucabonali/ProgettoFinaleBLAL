@@ -188,7 +188,7 @@ public class GameModeSelectionView {
         public void run() {
             try {
                 client.startGame(gameMode);
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/game_view_2.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/game_view.fxml"));
                 Parent window = (Pane) fxmlLoader.load();
                 GameController controller = fxmlLoader.getController();
                 AbstractClient.getInstance().setGameController(controller); //setto il model

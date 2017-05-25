@@ -229,9 +229,9 @@ public class GameController {
         anchorPane.getChildren().add(p2);
         anchorPane.getChildren().add(p3);
         anchorPane.getChildren().add(p4);
-        p1.setCurrentPosition(15);
+        p1.setCurrentPosition(12);
         p2.setCurrentPosition(15);
-        p3.setCurrentPosition(30);
-        p4.setCurrentPosition(30);
+        p3.setCurrentPosition(33);
+        p4.setCurrentPosition(41);
     }
 }
