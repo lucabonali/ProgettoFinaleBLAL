@@ -2,4 +2,19 @@
     -fx-cursor: hand;
     -fx-border-radius: 15%;
     -fx-border-color: black;
+
+
+}
+#closeButton {
+
+    -fx-background-image: url("X.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-position: center;
+    -fx-cursor: hand;
+}
+
+#toolbar {
+
+    -fx-background-color: transparent;
 }

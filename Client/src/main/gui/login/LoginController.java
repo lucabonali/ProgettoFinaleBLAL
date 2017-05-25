@@ -8,7 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import main.Launcher;
 import main.client.AbstractClient;
 import main.gui.game_mode_selection.GameModeSelectionView;
 
@@ -24,8 +26,11 @@ public class LoginController {
     @FXML private PasswordField password;
     @FXML private Button buttonLogin;
     @FXML private RadioButton RMI,socket;
+    @FXML private Pane rootPane;
+    @FXML private ToolBar toolbar;
+    @FXML private Button closeButton;
 
-
+    private double xOffset, yOffset;
     /**
      * Metodo che gestisce l' evento sul bottone di login, e lancia alert se non si riempie uno dei campi
      * @param actionEvent
@@ -122,5 +127,20 @@ public class LoginController {
 
     public void initialize() {
         buttonLogin.setCursor(Cursor.HAND);
+        toolbar.setOnMousePressed(event -> {
+            xOffset = Launcher.getPrimaryStage().getX() -event.getScreenX();
+            yOffset = Launcher.getPrimaryStage().getY() -event.getScreenY();
+            toolbar.setCursor(Cursor.CLOSED_HAND);
+        } );
+
+        toolbar.setOnMouseDragged(event -> {
+            Launcher.getPrimaryStage().setX(event.getScreenX() + xOffset);
+            Launcher.getPrimaryStage().setY(event.getScreenY() + yOffset);
+        });
+        toolbar.setOnMouseReleased(event -> toolbar.setCursor(Cursor.DEFAULT));
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
+        Launcher.getPrimaryStage().close();
     }
 }

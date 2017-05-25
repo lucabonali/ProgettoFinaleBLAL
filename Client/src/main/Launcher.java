@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -17,6 +18,8 @@ import java.rmi.NotBoundException;
  * @author Andrea
  */
 public class Launcher extends Application {
+    private static Stage primaryStage;
+
     /**
      * Metodo Main del client, che lancia il metodo start di questa classe
      * @param args
@@ -30,18 +33,25 @@ public class Launcher extends Application {
 
     /**
      * Metodo che visualizza la schermata di login del gioco
-     * @param primaryStage finestra iniziale
+     * @param stage finestra iniziale
      * @throws IOException
      */
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage stage) throws IOException {
+        primaryStage = stage;
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main/gui/startScreen/start_screen.fxml"));
-        primaryStage.setOnCloseRequest(event -> System.exit(0));
-        primaryStage.centerOnScreen();
-        primaryStage.setScene(new Scene(root, 285, 435));
-        primaryStage.setTitle("Lorenzo Il Magnifico");
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("res/Icona_testa.png")));
-        primaryStage.show();
+        stage.setOnCloseRequest(event -> System.exit(0));
+        stage.centerOnScreen();
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setResizable(false);
+        stage.setScene(new Scene(root, 285, 435));
+        stage.setTitle("Lorenzo Il Magnifico");
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("res/Icona_testa.png")));
+        stage.show();
+    }
+
+    public static Stage getPrimaryStage(){
+        return primaryStage;
     }
 
 

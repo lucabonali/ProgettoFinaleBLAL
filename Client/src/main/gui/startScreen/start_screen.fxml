@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="437.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.startScreen.startScreenController">
+<Pane fx:id="rootPane" prefHeight="437.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.startScreen.startScreenController">
     <children>
         <ImageView fitHeight="439.0" fitWidth="417.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -19,15 +19,16 @@
                 <Image fx:id="testina" url="@res/LorenzoIlMagnifico.png" />
             </image>
         </ImageView>
-        <Label fx:id="labelClick" layoutX="76.0" layoutY="362.0" onMouseClicked="#startTransition" onMouseEntered="#changeCursor"  text="Click Here" textFill="WHITE">
+        <Label fx:id="labelClick" layoutX="76.0" layoutY="362.0" onMouseClicked="#startTransition" onMouseEntered="#changeCursor" text="Click Here" textFill="WHITE">
             <font>
                 <Font name="AR JULIAN" size="27.0" />
             </font>
         </Label>
-        <Button fx:id="closeButton" layoutX="233.0" layoutY="14.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#closeWindow" opacity="0.61" prefHeight="20.0" prefWidth="37.0" text="X" textFill="RED">
+        <Button id="closeButton" fx:id="closeButton" layoutX="231.0" layoutY="27.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#closeWindow" prefHeight="22.0" prefWidth="33.0" stylesheets="@../game_view/res/style.css" textOverrun="WORD_ELLIPSIS">
             <font>
                 <Font name="AR JULIAN" size="14.0" />
             </font>
+         
         </Button>
     </children>
 </Pane>

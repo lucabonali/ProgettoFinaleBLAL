@@ -6,6 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="353.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.login.LoginController">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.login.LoginController">
    <children>
       <ImageView fitHeight="381.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -30,7 +31,7 @@
                         <Font name="AR JULIAN" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="userName" >
+                  <TextField fx:id="userName">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -42,11 +43,9 @@
                         <Font name="AR JULIAN" size="18.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="password"  />
+                  <PasswordField fx:id="password" />
                   <Pane prefHeight="26.0" prefWidth="200.0" />
-                  <Button fx:id="buttonLogin" mnemonicParsing="false" onAction="#submit" onMouseEntered="#showButton"
-                          onMouseExited="#hideButton" opacity="0.47" prefHeight="25.0" prefWidth="204.0"
-                          text="Login" textAlignment="CENTER">
+                  <Button fx:id="buttonLogin" mnemonicParsing="false" onAction="#submit" onMouseEntered="#showButton" onMouseExited="#hideButton" opacity="0.47" prefHeight="25.0" prefWidth="204.0" text="Login" textAlignment="CENTER">
                      <font>
                         <Font name="AR DESTINE" size="13.0" />
                      </font>
@@ -55,17 +54,17 @@
             </VBox>
          </center>
       </BorderPane>
-      <Pane layoutX="386.0" prefHeight="200.0" prefWidth="200.0">
+      <Pane layoutX="386.0" layoutY="28.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <HBox layoutY="42.0" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Pane prefHeight="100.0" prefWidth="83.0" />
-                  <RadioButton fx:id="RMI" onAction="#select" mnemonicParsing="false" text="RMI" textFill="#f2eeee">
+                  <RadioButton fx:id="RMI" mnemonicParsing="false" onAction="#select" text="RMI" textFill="#f2eeee">
                      <font>
                         <Font name="AR JULIAN" size="13.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="socket" onAction="#select" mnemonicParsing="false" text="Socket" textFill="WHITE">
+                  <RadioButton fx:id="socket" mnemonicParsing="false" onAction="#select" text="Socket" textFill="WHITE">
                      <font>
                         <Font name="AR JULIAN" size="13.0" />
                      </font>
@@ -74,5 +73,15 @@
             </HBox>
          </children>
       </Pane>
+      <ToolBar id="toolbar" fx:id="toolbar" prefHeight="29.0" prefWidth="600.0" stylesheets="@../game_view/res/style.css">
+         <items>
+            <Pane prefHeight="25.0" prefWidth="558.0" />
+            <Button id="closeButton" fx:id="closeButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#closeWindow" stylesheets="@../game_view/res/style.css" text="X">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </items>
+      </ToolBar>
    </children>
 </Pane>

@@ -18,24 +18,23 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import main.Launcher;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class startScreenController implements Initializable {
+    @FXML private Button closeButton;
+    @FXML private Label labelClick;
+    @FXML private ImageView testa;
+    @FXML private Image testina;
+    @FXML private Pane rootPane;
+    private double xOffset,yOffset;
 
-    @FXML
-    private Button closeButton;
 
-    @FXML
-    private Label labelClick;
 
-    @FXML
-    private ImageView testa;
 
-    @FXML
-    private Image testina;
 
     ScaleTransition scaleTransition ;
     FadeTransition fadeOut, fadeIn;
@@ -48,7 +47,7 @@ public class startScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        scaleTransition = new ScaleTransition(Duration.millis(2000),testa);
+        scaleTransition = new ScaleTransition(Duration.millis(1500),testa);
         scaleTransition.setToY(2);
         scaleTransition.setToX(2);
         scaleTransition.autoReverseProperty();
@@ -62,6 +61,29 @@ public class startScreenController implements Initializable {
             }
         });
         image = new Image(getClass().getResourceAsStream("res/LorenzoIlMagnificochiuso.png"));
+        fadeIn = new FadeTransition(Duration.millis(500),labelClick);
+        fadeOut = new FadeTransition(Duration.millis(500),labelClick);
+        fadeOut.setFromValue(0.5);
+        fadeOut.setToValue(1.0);
+        fadeIn.setFromValue(0.5);
+        fadeOut.setToValue(1.0);
+        fadeOut.play();
+        fadeIn.setOnFinished( e -> fadeOut.play());
+        fadeOut.setOnFinished(e -> fadeIn.play());
+
+        rootPane.setOnMousePressed(event -> {
+            xOffset = Launcher.getPrimaryStage().getX() -event.getScreenX();
+            yOffset = Launcher.getPrimaryStage().getY() -event.getScreenY();
+            rootPane.setCursor(Cursor.CLOSED_HAND);
+        } );
+
+        rootPane.setOnMouseDragged(event -> {
+            Launcher.getPrimaryStage().setX(event.getScreenX() + xOffset);
+            Launcher.getPrimaryStage().setY(event.getScreenY() + yOffset);
+        });
+        rootPane.setOnMouseReleased(event -> rootPane.setCursor(Cursor.DEFAULT));
+
+
     }
 
 
@@ -79,7 +101,7 @@ public class startScreenController implements Initializable {
             Stage stage = (Stage)  labelClick.getScene().getWindow();
             Scene scene = new Scene(window);
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
