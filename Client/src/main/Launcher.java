@@ -30,7 +30,6 @@ public class Launcher extends Application {
         launch(args);
     }
 
-
     /**
      * Metodo che visualizza la schermata di login del gioco
      * @param stage finestra iniziale
@@ -44,7 +43,7 @@ public class Launcher extends Application {
         stage.centerOnScreen();
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
-        stage.setScene(new Scene(root, 285, 435));
+        stage.setScene(new Scene(root, 356, 542));
         stage.setTitle("Lorenzo Il Magnifico");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("res/Icona_testa.png")));
         stage.show();
