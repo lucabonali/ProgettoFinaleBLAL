@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import main.Launcher;
 import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
@@ -57,10 +59,11 @@ public class GameController {
     @FXML private GridPane whiteDice;
     @FXML private GridPane orangeDice;
 
+    @FXML private ToolBar toolbar1;
+    @FXML private ToolBar toolbar2;
+
     @FXML private GridPane personalGridPane;
-    @FXML private ImageView backgroundImage;
     @FXML private AnchorPane anchorPane;
-    @FXML private GridPane gridPaneContainer;
 
     private DoubleProperty imageWidthProperty;
     private DoubleProperty imageHeightProperty;
@@ -80,14 +83,12 @@ public class GameController {
 
     //lista delle immagini
     private List<ImageView> imageList = new ArrayList<>();
+    private double xOffset;
+    private double yOffset;
 
     private void initializeHarvestProduction() {
         //raccolta singolo
         SingleActionSpace harvest = new SingleActionSpace(ActionSpacesType.SINGLE_HARVEST);
-        harvest.setOnMouseClicked(event -> {
-            GraphicFamilyMember fm = new GraphicFamilyMember(colorPicker.getValue());
-            harvest.addFamilyMember(fm);
-        });
         singleHarvest.add(harvest, 0, 0);
         actionSpacesMap.put(harvest.getType(), harvest);
         //raccolta larga
@@ -115,7 +116,6 @@ public class GameController {
             gridPaneSpacesTowersMap.put(type, gridPaneTower);
             SingleActionSpace actionSpace = new SingleActionSpace(ActionSpacesType.TOWERS);
             array[i] = actionSpace;
-            actionSpace.setOnMousePressed(event -> actionSpace.removeAllFamilyMembers());
             gridPaneSpacesTowersMap.get(type).add(actionSpace, 0, i);
         }
     }
@@ -152,6 +152,24 @@ public class GameController {
         }
     }
 
+    private void addToolbarDragAndDrop(ToolBar toolbar) {
+        toolbar.setCursor(Cursor.CLOSED_HAND);
+        toolbar.setOnMousePressed(event -> {
+            xOffset = Launcher.getPrimaryStage().getX() -event.getScreenX();
+            yOffset = Launcher.getPrimaryStage().getY() -event.getScreenY();
+            toolbar.setCursor(Cursor.CLOSED_HAND);
+        } );
+
+        toolbar.setOnMouseDragged(event -> {
+            Launcher.getPrimaryStage().setX(event.getScreenX() + xOffset);
+            Launcher.getPrimaryStage().setY(event.getScreenY() + yOffset);
+        });
+    }
+
+    /**
+     * mi setta la lista delle carte sulle torri del tabellone
+     * @param namesList lista dei nomi delle carte
+     */
     public void setBoardCards(List<String> namesList) {
         for (int i=0; i<namesList.size(); i++) {
             imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()));
@@ -197,6 +215,11 @@ public class GameController {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        addToolbarDragAndDrop(toolbar1);
+        addToolbarDragAndDrop(toolbar2);
+
+
         PersonalVictoryDisc p1 = new PersonalVictoryDisc(Color.BLACK);
         PersonalVictoryDisc p2 = new PersonalVictoryDisc(Color.RED);
         PersonalVictoryDisc p3 = new PersonalVictoryDisc(Color.GREEN);

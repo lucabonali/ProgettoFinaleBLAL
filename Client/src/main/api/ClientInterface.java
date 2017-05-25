@@ -37,6 +37,12 @@ public interface ClientInterface extends Remote{
     void setDiceValues(int orange, int white, int black) throws RemoteException;
 
     /**
+     * informa il giocatore che deve tirare i dadi!
+     * @throws RemoteException
+     */
+    void notifyHaveToShotDice() throws RemoteException;
+
+    /**
      * metodo che mi notifica al main.client che deve fare una nuova azione del tipo
      * identificato dal codeAction e del valore di value
      * @param value valore dell'azione

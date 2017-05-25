@@ -1,6 +1,7 @@
 package main.client;
 
 import main.api.ClientInterface;
+import main.api.types.Phases;
 import main.api.types.ResourceType;
 import main.gui.game_view.GameController;
 import main.gui.game_view.MessagesController;
@@ -26,6 +27,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private int id;
     private GameController gameController;
     private MessagesController messagesController;
+    private Phases phase;
 
     protected AbstractClient() throws RemoteException {
     }
@@ -80,6 +82,15 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     }
 
     /**
+     * mi informa il giocatore che deve tirare i dadi
+     * @throws RemoteException
+     */
+    @Override
+    public void notifyHaveToShotDice() throws RemoteException {
+
+    }
+
+    /**
      * notifica al client che deve fare un'altra azione
      * @param value valore dell'azione
      * @param codeAction codice dell'azione (spazio azione)
@@ -109,8 +120,12 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     }
 
 
-    /// METODI AGGIUNTI DALLA CLASSE ASTRATTA E GIA' IMPLEMENTATI
+    /// METODI AGGIUNTI DALLA CLASSE ASTRATTA E GIA' IMPLEMENTATI /////////////////////////////////////////////////////////
 
+
+    public void setPhase(Phases phase) {
+        this.phase = phase;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -145,7 +160,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     }
 
 
-    /// METODI AGGIUNTI DA QUESTA CLASSE CHE VERRANNO IMPLEMENTATI DALLE SOTTO-CLASSI
+    /// METODI AGGIUNTI DA QUESTA CLASSE CHE VERRANNO IMPLEMENTATI DALLE SOTTO-CLASSI  ///////////////////////////////////////
 
 
     /**
