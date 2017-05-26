@@ -23,9 +23,11 @@ public class Tower {
     public Tower(CardType type, ResourceType resourceTypeQuickEffect){
         this.towerType = type;
         this.floorActionSpaces = new FloorActionSpace[4];
+        int value = 1;
         for(int i = 0 ; i<4 ; i++){
             //devo aggiungere gli effetti ai piani 3 e 4 di ciascuna torre
-            floorActionSpaces[i] = new FloorActionSpace(i, towerType, resourceTypeQuickEffect);
+            floorActionSpaces[i] = new FloorActionSpace(value, towerType, resourceTypeQuickEffect);
+            value += 2;
         }
     }
 

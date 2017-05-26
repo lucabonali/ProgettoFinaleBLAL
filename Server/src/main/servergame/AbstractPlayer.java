@@ -4,12 +4,12 @@ import main.api.ClientInterface;
 import main.api.PlayerInterface;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
-import main.servergame.exceptions.NewActionException;
 import main.api.types.FamilyMemberType;
 import main.model.Game;
 import main.model.board.DevelopmentCard;
 import main.model.board.FamilyMember;
 import main.model.board.PersonalBoard;
+import main.servergame.exceptions.NewActionException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -72,10 +72,6 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         return this.clientInterface;
     }
 
-    public Game getGame() {
-        return this.game;
-    }
-
     public int getIdPlayer() {
         return idPlayer;
     }
@@ -88,11 +84,16 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         personalBoard.removeAllFamilyMembers();
     };
 
+
+
+    /// METODI ASTRATTI AGGIUNTI DA QUESTA CLASSE E CHE VERRANNO IMPLEMENTATI DALLE SUE DUE DIRETTE SOTTOCLASSI ///////////////
+
+
     /**
      * mi notifica che la partita è cominciata
      * @throws RemoteException
      */
-    public abstract void gameIsStarted() throws RemoteException;
+    public abstract void gameIsStarted(List<Integer> idList) throws RemoteException;
 
     /**
      * mi notifica che è il mio turno
@@ -147,9 +148,9 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     /**
      * metodo che invia al client i risultati del tiro del dado
-     * @param orange
-     * @param white
-     * @param black
+     * @param orange valore dado arancione
+     * @param white dado bianco
+     * @param black dado nero
      * @throws RemoteException
      */
     public abstract void sendDicesValues(int orange, int white, int black) throws RemoteException;
@@ -161,6 +162,12 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      * @throws RemoteException
      */
     public abstract void initializeBoard(List<DevelopmentCard> towersCardsList) throws RemoteException;
+
+    /**
+     * notifica al client che ha terminato il suo turno
+     * @throws RemoteException
+     */
+    public abstract void notifyEndMove() throws RemoteException;
 
 
 
@@ -187,7 +194,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     @Override
     public void endMove() throws RemoteException {
-        game.endMove();
+        game.endMove(this);
     }
 
     @Override

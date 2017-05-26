@@ -83,10 +83,10 @@ public class Board {
             largeHarvestActionSpace = new LargeHarvestActionSpace(1);
             largeProductionActionSpace = new LargeProductionActionSpace(1);
         }
-        if(numPlayers > 3) {
+//        if(numPlayers > 3) {
             marketActionSpaceMap.put(MarketActionType.BLUE,new MarketActionSpace(MarketActionType.BLUE));
             marketActionSpaceMap.put(MarketActionType.GRAY,new MarketActionSpace(MarketActionType.GRAY));
-        }
+//        }
     }
 
     /**
@@ -131,11 +131,13 @@ public class Board {
     public void initializeTurn(int period, int turn){
         towerMap.forEach(((cardType, tower) -> tower.removeFamilyMembers()));
         harvestActionSpace.removeFamilyMember();
-        largeHarvestActionSpace.removeFamilyMembers();
         productionActionSpace.removeFamilyMember();
-        largeProductionActionSpace.removeFamilyMembers();
         marketActionSpaceMap.forEach(((marketActionType, marketActionSpace) -> marketActionSpace.removeFamilyMember()));
         councilActionSpace.removeFamilyMembers();
+        if (numPlayers > 2) {
+            largeHarvestActionSpace.removeFamilyMembers();
+            largeProductionActionSpace.removeFamilyMembers();
+        }
         setCards(period,turn);
     }
 

@@ -2,7 +2,7 @@ package main.client;
 
 import main.api.PlayerInterface;
 import main.api.ServerInterface;
-import main.servergame.exceptions.LorenzoException;
+import main.api.messages.MessageAction;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -24,8 +24,8 @@ public class ClientRMI extends AbstractClient {
 
     /**
      * costruttore che prende in ingresso username e password del giocatore
-     * @param username
-     * @param password
+     * @param username username del giocatore
+     * @param password password del giocatore
      * @throws RemoteException
      */
     public ClientRMI(String username, String password) throws RemoteException {
@@ -37,18 +37,17 @@ public class ClientRMI extends AbstractClient {
      * di messaggio, chiamando il metodo doAction dell' intefaccia serverGame
      * (Va parametrizzato per scegliere quale azione compiere e con quale familiare)
      * @throws RemoteException
-     * @throws LorenzoException
      */
     @Override
-    public void doAction() throws RemoteException {
-        //creo l'azione
+    public void doAction(MessageAction msg) throws RemoteException {
+        serverGame.doAction(msg);
     }
 
 
     /**
      * metodo che esegue il login del giocatore, scaricando l' intefaccia del server per poter chiamare il metodo
      * di login su di essa (attraverso getRegistry e Lookup)
-     * @return
+     * @return true se il login va a buon fine.
      * @throws RemoteException
      * @throws NotBoundException
      */
@@ -60,7 +59,7 @@ public class ClientRMI extends AbstractClient {
     }
 
     /**
-     *
+     * richiede al server di accoppiarlo ad una partita, darà sempre esito positivo
      * @throws RemoteException
      */
     @Override
@@ -72,11 +71,15 @@ public class ClientRMI extends AbstractClient {
     /**
      * metyodo che viene chiamato dal client che notifica al server che la mossa è finita, chiamando
      * il metodo endMove sull' interfacci di tipo PlayerInterface (serverGame)
-     * @throws RemoteException
      */
     @Override
-    public void endMove() throws RemoteException {
-        serverGame.endMove();
+    public void endMove() {
+        try {
+            serverGame.endMove();
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -86,7 +89,6 @@ public class ClientRMI extends AbstractClient {
      * @param white bianco
      * @param black nero
      * @throws RemoteException
-     * @throws LorenzoException
      */
     @Override
     public void shotDice(int orange, int white, int black) throws RemoteException{

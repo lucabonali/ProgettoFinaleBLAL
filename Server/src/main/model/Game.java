@@ -50,7 +50,7 @@ public class Game {
 
     /**
      * metodo che mi aggiunge un giocatore alla partita.
-     * @param abstractPlayer
+     * @param abstractPlayer giocatore da aggiungere alla partita
      * @throws RemoteException
      */
     public void addPlayer(AbstractPlayer abstractPlayer) throws RemoteException {
@@ -87,8 +87,13 @@ public class Game {
         phase = Phases.ACTION;
         playerMap.forEach(((integer, player) -> {
             try {
-                player.gameIsStarted();
                 player.initializeBoard(board.getCompleteListTowersCards());
+                ArrayList<Integer> arrayListId = new ArrayList<>();
+                playerMap.forEach((integer1, player1) -> {
+                    if (player1 != player)
+                        arrayListId.add(integer);
+                });
+                player.gameIsStarted(arrayListId);
             }
             catch (RemoteException e) {
                 e.printStackTrace();
@@ -101,8 +106,8 @@ public class Game {
 
     /**
      * metodo per il lancio dei dadi, controlla se è il tuo turno..
-     * @param player
-     * @throws LorenzoException
+     * @param player giocatore che ha appena tirato i dadi
+     * @throws RemoteException
      */
     public void shotDice(AbstractPlayer player, int orange, int white, int black) throws  RemoteException {
         try{
@@ -120,6 +125,11 @@ public class Game {
     }
 
 
+    /**
+     * mi ottiene l'id del giocatore
+     * @param player
+     * @return
+     */
     public int getId(PlayerInterface player){
         for(int i = 1; i<=numPlayers ; i++){
             if(player == playerMap.get(i))
@@ -138,7 +148,7 @@ public class Game {
 
     /**
      * metodo che controlla se è il turno del giocatore passato come parametro
-     * @param player
+     * @param player giocatore da controllare
      * @throws LorenzoException
      */
     public void checkTurn(AbstractPlayer player) throws LorenzoException {
@@ -148,7 +158,7 @@ public class Game {
 
     /**
      * controlla se il familiare è già posizionato
-     * @param familyMember
+     * @param familyMember familiare da controllare
      * @throws LorenzoException
      */
     private void isAlreadyPositioned(FamilyMember familyMember) throws LorenzoException {
@@ -228,7 +238,7 @@ public class Game {
                 board.doAction(player, msg, familyMember);
                 familyMember.setPositioned(true);
                 player.updateResources();
-                endMove(); //mi esegue la fine de turno
+                endMove(player); //mi esegue la fine de turno
             }
             catch (NewActionException e) {
                 //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
@@ -258,7 +268,7 @@ public class Game {
                 board.doNewAction(player, msg);
                 player.updateResources();
                 phase = Phases.ACTION;
-                endMove();
+                endMove(player);
             }
             catch (LorenzoException e) {
                 player.notifyError(e.getMessage());
@@ -276,15 +286,18 @@ public class Game {
     /**
      * viene chiamato dopo che il giocatore ha eseguito la mossa
      * controlla se è finito il giro o no
+     * @param player il giocatore che ha terminato la mossa
      * @throws RemoteException in caso di problemi di connesisone
-     * @throws NewActionException non si dovrebbe mai verificare, perché gli edifici non lanciano questi
-     *                              effetti
      */
-    public void endMove() throws RemoteException {
+    public void endMove(AbstractPlayer player) throws RemoteException {
         try {
+            isStarted();
+            checkTurn(player);
+            player.notifyEndMove();
             for(int i = 0 ; i < numPlayers ; i++){
                 if(currentPlayer == turnOrder.get(i)) {
                     if (i == numPlayers - 1) {
+                        System.out.println("fine giro " + lap);
                         endLap();
                         return;
                     }
@@ -298,9 +311,13 @@ public class Game {
                     }
                 }
             }
-        } catch (NewActionException e) {
+        }
+        catch (NewActionException e) {
             e.printStackTrace();
             //non dovrebbe mai verificarsi
+        }
+        catch (LorenzoException e) {
+            player.notifyError(e.getMessage());
         }
 
     }
@@ -313,10 +330,12 @@ public class Game {
         if (lap == 1 && phase == Phases.EXCOMMUNICATION){
             phase = Phases.ACTION;
             lap = 1;
+            System.out.println("fine turno scomunica");
             endTurn();
         }
         else if (lap == 4 && phase == Phases.ACTION){
             lap = 1;
+            System.out.println("fine turno " + turn);
             endTurn();
         }
         else{
@@ -341,6 +360,7 @@ public class Game {
         else if(turn == 3 && phase == Phases.EXCOMMUNICATION) {
             turn = 1;
             phase = Phases.ACTION;
+            System.out.println("fine periodo " + period);
             endPeriod();
         }
         else{

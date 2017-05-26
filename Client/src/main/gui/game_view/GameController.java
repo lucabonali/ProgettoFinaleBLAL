@@ -1,7 +1,7 @@
 package main.gui.game_view;
 
-import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -10,16 +10,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import main.Launcher;
+import main.api.messages.MessageAction;
 import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
+import main.api.types.FamilyMemberType;
 import main.api.types.MarketActionType;
 import main.client.AbstractClient;
+import main.gui.AnimationService;
 import main.gui.game_view.component.*;
 
 import java.io.IOException;
@@ -64,14 +65,13 @@ public class GameController {
     @FXML private ToolBar toolbar2;
 
     @FXML private GridPane personalGridPane;
+    @FXML private GridPane myPersonalBoardGridPane;
     @FXML private AnchorPane anchorPane;
 
     //Da cancellare era per prova
     @FXML private Button rollButton;
 
     private Dice blackDice, whiteDice, orangeDice;
-    private boolean blackRoll, whiteRoll, orangeRoll;
-
 
     private Map<CardType,String[]> cards = new HashMap<>();
 
@@ -88,18 +88,10 @@ public class GameController {
     private double xOffset;
     private double yOffset;
 
-    public void setBlackRoll() {
-        blackRoll = true;
-    }
-
-    public void setWhiteRoll() {
-        whiteRoll = true;
-    }
-
-    public void setOrangeRoll() {
-        orangeRoll = true;
-    }
-
+    /**
+     * mi inizializza gli spazi azione di raccolta e produzione sia larghi
+     * che singlo e del palazzo del consiglio
+     */
     private void initializeHarvestProduction() {
         //raccolta singolo
         SingleActionSpace harvest = new SingleActionSpace(ActionSpacesType.SINGLE_HARVEST);
@@ -123,6 +115,11 @@ public class GameController {
         actionSpacesMap.put(councilActionSpace.getType(), councilActionSpace);
     }
 
+    /**
+     * mi inizializza gli spazi azione delle torri
+     * @param type tipo di torre
+     * @param gridPaneTower contenitore che mi identifica la posizione sul tabellone
+     */
     private void initializeTowers(CardType type, GridPane gridPaneTower) {
         SingleActionSpace[] array = new SingleActionSpace[4];
         towerMap.put(type, array);
@@ -134,6 +131,11 @@ public class GameController {
         }
     }
 
+    /**
+     * mi inizializza il mercato
+     * @param type tipo di mercato
+     * @param gridPaneMarket contenitore sulla quale verrà inserito lo spazio azione
+     */
     private void initializeMarket(MarketActionType type, GridPane gridPaneMarket) {
         gridPaneSpacesMarketMap.put(type, gridPaneMarket);
         SingleActionSpace actionSpace = new SingleActionSpace(ActionSpacesType.MARKET);
@@ -142,11 +144,15 @@ public class GameController {
     }
 
 
+    /**
+     * mi inizializza le imageView e me le posiziona sui gridPane corretti
+     * e mi aggiunge gli effetti di zoom.
+     */
     private void initializeImageViewCards() {
         for (int i=0; i<16; i++) {
             ImageView img = new ImageView();
-            img.setOnMouseEntered(this::zoomIn);
-            img.setOnMouseExited(this::zoomOut);
+            img.setOnMouseEntered(event -> AnimationService.zoomIn(img));
+            img.setOnMouseExited(event -> AnimationService.zoomOut(img));
             img.setFitHeight(CARD_HEIGHT);
             img.setFitWidth(CARD_WIDTH);
             img.setPreserveRatio(false);
@@ -166,6 +172,10 @@ public class GameController {
         }
     }
 
+    /**
+     * mi aggiunge il drag and drop della finestra sulla toolbar in alto
+     * @param toolbar
+     */
     private void addToolbarDragAndDrop(ToolBar toolbar) {
         toolbar.setCursor(Cursor.CLOSED_HAND);
         toolbar.setOnMousePressed(event -> {
@@ -190,24 +200,10 @@ public class GameController {
         }
     }
 
-    private void zoomIn(MouseEvent mouseEvent) {
-        ImageView img = (ImageView) mouseEvent.getSource();
-        img.setCursor(Cursor.HAND);
-        img.toFront();
-        ScaleTransition st = new ScaleTransition(Duration.millis(500), img);
-        st.setToY(2);
-        st.setToX(1.5);
-        st.play();
-    }
-
-    private void zoomOut(MouseEvent mouseEvent) {
-        ImageView img = (ImageView) mouseEvent.getSource();
-        ScaleTransition st = new ScaleTransition(Duration.millis(500), img);
-        st.setToY(1);
-        st.setToX(1);
-        st.play();
-    }
-
+    /**
+     * inizializza i miei dadi
+     * @throws InterruptedException
+     */
     private void initializeDices() throws InterruptedException {
         blackDice = new Dice("black", blackDicePane, this);
         whiteDice = new Dice("white", whiteDicePane, this);
@@ -219,9 +215,6 @@ public class GameController {
      */
     public void showDices() {
         Platform.runLater(() -> {
-            blackRoll = false;
-            whiteRoll = false;
-            orangeRoll = false;
             anchorPane.getChildren().addAll(blackDice, whiteDice, orangeDice);
             blackDice.setX(300);
             blackDice.setY(500);
@@ -250,7 +243,7 @@ public class GameController {
      * mi invia il risulato dei dadi, appena lanciati, al server
      */
     void sendDices(){
-        if (blackRoll && whiteRoll && orangeRoll){
+        if (blackDice.isRolled() && whiteDice.isRolled()&& orangeDice.isRolled()){
             try {
                 client.shotDice(orangeDice.getNum(), whiteDice.getNum(), blackDice.getNum());
             }
@@ -258,6 +251,17 @@ public class GameController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    public void endMoveAction(ActionEvent event) throws RemoteException {
+        client.endMove();
+    }
+
+    @FXML
+    public void actionDoAction(ActionEvent event) throws RemoteException {
+        MessageAction msg = new MessageAction(ActionSpacesType.TOWERS, CardType.VENTURES, 3, FamilyMemberType.ORANGE_DICE);
+        client.doAction(msg);
     }
 
     public void initialize() throws InterruptedException {
@@ -276,8 +280,12 @@ public class GameController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));
             Parent messagesServer = fxmlLoader.load();
-            client.setMessagesController(fxmlLoader.getController());
-            personalGridPane.add(messagesServer, 0, 1);
+            //client.setMessagesController(fxmlLoader.getController());
+            personalGridPane.add(messagesServer, 0, 2);
+            fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/personal_board_view.fxml"));
+            Parent personalBoard = fxmlLoader.load();
+            //client.setPersonalBoardController(fxmlLoader.getController());
+            myPersonalBoardGridPane.add(personalBoard, 0, 0);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -285,7 +293,6 @@ public class GameController {
 
         addToolbarDragAndDrop(toolbar1);
         addToolbarDragAndDrop(toolbar2);
-
 
         PersonalVictoryDisc p1 = new PersonalVictoryDisc(Color.BLACK);
         PersonalVictoryDisc p2 = new PersonalVictoryDisc(Color.RED);

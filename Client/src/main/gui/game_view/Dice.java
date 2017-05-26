@@ -16,6 +16,8 @@ import java.util.Random;
 /**
  * @author Luca
  * @author Andrea
+ *
+ * mi rappresenta il singolo dado
  */
 public class Dice extends ImageView {
     private String url = "res/dices/";
@@ -23,10 +25,9 @@ public class Dice extends ImageView {
     private double xOffset, yOffset;
     private double startX, startY;
     private DoubleProperty property = new SimpleDoubleProperty();
-    private boolean positioned = false;
     private int number;
     private GameController controller;
-    private String name;
+    private boolean isRolled = false;
 
     public Dice(Image image, GridPane container, GameController controller) {
         super(image);
@@ -36,16 +37,9 @@ public class Dice extends ImageView {
         setFitHeight(60);
     }
 
-    public Dice() {
-        super();
-        setFitWidth(65);
-        setFitHeight(60);
-    }
-
     public Dice(String name, GridPane container, GameController controller) {
         super();
         this.url = url + name + "/dado";
-        this.name = name;
         this.container = container;
         this.controller = controller;
         setFitWidth(65);
@@ -88,10 +82,7 @@ public class Dice extends ImageView {
         });
         setOnMouseReleased(this::addAnimaion);
 
-        property.addListener((observable, oldValue, newValue) -> {
-            rollDice();
-            System.out.println(newValue);
-        });
+        property.addListener((observable, oldValue, newValue) -> rollDice());
     }
 
     private void addAnimaion(MouseEvent event){
@@ -121,17 +112,7 @@ public class Dice extends ImageView {
             try {
                 Thread.sleep(1000);
                 setVisible(false);
-                switch (name){
-                    case "orange":
-                        controller.setOrangeRoll();
-                        break;
-                    case "white":
-                        controller.setWhiteRoll();
-                        break;
-                    case "black":
-                        controller.setBlackRoll();
-                        break;
-                }
+                isRolled = true;
                 controller.sendDices();
             }
             catch (InterruptedException e) {
@@ -139,6 +120,10 @@ public class Dice extends ImageView {
             }
         });
         parallel.play();
+    }
+
+    public boolean isRolled() {
+        return isRolled;
     }
 
     /**

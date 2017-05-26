@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,7 +20,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import main.Launcher;
 import main.client.AbstractClient;
 import main.gui.game_view.GameController;
 
@@ -78,7 +76,7 @@ public class GameModeSelectionView {
         addTitle();
 
         double lineX = WIDTH / 2 - 100;
-        double lineY = HEIGHT / 3 + 50;
+        double lineY = HEIGHT / 5 + 50;
         addLine(lineX, lineY);
 
         addMenu(lineX + 5, lineY + 5);
@@ -94,7 +92,7 @@ public class GameModeSelectionView {
     private void addTitle() {
         GameModeTitle title = new GameModeTitle("LORENZO IL MAGNIFICO");
         title.setTranslateX(WIDTH / 2 - title.getTitleWidth() / 2);
-        title.setTranslateY(HEIGHT / 3);
+        title.setTranslateY(HEIGHT / 5);
         title.translateXProperty().bind(xTitleProperty);
         title.translateYProperty().bind(yTitleProperty);
 
@@ -103,7 +101,7 @@ public class GameModeSelectionView {
             xTitleProperty.setValue(xTitle);
         });
         root.heightProperty().addListener((observableValue, oldRootHeight, newRootHeight) -> {
-            double yTitle = newRootHeight.doubleValue()/3;
+            double yTitle = newRootHeight.doubleValue()/5;
             yTitleProperty.setValue(yTitle);
 
         });

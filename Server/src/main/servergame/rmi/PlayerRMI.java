@@ -24,8 +24,8 @@ public class PlayerRMI extends AbstractPlayer {
     // OVERRADI DEI METODI EREDITATI DA ABSTRACT PLAYER /////////////////////////////////////////////////
 
     @Override
-    public void gameIsStarted() throws RemoteException {
-        getClientInterface().notifyMessage("La partita è iniziata");
+    public void gameIsStarted(List<Integer> idList) throws RemoteException {
+        getClientInterface().isGameStarted(getIdPlayer(), idList);
     }
 
     /**
@@ -38,7 +38,7 @@ public class PlayerRMI extends AbstractPlayer {
 
     @Override
     public void isYourExcommunicationTurn() throws RemoteException {
-        //getClientInterface().notifyYourExcommunicationTurn();
+        getClientInterface().notifyYourExcommunicationTurn();
     }
 
     public void youWin() throws RemoteException {
@@ -51,7 +51,7 @@ public class PlayerRMI extends AbstractPlayer {
 
     @Override
     public void notifyNewAction(int value, char codeAction) throws RemoteException {
-        //getClientInterface().notifyNewAction(value, codeAction);
+        getClientInterface().notifyNewAction(value, codeAction);
     }
 
     @Override
@@ -95,6 +95,11 @@ public class PlayerRMI extends AbstractPlayer {
         List<String> list = new ArrayList<>();
         towersCardsList.forEach((developmentCard -> list.add(developmentCard.getName())));
         getClientInterface().setTowersCards(list);
+    }
+
+    @Override
+    public void notifyEndMove() throws RemoteException {
+        getClientInterface().notifyEndMove();
     }
 
 

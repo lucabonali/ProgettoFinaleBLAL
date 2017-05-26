@@ -1,8 +1,7 @@
 package main.client;
 
-import main.api.messages.*;
-import main.api.types.ActionSpacesType;
-import main.api.types.FamilyMemberType;
+import main.api.messages.MessageAction;
+import main.api.messages.SocketProtocol;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -70,9 +69,8 @@ public class ClientSocket extends AbstractClient implements Runnable{
     }
 
     @Override
-    public void doAction() {
+    public void doAction(MessageAction msg) {
         try {
-            MessageAction msg = new MessageAction(ActionSpacesType.COUNCIL, FamilyMemberType.ORANGE_DICE);
             out.writeObject(msg);
             out.flush();
         }

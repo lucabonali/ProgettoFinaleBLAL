@@ -1,10 +1,12 @@
 package main.client;
 
 import main.api.ClientInterface;
+import main.api.messages.MessageAction;
 import main.api.types.Phases;
 import main.api.types.ResourceType;
 import main.gui.game_view.GameController;
 import main.gui.game_view.MessagesController;
+import main.gui.game_view.PersonalBoardController;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -25,8 +27,10 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private static AbstractClient instance;
     private String username,password;
     private int id;
+    private List<Integer> opponentsIdList;
     private GameController gameController;
     private MessagesController messagesController;
+    private PersonalBoardController personalBoardController;
     private Phases phase;
 
     protected AbstractClient() throws RemoteException {
@@ -39,6 +43,18 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     }
 
     /// METODI EREDITATI DALL'INTERFACCIA CLIENT INTERFACE ////////////////
+
+    /**
+     * mi salva il mio id e l'id dei giocatori
+     * @param id mio id
+     * @param opponentsId l'id dei giocatori
+     */
+    @Override
+    public void isGameStarted(int id, List<Integer> opponentsId) {
+        this.id = id;
+        opponentsIdList = opponentsId;
+        messagesController.setMessage("La partita è iniziata");
+    }
 
     /**
      * metodo che mi setta sul tabellone tutte le carte ricevute dal server
@@ -100,7 +116,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyNewAction(int value, char codeAction) throws RemoteException {
-
+        messagesController.setMessage("devi fare una nuova azione");
+        phase = Phases.NEW_ACTION;
     }
 
     /**
@@ -110,6 +127,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     @Override
     public void notifyYourTurn() throws RemoteException {
         messagesController.setMessage("è il tuo turno!!!");
+        phase = Phases.ACTION;
     }
 
     /**
@@ -118,7 +136,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyYourExcommunicationTurn() throws RemoteException {
-
+        messagesController.setMessage("devi fare una scelta di scomunica");
+        phase = Phases.EXCOMMUNICATION;
     }
 
     /**
@@ -133,14 +152,6 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     /// METODI AGGIUNTI DALLA CLASSE ASTRATTA E GIA' IMPLEMENTATI /////////////////////////////////////////////////////////
 
 
-    public void setPhase(Phases phase) {
-        this.phase = phase;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }
@@ -149,16 +160,16 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         logged = true;
     }
 
-    public boolean isLogged() {
-        return logged;
-    }
-
     public void setGameController(GameController controller) {
         this.gameController = controller;
     }
 
     public void setMessagesController(MessagesController controller) {
         this.messagesController = controller;
+    }
+
+    public void setPersonalBoardController(PersonalBoardController controller) {
+        this.personalBoardController = controller;
     }
 
     String getUsername() {
@@ -189,7 +200,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * metodo che invia al server un'azione, verrà implementato nella maniera
      * corretta dalle due sottoclassi.
      */
-    public abstract void doAction() throws RemoteException;
+    public abstract void doAction(MessageAction msg) throws RemoteException;
 
     /**
      * il giocatore lancia i dadi, e invia i risultati al server!!

@@ -33,8 +33,8 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     // metodi ereditati e da implementare da ABSTRACT PLAYER //////////////////////////////////////
 
     @Override
-    public void gameIsStarted() throws RemoteException {
-        printMsgToClient("la partita è iniziata");
+    public void gameIsStarted(List<Integer> idList) throws RemoteException {
+
     }
 
     @Override
@@ -74,16 +74,21 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
 
     @Override
     public void notifyRollDice() throws RemoteException {
-
+        //da implementare
     }
 
     @Override
     public void sendDicesValues(int orange, int white, int black) throws RemoteException {
-
+        //da implementare
     }
 
     @Override
     public void initializeBoard(List<DevelopmentCard> towersCardsList) throws RemoteException {
+        //da implementare
+    }
+
+    @Override
+    public void notifyEndMove() throws RemoteException {
         //da implementare
     }
 

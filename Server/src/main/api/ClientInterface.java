@@ -13,6 +13,14 @@ import java.util.Map;
  */
 public interface ClientInterface extends Remote{
 
+    /**
+     * mi notifica al client che la partita è incominciata
+     * @param id mio id
+     * @param opponentsId l'id dei giocatori
+     * @throws RemoteException
+     */
+    void isGameStarted(int id, List<Integer> opponentsId) throws RemoteException;
+
     /** metodo che mi andrà ad aggiornare tutte le mie risorse
      * // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
      * @param qtaResourcesMap lista di risorse
