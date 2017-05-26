@@ -69,4 +69,10 @@ public interface ClientInterface extends Remote{
      * @throws RemoteException
      */
     void setTowersCards(List<String> list) throws RemoteException;
+
+    /**
+     * mi notifica che ho terminato la mia mossa
+     * @throws RemoteException
+     */
+    void notifyEndMove() throws RemoteException;
 }

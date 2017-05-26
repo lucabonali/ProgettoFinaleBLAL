@@ -21,11 +21,11 @@ public class PlayerRMI extends AbstractPlayer {
 
     }
 
-    // override di metodi ereditati da ABSTRACT PLAYER /////////////////////////////////////////////////
+    // OVERRADI DEI METODI EREDITATI DA ABSTRACT PLAYER /////////////////////////////////////////////////
 
     @Override
     public void gameIsStarted() throws RemoteException {
-        //getClientInterface().notifyMessage("La partita è iniziata");
+        getClientInterface().notifyMessage("La partita è iniziata");
     }
 
     /**
@@ -33,7 +33,7 @@ public class PlayerRMI extends AbstractPlayer {
      * @throws RemoteException
      */
     public void isYourTurn() throws RemoteException {
-        //getClientInterface().notifyYourTurn();
+        getClientInterface().notifyYourTurn();
     }
 
     @Override
@@ -64,11 +64,22 @@ public class PlayerRMI extends AbstractPlayer {
         //getClientInterface().updateResources(getPersonalBoard().getQtaResources());
     }
 
+    /**
+     * mi informa il giocatore che deve tirare i dadi
+     * @throws RemoteException
+     */
     @Override
     public void notifyRollDice() throws RemoteException {
         getClientInterface().notifyHaveToShotDice();
     }
 
+    /**
+     * mi invia i valori dei dadi ai giocatori
+     * @param orange arancio
+     * @param white bianco
+     * @param black nero
+     * @throws RemoteException
+     */
     @Override
     public void sendDicesValues(int orange, int white, int black) throws RemoteException {
         getClientInterface().setDiceValues(orange, white, black);

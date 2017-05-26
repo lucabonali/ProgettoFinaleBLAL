@@ -78,6 +78,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void setDiceValues(int orange, int white, int black) throws RemoteException {
+        messagesController.setMessage("il primo giocatore ha tirato i dadi");
         gameController.setDices(orange, white, black);
     }
 
@@ -87,6 +88,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyHaveToShotDice() throws RemoteException {
+        messagesController.setMessage("devi tirare i dadi!!!");
         gameController.showDices();
     }
 
@@ -107,7 +109,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyYourTurn() throws RemoteException {
-
+        messagesController.setMessage("è il tuo turno!!!");
     }
 
     /**
@@ -117,6 +119,14 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     @Override
     public void notifyYourExcommunicationTurn() throws RemoteException {
 
+    }
+
+    /**
+     * mi notifica che ho terminato il turno
+     * @throws RemoteException
+     */
+    public void notifyEndMove() throws RemoteException{
+        messagesController.setMessage("hai terminato il tuo turno attendi il tuo avversario");
     }
 
 

@@ -276,7 +276,7 @@ public class GameController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));
             Parent messagesServer = fxmlLoader.load();
-            //client.setMessagesController(fxmlLoader.getController());
+            client.setMessagesController(fxmlLoader.getController());
             personalGridPane.add(messagesServer, 0, 1);
         }
         catch (IOException e) {

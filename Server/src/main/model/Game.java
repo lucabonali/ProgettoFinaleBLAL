@@ -59,9 +59,9 @@ public class Game {
         abstractPlayer.createPersonalBoard(numPlayers);
         turnOrder.add(abstractPlayer);
         if(numPlayers == 2 && gameMode == MainServer.RANDOM)
-            new Timer(10); //il parametro sono i secondi di attesa
+            new Timer(10); //il parametro indica i secondi di attesa
         if(checkMaxNumberReached())
-            new Timer(5);
+            new Timer(3);
     }
 
     private boolean checkMaxNumberReached(){
@@ -87,6 +87,7 @@ public class Game {
         phase = Phases.ACTION;
         playerMap.forEach(((integer, player) -> {
             try {
+                player.gameIsStarted();
                 player.initializeBoard(board.getCompleteListTowersCards());
             }
             catch (RemoteException e) {
@@ -108,8 +109,10 @@ public class Game {
             checkTurn(player);
             if((player != turnOrder.get(0)) || (lap != 1) || (phase != Phases.ACTION))
                 player.notifyError("I dadi sono già stati tirati");
-            else
+            else {
                 turnOrder.forEach(abstractPlayer -> abstractPlayer.setDiceValues(orange, white, black));
+                currentPlayer.isYourTurn();
+            }
         }
         catch (LorenzoException e) {
             player.notifyError(e.getMessage());
