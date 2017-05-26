@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="rootPane" prefHeight="542.0" prefWidth="356.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.startScreen.startScreenController">
+<Pane fx:id="rootPane" prefHeight="542.0" prefWidth="356.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.start_screen.startScreenController">
     <children>
         <ImageView fitHeight="542.0" fitWidth="369.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
             <image>

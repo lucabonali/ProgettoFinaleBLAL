@@ -78,7 +78,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void setDiceValues(int orange, int white, int black) throws RemoteException {
-
+        gameController.setDices(orange, white, black);
     }
 
     /**
@@ -87,7 +87,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyHaveToShotDice() throws RemoteException {
-
+        gameController.showDices();
     }
 
     /**

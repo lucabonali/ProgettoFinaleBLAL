@@ -64,6 +64,16 @@ public class PlayerRMI extends AbstractPlayer {
         //getClientInterface().updateResources(getPersonalBoard().getQtaResources());
     }
 
+    @Override
+    public void notifyRollDice() throws RemoteException {
+        getClientInterface().notifyHaveToShotDice();
+    }
+
+    @Override
+    public void sendDicesValues(int orange, int white, int black) throws RemoteException {
+        getClientInterface().setDiceValues(orange, white, black);
+    }
+
     /**
      * metodo che invia al giocatore la lista delle carte sulle torri
      * @param towersCardsList lista di stringhe che mi indica i nomi delle carte pescate

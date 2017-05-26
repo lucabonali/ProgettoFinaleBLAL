@@ -73,6 +73,16 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     }
 
     @Override
+    public void notifyRollDice() throws RemoteException {
+
+    }
+
+    @Override
+    public void sendDicesValues(int orange, int white, int black) throws RemoteException {
+
+    }
+
+    @Override
     public void initializeBoard(List<DevelopmentCard> towersCardsList) throws RemoteException {
         //da implementare
     }

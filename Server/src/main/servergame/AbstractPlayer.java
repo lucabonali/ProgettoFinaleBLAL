@@ -47,6 +47,12 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      */
     public void setDiceValues(int orange, int white, int black) {
         personalBoard.setDiceValues(orange,white,black);
+        try {
+            sendDicesValues(orange, white, black);
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public FamilyMember getFamilyMember(FamilyMemberType type) {
@@ -132,6 +138,21 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      * @throws RemoteException
      */
     public abstract void updateResources() throws RemoteException;
+
+    /**
+     * notifica al giocatore che deve tirare i dadi
+     * @throws RemoteException
+     */
+    public abstract void notifyRollDice() throws RemoteException;
+
+    /**
+     * metodo che invia al client i risultati del tiro del dado
+     * @param orange
+     * @param white
+     * @param black
+     * @throws RemoteException
+     */
+    public abstract void sendDicesValues(int orange, int white, int black) throws RemoteException;
 
     /**
      * metodo che viene chiamato per inizializzare il turno, cioè mi invia al

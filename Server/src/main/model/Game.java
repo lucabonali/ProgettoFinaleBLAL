@@ -94,6 +94,7 @@ public class Game {
             }
         }));
         currentPlayer = turnOrder.get(0);
+        currentPlayer.notifyRollDice();
         currentPlayer.isYourTurn();
     }
 

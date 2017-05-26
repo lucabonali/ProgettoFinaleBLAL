@@ -1,14 +1,12 @@
 package main.gui.game_view;
 
 import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
-import javafx.beans.property.DoubleProperty;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,7 +23,11 @@ import main.client.AbstractClient;
 import main.gui.game_view.component.*;
 
 import java.io.IOException;
-import java.util.*;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Luca
@@ -54,9 +56,9 @@ public class GameController {
     @FXML private GridPane purpleMarket;
     @FXML private GridPane blueMarket;
     @FXML private GridPane greyMarket;
-    @FXML private GridPane blackDice;
-    @FXML private GridPane whiteDice;
-    @FXML private GridPane orangeDice;
+    @FXML private GridPane blackDicePane;
+    @FXML private GridPane whiteDicePane;
+    @FXML private GridPane orangeDicePane;
 
     @FXML private ToolBar toolbar1;
     @FXML private ToolBar toolbar2;
@@ -67,13 +69,9 @@ public class GameController {
     //Da cancellare era per prova
     @FXML private Button rollButton;
 
-    private ImageView black, white, orange;
+    private Dice blackDice, whiteDice, orangeDice;
+    private boolean blackRoll, whiteRoll, orangeRoll;
 
-    private DoubleProperty imageWidthProperty;
-    private DoubleProperty imageHeightProperty;
-
-    //prova
-    @FXML private ColorPicker colorPicker;
 
     private Map<CardType,String[]> cards = new HashMap<>();
 
@@ -89,6 +87,18 @@ public class GameController {
     private List<ImageView> imageList = new ArrayList<>();
     private double xOffset;
     private double yOffset;
+
+    public void setBlackRoll() {
+        blackRoll = true;
+    }
+
+    public void setWhiteRoll() {
+        whiteRoll = true;
+    }
+
+    public void setOrangeRoll() {
+        orangeRoll = true;
+    }
 
     private void initializeHarvestProduction() {
         //raccolta singolo
@@ -199,45 +209,56 @@ public class GameController {
     }
 
     private void initializeDices() throws InterruptedException {
-        black = new ImageView();
-        white = new ImageView();
-        orange = new ImageView();
-        black.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Nero/dado1.png")));
-        white.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Bianco/dado1.png")));
-        orange.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Arancio/dado1.png")));
-        rollDice();
-        anchorPane.getChildren().addAll(black,white,orange);
-        black.setX(300);
-        black.setY(500);
-        white.setX(400);
-        white.setY(500);
-        orange.setX(500);
-        orange.setY(500);
-        initializeDiceListeners();
+        blackDice = new Dice("black", blackDicePane, this);
+        whiteDice = new Dice("white", whiteDicePane, this);
+        orangeDice = new Dice("orange", orangeDicePane, this);
     }
 
-    private void initializeDiceListeners() {
-        TranslateTransition diceTransition = new TranslateTransition(Duration.millis(1000));
-
-        black.setOnMousePressed(e -> {
-            diceTransition.setNode(black);
-            black.setCursor(Cursor.CLOSED_HAND);
+    /**
+     * mi rende visibili i dadi, e posso tirarli
+     */
+    public void showDices() {
+        Platform.runLater(() -> {
+            blackRoll = false;
+            whiteRoll = false;
+            orangeRoll = false;
+            anchorPane.getChildren().addAll(blackDice, whiteDice, orangeDice);
+            blackDice.setX(300);
+            blackDice.setY(500);
+            whiteDice.setX(400);
+            whiteDice.setY(500);
+            orangeDice.setX(500);
+            orangeDice.setY(500);
         });
-
     }
 
-    public void rollDice() throws InterruptedException {
-
-
-        int faceBlack, faceWhite, faceOrange;
-        faceBlack  = 1 + new Random().nextInt(6);
-        faceWhite  = 1 + new Random().nextInt(6);
-        faceOrange  = 1 + new Random().nextInt(6);
-        black.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Nero/dado" + faceBlack + ".png")));
-        white.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Bianco/dado" + faceWhite + ".png")));
-        orange.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Arancio/dado" + faceOrange + ".png")));
+    /**
+     * mi setta i dadi, in base ai valori ricevuti dal server
+     * @param orange
+     * @param white
+     * @param black
+     */
+    public void setDices(int orange, int white, int black) {
+        Platform.runLater(() -> {
+            orangeDice.setNumber(orange);
+            whiteDice.setNumber(white);
+            blackDice.setNumber(black);
+        });
     }
 
+    /**
+     * mi invia il risulato dei dadi, appena lanciati, al server
+     */
+    void sendDices(){
+        if (blackRoll && whiteRoll && orangeRoll){
+            try {
+                client.shotDice(orangeDice.getNum(), whiteDice.getNum(), blackDice.getNum());
+            }
+            catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void initialize() throws InterruptedException {
         client = AbstractClient.getInstance();

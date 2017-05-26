@@ -38,10 +38,10 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main/gui/startScreen/start_screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main/gui/start_screen/start_screen.fxml"));
         stage.setOnCloseRequest(event -> System.exit(0));
         stage.centerOnScreen();
-        //stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
         stage.setScene(new Scene(root, 356, 542));
         stage.setTitle("Lorenzo Il Magnifico");

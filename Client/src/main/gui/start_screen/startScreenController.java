@@ -1,4 +1,4 @@
-package main.gui.startScreen;
+package main.gui.start_screen;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -54,9 +54,7 @@ public class startScreenController implements Initializable {
         scaleTransition.setOnFinished(e -> {
             try {
                 changePhoto();
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
+            } catch (InterruptedException | IOException e1) {
                 e1.printStackTrace();
             }
         });

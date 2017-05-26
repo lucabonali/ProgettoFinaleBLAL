@@ -17,7 +17,7 @@ public class GameTest extends Application{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/game_view.fxml"));
         Parent window = (Pane) fxmlLoader.load();
         primaryStage.setScene(new Scene(window, 1700, 1060));
-        //primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
