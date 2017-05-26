@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,6 +21,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
+import main.Launcher;
 import main.client.AbstractClient;
 import main.gui.game_view.GameController;
 
@@ -39,6 +41,7 @@ public class GameModeSelectionView {
 
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 620;
+
 
     private DoubleProperty xTitleProperty, yTitleProperty, xLineProperty, yLineProperty, endYLineProperty;
 
@@ -67,6 +70,7 @@ public class GameModeSelectionView {
         xLineProperty = new SimpleDoubleProperty();
         yLineProperty = new SimpleDoubleProperty();
         endYLineProperty = new SimpleDoubleProperty();
+
     }
 
     public Parent createContent() {
@@ -175,6 +179,7 @@ public class GameModeSelectionView {
         st.play();
     }
 
+
     private class RunGameMode implements Runnable{
         private AbstractClient client;
         private int gameMode;
@@ -183,6 +188,7 @@ public class GameModeSelectionView {
             this.gameMode = gameMode;
             this.client = AbstractClient.getInstance();
         }
+
 
         @Override
         public void run() {

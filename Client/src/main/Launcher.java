@@ -41,7 +41,7 @@ public class Launcher extends Application {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main/gui/startScreen/start_screen.fxml"));
         stage.setOnCloseRequest(event -> System.exit(0));
         stage.centerOnScreen();
-        stage.initStyle(StageStyle.UNDECORATED);
+        //stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
         stage.setScene(new Scene(root, 356, 542));
         stage.setTitle("Lorenzo Il Magnifico");

@@ -1,11 +1,13 @@
 package main.gui.game_view;
 
 import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
@@ -23,10 +25,7 @@ import main.client.AbstractClient;
 import main.gui.game_view.component.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Luca
@@ -64,6 +63,11 @@ public class GameController {
 
     @FXML private GridPane personalGridPane;
     @FXML private AnchorPane anchorPane;
+
+    //Da cancellare era per prova
+    @FXML private Button rollButton;
+
+    private ImageView black, white, orange;
 
     private DoubleProperty imageWidthProperty;
     private DoubleProperty imageHeightProperty;
@@ -194,7 +198,48 @@ public class GameController {
         st.play();
     }
 
-    public void initialize() {
+    private void initializeDices() throws InterruptedException {
+        black = new ImageView();
+        white = new ImageView();
+        orange = new ImageView();
+        black.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Nero/dado1.png")));
+        white.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Bianco/dado1.png")));
+        orange.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Arancio/dado1.png")));
+        rollDice();
+        anchorPane.getChildren().addAll(black,white,orange);
+        black.setX(300);
+        black.setY(500);
+        white.setX(400);
+        white.setY(500);
+        orange.setX(500);
+        orange.setY(500);
+        initializeDiceListeners();
+    }
+
+    private void initializeDiceListeners() {
+        TranslateTransition diceTransition = new TranslateTransition(Duration.millis(1000));
+
+        black.setOnMousePressed(e -> {
+            diceTransition.setNode(black);
+            black.setCursor(Cursor.CLOSED_HAND);
+        });
+
+    }
+
+    public void rollDice() throws InterruptedException {
+
+
+        int faceBlack, faceWhite, faceOrange;
+        faceBlack  = 1 + new Random().nextInt(6);
+        faceWhite  = 1 + new Random().nextInt(6);
+        faceOrange  = 1 + new Random().nextInt(6);
+        black.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Nero/dado" + faceBlack + ".png")));
+        white.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Bianco/dado" + faceWhite + ".png")));
+        orange.setImage(new Image(getClass().getResourceAsStream("res/Dadi/Arancio/dado" + faceOrange + ".png")));
+    }
+
+
+    public void initialize() throws InterruptedException {
         client = AbstractClient.getInstance();
         initializeTowers(CardType.TERRITORY, territoryTowersActionSpaces);
         initializeTowers(CardType.CHARACTER, characterTowersActionSpaces);
@@ -206,6 +251,7 @@ public class GameController {
         initializeMarket(MarketActionType.GRAY, greyMarket);
         initializeHarvestProduction();
         initializeImageViewCards();
+        initializeDices();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));
             Parent messagesServer = fxmlLoader.load();
