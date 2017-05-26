@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
  */
 public class MessagesController {
     @FXML private Label messagesLabel;
+    @FXML private Label lorenzoTalks;
 
     private StringProperty message;
 
@@ -29,5 +30,9 @@ public class MessagesController {
            //fare qualcos'altro
         });
         //messagesLabel.setEffect(new GaussianBlur(20));
+        lorenzoTalks.setText("Ciao, sono Lorenzo!!");
+
+
+
     }
 }
