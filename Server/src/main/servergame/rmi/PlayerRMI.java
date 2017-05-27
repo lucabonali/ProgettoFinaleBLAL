@@ -61,7 +61,7 @@ public class PlayerRMI extends AbstractPlayer {
 
     @Override
     public void updateResources() throws RemoteException {
-        //getClientInterface().updateResources(getPersonalBoard().getQtaResources());
+        getClientInterface().updateResources(getPersonalBoard().getQtaResources());
     }
 
     /**

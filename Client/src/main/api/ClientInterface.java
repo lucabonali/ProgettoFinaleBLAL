@@ -1,5 +1,6 @@
 package main.api;
 
+import main.api.types.CardType;
 import main.api.types.ResourceType;
 
 import java.rmi.Remote;
@@ -27,6 +28,13 @@ public interface ClientInterface extends Remote{
      * @throws RemoteException in caso qualcosa vada storto
      */
     void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException;
+
+    /**
+     * metodo che mi aggiorna le mie carte nella personal board
+     * @param personalcardsMap mapp delle carte
+     * @throws RemoteException
+     */
+    void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException;
 
     /**
      * mi notifica un messaggio di informazione

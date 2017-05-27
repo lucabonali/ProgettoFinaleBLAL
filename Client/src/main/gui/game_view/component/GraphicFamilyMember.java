@@ -1,7 +1,7 @@
 package main.gui.game_view.component;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import main.gui.AnimationService;
 
 /**
  * @author Luca
@@ -9,8 +9,10 @@ import javafx.scene.shape.Circle;
  */
 public class GraphicFamilyMember extends Circle {
     private static final int RADIUS = 15;
+    private int id;
 
-    public GraphicFamilyMember(Color color) {
-        super(RADIUS, color);
+    public GraphicFamilyMember(int id) {
+        super(RADIUS, AnimationService.getColorById(id));
+        this.id = id;
     }
 }

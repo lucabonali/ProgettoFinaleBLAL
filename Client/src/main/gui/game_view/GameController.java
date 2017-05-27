@@ -12,13 +12,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import main.Launcher;
 import main.api.messages.MessageAction;
-import main.api.types.ActionSpacesType;
-import main.api.types.CardType;
-import main.api.types.FamilyMemberType;
-import main.api.types.MarketActionType;
+import main.api.types.*;
 import main.client.AbstractClient;
 import main.gui.AnimationService;
 import main.gui.game_view.component.*;
@@ -71,7 +67,8 @@ public class GameController {
     //Da cancellare era per prova
     @FXML private Button rollButton;
 
-    private Dice blackDice, whiteDice, orangeDice;
+    private Map<ResourceType,PersonalDisc> personalDiscs = new HashMap<>(); //mappa dei dischetti dei punti
+    private Dice blackDice, whiteDice, orangeDice; //dadi
 
     private Map<CardType,String[]> cards = new HashMap<>();
 
@@ -242,7 +239,7 @@ public class GameController {
     /**
      * mi invia il risulato dei dadi, appena lanciati, al server
      */
-    void sendDices(){
+    public void sendDices(){
         if (blackDice.isRolled() && whiteDice.isRolled()&& orangeDice.isRolled()){
             try {
                 client.shotDice(orangeDice.getNum(), whiteDice.getNum(), blackDice.getNum());
@@ -253,6 +250,25 @@ public class GameController {
         }
     }
 
+    /**
+     * mi crea i dischetti del colore in base al''id
+     * @param id id del giocatore
+     */
+    public void createDiscs(int id) {
+        personalDiscs.put(ResourceType.VICTORY, new PersonalVictoryDisc(id));
+        personalDiscs.put(ResourceType.MILITARY, new PersonalMilitaryDisc(id));
+        personalDiscs.put(ResourceType.FAITH, new PersonalFaithDisc(id));
+        Platform.runLater(() -> personalDiscs.forEach(((resourceType, personalDisc) -> anchorPane.getChildren().add(personalDisc))));
+    }
+
+    /**
+     * mi modifica i punti vittori, cioè mi sposta i dischetti relativi a me stesso
+     * @param map mappa dei valori
+     */
+    public void modifyPoints(Map<ResourceType, Integer> map) {
+        Platform.runLater(() -> map.forEach(((resourceType, integer) -> personalDiscs.get(resourceType).setCurrentPosition(integer))));
+    }
+
     @FXML
     public void endMoveAction(ActionEvent event) throws RemoteException {
         client.endMove();
@@ -260,7 +276,7 @@ public class GameController {
 
     @FXML
     public void actionDoAction(ActionEvent event) throws RemoteException {
-        MessageAction msg = new MessageAction(ActionSpacesType.TOWERS, CardType.VENTURES, 3, FamilyMemberType.ORANGE_DICE);
+        MessageAction msg = new MessageAction(ActionSpacesType.TOWERS, CardType.CHARACTER, 1, FamilyMemberType.ORANGE_DICE);
         client.doAction(msg);
     }
 
@@ -280,11 +296,11 @@ public class GameController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));
             Parent messagesServer = fxmlLoader.load();
-            //client.setMessagesController(fxmlLoader.getController());
+            client.setMessagesController(fxmlLoader.getController());
             personalGridPane.add(messagesServer, 0, 2);
             fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/personal_board_view.fxml"));
             Parent personalBoard = fxmlLoader.load();
-            //client.setPersonalBoardController(fxmlLoader.getController());
+            client.setPersonalBoardController(fxmlLoader.getController());
             myPersonalBoardGridPane.add(personalBoard, 0, 0);
         }
         catch (IOException e) {
@@ -293,18 +309,5 @@ public class GameController {
 
         addToolbarDragAndDrop(toolbar1);
         addToolbarDragAndDrop(toolbar2);
-
-        PersonalVictoryDisc p1 = new PersonalVictoryDisc(Color.BLACK);
-        PersonalVictoryDisc p2 = new PersonalVictoryDisc(Color.RED);
-        PersonalVictoryDisc p3 = new PersonalVictoryDisc(Color.GREEN);
-        PersonalVictoryDisc p4 = new PersonalVictoryDisc(Color.BLUE);
-        anchorPane.getChildren().add(p1);
-        anchorPane.getChildren().add(p2);
-        anchorPane.getChildren().add(p3);
-        anchorPane.getChildren().add(p4);
-        p1.setCurrentPosition(12);
-        p2.setCurrentPosition(15);
-        p3.setCurrentPosition(33);
-        p4.setCurrentPosition(41);
     }
 }

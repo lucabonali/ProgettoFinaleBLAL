@@ -55,10 +55,10 @@
             <Rectangle fx:id="woodGroup" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="132.0" layoutY="300.0" onMouseEntered="#showResourceValues" onMouseExited="#hideResourceValue" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="90.0" />
             <Rectangle fx:id="stoneGroup" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="241.0" layoutY="300.0" onMouseEntered="#showResourceValues" onMouseExited="#hideResourceValue" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="90.0" />
             <Rectangle fx:id="servantsGroup" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="353.0" layoutY="305.0" onMouseEntered="#showResourceValues" onMouseExited="#hideResourceValue" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="80.0" />
-            <Label fx:id="coinsLabel" alignment="CENTER" layoutX="44.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="30" />
-            <Label fx:id="woodLabel" alignment="CENTER" layoutX="157.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="30" />
-            <Label fx:id="stoneLabel" alignment="CENTER" layoutX="266.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="30" />
-            <Label fx:id="servantsLabel" alignment="CENTER" layoutX="373.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="30" />
+            <Label fx:id="coinsLabel" alignment="CENTER" layoutX="44.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="4" />
+            <Label fx:id="woodLabel" alignment="CENTER" layoutX="157.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="2" />
+            <Label fx:id="stoneLabel" alignment="CENTER" layoutX="266.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="2" />
+            <Label fx:id="servantsLabel" alignment="CENTER" layoutX="373.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="3" />
          </children>
       </AnchorPane>
    </children>

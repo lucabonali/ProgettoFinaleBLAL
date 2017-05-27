@@ -3,6 +3,7 @@ package main.gui;
 import javafx.animation.ScaleTransition;
 import javafx.scene.Cursor;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 /**
@@ -33,5 +34,24 @@ public class AnimationService {
         st.setToY(1);
         st.setToX(1);
         st.play();
+    }
+
+    /**
+     * mi ritorna il colore del mio familiare in funzione del mio id
+     * @param id id del giocatore
+     * @return colore
+     */
+    public static Color getColorById(int id) {
+        switch (id) {
+            case 1:
+                return Color.RED;
+            case 2:
+                return Color.GREEN;
+            case 3:
+                return Color.BLUE;
+            case 4:
+                return Color.YELLOW;
+        }
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package main.client;
 
 import main.api.ClientInterface;
 import main.api.messages.MessageAction;
+import main.api.types.CardType;
 import main.api.types.Phases;
 import main.api.types.ResourceType;
 import main.gui.game_view.GameController;
@@ -11,6 +12,7 @@ import main.gui.game_view.PersonalBoardController;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +55,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     public void isGameStarted(int id, List<Integer> opponentsId) {
         this.id = id;
         opponentsIdList = opponentsId;
+        gameController.createDiscs(id);
+        personalBoardController.startGame(id);
         messagesController.setMessage("La partita è iniziata");
     }
 
@@ -72,8 +76,27 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
-
+        Map<ResourceType, Integer> resourceMap = new HashMap<>();
+        Map<ResourceType, Integer> pointMap = new HashMap<>();
+        qtaResourcesMap.forEach(((resourceType, integer) -> {
+            if (resourceType == ResourceType.COINS || resourceType == ResourceType.WOOD || resourceType == ResourceType.STONE || resourceType == ResourceType.SERVANTS)
+                resourceMap.put(resourceType, integer);
+            else
+                pointMap.put(resourceType,integer);
+        }));
+        gameController.modifyPoints(pointMap);
+        personalBoardController.modifyResources(resourceMap);
     }
+
+    /**
+     * metodo che mi aggiorna le mie carte nella personal board
+     * @param personalcardsMap mapp delle carte
+     * @throws RemoteException
+     */
+    @Override
+    public void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
+        personalBoardController.updateCards(personalcardsMap);
+    };
 
     /**
      * metodo che mi notifica al client un messaggio provenitente dal server

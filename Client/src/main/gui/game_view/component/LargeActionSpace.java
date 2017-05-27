@@ -27,7 +27,7 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
         setMaxSize(WIDTH, HEIGHT);
         createPane();
         setOnMouseClicked(event -> {
-            GraphicFamilyMember fm = new GraphicFamilyMember(Color.BLUE);
+            GraphicFamilyMember fm = new GraphicFamilyMember(3);
             addFamilyMember(fm);
         });
     }

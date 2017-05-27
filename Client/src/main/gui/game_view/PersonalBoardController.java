@@ -1,5 +1,6 @@
 package main.gui.game_view;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -8,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import main.api.types.CardType;
+import main.api.types.ResourceType;
 import main.gui.AnimationService;
 
 import java.util.ArrayList;
@@ -33,7 +35,52 @@ public class PersonalBoardController {
     @FXML private GridPane buildingsGridPane;
     @FXML private GridPane territoriesGridPane;
 
+    private GameController gameController;
+
     private Map<CardType, List<ImageView>> cardsMap = new HashMap<>();
+    private Map<ResourceType, Label> qtaResourceLabelMap = new HashMap<>();
+
+    /**
+     * mi modifica le risorse
+     * @param resourceMap mappa delle quantità
+     */
+    public void modifyResources(Map<ResourceType, Integer> resourceMap) {
+        Platform.runLater(() -> {
+            resourceMap.forEach(((resourceType, integer) -> qtaResourceLabelMap.get(resourceType).setText(integer+"")));
+        });
+    }
+
+    /**
+     * mi aggiorna le carte che ho nella mia plancia
+     * @param personalcardsMap mappa delle carte
+     */
+    public void updateCards(Map<CardType, List<String>> personalcardsMap) {
+        Platform.runLater(() -> {
+            personalcardsMap.forEach(((cardType, strings) -> {
+                strings.forEach((cardName -> {
+
+                }));
+            }));
+        });
+    }
+
+    /**
+     * mi setta il gameController principale, in modo che esso possa comunicare
+     * @param gameController controller
+     */
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+    }
+
+    /**
+     * informa che la partita è iniziata e mi inizializza la risorsa relativa alle monete, in funcione
+     * dell'id del giocatore passato come parametro
+     * @param id ide del giocatore
+     */
+    public void startGame(int id) {
+        int num = Integer.parseInt(qtaResourceLabelMap.get(ResourceType.COINS).getText()) + id;
+        Platform.runLater(() -> qtaResourceLabelMap.get(ResourceType.COINS).setText(num + ""));
+    }
 
     @FXML
     void showResourceValues(MouseEvent event) {
@@ -85,5 +132,9 @@ public class PersonalBoardController {
         initializeCardsImage(CardType.BUILDING, buildingsGridPane);
         cardsMap.get(CardType.TERRITORY).get(2).setImage(new Image(getClass().getResource("res/cards/ambasciatore"+EXTENSION).toExternalForm()));
         cardsMap.get(CardType.BUILDING).get(5).setImage(new Image(getClass().getResource("res/cards/cava_di_ghiaia"+EXTENSION).toExternalForm()));
+        qtaResourceLabelMap.put(ResourceType.COINS, coinsLabel);
+        qtaResourceLabelMap.put(ResourceType.WOOD, woodLabel);
+        qtaResourceLabelMap.put(ResourceType.STONE, stoneLabel);
+        qtaResourceLabelMap.put(ResourceType.SERVANTS, servantsLabel);
     }
 }

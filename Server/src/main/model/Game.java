@@ -241,6 +241,8 @@ public class Game {
                 endMove(player); //mi esegue la fine de turno
             }
             catch (NewActionException e) {
+                familyMember.setPositioned(true);
+                player.updateResources();
                 //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
                 phase = Phases.NEW_ACTION;
             }
@@ -257,8 +259,8 @@ public class Game {
      * rappresenta l'esecuzione di una nuova azione (senza familiare)
      * mi controlla se sono nella fase corretta e se è il mio turno, dopodiché passa
      * l'esecuzione della nuova azione al tabellone
-     * @param player
-     * @param msg
+     * @param player giocatore che sta eseguendo la nuova azione
+     * @param msg messaggio codificato dell'azione
      * @throws RemoteException
      */
     public void doNewAction(AbstractPlayer player, MessageNewAction msg) throws RemoteException {
