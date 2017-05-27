@@ -2,5 +2,6 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Client/src/main/gui/game_mode_selection/res/Penumbra-HalfSerif-Std_35114.ttf" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/Client/src/main/gui/start_screen/res/Occhiolino.wav" charset="UTF-8" />
   </component>
 </project>

@@ -19,7 +19,10 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Launcher;
+import main.gui.game_mode_selection.music.Music;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,7 +35,7 @@ public class startScreenController implements Initializable {
     @FXML private Pane rootPane;
     private double xOffset,yOffset;
 
-
+    private Music audio;
 
 
 
@@ -53,8 +56,13 @@ public class startScreenController implements Initializable {
         scaleTransition.autoReverseProperty();
         scaleTransition.setOnFinished(e -> {
             try {
+                audio.play("Client/src/main/gui/start_screen/res/Occhiolino.wav");
                 changePhoto();
             } catch (InterruptedException | IOException e1) {
+                e1.printStackTrace();
+            } catch (UnsupportedAudioFileException e1) {
+                e1.printStackTrace();
+            } catch (LineUnavailableException e1) {
                 e1.printStackTrace();
             }
         });
@@ -81,7 +89,12 @@ public class startScreenController implements Initializable {
         });
         rootPane.setOnMouseReleased(event -> rootPane.setCursor(Cursor.DEFAULT));
 
+        playAudio();
 
+    }
+
+    private void playAudio() {
+        audio = new Music();
     }
 
 

@@ -14,6 +14,8 @@ import main.Launcher;
 import main.client.AbstractClient;
 import main.gui.game_mode_selection.GameModeSelectionView;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 
@@ -38,7 +40,7 @@ public class LoginController {
      * @throws NotBoundException
      */
     @FXML
-    public void submit(ActionEvent actionEvent) throws IOException, NotBoundException {
+    public void submit(ActionEvent actionEvent) throws IOException, NotBoundException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         if(!checkFields()){
             launchAlert("Non hai inserito username e password!!!!");
         }
@@ -109,7 +111,7 @@ public class LoginController {
         RMI.setToggleGroup(toggleGroup);
     }
 
-    public void startGameSelectionView() throws IOException {
+    public void startGameSelectionView() throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/resources/views/game_selection_view.fxml"));
         //Parent window = (Pane) fxmlLoader.load();
         //GameSelectionController gsController = fxmlLoader.getController();

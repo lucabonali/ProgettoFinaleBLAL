@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.gui.game_mode_selection.music.Music;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -19,7 +20,6 @@ import java.rmi.NotBoundException;
  */
 public class Launcher extends Application {
     private static Stage primaryStage;
-
     /**
      * Metodo Main del client, che lancia il metodo start di questa classe
      * @param args
@@ -47,9 +47,10 @@ public class Launcher extends Application {
         stage.setTitle("Lorenzo Il Magnifico");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("res/Icona_testa.png")));
         stage.show();
+
     }
 
-    public static Stage getPrimaryStage(){
+   public static Stage getPrimaryStage(){
         return primaryStage;
     }
 

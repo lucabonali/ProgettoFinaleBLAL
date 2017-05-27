@@ -21,8 +21,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import main.client.AbstractClient;
+import main.gui.game_mode_selection.music.Music;
 import main.gui.game_view.GameController;
 
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +62,9 @@ public class GameModeSelectionView {
     private VBox menuBox ;
     private Line line;
 
-    public GameModeSelectionView() {
+    private Music theme;
+
+    public GameModeSelectionView() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         root = new Pane();
         root.setPrefWidth(WIDTH);
         root.setPrefHeight(HEIGHT);
@@ -68,7 +74,8 @@ public class GameModeSelectionView {
         xLineProperty = new SimpleDoubleProperty();
         yLineProperty = new SimpleDoubleProperty();
         endYLineProperty = new SimpleDoubleProperty();
-
+        theme = new Music();
+        theme.play("Client/src/main/gui/game_mode_selection/music/MainTheme.wav");
     }
 
     public Parent createContent() {
