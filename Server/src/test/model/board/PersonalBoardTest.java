@@ -6,7 +6,7 @@ import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
 import main.model.action_spaces.Action;
-import main.model.action_spaces.singleActionSpaces.HarvestActionSpace;
+import main.model.action_spaces.single_action_spaces.HarvestActionSpace;
 import main.model.board.DevelopmentCard;
 import main.model.board.FamilyMember;
 import main.model.board.PersonalBoard;

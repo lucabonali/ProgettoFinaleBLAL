@@ -68,7 +68,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     }
 
     @Override
-    public void updateResources() throws RemoteException {
+    public void updateMove() throws RemoteException {
         //devo mandare al giocatore tutte le sue risorse e tutte le sue carte
     }
 

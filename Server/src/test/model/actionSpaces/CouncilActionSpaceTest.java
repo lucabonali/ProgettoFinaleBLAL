@@ -4,7 +4,7 @@ import main.servergame.exceptions.LorenzoException;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
 import main.model.action_spaces.Action;
-import main.model.action_spaces.largeActionSpaces.CouncilActionSpace;
+import main.model.action_spaces.large_action_spaces.CouncilActionSpace;
 import main.servergame.rmi.PlayerRMI;
 import org.junit.Test;
 

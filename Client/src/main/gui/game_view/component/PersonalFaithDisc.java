@@ -7,14 +7,14 @@ package main.gui.game_view.component;
 public class PersonalFaithDisc extends PersonalDisc{
     private static int NUMBER_OF_DISC = 0;
     private final double FINAL_Y;
-    private final double START_X = 60;
+    private final double START_X = 80;
     private final double INC_X = 35;
     private final double INC_PLUS_X = 50;
     private int currentPosition;
 
     public PersonalFaithDisc(int id) {
         super(id);
-        FINAL_Y = 732 + (NUMBER_OF_DISC * 4);
+        FINAL_Y = 734 + (NUMBER_OF_DISC * 4);
         setTranslateY(FINAL_Y);
         setTranslateX(START_X);
         NUMBER_OF_DISC++;

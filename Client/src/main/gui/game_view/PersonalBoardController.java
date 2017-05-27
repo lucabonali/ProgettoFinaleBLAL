@@ -52,14 +52,14 @@ public class PersonalBoardController {
 
     /**
      * mi aggiorna le carte che ho nella mia plancia
-     * @param personalcardsMap mappa delle carte
+     * @param newCardsMap mappa delle carte
      */
-    public void updateCards(Map<CardType, List<String>> personalcardsMap) {
+    public void updateCards(Map<CardType, List<String>> newCardsMap) {
         Platform.runLater(() -> {
-            personalcardsMap.forEach(((cardType, strings) -> {
-                strings.forEach((cardName -> {
-
-                }));
+            newCardsMap.forEach(((cardType, nameList) -> {
+                for (int counter=0; counter<nameList.size(); counter++){
+                    cardsMap.get(cardType).get(counter).setImage(new Image(getClass().getResource("res/cards/"+nameList.get(counter)+EXTENSION).toExternalForm()));
+                }
             }));
         });
     }
@@ -130,8 +130,6 @@ public class PersonalBoardController {
     public void initialize() {
         initializeCardsImage(CardType.TERRITORY, territoriesGridPane);
         initializeCardsImage(CardType.BUILDING, buildingsGridPane);
-        cardsMap.get(CardType.TERRITORY).get(2).setImage(new Image(getClass().getResource("res/cards/ambasciatore"+EXTENSION).toExternalForm()));
-        cardsMap.get(CardType.BUILDING).get(5).setImage(new Image(getClass().getResource("res/cards/cava_di_ghiaia"+EXTENSION).toExternalForm()));
         qtaResourceLabelMap.put(ResourceType.COINS, coinsLabel);
         qtaResourceLabelMap.put(ResourceType.WOOD, woodLabel);
         qtaResourceLabelMap.put(ResourceType.STONE, stoneLabel);

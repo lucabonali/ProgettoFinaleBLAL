@@ -21,7 +21,8 @@ public class FixedIncrementEffect implements Effect{
 
     @Override
     public void active(AbstractPlayer player) {
-        player.getPersonalBoard().modifyResources(field);
+        if (field  != null)
+            player.getPersonalBoard().modifyResources(field);
     }
 
     public static FixedIncrementEffect createInstance(String code){

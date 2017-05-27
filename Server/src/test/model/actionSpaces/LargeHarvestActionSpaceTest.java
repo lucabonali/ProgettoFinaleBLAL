@@ -6,7 +6,7 @@ import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
 import main.model.action_spaces.Action;
-import main.model.action_spaces.largeActionSpaces.LargeHarvestActionSpace;
+import main.model.action_spaces.large_action_spaces.LargeHarvestActionSpace;
 import main.model.board.DevelopmentCard;
 import main.model.effects.development_effects.AreaActivationEffect;
 import main.model.effects.development_effects.Effect;

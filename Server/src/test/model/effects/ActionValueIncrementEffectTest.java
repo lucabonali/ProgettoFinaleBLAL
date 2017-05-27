@@ -2,8 +2,8 @@ package test.model.effects;
 
 import main.api.types.FamilyMemberType;
 import main.model.action_spaces.Action;
-import main.model.action_spaces.singleActionSpaces.HarvestActionSpace;
-import main.model.action_spaces.singleActionSpaces.ProductionActionSpace;
+import main.model.action_spaces.single_action_spaces.HarvestActionSpace;
+import main.model.action_spaces.single_action_spaces.ProductionActionSpace;
 import main.model.effects.development_effects.ActionValueModifyingEffect;
 import main.servergame.rmi.PlayerRMI;
 import org.junit.Test;

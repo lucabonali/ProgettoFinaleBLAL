@@ -152,12 +152,39 @@ public class PersonalBoard {
         return qtaResourceMap;
     }
 
-    public void activeTerritoriesEffects(Action action) throws RemoteException, NewActionException {
+    /**
+     * mi attiva tutti gli effetti permanenti delle carte territorio
+     * @param action l'azione che me le ha attivate
+     */
+    public void activeTerritoriesEffects(Action action){
         this.currentAction = action;
-        cardsMap.get(CardType.TERRITORY).get(0).activePermanentEffects();
-//        for (DevelopmentCard card : cardsMap.get(CardType.TERRITORY)) {
-//            card.activePermanentEffects();
-//        }
+        cardsMap.get(CardType.TERRITORY).forEach((developmentCard -> {
+            try {
+                developmentCard.activePermanentEffects();
+            }
+            catch (RemoteException | NewActionException e) {
+                e.printStackTrace();
+            }
+        }));
+    }
+
+    /**
+     * metodo che mi ritorna una mappa delle carte, dove per ciascun tipo mi tiene
+     * una lista delle stringhe dei nomi di esse
+     * @return ritorna la lista
+     */
+    public Map<CardType,List<String>> getPersonalCardsMap() {
+        Map<CardType, List<String>> cardsNameMap = new HashMap<>();
+        cardsNameMap.put(CardType.TERRITORY, new ArrayList<>());
+        cardsNameMap.put(CardType.CHARACTER, new ArrayList<>());
+        cardsNameMap.put(CardType.BUILDING, new ArrayList<>());
+        cardsNameMap.put(CardType.VENTURES, new ArrayList<>());
+        cardsMap.forEach(((cardType, developmentCards) -> {
+            developmentCards.forEach(developmentCard -> {
+                cardsNameMap.get(cardType).add(developmentCard.getName());
+            });
+        }));
+        return cardsNameMap;
     }
 
     public void activeBuildingsEffects(Action action) throws RemoteException, NewActionException {
@@ -251,5 +278,6 @@ public class PersonalBoard {
         }
         return tmp;
     }
+
 
 }

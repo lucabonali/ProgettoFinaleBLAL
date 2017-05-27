@@ -95,6 +95,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
+        gameController.removeDrawnCards(personalcardsMap);
         personalBoardController.updateCards(personalcardsMap);
     };
 

@@ -6,7 +6,7 @@ package main.gui.game_view.component;
  */
 public class PersonalMilitaryDisc extends PersonalDisc{
     private static int NUMBER_OF_DISC = 0;
-    private final double START_Y = 900;
+    private final double START_Y = 920;
     private final double FINAL_X;
     private final double INC_Y = 32;
     private int currentPosition;

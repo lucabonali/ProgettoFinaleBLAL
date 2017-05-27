@@ -138,7 +138,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      * mi notifica i cambiamenti nella mia plancia in seguito alla mia mossa
      * @throws RemoteException
      */
-    public abstract void updateResources() throws RemoteException;
+    public abstract void updateMove() throws RemoteException;
 
     /**
      * notifica al giocatore che deve tirare i dadi

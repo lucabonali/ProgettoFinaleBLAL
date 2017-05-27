@@ -1,4 +1,4 @@
-package main.model.action_spaces.singleActionSpaces;
+package main.model.action_spaces.single_action_spaces;
 
 import main.servergame.exceptions.LorenzoException;
 import main.servergame.exceptions.NewActionException;
@@ -26,9 +26,9 @@ public class FloorActionSpace extends ActionSpace {
         super(value);
         this.cardType = cardType;
         Resource resource = null;
-        if (value == 2)
+        if (value == 5)
             resource = new Resource(1, resourceTypeQuickEffect);
-        else if (value == 3)
+        else if (value == 7)
             resource = new Resource(2, resourceTypeQuickEffect);
         super.setEffect(new FixedIncrementEffect(resource)); //eventualmente null
     }
@@ -49,14 +49,13 @@ public class FloorActionSpace extends ActionSpace {
         return cardType;
     }
 
-
     /**
      * Metodo che raccoglie la carta dalla torre , e la assegna al giocatore che ha attivato lo spazio azione
      * attraverso il piazzamento legittimo del familiare
-     * @param action
-     * @throws LorenzoException
-     * @throws RemoteException
-     * @throws NewActionException
+     * @param action l'azione da eseguire
+     * @throws LorenzoException in caso di problemi
+     * @throws RemoteException in caso di problemi di connessione
+     * @throws NewActionException in caso di effetto che mi consente una nuova mossa
      */
     @Override
     public void doAction(Action action) throws LorenzoException, RemoteException, NewActionException {

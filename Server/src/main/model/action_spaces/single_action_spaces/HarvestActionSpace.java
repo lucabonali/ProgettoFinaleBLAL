@@ -1,4 +1,4 @@
-package main.model.action_spaces.singleActionSpaces;
+package main.model.action_spaces.single_action_spaces;
 
 import main.servergame.exceptions.NewActionException;
 import main.model.action_spaces.Action;

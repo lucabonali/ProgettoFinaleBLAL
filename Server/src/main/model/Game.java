@@ -237,12 +237,12 @@ public class Game {
                 isAlreadyPositioned(familyMember);
                 board.doAction(player, msg, familyMember);
                 familyMember.setPositioned(true);
-                player.updateResources();
+                player.updateMove();
                 endMove(player); //mi esegue la fine de turno
             }
             catch (NewActionException e) {
                 familyMember.setPositioned(true);
-                player.updateResources();
+                player.updateMove();
                 //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
                 phase = Phases.NEW_ACTION;
             }
@@ -268,7 +268,7 @@ public class Game {
             try {
                 checkTurn(player);
                 board.doNewAction(player, msg);
-                player.updateResources();
+                player.updateMove();
                 phase = Phases.ACTION;
                 endMove(player);
             }

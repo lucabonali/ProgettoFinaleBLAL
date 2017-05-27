@@ -2,11 +2,11 @@ package main.model.effects.development_effects;
 
 import main.api.types.CardType;
 import main.model.action_spaces.ActionSpaceInterface;
-import main.model.action_spaces.largeActionSpaces.LargeHarvestActionSpace;
-import main.model.action_spaces.largeActionSpaces.LargeProductionActionSpace;
-import main.model.action_spaces.singleActionSpaces.FloorActionSpace;
-import main.model.action_spaces.singleActionSpaces.HarvestActionSpace;
-import main.model.action_spaces.singleActionSpaces.ProductionActionSpace;
+import main.model.action_spaces.large_action_spaces.LargeHarvestActionSpace;
+import main.model.action_spaces.large_action_spaces.LargeProductionActionSpace;
+import main.model.action_spaces.single_action_spaces.FloorActionSpace;
+import main.model.action_spaces.single_action_spaces.HarvestActionSpace;
+import main.model.action_spaces.single_action_spaces.ProductionActionSpace;
 import main.servergame.AbstractPlayer;
 
 /**

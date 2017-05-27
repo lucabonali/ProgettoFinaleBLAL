@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import main.Launcher;
@@ -70,8 +69,6 @@ public class GameController {
     private Map<ResourceType,PersonalDisc> personalDiscs = new HashMap<>(); //mappa dei dischetti dei punti
     private Dice blackDice, whiteDice, orangeDice; //dadi
 
-    private Map<CardType,String[]> cards = new HashMap<>();
-
     private Map<CardType, GridPane> gridPaneSpacesTowersMap = new HashMap<>();
     private Map<MarketActionType, GridPane> gridPaneSpacesMarketMap = new HashMap<>();
 
@@ -81,7 +78,7 @@ public class GameController {
     private Map<MarketActionType, ActionSpaceInterface> marketMap = new HashMap<>();
 
     //lista delle immagini
-    private List<ImageView> imageList = new ArrayList<>();
+    private List<Card> imageList = new ArrayList<>();
     private double xOffset;
     private double yOffset;
 
@@ -147,31 +144,31 @@ public class GameController {
      */
     private void initializeImageViewCards() {
         for (int i=0; i<16; i++) {
-            ImageView img = new ImageView();
-            img.setOnMouseEntered(event -> AnimationService.zoomIn(img));
-            img.setOnMouseExited(event -> AnimationService.zoomOut(img));
-            img.setFitHeight(CARD_HEIGHT);
-            img.setFitWidth(CARD_WIDTH);
-            img.setPreserveRatio(false);
-            imageList.add(img);
+            Card card = new Card();
+            card.setOnMouseEntered(event -> AnimationService.zoomIn(card));
+            card.setOnMouseExited(event -> AnimationService.zoomOut(card));
+            card.setFitHeight(CARD_HEIGHT);
+            card.setFitWidth(CARD_WIDTH);
+            card.setPreserveRatio(false);
+            imageList.add(card);
             if (i>=0 && i<4) {
-                territoriesTower.add(img,0, i);
+                territoriesTower.add(card,0, i);
             }
             else if (i>=4 && i<8) {
-                charactersTower.add(img,0, i-4);
+                charactersTower.add(card,0, i-4);
             }
             else if (i>=8 && i<12) {
-                buildingsTower.add(img,0, i-8);
+                buildingsTower.add(card,0, i-8);
             }
             else if (i>=12 && i<16) {
-                venturesTower.add(img,0, i-12);
+                venturesTower.add(card,0, i-12);
             }
         }
     }
 
     /**
      * mi aggiunge il drag and drop della finestra sulla toolbar in alto
-     * @param toolbar
+     * @param toolbar toolabr della finestra
      */
     private void addToolbarDragAndDrop(ToolBar toolbar) {
         toolbar.setCursor(Cursor.CLOSED_HAND);
@@ -193,15 +190,22 @@ public class GameController {
      */
     public void setBoardCards(List<String> namesList) {
         for (int i=0; i<namesList.size(); i++) {
-            imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()));
+            imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()), namesList.get(i));
         }
+    }
+
+    public void removeDrawnCards(Map<CardType, List<String>> nameCards) {
+        nameCards.forEach(((cardType, namesList) -> {
+            namesList.forEach(name -> {
+                imageList.forEach(card -> card.remove(name));
+            });
+        }));
     }
 
     /**
      * inizializza i miei dadi
-     * @throws InterruptedException
      */
-    private void initializeDices() throws InterruptedException {
+    private void initializeDices(){
         blackDice = new Dice("black", blackDicePane, this);
         whiteDice = new Dice("white", whiteDicePane, this);
         orangeDice = new Dice("orange", orangeDicePane, this);
@@ -276,7 +280,7 @@ public class GameController {
 
     @FXML
     public void actionDoAction(ActionEvent event) throws RemoteException {
-        MessageAction msg = new MessageAction(ActionSpacesType.TOWERS, CardType.CHARACTER, 1, FamilyMemberType.ORANGE_DICE);
+        MessageAction msg = new MessageAction(ActionSpacesType.TOWERS, CardType.TERRITORY, 1, FamilyMemberType.ORANGE_DICE);
         client.doAction(msg);
     }
 
