@@ -19,7 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Launcher;
-import main.gui.game_mode_selection.music.Music;
+import main.gui.music.Music;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -56,7 +56,7 @@ public class startScreenController implements Initializable {
         scaleTransition.autoReverseProperty();
         scaleTransition.setOnFinished(e -> {
             try {
-                audio.play("Client/src/main/gui/start_screen/res/Occhiolino.wav");
+                audio.play(audio.getPath()+"Occhiolino.wav");
                 changePhoto();
             } catch (InterruptedException | IOException e1) {
                 e1.printStackTrace();

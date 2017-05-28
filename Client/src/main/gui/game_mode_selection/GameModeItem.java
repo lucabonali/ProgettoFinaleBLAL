@@ -42,7 +42,7 @@ public class GameModeItem extends Pane {
         text = new Text(name);
         text.setTranslateX(5);
         text.setTranslateY(20);
-        text.setFont(Font.loadFont(getClass().getResource("res/Penumbra-HalfSerif-Std_35114.ttf").toExternalForm(), 14));
+        text.setFont(Font.loadFont(getClass().getResource("res/Penumbra-HalfSerif-Std_35114.ttf").toExternalForm(), 12));
         text.setFill(Color.WHITE);
 
         text.effectProperty().bind(

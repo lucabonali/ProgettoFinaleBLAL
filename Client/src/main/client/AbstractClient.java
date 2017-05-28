@@ -9,6 +9,9 @@ import main.gui.game_view.GameController;
 import main.gui.game_view.MessagesController;
 import main.gui.game_view.PersonalBoardController;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -52,7 +55,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @param opponentsId l'id dei giocatori
      */
     @Override
-    public void isGameStarted(int id, List<Integer> opponentsId) {
+    public void isGameStarted(int id, List<Integer> opponentsId) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         this.id = id;
         opponentsIdList = opponentsId;
         gameController.createDiscs(id);

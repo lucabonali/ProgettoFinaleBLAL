@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.gui.game_mode_selection.music.Music;
+import main.gui.music.Music;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;

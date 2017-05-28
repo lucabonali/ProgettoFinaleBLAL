@@ -21,8 +21,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import main.client.AbstractClient;
-import main.gui.game_mode_selection.music.Music;
 import main.gui.game_view.GameController;
+import main.gui.music.Music;
 
 
 import javax.sound.sampled.LineUnavailableException;
@@ -75,7 +75,7 @@ public class GameModeSelectionView {
         yLineProperty = new SimpleDoubleProperty();
         endYLineProperty = new SimpleDoubleProperty();
         theme = new Music();
-        theme.play("Client/src/main/gui/game_mode_selection/music/MainTheme.wav");
+        theme.play(theme.getPath()+"MainTheme.wav");
     }
 
     public Parent createContent() {
@@ -204,6 +204,7 @@ public class GameModeSelectionView {
                 GameController controller = fxmlLoader.getController();
                 AbstractClient.getInstance().setGameController(controller); //setto il model
                 Platform.runLater(()->{
+                    theme.stop();
                     Stage stage = (Stage) root.getScene().getWindow();
                     Scene scene = new Scene(window);
                     stage.setScene(scene);

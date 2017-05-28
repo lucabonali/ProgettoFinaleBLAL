@@ -3,6 +3,9 @@ package main.api;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -20,7 +23,7 @@ public interface ClientInterface extends Remote{
      * @param opponentsId l'id dei giocatori
      * @throws RemoteException
      */
-    void isGameStarted(int id, List<Integer> opponentsId) throws RemoteException;
+    void isGameStarted(int id, List<Integer> opponentsId) throws IOException, UnsupportedAudioFileException, LineUnavailableException;
 
     /** metodo che mi andrà ad aggiornare tutte le mie risorse
      * // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
