@@ -3,6 +3,8 @@ package main.client;
 import main.api.PlayerInterface;
 import main.api.ServerInterface;
 import main.api.messages.MessageAction;
+import main.api.messages.MessageNewAction;
+import main.api.types.ResourceType;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -39,8 +41,23 @@ public class ClientRMI extends AbstractClient {
      * @throws RemoteException
      */
     @Override
-    public void doAction(MessageAction msg) throws RemoteException {
-        serverGame.doAction(msg);
+    public void doAction(MessageAction msg, int servantsToPay) throws RemoteException {
+        if (servantsToPay <= getPersonalBoardController().getQtaResource(ResourceType.SERVANTS)) {
+            msg.setValue(servantsToPay);
+            serverGame.doAction(msg);
+        }
+        else
+            notifyMessage("Non hai abbastanza servitori");
+    }
+
+    @Override
+    public void doNewAction(MessageNewAction msg, int servantsToPay) throws RemoteException {
+        if (servantsToPay <= getPersonalBoardController().getQtaResource(ResourceType.SERVANTS)) {
+            msg.setAdditionalValue(servantsToPay);
+            serverGame.doNewAction(msg);
+        }
+        else
+            notifyMessage("Non hai abbastanza servitori");
     }
 
 

@@ -116,6 +116,15 @@ public class PersonalBoardController {
         lbl.setOpacity(1);
     }
 
+    /**
+     * mi ritona la quantità del tipo di risorsa passato come parametro
+     * @param type tipo di risorsa
+     * @return quantità
+     */
+    public int getQtaResource(ResourceType type) {
+        return Integer.parseInt(qtaResourceLabelMap.get(type).getText());
+    }
+
     private void initializeCardsImage(CardType cardType, GridPane gridPane) {
         List<ImageView> list = new ArrayList<>();
         cardsMap.put(cardType, list);

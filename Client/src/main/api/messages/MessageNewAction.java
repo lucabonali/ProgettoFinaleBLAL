@@ -18,14 +18,15 @@ public class MessageNewAction implements Message, Serializable{
     private CardType cardType;
     private int numFloor;
     private MarketActionType marketActionType;
-    private int value; //indica la forza dell'azione
+    private int value;
+    private int additionalValue;
 
     public MessageNewAction(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, int value) {
         this.actionSpacesType = actionSpacesType;
         this.cardType = cardType;
         this.numFloor = numFloor;
         this.marketActionType = marketActionType;
-        this.value = value;
+        setValue(value);
     }
 
     /**
@@ -78,7 +79,21 @@ public class MessageNewAction implements Message, Serializable{
         return marketActionType;
     }
 
+    @Override
     public int getValue() {
         return value;
+    }
+
+    @Override
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getAdditionalValue() {
+        return additionalValue;
+    }
+
+    public void setAdditionalValue(int additionalValue) {
+        this.additionalValue = additionalValue;
     }
 }

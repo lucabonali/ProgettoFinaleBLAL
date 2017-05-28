@@ -235,9 +235,9 @@ public class Game {
                 checkTurn(player);
                 isAlreadyPositioned(familyMember);
                 board.doAction(player, msg, familyMember);
+                player.getPersonalBoard().modifyResources(new Resource(-msg.getValue(), ResourceType.SERVANTS)); //mi toglie gli eventuali servitori che ho pagato
                 familyMember.setPositioned(true);
                 player.updateMove();
-
                 endMove(player); //mi esegue la fine de turno
             }
             catch (NewActionException e) {
@@ -288,6 +288,7 @@ public class Game {
             try {
                 checkTurn(player);
                 board.doNewAction(player, msg);
+                player.getPersonalBoard().modifyResources(new Resource(-msg.getAdditionalValue(), ResourceType.SERVANTS)); //mi toglie gli eventuali servitori che ho pagato
                 player.updateMove();
                 phase = Phases.ACTION;
                 endMove(player);
@@ -449,11 +450,6 @@ public class Game {
         //inizializza il turno sul tabellone
         board.initializeTurn(period, turn);
         playerMap.forEach(((integer, abstractPlayer) -> abstractPlayer.removeAllFamilyMembers()));
-//        List<DevelopmentCard> cardsList = new ArrayList<>();
-//        cardsList.addAll(board.getCardsFromTower(CardType.TERRITORY));
-//        cardsList.addAll(board.getCardsFromTower(CardType.CHARACTER));
-//        cardsList.addAll(board.getCardsFromTower(CardType.BUILDING));
-//        cardsList.addAll(board.getCardsFromTower(CardType.VENTURES));
         playerMap.forEach(((id, player) -> {
             try {
                 player.initializeBoard(board.getCompleteListTowersCards());

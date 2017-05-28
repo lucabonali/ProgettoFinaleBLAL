@@ -28,24 +28,22 @@ public class Dice extends ImageView {
     private int number;
     private GameController controller;
     private boolean isRolled = false;
+    private String name;
 
-    public Dice(Image image, GridPane container, GameController controller) {
-        super(image);
-        this.container = container;
-        this.controller = controller;
-        setFitWidth(65);
-        setFitHeight(60);
+    public Dice(String name, Image image, GridPane container, GameController controller) {
+        this(name, container, controller);
+        setImage(image);
     }
 
     public Dice(String name, GridPane container, GameController controller) {
         super();
+        this.name = name;
         this.url = url + name + "/dado";
         this.container = container;
         this.controller = controller;
         setFitWidth(65);
         setFitHeight(60);
         rollDice();
-        initializeDiceListeners();
     }
 
     public int getNum() {
@@ -61,12 +59,15 @@ public class Dice extends ImageView {
         setImage(new Image(getClass().getResource(url + number + ".png").toExternalForm()));
     }
 
-    public void setNumber(int number) {
+    public Dice setNumber(int number) {
         this.number = number;
-        placeDice(new Image(getClass().getResource(url + number + ".png").toExternalForm()), container, controller);
+        return placeDice(new Image(getClass().getResource(url + number + ".png").toExternalForm()), container, controller);
     }
 
-    private void initializeDiceListeners() {
+    /**
+     * inizializza i listener sul dado per le animazioni
+     */
+    public void initializeDiceListeners() {
         setCursor(Cursor.CLOSED_HAND);
         setOnMousePressed(event -> {
             startX = event.getX();
@@ -126,11 +127,16 @@ public class Dice extends ImageView {
         return isRolled;
     }
 
+    public void remove() {
+        if (container.getChildren().contains(this))
+            container.getChildren().remove(this);
+    }
+
     /**
      * mi piazza il dado e me lo rende immodificabile
      */
     public Dice placeDice(Image image, GridPane container, GameController controller) {
-        Dice dice = new Dice(image, container, controller);
+        Dice dice = new Dice(name, image, container, controller);
         container.add(dice, 0, 0);
         dice.setCursor(Cursor.DEFAULT);
         dice.setOnMousePressed(null);

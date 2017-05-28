@@ -52,7 +52,7 @@ public class Action {
      * azione che ha come attributo.
      */
     public void commitAction() throws LorenzoException, RemoteException, NewActionException {
-        familyMember.getPersonalBoard().activeCharacterEffects(this);
+        player.getPersonalBoard().activeCharacterEffects(this);
         //dopo che ho attivato gli effetti delle carte personaggio
         this.actionSpace.doAction(this);
     }

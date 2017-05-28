@@ -267,10 +267,12 @@
                         </Tab>
                     </tabs>
                 </TabPane>
-            <HBox fx:id="personalHBox" prefHeight="30.0" prefWidth="200.0" spacing="40.0" GridPane.rowIndex="1">
+            <HBox fx:id="personalHBox" prefHeight="30.0" prefWidth="200.0" spacing="20.0" GridPane.rowIndex="1">
                <children>
                   <Button mnemonicParsing="false" onAction="#endMoveAction" text="End Move" />
                   <Button mnemonicParsing="false" onAction="#actionDoAction" text="Do Action" />
+                  <Button mnemonicParsing="false" onAction="#actionDoNewAction" text="Do New Action" />
+                  <TextField fx:id="servantsToPayTextField" maxWidth="-Infinity" prefWidth="80.0" promptText="servants" />
                </children>
             </HBox>
             </children>

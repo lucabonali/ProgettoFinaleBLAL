@@ -22,7 +22,10 @@ public class SingleActionSpace extends Pane implements ActionSpaceInterface{
     public SingleActionSpace(ActionSpacesType type) {
         this.type = type;
         setMaxSize(WIDTH, HEIGHT);
-        createPane();
+        setPrefSize(WIDTH, HEIGHT);
+        setCursor(Cursor.HAND);
+        setOnMouseClicked(event -> setCurrentActionSpace());
+//        createPane();
     }
 
     private void createPane() {
@@ -47,7 +50,8 @@ public class SingleActionSpace extends Pane implements ActionSpaceInterface{
     public void addFamilyMember(GuiFamilyMember familyMember) {
         this.familyMember = familyMember;
         getChildren().add(familyMember);
-        //familyMember.setTranslateX(30);
+        familyMember.setTranslateX(30);
+//        familyMember.setTranslateX(-216);
         familyMember.setTranslateY(18);
     }
 

@@ -1,6 +1,7 @@
 package main.client;
 
 import main.api.messages.MessageAction;
+import main.api.messages.MessageNewAction;
 import main.api.messages.SocketProtocol;
 
 import java.io.IOException;
@@ -69,7 +70,7 @@ public class ClientSocket extends AbstractClient implements Runnable{
     }
 
     @Override
-    public void doAction(MessageAction msg) {
+    public void doAction(MessageAction msg, int servantsToPay) {
         try {
             out.writeObject(msg);
             out.flush();
@@ -77,6 +78,11 @@ public class ClientSocket extends AbstractClient implements Runnable{
         catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void doNewAction(MessageNewAction msg, int servantsToPay) throws RemoteException {
 
     }
 

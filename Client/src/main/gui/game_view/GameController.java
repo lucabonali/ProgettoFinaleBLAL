@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -13,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import main.Launcher;
 import main.api.messages.MessageAction;
+import main.api.messages.MessageNewAction;
 import main.api.types.*;
 import main.client.AbstractClient;
 import main.gui.Service;
@@ -65,14 +67,16 @@ public class GameController {
     @FXML private HBox personalHBox;
     @FXML private AnchorPane anchorPane;
 
+    @FXML private TextField servantsToPayTextField;
+
+    private Map<CardType, GridPane> gridPaneSpacesTowersMap = new HashMap<>();
+    private Map<MarketActionType, GridPane> gridPaneSpacesMarketMap = new HashMap<>();
+
     private Map<Integer, Map<ResourceType, PersonalDisc>> opponentDiscs = new HashMap<>(); //mappa dei dischetti avversari
 
     private Map<ResourceType,PersonalDisc> personalDiscs = new HashMap<>(); //mappa dei dischetti dei punti personali
     private Map<FamilyMemberType,GuiFamilyMember> personalFamilyMembers = new HashMap<>(); //mappa dei familiari personali
     private Dice blackDice, whiteDice, orangeDice; //dadi
-
-    private Map<CardType, GridPane> gridPaneSpacesTowersMap = new HashMap<>();
-    private Map<MarketActionType, GridPane> gridPaneSpacesMarketMap = new HashMap<>();
 
     //mappe degli spazi azione
     private Map<ActionSpacesType, ActionSpaceInterface> actionSpacesMap = new HashMap<>();
@@ -119,11 +123,13 @@ public class GameController {
     private void initializeTowers(CardType cardType, GridPane gridPaneTower) {
         GuiFloorActionSpace[] array = new GuiFloorActionSpace[4];
         towerMap.put(cardType, array);
+        gridPaneSpacesTowersMap.put(cardType, gridPaneTower);
+        int gridCounter=0;
         for (int floor=3; floor>=0; floor--) {
-            gridPaneSpacesTowersMap.put(cardType, gridPaneTower);
             GuiFloorActionSpace actionSpace = new GuiFloorActionSpace(ActionSpacesType.TOWERS, cardType, floor);
             array[floor] = actionSpace;
-            gridPaneSpacesTowersMap.get(cardType).add(actionSpace, 0, floor);
+            gridPaneSpacesTowersMap.get(cardType).add(actionSpace, 0, gridCounter);
+            gridCounter++;
         }
     }
 
@@ -193,10 +199,6 @@ public class GameController {
         blackDice = new Dice("black", blackDicePane, this);
         whiteDice = new Dice("white", whiteDicePane, this);
         orangeDice = new Dice("orange", orangeDicePane, this);
-        orangeDice.setVisible(false);
-        blackDice.setVisible(false);
-        whiteDice.setVisible(false);
-        anchorPane.getChildren().addAll(blackDice, whiteDice, orangeDice);
     }
 
 
@@ -223,9 +225,13 @@ public class GameController {
      */
     public void showDices() {
         Platform.runLater(() -> {
-            blackDice.setVisible(true);
-            whiteDice.setVisible(true);
-            orangeDice.setVisible(true);
+            blackDice.remove();
+            blackDice.initializeDiceListeners();
+            orangeDice.remove();
+            orangeDice.initializeDiceListeners();
+            whiteDice.remove();
+            whiteDice.initializeDiceListeners();
+            anchorPane.getChildren().addAll(blackDice, whiteDice, orangeDice);
             blackDice.setX(300);
             blackDice.setY(500);
             whiteDice.setX(400);
@@ -243,9 +249,9 @@ public class GameController {
      */
     public void setDices(int orange, int white, int black) {
         Platform.runLater(() -> {
-            orangeDice.setNumber(orange);
-            whiteDice.setNumber(white);
-            blackDice.setNumber(black);
+            orangeDice = orangeDice.setNumber(orange);
+            whiteDice = whiteDice.setNumber(white);
+            blackDice = blackDice.setNumber(black);
         });
     }
 
@@ -319,17 +325,17 @@ public class GameController {
      */
     public void moveFamilyMember(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, FamilyMemberType familyMemberType) {
         Platform.runLater(() ->{
-            switch (actionSpacesType) {
-                case TOWERS:
-                    towerMap.get(cardType)[numFloor].addFamilyMember(personalFamilyMembers.get(familyMemberType));
-                    break;
-                case MARKET:
-                    marketMap.get(marketActionType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
-                    break;
-                default:
-                    actionSpacesMap.get(actionSpacesType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
-                    break;
-            }
+//            switch (actionSpacesType) {
+//                case TOWERS:
+//                    towerMap.get(cardType)[numFloor].addFamilyMember(personalFamilyMembers.get(familyMemberType));
+//                    break;
+//                case MARKET:
+//                    marketMap.get(marketActionType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
+//                    break;
+//                default:
+//                    actionSpacesMap.get(actionSpacesType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
+//                    break;
+//            }
             personalHBox.getChildren().remove(personalFamilyMembers.get(familyMemberType));
         });
     }
@@ -364,9 +370,30 @@ public class GameController {
 
     @FXML
     public void actionDoAction(ActionEvent event) throws RemoteException {
+        int servantsToPay;
+        try{
+            servantsToPay = Integer.parseInt(servantsToPayTextField.getText());
+        }
+        catch (NumberFormatException e) {
+            servantsToPay = 0;
+        }
         MessageAction msg = client.encondingMessageAction();
         if (msg != null)
-            client.doAction(msg);
+            client.doAction(msg, servantsToPay);
+    }
+
+    @FXML
+    public void actionDoNewAction(ActionEvent event) throws RemoteException {
+        int servantsToPay;
+        try{
+            servantsToPay = Integer.parseInt(servantsToPayTextField.getText());
+        }
+        catch (NumberFormatException e) {
+            servantsToPay = 0;
+        }
+        MessageNewAction msg = client.encondingMessageNewAction();
+        if (msg != null)
+            client.doNewAction(msg, servantsToPay);
     }
 
     /**

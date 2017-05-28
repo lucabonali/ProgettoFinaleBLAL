@@ -31,7 +31,9 @@ public class Excommunication {
         connectionDB = new ConnectionDB();
         excomEffectList = new ArrayList<>();
         excomPlayerMap = new HashMap<>();
-        excomPlayerMap.forEach(((integer, abstractPlayers) -> abstractPlayers = new ArrayList<>()));
+        excomPlayerMap.put(1, new ArrayList<>());
+        excomPlayerMap.put(2, new ArrayList<>());
+        excomPlayerMap.put(3, new ArrayList<>());
         //prelameCardFirstPeriodFromDB();
         //prelameCardSecondPeriodFromDB();
         //prelameCardThirdPeriodFromDB();
@@ -96,8 +98,8 @@ public class Excommunication {
      * @throws NewActionException
      */
     public void activeFirtsPeriod(AbstractPlayer player) throws RemoteException, NewActionException {
-        if (excomPlayerMap.get(0).contains(player)){
-            excomEffectList.get(0).active(player);
+        if (excomPlayerMap.get(1).contains(player)){
+            excomEffectList.get(1).active(player);
         }
     }
 
@@ -109,8 +111,8 @@ public class Excommunication {
      * @throws NewActionException
      */
     public void activeSecondPeriod(AbstractPlayer player) throws RemoteException, NewActionException {
-        if (excomPlayerMap.get(1).contains(player)){
-            excomEffectList.get(1).active(player);
+        if (excomPlayerMap.get(2).contains(player)){
+            excomEffectList.get(2).active(player);
         }
     }
 
@@ -122,8 +124,8 @@ public class Excommunication {
      * @throws NewActionException
      */
     public void activeThirdPeriod(AbstractPlayer player) throws RemoteException, NewActionException {
-        if (excomPlayerMap.get(2).contains(player)){
-            excomEffectList.get(2).active(player);
+        if (excomPlayerMap.get(3).contains(player)){
+            excomEffectList.get(3).active(player);
         }
     }
 
@@ -133,7 +135,7 @@ public class Excommunication {
      * @param player giocatore da scomunicare
      */
     public void addPlayer(int period, AbstractPlayer player){
-        excomPlayerMap.get(period-1).add(player);
+        excomPlayerMap.get(period).add(player);
     }
 
     public List<Effect> getExcomCardList() {

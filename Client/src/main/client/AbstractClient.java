@@ -2,7 +2,9 @@ package main.client;
 
 import main.api.ClientInterface;
 import main.api.messages.MessageAction;
+import main.api.messages.MessageNewAction;
 import main.api.types.*;
+import main.gui.Service;
 import main.gui.game_view.GameController;
 import main.gui.game_view.MessagesController;
 import main.gui.game_view.PersonalBoardController;
@@ -37,6 +39,9 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private int numFloor;
     private FamilyMemberType familyMemberType;
     private MarketActionType marketActionType;
+    private int currentNewActionValue;
+    private ActionSpacesType currentNewActionActionSpaceType;
+    private CardType currentNewActionCardType;
 
     protected AbstractClient() throws RemoteException {
     }
@@ -167,6 +172,9 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     @Override
     public void notifyNewAction(int value, char codeAction) throws RemoteException {
         messagesController.setMessage("devi fare una nuova azione");
+        currentNewActionValue = value;
+        currentNewActionActionSpaceType = Service.getActionSpaceType(codeAction);
+        currentNewActionCardType = Service.getCardType(codeAction);
         phase = Phases.NEW_ACTION;
     }
 
@@ -243,6 +251,10 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         this.personalBoardController = controller;
     }
 
+    public PersonalBoardController getPersonalBoardController() {
+        return personalBoardController;
+    }
+
     /**
      * metodo che mi codifica il messaggio azione
      * @return ritorna il MessageAction corretto da inviare al server
@@ -255,6 +267,28 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         else
             return new MessageAction(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
         return null;
+    }
+
+    /**
+     * metodo che mi codifica il messaggio azione
+     * @return ritorna il MessageAction corretto da inviare al server
+     */
+    public MessageNewAction encondingMessageNewAction() {
+        if (currentNewActionActionSpaceType == ActionSpacesType.SINGLE_HARVEST){
+            if (actionSpacesType == ActionSpacesType.SINGLE_HARVEST || actionSpacesType == ActionSpacesType.LARGE_HARVEST)
+                return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
+        }
+        else if (currentNewActionActionSpaceType == ActionSpacesType.SINGLE_PRODUCTION){
+            if (actionSpacesType == ActionSpacesType.SINGLE_PRODUCTION || actionSpacesType == ActionSpacesType.SINGLE_PRODUCTION)
+                return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
+        }
+        else if (actionSpacesType != currentNewActionActionSpaceType)
+            messagesController.setMessage("non hai selezionato lo spazio azione corretto");
+        else if (currentNewActionCardType == null) //va bene qualsiasi torre
+            return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
+        else if (cardType != currentNewActionCardType)
+            messagesController.setMessage("non hai selezionato la torre corretta");
+        return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
     }
 
     String getUsername() {
@@ -284,8 +318,19 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     /**
      * metodo che invia al server un'azione, verrà implementato nella maniera
      * corretta dalle due sottoclassi.
+     * @param msg messaggio già codificato
+     * @param servantsToPay  servitori che voglio pagare
+     * @throws RemoteException
      */
-    public abstract void doAction(MessageAction msg) throws RemoteException;
+    public abstract void doAction(MessageAction msg, int servantsToPay) throws RemoteException;
+
+    /**
+     * metodo che invia un messa di nuova azione al server
+     * @param msg messaggio già codificato
+     * @param servantsToPay servitori che voglio pagare
+     * @throws RemoteException
+     */
+    public abstract void doNewAction(MessageNewAction msg, int servantsToPay) throws RemoteException;
 
     /**
      * il giocatore lancia i dadi, e invia i risultati al server!!

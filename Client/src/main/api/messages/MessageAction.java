@@ -17,6 +17,7 @@ public class MessageAction implements Message, Serializable{
     private MarketActionType marketActionType;
     // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
     private Map<ResourceType,Integer> qtaMap;
+    private int value;
 
     public MessageAction(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, FamilyMemberType familyMemberType) {
         this.actionSpacesType = actionSpacesType;
@@ -24,6 +25,7 @@ public class MessageAction implements Message, Serializable{
         this.numFloor = numFloor;
         this.marketActionType = marketActionType;
         this.familyMemberType = familyMemberType;
+        setValue(0);
     }
 
     /**
@@ -76,6 +78,16 @@ public class MessageAction implements Message, Serializable{
         return marketActionType;
     }
 
+    @Override
+    public int getValue() {
+        return value;
+    }
+
+    @Override
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     public FamilyMemberType getFamilyMemberType() {
         return familyMemberType;
     }
@@ -83,4 +95,6 @@ public class MessageAction implements Message, Serializable{
     public Map<ResourceType,Integer> getQtaMap() {
         return qtaMap;
     }
+
+
 }

@@ -5,6 +5,8 @@ import javafx.scene.Cursor;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import main.api.types.ActionSpacesType;
+import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
 
 /**
@@ -14,6 +16,13 @@ import main.api.types.FamilyMemberType;
  * classe di servizio per alcuni tipi di animazioni, riutlizzati di frequente
  */
 public class Service {
+    public static final char CHAR_TERRITORY = 't';
+    public static final char CHAR_CHARACTERS = 'y';
+    public static final char CHAR_BUILDINGS = 'b';
+    public static final char CHAR_VENTURES = 'x';
+    public static final char CHAR_PRODUCTION = 'e';
+    public static final char CHAR_HARVEST = 'h';
+    public static final char CHAR_TOWER_ACTION = 'a';
 
     /**
      * mi fa lo zoom della carta quando ci vado sopra col puntatore
@@ -68,5 +77,31 @@ public class Service {
                 return Color.GRAY;
         }
         return null;
+    }
+
+    public static ActionSpacesType getActionSpaceType(char codeAction) {
+        switch (codeAction) {
+            case CHAR_HARVEST:
+                return ActionSpacesType.SINGLE_HARVEST;
+            case CHAR_PRODUCTION:
+                return ActionSpacesType.SINGLE_PRODUCTION;
+            default: //azione su qualsiasi torre
+                return ActionSpacesType.TOWERS;
+        }
+    }
+
+    public static CardType getCardType(char codeAction) {
+        switch (codeAction) {
+            case CHAR_BUILDINGS:
+                return CardType.BUILDING;
+            case CHAR_CHARACTERS:
+                return CardType.CHARACTER;
+            case CHAR_TERRITORY:
+                return CardType.TERRITORY;
+            case CHAR_VENTURES:
+                return CardType.VENTURES;
+            default:
+                return null;
+        }
     }
 }

@@ -216,7 +216,8 @@ public class Board {
         ActionSpaceInterface actionSpace = convertActionMessage(msg);
         if (actionSpace == null)
             throw new LorenzoException("codice spazio azione errato");
-        currentAction = new Action(actionSpace, familyMember.getValue(), familyMember, player);
+        int force = familyMember.getValue() + msg.getValue();
+        currentAction = new Action(actionSpace, force, familyMember, player);
         currentAction.commitAction();
     }
 
@@ -225,7 +226,8 @@ public class Board {
         ActionSpaceInterface actionSpace = convertActionMessage(msg);
         if (actionSpace == null)
             throw new LorenzoException("codice spazio azione errato");
-        currentAction = new Action(actionSpace, msg.getValue(), null, player);
+        int force = msg.getValue() + msg.getAdditionalValue();
+        currentAction = new Action(actionSpace, force, null, player);
         currentAction.commitAction();
     }
 

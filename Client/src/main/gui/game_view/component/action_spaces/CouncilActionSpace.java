@@ -26,7 +26,10 @@ public class CouncilActionSpace extends Pane implements ActionSpaceInterface {
         this.type = type;
         familyMemberList = new ArrayList<>();
         setMaxSize(WIDTH, HEIGHT);
-        createPane();
+        setPrefSize(WIDTH, HEIGHT);
+        setCursor(Cursor.HAND);
+        setOnMouseClicked(event -> setCurrentActionSpace());
+//        createPane();
     }
 
     private void createPane() {

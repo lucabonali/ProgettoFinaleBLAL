@@ -17,4 +17,8 @@ public interface Message {
     int getNumFloor();
 
     MarketActionType getMarketActionType();
+
+    int getValue();
+
+    void setValue(int value);
 }
