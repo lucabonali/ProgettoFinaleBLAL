@@ -119,7 +119,7 @@ public class GameController {
     private void initializeTowers(CardType cardType, GridPane gridPaneTower) {
         GuiFloorActionSpace[] array = new GuiFloorActionSpace[4];
         towerMap.put(cardType, array);
-        for (int floor=0; floor<4; floor++) {
+        for (int floor=3; floor>=0; floor--) {
             gridPaneSpacesTowersMap.put(cardType, gridPaneTower);
             GuiFloorActionSpace actionSpace = new GuiFloorActionSpace(ActionSpacesType.TOWERS, cardType, floor);
             array[floor] = actionSpace;
@@ -187,6 +187,20 @@ public class GameController {
     }
 
     /**
+     * inizializza i miei dadi
+     */
+    private void initializeDices(){
+        blackDice = new Dice("black", blackDicePane, this);
+        whiteDice = new Dice("white", whiteDicePane, this);
+        orangeDice = new Dice("orange", orangeDicePane, this);
+        orangeDice.setVisible(false);
+        blackDice.setVisible(false);
+        whiteDice.setVisible(false);
+        anchorPane.getChildren().addAll(blackDice, whiteDice, orangeDice);
+    }
+
+
+    /**
      * mi setta la lista delle carte sulle torri del tabellone
      * @param namesList lista dei nomi delle carte
      */
@@ -205,20 +219,13 @@ public class GameController {
     }
 
     /**
-     * inizializza i miei dadi
-     */
-    private void initializeDices(){
-        blackDice = new Dice("black", blackDicePane, this);
-        whiteDice = new Dice("white", whiteDicePane, this);
-        orangeDice = new Dice("orange", orangeDicePane, this);
-    }
-
-    /**
      * mi rende visibili i dadi, e posso tirarli
      */
     public void showDices() {
         Platform.runLater(() -> {
-            anchorPane.getChildren().addAll(blackDice, whiteDice, orangeDice);
+            blackDice.setVisible(true);
+            whiteDice.setVisible(true);
+            orangeDice.setVisible(true);
             blackDice.setX(300);
             blackDice.setY(500);
             whiteDice.setX(400);
@@ -290,7 +297,41 @@ public class GameController {
         personalFamilyMembers.put(FamilyMemberType.BLACK_DICE, new GuiFamilyMember(id, FamilyMemberType.BLACK_DICE));
         personalFamilyMembers.put(FamilyMemberType.WHITE_DICE, new GuiFamilyMember(id, FamilyMemberType.WHITE_DICE));
         personalFamilyMembers.put(FamilyMemberType.NEUTRAL_DICE, new GuiFamilyMember(id, FamilyMemberType.NEUTRAL_DICE));
-        Platform.runLater(() -> personalFamilyMembers.forEach(((type, guiFamilyMember) -> personalHBox.getChildren().add(guiFamilyMember))));
+    }
+
+    /**
+     * mi riposiziona nella posizione di partenza i miei familiari
+     */
+    public void relocateFamilyMembers() {
+        Platform.runLater(() -> personalFamilyMembers.forEach(((type, guiFamilyMember) -> {
+            if (!personalHBox.getChildren().contains(guiFamilyMember))
+                personalHBox.getChildren().add(guiFamilyMember);
+        })));
+    }
+
+    /**
+     * mi sposta il mio familiare nello spazio azione corretto
+     * @param actionSpacesType codice spazio azion
+     * @param cardType codice torre
+     * @param numFloor codice piano
+     * @param marketActionType codice mercato
+     * @param familyMemberType codice familiare
+     */
+    public void moveFamilyMember(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, FamilyMemberType familyMemberType) {
+        Platform.runLater(() ->{
+            switch (actionSpacesType) {
+                case TOWERS:
+                    towerMap.get(cardType)[numFloor].addFamilyMember(personalFamilyMembers.get(familyMemberType));
+                    break;
+                case MARKET:
+                    marketMap.get(marketActionType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
+                    break;
+                default:
+                    actionSpacesMap.get(actionSpacesType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
+                    break;
+            }
+            personalHBox.getChildren().remove(personalFamilyMembers.get(familyMemberType));
+        });
     }
 
     /**
@@ -309,6 +350,13 @@ public class GameController {
         Platform.runLater(() -> map.forEach(((resourceType, points) -> opponentDiscs.get(id).get(resourceType).setCurrentPosition(points))));
     }
 
+    /**
+     * mi rende visibile l'alert realtivo alla scelta nella fase scomunica
+     */
+    public void showExcommunicatingAlert() {
+        Platform.runLater(ExcommunicationAlert::new);
+    }
+
     @FXML
     public void endMoveAction(ActionEvent event) throws RemoteException {
         client.endMove();
@@ -321,6 +369,10 @@ public class GameController {
             client.doAction(msg);
     }
 
+    /**
+     * inizializza il tabellone
+     * @throws InterruptedException
+     */
     public void initialize() throws InterruptedException {
         client = AbstractClient.getInstance();
         initializeTowers(CardType.TERRITORY, territoryTowersActionSpaces);

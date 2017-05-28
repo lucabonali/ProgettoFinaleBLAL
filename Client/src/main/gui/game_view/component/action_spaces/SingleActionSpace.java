@@ -46,9 +46,9 @@ public class SingleActionSpace extends Pane implements ActionSpaceInterface{
     @Override
     public void addFamilyMember(GuiFamilyMember familyMember) {
         this.familyMember = familyMember;
-        familyMember.setTranslateX(30);
-        familyMember.setTranslateY(18);
         getChildren().add(familyMember);
+        //familyMember.setTranslateX(30);
+        familyMember.setTranslateY(18);
     }
 
     /**

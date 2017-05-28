@@ -60,6 +60,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         opponentsIdList = opponentsId;
         gameController.createDiscs(id);
         gameController.createFamilyMembers(id);
+        gameController.relocateFamilyMembers();
         personalBoardController.startGame(id);
         opponentsId.forEach((idValue -> gameController.createOpponentDiscs(idValue)));
         messagesController.setMessage("La partita è iniziata");
@@ -72,6 +73,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     public void setTowersCards(List<String> list) throws RemoteException {
         gameController.setBoardCards(list);
+        gameController.relocateFamilyMembers();
     }
 
     /**
@@ -102,6 +104,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     public void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
         gameController.removeDrawnCards(personalcardsMap);
         personalBoardController.updateCards(personalcardsMap);
+        gameController.moveFamilyMember(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
     };
 
     /**
@@ -183,7 +186,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyYourExcommunicationTurn() throws RemoteException {
-        messagesController.setMessage("devi fare una scelta di scomunica");
+        gameController.showExcommunicatingAlert();
         phase = Phases.EXCOMMUNICATION;
     }
 
@@ -332,7 +335,4 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         }
         return instance;
     }
-
-
-
 }

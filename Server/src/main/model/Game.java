@@ -4,16 +4,15 @@ import main.MainServer;
 import main.api.PlayerInterface;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
-import main.game_server.exceptions.LorenzoException;
-import main.game_server.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.Phases;
 import main.api.types.ResourceType;
+import main.game_server.AbstractPlayer;
+import main.game_server.exceptions.LorenzoException;
+import main.game_server.exceptions.NewActionException;
 import main.model.board.Board;
-import main.model.board.DevelopmentCard;
 import main.model.board.FamilyMember;
 import main.model.fields.Resource;
-import main.game_server.AbstractPlayer;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -450,19 +449,20 @@ public class Game {
         //inizializza il turno sul tabellone
         board.initializeTurn(period, turn);
         playerMap.forEach(((integer, abstractPlayer) -> abstractPlayer.removeAllFamilyMembers()));
-        List<DevelopmentCard> cardsList = new ArrayList<>();
-        cardsList.addAll(board.getCardsFromTower(CardType.TERRITORY));
-        cardsList.addAll(board.getCardsFromTower(CardType.CHARACTER));
-        cardsList.addAll(board.getCardsFromTower(CardType.BUILDING));
-        cardsList.addAll(board.getCardsFromTower(CardType.VENTURES));
-        playerMap.forEach(((integer, abstractPlayer) -> {
+//        List<DevelopmentCard> cardsList = new ArrayList<>();
+//        cardsList.addAll(board.getCardsFromTower(CardType.TERRITORY));
+//        cardsList.addAll(board.getCardsFromTower(CardType.CHARACTER));
+//        cardsList.addAll(board.getCardsFromTower(CardType.BUILDING));
+//        cardsList.addAll(board.getCardsFromTower(CardType.VENTURES));
+        playerMap.forEach(((id, player) -> {
             try {
-                abstractPlayer.initializeBoard(cardsList);
+                player.initializeBoard(board.getCompleteListTowersCards());
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }));
         currentPlayer = turnOrder.get(0);
+        currentPlayer.notifyRollDice();
         currentPlayer.isYourTurn();
     }
 

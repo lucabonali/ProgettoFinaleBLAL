@@ -32,8 +32,11 @@ public class PersonalBoardController {
     @FXML private Rectangle woodGroup;
     @FXML private Rectangle stoneGroup;
     @FXML private Rectangle servantsGroup;
+
     @FXML private GridPane buildingsGridPane;
     @FXML private GridPane territoriesGridPane;
+    @FXML private GridPane charactersGridPane;
+    @FXML private GridPane venturesGridPane;
 
     private GameController gameController;
 
@@ -130,6 +133,8 @@ public class PersonalBoardController {
     public void initialize() {
         initializeCardsImage(CardType.TERRITORY, territoriesGridPane);
         initializeCardsImage(CardType.BUILDING, buildingsGridPane);
+        initializeCardsImage(CardType.CHARACTER, charactersGridPane);
+        initializeCardsImage(CardType.VENTURES, venturesGridPane);
         qtaResourceLabelMap.put(ResourceType.COINS, coinsLabel);
         qtaResourceLabelMap.put(ResourceType.WOOD, woodLabel);
         qtaResourceLabelMap.put(ResourceType.STONE, stoneLabel);
