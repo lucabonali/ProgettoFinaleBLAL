@@ -6,17 +6,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import main.Launcher;
 import main.api.messages.MessageAction;
 import main.api.types.*;
 import main.client.AbstractClient;
-import main.gui.AnimationService;
+import main.gui.Service;
 import main.gui.game_view.component.*;
+import main.gui.game_view.component.action_spaces.*;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -61,12 +62,13 @@ public class GameController {
 
     @FXML private GridPane personalGridPane;
     @FXML private GridPane myPersonalBoardGridPane;
+    @FXML private HBox personalHBox;
     @FXML private AnchorPane anchorPane;
 
-    //Da cancellare era per prova
-    @FXML private Button rollButton;
+    private Map<Integer, Map<ResourceType, PersonalDisc>> opponentDiscs = new HashMap<>(); //mappa dei dischetti avversari
 
-    private Map<ResourceType,PersonalDisc> personalDiscs = new HashMap<>(); //mappa dei dischetti dei punti
+    private Map<ResourceType,PersonalDisc> personalDiscs = new HashMap<>(); //mappa dei dischetti dei punti personali
+    private Map<FamilyMemberType,GuiFamilyMember> personalFamilyMembers = new HashMap<>(); //mappa dei familiari personali
     private Dice blackDice, whiteDice, orangeDice; //dadi
 
     private Map<CardType, GridPane> gridPaneSpacesTowersMap = new HashMap<>();
@@ -111,30 +113,30 @@ public class GameController {
 
     /**
      * mi inizializza gli spazi azione delle torri
-     * @param type tipo di torre
+     * @param cardType tipo di torre
      * @param gridPaneTower contenitore che mi identifica la posizione sul tabellone
      */
-    private void initializeTowers(CardType type, GridPane gridPaneTower) {
-        SingleActionSpace[] array = new SingleActionSpace[4];
-        towerMap.put(type, array);
-        for (int i=0; i<4; i++) {
-            gridPaneSpacesTowersMap.put(type, gridPaneTower);
-            SingleActionSpace actionSpace = new SingleActionSpace(ActionSpacesType.TOWERS);
-            array[i] = actionSpace;
-            gridPaneSpacesTowersMap.get(type).add(actionSpace, 0, i);
+    private void initializeTowers(CardType cardType, GridPane gridPaneTower) {
+        GuiFloorActionSpace[] array = new GuiFloorActionSpace[4];
+        towerMap.put(cardType, array);
+        for (int floor=0; floor<4; floor++) {
+            gridPaneSpacesTowersMap.put(cardType, gridPaneTower);
+            GuiFloorActionSpace actionSpace = new GuiFloorActionSpace(ActionSpacesType.TOWERS, cardType, floor);
+            array[floor] = actionSpace;
+            gridPaneSpacesTowersMap.get(cardType).add(actionSpace, 0, floor);
         }
     }
 
     /**
      * mi inizializza il mercato
-     * @param type tipo di mercato
+     * @param marketType tipo di mercato
      * @param gridPaneMarket contenitore sulla quale verrà inserito lo spazio azione
      */
-    private void initializeMarket(MarketActionType type, GridPane gridPaneMarket) {
-        gridPaneSpacesMarketMap.put(type, gridPaneMarket);
-        SingleActionSpace actionSpace = new SingleActionSpace(ActionSpacesType.MARKET);
-        marketMap.put(type, actionSpace);
-        gridPaneSpacesMarketMap.get(type).add(actionSpace, 0, 0);
+    private void initializeMarket(MarketActionType marketType, GridPane gridPaneMarket) {
+        gridPaneSpacesMarketMap.put(marketType, gridPaneMarket);
+        GuiMarketActionSpace actionSpace = new GuiMarketActionSpace(ActionSpacesType.MARKET, marketType);
+        marketMap.put(marketType, actionSpace);
+        gridPaneSpacesMarketMap.get(marketType).add(actionSpace, 0, 0);
     }
 
 
@@ -145,8 +147,8 @@ public class GameController {
     private void initializeImageViewCards() {
         for (int i=0; i<16; i++) {
             Card card = new Card();
-            card.setOnMouseEntered(event -> AnimationService.zoomIn(card));
-            card.setOnMouseExited(event -> AnimationService.zoomOut(card));
+            card.setOnMouseEntered(event -> Service.zoomIn(card));
+            card.setOnMouseExited(event -> Service.zoomOut(card));
             card.setFitHeight(CARD_HEIGHT);
             card.setFitWidth(CARD_WIDTH);
             card.setPreserveRatio(false);
@@ -266,11 +268,45 @@ public class GameController {
     }
 
     /**
-     * mi modifica i punti vittori, cioè mi sposta i dischetti relativi a me stesso
+     * mi genera e posiziona i dischetti dei giocatori avversari
+     * @param id id del giocatore avversario
+     */
+    public void createOpponentDiscs(int id) {
+        Map<ResourceType, PersonalDisc> map = new HashMap<>();
+        map.put(ResourceType.VICTORY, new PersonalVictoryDisc(id));
+        map.put(ResourceType.MILITARY, new PersonalMilitaryDisc(id));
+        map.put(ResourceType.FAITH, new PersonalFaithDisc(id));
+        opponentDiscs.put(id, map);
+        Platform.runLater(() -> map.forEach(((resourceType, opponentDisc) -> anchorPane.getChildren().add(opponentDisc))));
+    }
+
+
+    /**
+     * metodo che mi crea e mi rende visibili i familiari
+     * @param id id del giocatore, sulla base del quale si ricava il colore
+     */
+    public void createFamilyMembers(int id){
+        personalFamilyMembers.put(FamilyMemberType.ORANGE_DICE, new GuiFamilyMember(id, FamilyMemberType.ORANGE_DICE));
+        personalFamilyMembers.put(FamilyMemberType.BLACK_DICE, new GuiFamilyMember(id, FamilyMemberType.BLACK_DICE));
+        personalFamilyMembers.put(FamilyMemberType.WHITE_DICE, new GuiFamilyMember(id, FamilyMemberType.WHITE_DICE));
+        personalFamilyMembers.put(FamilyMemberType.NEUTRAL_DICE, new GuiFamilyMember(id, FamilyMemberType.NEUTRAL_DICE));
+        Platform.runLater(() -> personalFamilyMembers.forEach(((type, guiFamilyMember) -> personalHBox.getChildren().add(guiFamilyMember))));
+    }
+
+    /**
+     * mi modifica i punti del giocatore, cioè mi sposta i dischetti relativi a me stesso
      * @param map mappa dei valori
      */
     public void modifyPoints(Map<ResourceType, Integer> map) {
-        Platform.runLater(() -> map.forEach(((resourceType, integer) -> personalDiscs.get(resourceType).setCurrentPosition(integer))));
+        Platform.runLater(() -> map.forEach(((resourceType, points) -> personalDiscs.get(resourceType).setCurrentPosition(points))));
+    }
+
+    /**
+     * mi modifica i punti di un avversario cioè mi sposta i dischetti relativi ad un giocatore avversario
+     * @param map mappa dei valori
+     */
+    public void modifyOpponentPoints(Map<ResourceType, Integer> map, int id) {
+        Platform.runLater(() -> map.forEach(((resourceType, points) -> opponentDiscs.get(id).get(resourceType).setCurrentPosition(points))));
     }
 
     @FXML
@@ -280,8 +316,9 @@ public class GameController {
 
     @FXML
     public void actionDoAction(ActionEvent event) throws RemoteException {
-        MessageAction msg = new MessageAction(ActionSpacesType.TOWERS, CardType.TERRITORY, 1, FamilyMemberType.ORANGE_DICE);
-        client.doAction(msg);
+        MessageAction msg = client.encondingMessageAction();
+        if (msg != null)
+            client.doAction(msg);
     }
 
     public void initialize() throws InterruptedException {

@@ -1,9 +1,9 @@
 package main.model.board;
 
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.NewActionException;
 import main.model.effects.development_effects.Effect;
 import main.model.effects.excommunicating_effects.ExcommunicatingEffectCreator;
-import main.servergame.AbstractPlayer;
+import main.game_server.AbstractPlayer;
 
 import java.rmi.RemoteException;
 import java.sql.ResultSet;

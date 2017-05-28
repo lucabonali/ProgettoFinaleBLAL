@@ -1,4 +1,4 @@
-package main.servergame;
+package main.game_server;
 
 import main.MainServer;
 import main.api.ServerInterface;

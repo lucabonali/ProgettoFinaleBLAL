@@ -1,10 +1,10 @@
 package main.model.effects.excommunicating_effects;
 
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.NewActionException;
 import main.api.types.ResourceType;
 import main.model.effects.development_effects.Effect;
 import main.model.fields.Resource;
-import main.servergame.AbstractPlayer;
+import main.game_server.AbstractPlayer;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

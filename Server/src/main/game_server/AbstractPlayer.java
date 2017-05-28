@@ -1,19 +1,22 @@
-package main.servergame;
+package main.game_server;
 
 import main.api.ClientInterface;
 import main.api.PlayerInterface;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
+import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
+import main.api.types.ResourceType;
 import main.model.Game;
 import main.model.board.DevelopmentCard;
 import main.model.board.FamilyMember;
 import main.model.board.PersonalBoard;
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.NewActionException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Luca
@@ -57,6 +60,10 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     public FamilyMember getFamilyMember(FamilyMemberType type) {
         return personalBoard.getFamilyMember(type);
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public void createPersonalBoard(int id) {
@@ -139,6 +146,12 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      * @throws RemoteException
      */
     public abstract void updateMove() throws RemoteException;
+
+    /**
+     * notifica a tutti i giocatori che cosa ha mosso il giocatore che ha appena effettuato la mossa
+     * @throws RemoteException
+     */
+    public abstract void updateOpponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException;
 
     /**
      * notifica al giocatore che deve tirare i dadi

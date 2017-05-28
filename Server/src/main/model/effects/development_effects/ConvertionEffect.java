@@ -1,9 +1,9 @@
 package main.model.effects.development_effects;
 
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.NewActionException;
 import main.model.fields.Field;
 import main.model.fields.Resource;
-import main.servergame.AbstractPlayer;
+import main.game_server.AbstractPlayer;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

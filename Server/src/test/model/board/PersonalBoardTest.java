@@ -1,7 +1,7 @@
 package test.model.board;
 
-import main.servergame.exceptions.LorenzoException;
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.LorenzoException;
+import main.game_server.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
@@ -13,7 +13,7 @@ import main.model.board.PersonalBoard;
 import main.model.effects.development_effects.Effect;
 import main.model.effects.development_effects.FixedIncrementEffect;
 import main.model.fields.Resource;
-import main.servergame.rmi.PlayerRMI;
+import main.game_server.rmi.PlayerRMI;
 import org.junit.Test;
 
 import java.rmi.RemoteException;

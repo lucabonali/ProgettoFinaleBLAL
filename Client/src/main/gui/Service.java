@@ -5,6 +5,7 @@ import javafx.scene.Cursor;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import main.api.types.FamilyMemberType;
 
 /**
  * @author Andrea
@@ -12,7 +13,7 @@ import javafx.util.Duration;
  *
  * classe di servizio per alcuni tipi di animazioni, riutlizzati di frequente
  */
-public class AnimationService {
+public class Service {
 
     /**
      * mi fa lo zoom della carta quando ci vado sopra col puntatore
@@ -51,6 +52,20 @@ public class AnimationService {
                 return Color.BLUE;
             case 4:
                 return Color.YELLOW;
+        }
+        return null;
+    }
+
+    public static Color getColorByFamilyMemberType(FamilyMemberType type) {
+        switch (type) {
+            case ORANGE_DICE:
+                return Color.ORANGE;
+            case BLACK_DICE:
+                return Color.BLACK;
+            case WHITE_DICE:
+                return Color.WHITE;
+            case NEUTRAL_DICE:
+                return Color.GRAY;
         }
         return null;
     }

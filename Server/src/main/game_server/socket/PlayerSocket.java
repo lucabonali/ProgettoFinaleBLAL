@@ -1,9 +1,11 @@
-package main.servergame.socket;
+package main.game_server.socket;
 
 import main.api.messages.MessageAction;
 import main.api.messages.SocketProtocol;
+import main.api.types.CardType;
+import main.api.types.ResourceType;
 import main.model.board.DevelopmentCard;
-import main.servergame.AbstractPlayer;
+import main.game_server.AbstractPlayer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -70,6 +73,11 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     @Override
     public void updateMove() throws RemoteException {
         //devo mandare al giocatore tutte le sue risorse e tutte le sue carte
+    }
+
+    @Override
+    public void updateOpponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
+        //da implementare
     }
 
     @Override

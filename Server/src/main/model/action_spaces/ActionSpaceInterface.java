@@ -1,7 +1,7 @@
 package main.model.action_spaces;
 
-import main.servergame.exceptions.LorenzoException;
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.LorenzoException;
+import main.game_server.exceptions.NewActionException;
 
 import java.rmi.RemoteException;
 

@@ -5,7 +5,7 @@ import main.model.action_spaces.Action;
 import main.model.action_spaces.single_action_spaces.HarvestActionSpace;
 import main.model.action_spaces.single_action_spaces.ProductionActionSpace;
 import main.model.effects.development_effects.ActionValueModifyingEffect;
-import main.servergame.rmi.PlayerRMI;
+import main.game_server.rmi.PlayerRMI;
 import org.junit.Test;
 
 import java.rmi.RemoteException;

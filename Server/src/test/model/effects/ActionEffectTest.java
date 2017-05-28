@@ -1,8 +1,8 @@
 package test.model.effects;
 
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.NewActionException;
 import main.model.effects.development_effects.ActionEffect;
-import main.servergame.rmi.PlayerRMI;
+import main.game_server.rmi.PlayerRMI;
 import org.junit.Test;
 
 /**

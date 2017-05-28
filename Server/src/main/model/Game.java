@@ -4,8 +4,8 @@ import main.MainServer;
 import main.api.PlayerInterface;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
-import main.servergame.exceptions.LorenzoException;
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.LorenzoException;
+import main.game_server.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.Phases;
 import main.api.types.ResourceType;
@@ -13,7 +13,7 @@ import main.model.board.Board;
 import main.model.board.DevelopmentCard;
 import main.model.board.FamilyMember;
 import main.model.fields.Resource;
-import main.servergame.AbstractPlayer;
+import main.game_server.AbstractPlayer;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -89,9 +89,9 @@ public class Game {
             try {
                 player.initializeBoard(board.getCompleteListTowersCards());
                 ArrayList<Integer> arrayListId = new ArrayList<>();
-                playerMap.forEach((integer1, player1) -> {
-                    if (player1 != player)
-                        arrayListId.add(integer);
+                playerMap.forEach((opponentId, opponent) -> {
+                    if (opponent != player)
+                        arrayListId.add(opponentId);
                 });
                 player.gameIsStarted(arrayListId);
             }
@@ -238,6 +238,7 @@ public class Game {
                 board.doAction(player, msg, familyMember);
                 familyMember.setPositioned(true);
                 player.updateMove();
+
                 endMove(player); //mi esegue la fine de turno
             }
             catch (NewActionException e) {
@@ -253,6 +254,26 @@ public class Game {
         else {
             player.notifyError("non sei nella fase azione della partita!!!");
         }
+    }
+
+    /**
+     * notifica a tutti i giocatori ,tranne a quello che ha eseguito la mossa, che cosa ha modificato la mossa appena
+     * eseguita sul tabellone
+     * @param player giocatore che ha eseguito la mossa
+     * @param id id dello stesso giocatore
+     * @param personalcardsMap mappa delle carte personali
+     * @param qtaResourcesMap mappa delle risorse
+     */
+    public void notifyAllPlayers(AbstractPlayer player, int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) {
+        playerMap.forEach(((integer, opponent) -> {
+            if (opponent != player)
+                try {
+                    opponent.updateOpponentMove(id, personalcardsMap, qtaResourcesMap);
+                }
+                catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+        }));
     }
 
     /**

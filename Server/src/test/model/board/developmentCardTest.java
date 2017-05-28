@@ -1,6 +1,6 @@
 package test.model.board;
 
-import main.servergame.exceptions.LorenzoException;
+import main.game_server.exceptions.LorenzoException;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
 import main.model.board.DevelopmentCard;
@@ -8,7 +8,7 @@ import main.model.effects.development_effects.Effect;
 import main.model.effects.development_effects.FixedIncrementEffect;
 import main.model.fields.Field;
 import main.model.fields.Resource;
-import main.servergame.rmi.PlayerRMI;
+import main.game_server.rmi.PlayerRMI;
 import org.junit.Test;
 
 import java.util.ArrayList;

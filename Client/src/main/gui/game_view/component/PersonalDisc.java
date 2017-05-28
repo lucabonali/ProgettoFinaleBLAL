@@ -1,7 +1,7 @@
 package main.gui.game_view.component;
 
 import javafx.scene.shape.Circle;
-import main.gui.AnimationService;
+import main.gui.Service;
 
 /**
  * @author Luca
@@ -12,7 +12,7 @@ public abstract class PersonalDisc extends Circle{
     private int id;
 
     public PersonalDisc(int id) {
-        super(RADIUS, AnimationService.getColorById(id));
+        super(RADIUS, Service.getColorById(id));
         this.id = id;
     }
 

@@ -5,7 +5,7 @@ import main.model.fields.Field;
 import main.model.fields.Resource;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.servergame.AbstractPlayer;
+import main.game_server.AbstractPlayer;
 
 import java.util.List;
 

@@ -15,9 +15,9 @@ import main.model.action_spaces.large_action_spaces.LargeProductionActionSpace;
 import main.model.action_spaces.single_action_spaces.HarvestActionSpace;
 import main.model.action_spaces.single_action_spaces.MarketActionSpace;
 import main.model.action_spaces.single_action_spaces.ProductionActionSpace;
-import main.servergame.AbstractPlayer;
-import main.servergame.exceptions.LorenzoException;
-import main.servergame.exceptions.NewActionException;
+import main.game_server.AbstractPlayer;
+import main.game_server.exceptions.LorenzoException;
+import main.game_server.exceptions.NewActionException;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

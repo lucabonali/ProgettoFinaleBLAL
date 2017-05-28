@@ -1,11 +1,11 @@
 package main.model.action_spaces.large_action_spaces;
 
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.NewActionException;
 import main.model.action_spaces.Action;
 import main.model.action_spaces.ActionSpaceInterface;
 import main.model.board.FamilyMember;
 import main.model.effects.development_effects.Effect;
-import main.servergame.exceptions.LorenzoException;
+import main.game_server.exceptions.LorenzoException;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

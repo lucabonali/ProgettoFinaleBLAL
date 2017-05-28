@@ -5,7 +5,7 @@ import main.api.types.ResourceType;
 import main.model.board.DevelopmentCard;
 import main.model.effects.development_effects.VariableIncrementEffect;
 import main.model.fields.Resource;
-import main.servergame.socket.PlayerSocket;
+import main.game_server.socket.PlayerSocket;
 import org.junit.Test;
 
 import java.util.Optional;

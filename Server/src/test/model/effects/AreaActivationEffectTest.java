@@ -10,7 +10,7 @@ import main.model.effects.development_effects.AreaActivationEffect;
 import main.model.effects.development_effects.Effect;
 import main.model.effects.development_effects.FixedIncrementEffect;
 import main.model.fields.Resource;
-import main.servergame.socket.PlayerSocket;
+import main.game_server.socket.PlayerSocket;
 import org.junit.Test;
 
 import java.util.ArrayList;

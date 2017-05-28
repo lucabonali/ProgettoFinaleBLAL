@@ -1,11 +1,11 @@
 package main.model.board;
 
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.NewActionException;
 import main.model.effects.development_effects.Effect;
-import main.servergame.exceptions.LorenzoException;
+import main.game_server.exceptions.LorenzoException;
 import main.model.fields.Field;
 import main.api.types.CardType;
-import main.servergame.AbstractPlayer;
+import main.game_server.AbstractPlayer;
 
 import java.rmi.RemoteException;
 import java.util.List;
@@ -60,6 +60,11 @@ public class DevelopmentCard {
         return player;
     }
 
+    /**
+     * metodo che controlla se il giocatore ha abbastanza risorse per poter prendere la carta
+     * @param player giocatore che vuole prendere la carte
+     * @throws LorenzoException lancia se non possiede le risorse sufficienti
+     */
     public void setPlayer(AbstractPlayer player) throws LorenzoException {
          if (costs!=null){
              for (Field cost : costs) {
@@ -71,6 +76,11 @@ public class DevelopmentCard {
          this.player = player;
          this.player.getPersonalBoard().addCard(this);
          activeCosts();
+    }
+
+    public void checkDrawn() throws LorenzoException {
+        if (this.player != null)
+            throw new LorenzoException("carta già pescata in questa posizione");
     }
 
     public int getPeriod() {

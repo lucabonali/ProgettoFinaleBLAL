@@ -1,4 +1,4 @@
-package main.gui.game_view.component;
+package main.gui.game_view.component.action_spaces;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.Cursor;
@@ -6,36 +6,33 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.api.types.ActionSpacesType;
+import main.client.AbstractClient;
+import main.gui.game_view.component.GuiFamilyMember;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Luca
- * @author Andrea
+ * @author lampa
  */
-public class LargeActionSpace extends Pane implements ActionSpaceInterface{
-    private static final int WIDTH = 185, HEIGHT = 39;
+public class CouncilActionSpace extends Pane implements ActionSpaceInterface {
+    private static final int WIDTH = 240, HEIGHT = 55;
     private int counter;
-    private List<GraphicFamilyMember> familyMemberList;
+    private List<GuiFamilyMember> familyMemberList;
     private ActionSpacesType type;
     private Rectangle rectangle;
 
-    public LargeActionSpace(ActionSpacesType type) {
+    public CouncilActionSpace(ActionSpacesType type) {
         this.type = type;
         familyMemberList = new ArrayList<>();
         setMaxSize(WIDTH, HEIGHT);
         createPane();
-        setOnMouseClicked(event -> {
-            GraphicFamilyMember fm = new GraphicFamilyMember(3);
-            addFamilyMember(fm);
-        });
     }
 
     private void createPane() {
         rectangle = new Rectangle(WIDTH, HEIGHT);
-        rectangle.setArcHeight(HEIGHT/2);
-        rectangle.setArcWidth(WIDTH/3);
+        rectangle.setArcHeight(HEIGHT/3);
+        rectangle.setArcWidth(WIDTH/4);
         rectangle.fillProperty().bind(
                 Bindings.when(hoverProperty())
                         .then(Color.color(1,1,1, 0.75))
@@ -46,13 +43,14 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
     }
 
     @Override
-    public void addFamilyMember(GraphicFamilyMember familyMember) {
+    public void addFamilyMember(GuiFamilyMember familyMember) {
         familyMemberList.add(familyMember);
-        familyMember.setTranslateX(25 + (25*counter));
-        familyMember.setTranslateY(19.5);
+        familyMember.setTranslateX(20 + (30*counter));
+        familyMember.setTranslateY(27);
         getChildren().add(familyMember);
         counter++;
     }
+
 
     @Override
     public void removeAllFamilyMembers() {
@@ -63,5 +61,10 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
     @Override
     public ActionSpacesType getType() {
         return type;
+    }
+
+    @Override
+    public void setCurrentActionSpace() {
+        AbstractClient.getInstance().setActionSpacesType(type);
     }
 }

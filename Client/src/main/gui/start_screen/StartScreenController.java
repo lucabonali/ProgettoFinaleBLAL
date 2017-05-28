@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class startScreenController implements Initializable {
+public class StartScreenController implements Initializable {
     @FXML private Button closeButton;
     @FXML private Label labelClick;
     @FXML private ImageView testa;

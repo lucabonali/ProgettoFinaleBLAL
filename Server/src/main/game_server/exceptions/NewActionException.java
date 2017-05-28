@@ -1,4 +1,4 @@
-package main.servergame.exceptions;
+package main.game_server.exceptions;
 
 /**
  * @author Luca

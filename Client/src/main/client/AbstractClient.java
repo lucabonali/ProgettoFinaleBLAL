@@ -2,16 +2,11 @@ package main.client;
 
 import main.api.ClientInterface;
 import main.api.messages.MessageAction;
-import main.api.types.CardType;
-import main.api.types.Phases;
-import main.api.types.ResourceType;
+import main.api.types.*;
 import main.gui.game_view.GameController;
 import main.gui.game_view.MessagesController;
 import main.gui.game_view.PersonalBoardController;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -37,6 +32,11 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private MessagesController messagesController;
     private PersonalBoardController personalBoardController;
     private Phases phase;
+    private ActionSpacesType actionSpacesType;
+    private CardType cardType;
+    private int numFloor;
+    private FamilyMemberType familyMemberType;
+    private MarketActionType marketActionType;
 
     protected AbstractClient() throws RemoteException {
     }
@@ -55,11 +55,13 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @param opponentsId l'id dei giocatori
      */
     @Override
-    public void isGameStarted(int id, List<Integer> opponentsId) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void isGameStarted(int id, List<Integer> opponentsId) throws RemoteException{
         this.id = id;
         opponentsIdList = opponentsId;
         gameController.createDiscs(id);
+        gameController.createFamilyMembers(id);
         personalBoardController.startGame(id);
+        opponentsId.forEach((idValue -> gameController.createOpponentDiscs(idValue)));
         messagesController.setMessage("La partita è iniziata");
     }
 
@@ -101,6 +103,24 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         gameController.removeDrawnCards(personalcardsMap);
         personalBoardController.updateCards(personalcardsMap);
     };
+
+    /**
+     * notifica al client che un suo avversatio ha mosso qualcosa, e cosa..
+     * @param id id del giocatore che ha mosso
+     * @param personalcardsMap mappa delle carte personali del giocatore che ha mosso
+     * @param qtaResourcesMap mappa delle qta delle risorse del giocatore che ha mosso
+     * @throws RemoteException
+     */
+    @Override
+    public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
+        gameController.removeDrawnCards(personalcardsMap); //rimuovo le carte che ha pescato
+        Map<ResourceType, Integer> pointMap = new HashMap<>();
+        qtaResourcesMap.forEach(((resourceType, integer) -> {
+            if (resourceType == ResourceType.VICTORY || resourceType == ResourceType.MILITARY || resourceType == ResourceType.FAITH)
+                pointMap.put(resourceType,integer);
+        }));
+        gameController.modifyOpponentPoints(pointMap, id);
+    }
 
     /**
      * metodo che mi notifica al client un messaggio provenitente dal server
@@ -171,13 +191,34 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * mi notifica che ho terminato il turno
      * @throws RemoteException
      */
+    @Override
     public void notifyEndMove() throws RemoteException{
         messagesController.setMessage("hai terminato il tuo turno attendi il tuo avversario");
     }
 
 
+
     /// METODI AGGIUNTI DALLA CLASSE ASTRATTA E GIA' IMPLEMENTATI /////////////////////////////////////////////////////////
 
+    public void setActionSpacesType(ActionSpacesType actionSpacesType) {
+        this.actionSpacesType = actionSpacesType;
+    }
+
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
+    }
+
+    public void setNumFloor(int numFloor) {
+        this.numFloor = numFloor;
+    }
+
+    public void setMarketActionType(MarketActionType marketActionType) {
+        this.marketActionType = marketActionType;
+    }
+
+    public void setFamilyMemberType(FamilyMemberType familyMemberType) {
+        this.familyMemberType = familyMemberType;
+    }
 
     public int getId() {
         return id;
@@ -197,6 +238,20 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
 
     public void setPersonalBoardController(PersonalBoardController controller) {
         this.personalBoardController = controller;
+    }
+
+    /**
+     * metodo che mi codifica il messaggio azione
+     * @return ritorna il MessageAction corretto da inviare al server
+     */
+    public MessageAction encondingMessageAction() {
+        if (actionSpacesType == null)
+            messagesController.setMessage("non hai selezionato lo spazio azione");
+        else if (familyMemberType == null)
+            messagesController.setMessage("non hai selezionato il familiare");
+        else
+            return new MessageAction(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
+        return null;
     }
 
     String getUsername() {

@@ -91,4 +91,13 @@ public interface ClientInterface extends Remote{
      * @throws RemoteException
      */
     void notifyEndMove() throws RemoteException;
+
+    /**
+     * mi notifica al client che un suo avversario ha mosso, e cosa ha modificato
+     * @param id id del giocatore che ha mosso
+     * @param personalcardsMap mappa delle carte personali del giocatore che ha mosso
+     * @param qtaResourcesMap mappa delle qta delle risorse del giocatore che ha mosso
+     * @throws RemoteException
+     */
+    void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException;
 }

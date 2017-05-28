@@ -52,7 +52,6 @@ public class MessagesController {
         //messagesLabel.setEffect(new GaussianBlur(20));
         lorenzoTalks.setText("Ciao, sono Lorenzo!!");
 
-
-
+        audio = new Music();
     }
 }

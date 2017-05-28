@@ -1,7 +1,7 @@
 package main.model.action_spaces.single_action_spaces;
 
-import main.servergame.exceptions.LorenzoException;
-import main.servergame.exceptions.NewActionException;
+import main.game_server.exceptions.LorenzoException;
+import main.game_server.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
 import main.model.action_spaces.Action;
@@ -19,7 +19,7 @@ import java.rmi.RemoteException;
  * è una dei 5 tipi diversi di spazi azione
  */
 public class FloorActionSpace extends ActionSpace {
-    private DevelopmentCard DevelopmentCard;
+    private DevelopmentCard developmentCard;
     private CardType cardType;
 
     public FloorActionSpace(int value, CardType cardType, ResourceType resourceTypeQuickEffect) {
@@ -34,15 +34,15 @@ public class FloorActionSpace extends ActionSpace {
     }
 
     public void setDevelopmentCard(DevelopmentCard DevelopmentCard){
-        this.DevelopmentCard = DevelopmentCard;
+        this.developmentCard = DevelopmentCard;
     }
 
     public DevelopmentCard getDevelopmentCard(){
-        return DevelopmentCard;
+        return developmentCard;
     }
 
     public void removeCard(){
-        this.DevelopmentCard = null;
+        this.developmentCard = null;
     }
 
     public CardType getCardType() {
@@ -62,11 +62,12 @@ public class FloorActionSpace extends ActionSpace {
         if (getMinValue() > action.getValue())
             throw new LorenzoException("non hai abbastanza forza per eseguire l'azione!!");
 
-        DevelopmentCard.setPlayer(action.getPlayer());
-        setFamilyMember(action.getFamilyMember());
+        developmentCard.checkDrawn(); //controlla se è già stata pescata o meno
+        developmentCard.setPlayer(action.getPlayer()); //controlla se ho le risorse sufficienti, e se le ho mi setta il giocatore
+        setFamilyMember(action.getFamilyMember()); //setta il familiare, eventualmente null se si tratta di una nuova azione.
         if (getEffect() != null)
             getEffect().active(action.getPlayer());
-        DevelopmentCard.activeQuickEffects();
+        developmentCard.activeQuickEffects();
     }
 
 

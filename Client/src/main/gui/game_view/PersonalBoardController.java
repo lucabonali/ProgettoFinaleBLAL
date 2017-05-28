@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.gui.AnimationService;
+import main.gui.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,8 +121,8 @@ public class PersonalBoardController {
             list.add(img);
             img.setFitWidth(111);
             img.setFitHeight(128);
-            img.setOnMouseEntered(event -> AnimationService.zoomIn(img));
-            img.setOnMouseExited(event -> AnimationService.zoomOut(img));
+            img.setOnMouseEntered(event -> Service.zoomIn(img));
+            img.setOnMouseExited(event -> Service.zoomOut(img));
             gridPane.add(img, i, 0);
         }
     }

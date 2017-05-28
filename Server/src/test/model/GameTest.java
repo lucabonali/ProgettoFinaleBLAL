@@ -2,7 +2,7 @@ package test.model;
 
 import main.api.types.FamilyMemberType;
 import main.model.Game;
-import main.servergame.rmi.PlayerRMI;
+import main.game_server.rmi.PlayerRMI;
 import org.junit.Test;
 
 import java.rmi.RemoteException;

@@ -4,7 +4,7 @@ import main.api.types.ResourceType;
 import main.model.effects.development_effects.ConvertionEffect;
 import main.model.fields.Field;
 import main.model.fields.Resource;
-import main.servergame.rmi.PlayerRMI;
+import main.game_server.rmi.PlayerRMI;
 import org.junit.Test;
 
 import java.util.ArrayList;

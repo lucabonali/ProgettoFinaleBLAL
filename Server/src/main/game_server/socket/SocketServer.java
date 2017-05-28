@@ -1,9 +1,9 @@
-package main.servergame.socket;
+package main.game_server.socket;
 
 import main.api.ClientInterface;
 import main.api.PlayerInterface;
 import main.api.messages.SocketProtocol;
-import main.servergame.AbstractServer;
+import main.game_server.AbstractServer;
 import main.model.Game;
 
 import java.io.IOException;
