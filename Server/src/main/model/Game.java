@@ -244,6 +244,8 @@ public class Game {
             }
             catch (NewActionException e) {
                 familyMember.setPositioned(true);
+                player.getPersonalBoard().modifyResources(new Resource(-msg.getValue(), ResourceType.SERVANTS)); //mi toglie gli eventuali servitori che ho pagato
+                familyMember.setPositioned(true);familyMember.setPositioned(true);
                 player.updateMove();
                 //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
                 phase = Phases.NEW_ACTION;

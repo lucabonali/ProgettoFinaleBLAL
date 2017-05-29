@@ -99,6 +99,15 @@ public class PersonalBoard {
         return cardsMap.get(cardType);
     }
 
+
+    /**
+     * ritorna l'id della mia plancia
+     * @return id
+     */
+    public int getId() {
+        return id;
+    }
+
     /**
      * mi aggiunge la carta alla lista delle mie carte
      * @param DevelopmentCard carta da aggiungere
@@ -278,6 +287,4 @@ public class PersonalBoard {
         }
         return tmp;
     }
-
-
 }

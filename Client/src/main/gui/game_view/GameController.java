@@ -217,11 +217,7 @@ public class GameController {
      * @param nameCards
      */
     public void removeDrawnCards(Map<CardType, List<String>> nameCards) {
-        nameCards.forEach(((cardType, namesList) -> {
-            namesList.forEach(name -> {
-                imageList.forEach(card -> card.remove(name));
-            });
-        }));
+        nameCards.forEach(((cardType, namesList) -> namesList.forEach(name -> imageList.forEach(card -> card.remove(name)))));
     }
 
     /**

@@ -51,9 +51,9 @@ public class MessagesController {
         int n2 = 1 + new Random().nextInt(6);
         int n3 = 1 + new Random().nextInt(6);
         try {
-            audio.play(audio.getPath() + "lorenzoTalks/Verso" + n1 + EXTENSION);
-            audio.play(audio.getPath() + "lorenzoTalks/Verso" + n2 + EXTENSION);
-            audio.play(audio.getPath() + "lorenzoTalks/Verso" + n3 + EXTENSION);
+            audio.play(audio.getPath() + "lorenzoTalks/talk" + n1 + EXTENSION);
+            audio.play(audio.getPath() + "lorenzoTalks/talk" + n2 + EXTENSION);
+            audio.play(audio.getPath() + "lorenzoTalks/talk" + n3 + EXTENSION);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -78,9 +78,9 @@ public class MessagesController {
         //messagesLabel.setEffect(new GaussianBlur(20));
         lorenzoTalks.setText("Hi i'm Lorenzo!!");
 
-        lorenzo = new Image(getClass().getResourceAsStream("/res/lorenzo.png"));
-        lorenzoSemi = new Image(getClass().getResourceAsStream("/res/lorenzoSemi.png"));
-        lorenzoAperta = new Image(getClass().getResourceAsStream("/res/lorenzoAperta.png"));
+        lorenzo = new Image(getClass().getResourceAsStream("res/lorenzo.png"));
+        lorenzoSemi = new Image(getClass().getResourceAsStream("res/lorenzoSemi.png"));
+        lorenzoAperta = new Image(getClass().getResourceAsStream("res/lorenzoAperta.png"));
 
 
         audio = new Music();

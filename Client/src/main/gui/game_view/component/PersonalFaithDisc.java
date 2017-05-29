@@ -7,9 +7,9 @@ package main.gui.game_view.component;
 public class PersonalFaithDisc extends PersonalDisc{
     private static int NUMBER_OF_DISC = 0;
     private final double FINAL_Y;
-    private final double START_X = 80;
-    private final double INC_X = 35;
-    private final double INC_PLUS_X = 50;
+    private final double START_X = 83;
+    private final double INC_X = 44;
+    private final double INC_PLUS_X = 65;
     private int currentPosition;
 
     public PersonalFaithDisc(int id) {

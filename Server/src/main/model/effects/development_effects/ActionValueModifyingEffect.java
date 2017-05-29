@@ -69,16 +69,16 @@ public class ActionValueModifyingEffect implements Effect {
         ActionSpaceInterface actionSpace = null;
         switch(cod.charAt(2)){
             case EffectsCreator.CHAR_BUILDINGS:
-                actionSpace = new FloorActionSpace(1, CardType.BUILDING,null);
+                actionSpace = new FloorActionSpace(1, CardType.BUILDING,null, null);
                 break;
             case EffectsCreator.CHAR_CHARACTERS:
-                actionSpace = new FloorActionSpace(1, CardType.CHARACTER,null);
+                actionSpace = new FloorActionSpace(1, CardType.CHARACTER,null, null);
                 break;
             case EffectsCreator.CHAR_TERRITORY:
-                actionSpace = new FloorActionSpace(1, CardType.TERRITORY,null);
+                actionSpace = new FloorActionSpace(1, CardType.TERRITORY,null, null);
                 break;
             case EffectsCreator.CHAR_VENTURES:
-                actionSpace = new FloorActionSpace(1, CardType.VENTURES,null);
+                actionSpace = new FloorActionSpace(1, CardType.VENTURES,null, null);
                 break;
             case EffectsCreator.CHAR_HARVEST:
                 actionSpace = new HarvestActionSpace(1);
@@ -98,16 +98,16 @@ public class ActionValueModifyingEffect implements Effect {
             case EffectsCreator.CHAR_PRODUCTION:
                 return new ActionValueModifyingEffect(new ProductionActionSpace(1), -3);
             case EffectsCreator.CHAR_BUILDINGS:
-                actionSpace = new FloorActionSpace(1,CardType.BUILDING, null);
+                actionSpace = new FloorActionSpace(1,CardType.BUILDING, null, null);
                 break;
             case EffectsCreator.CHAR_CHARACTERS:
-                actionSpace = new FloorActionSpace(1,CardType.CHARACTER, null);
+                actionSpace = new FloorActionSpace(1,CardType.CHARACTER, null, null);
                 break;
             case EffectsCreator.CHAR_TERRITORY:
-                actionSpace = new FloorActionSpace(1,CardType.TERRITORY, null);
+                actionSpace = new FloorActionSpace(1,CardType.TERRITORY, null, null);
                 break;
             case EffectsCreator.CHAR_VENTURES:
-                actionSpace = new FloorActionSpace(1,CardType.VENTURES, null);
+                actionSpace = new FloorActionSpace(1,CardType.VENTURES, null, null);
                 break;
         }
         return new ActionValueModifyingEffect(actionSpace, -4);

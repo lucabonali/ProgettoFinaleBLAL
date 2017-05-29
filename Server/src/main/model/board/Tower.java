@@ -2,6 +2,7 @@ package main.model.board;
 
 import main.api.types.CardType;
 import main.api.types.ResourceType;
+import main.game_server.exceptions.LorenzoException;
 import main.model.action_spaces.single_action_spaces.ActionSpace;
 import main.model.action_spaces.single_action_spaces.FloorActionSpace;
 
@@ -26,7 +27,7 @@ public class Tower {
         int value = 1;
         for(int i = 0 ; i<4 ; i++){
             //devo aggiungere gli effetti ai piani 3 e 4 di ciascuna torre
-            floorActionSpaces[i] = new FloorActionSpace(value, towerType, resourceTypeQuickEffect);
+            floorActionSpaces[i] = new FloorActionSpace(value, towerType, resourceTypeQuickEffect, this);
             value += 2;
         }
     }
@@ -79,5 +80,17 @@ public class Tower {
             list.add(floorActionSpaces[i].getDevelopmentCard());
         }
         return list;
+    }
+
+    public void checkOtherMyFamilyMember(FloorActionSpace floor, FamilyMember familyMember) throws LorenzoException {
+        for (FloorActionSpace element : floorActionSpaces) {
+            if (floor != element) {
+                if (element.getFamilyMember() != null){
+                    if (element.getFamilyMember().getPersonalBoard().getId() == familyMember.getPersonalBoard().getId()){
+                        throw new LorenzoException("hai già posizionato un familiare su questa torre!");
+                    }
+                }
+            }
+        }
     }
 }

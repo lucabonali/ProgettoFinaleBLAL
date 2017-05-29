@@ -6,6 +6,7 @@ import main.api.types.CardType;
 import main.api.types.ResourceType;
 import main.model.action_spaces.Action;
 import main.model.board.DevelopmentCard;
+import main.model.board.Tower;
 import main.model.effects.development_effects.FixedIncrementEffect;
 import main.model.fields.Resource;
 
@@ -21,10 +22,12 @@ import java.rmi.RemoteException;
 public class FloorActionSpace extends ActionSpace {
     private DevelopmentCard developmentCard;
     private CardType cardType;
+    private Tower towerReference;
 
-    public FloorActionSpace(int value, CardType cardType, ResourceType resourceTypeQuickEffect) {
+    public FloorActionSpace(int value, CardType cardType, ResourceType resourceTypeQuickEffect, Tower towerReference) {
         super(value);
         this.cardType = cardType;
+        this.towerReference = towerReference;
         Resource resource = null;
         if (value == 5)
             resource = new Resource(1, resourceTypeQuickEffect);
@@ -62,6 +65,7 @@ public class FloorActionSpace extends ActionSpace {
         if (getMinValue() > action.getValue())
             throw new LorenzoException("non hai abbastanza forza per eseguire l'azione!!");
 
+        towerReference.checkOtherMyFamilyMember(this, action.getFamilyMember()); //controlla se ho già un familiare su questa torre
         developmentCard.checkDrawn(); //controlla se è già stata pescata o meno
         developmentCard.setPlayer(action.getPlayer()); //controlla se ho le risorse sufficienti, e se le ho mi setta il giocatore
         setFamilyMember(action.getFamilyMember()); //setta il familiare, eventualmente null se si tratta di una nuova azione.
