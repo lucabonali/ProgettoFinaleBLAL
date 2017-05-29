@@ -1,6 +1,7 @@
 package main.model.board;
 
 import main.api.types.CardType;
+import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
 import main.game_server.exceptions.LorenzoException;
 import main.model.action_spaces.single_action_spaces.ActionSpace;
@@ -87,7 +88,8 @@ public class Tower {
             if (floor != element) {
                 if (element.getFamilyMember() != null){
                     if (element.getFamilyMember().getPersonalBoard().getId() == familyMember.getPersonalBoard().getId()){
-                        throw new LorenzoException("hai già posizionato un familiare su questa torre!");
+                        if (!(element.getFamilyMember().getType() == FamilyMemberType.NEUTRAL_DICE || familyMember.getType() == FamilyMemberType.NEUTRAL_DICE))
+                            throw new LorenzoException("hai già posizionato un familiare su questa torre!");
                     }
                 }
             }
