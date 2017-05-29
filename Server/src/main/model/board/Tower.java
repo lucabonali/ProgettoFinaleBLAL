@@ -84,12 +84,14 @@ public class Tower {
     }
 
     public void checkOtherMyFamilyMember(FloorActionSpace floor, FamilyMember familyMember) throws LorenzoException {
-        for (FloorActionSpace element : floorActionSpaces) {
-            if (floor != element) {
-                if (element.getFamilyMember() != null){
-                    if (element.getFamilyMember().getPersonalBoard().getId() == familyMember.getPersonalBoard().getId()){
-                        if (!(element.getFamilyMember().getType() == FamilyMemberType.NEUTRAL_DICE || familyMember.getType() == FamilyMemberType.NEUTRAL_DICE))
-                            throw new LorenzoException("hai già posizionato un familiare su questa torre!");
+        if (familyMember != null) {
+            for (FloorActionSpace element : floorActionSpaces) {
+                if (floor != element) {
+                    if (element.getFamilyMember() != null){
+                        if (element.getFamilyMember().getPersonalBoard().getId() == familyMember.getPersonalBoard().getId()){
+                            if (!(element.getFamilyMember().getType() == FamilyMemberType.NEUTRAL_DICE || familyMember.getType() == FamilyMemberType.NEUTRAL_DICE))
+                                throw new LorenzoException("hai già posizionato un familiare su questa torre!");
+                        }
                     }
                 }
             }

@@ -1,7 +1,6 @@
 package main.gui.game_view;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -13,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import main.CLI.InterfaceGuiCli;
 import main.GUILauncher;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
@@ -33,7 +33,7 @@ import java.util.Map;
  * @author Luca
  * @author Andrea
  */
-public class GameController {
+public class GameController implements InterfaceGuiCli{
     private static final String EXTENSION = ".png";
     public static final int CARD_HEIGHT = 126;
     public static final int CARD_WIDTH = 108;
@@ -210,6 +210,7 @@ public class GameController {
      * mi setta la lista delle carte sulle torri del tabellone
      * @param namesList lista dei nomi delle carte
      */
+    @Override
     public void setBoardCards(List<String> namesList) {
         for (int i=0; i<namesList.size(); i++) {
             imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()), namesList.get(i));
@@ -220,6 +221,7 @@ public class GameController {
      * mi rimuove le carte che sono già state pescate
      * @param nameCards
      */
+    @Override
     public void removeDrawnCards(Map<CardType, List<String>> nameCards) {
         nameCards.forEach(((cardType, namesList) -> namesList.forEach(name -> imageList.forEach(card -> card.remove(name)))));
     }
@@ -227,6 +229,7 @@ public class GameController {
     /**
      * mi rende visibili i dadi, e posso tirarli
      */
+    @Override
     public void showDices() {
         Platform.runLater(() -> {
             blackDice.remove();
@@ -251,6 +254,7 @@ public class GameController {
      * @param white
      * @param black
      */
+    @Override
     public void setDices(int orange, int white, int black) {
         Platform.runLater(() -> {
             orangeDice = orangeDice.setNumber(orange);
@@ -262,6 +266,7 @@ public class GameController {
     /**
      * mi invia il risulato dei dadi, appena lanciati, al server
      */
+    @Override
     public void sendDices(){
         if (blackDice.isRolled() && whiteDice.isRolled()&& orangeDice.isRolled()){
             try {
@@ -277,6 +282,7 @@ public class GameController {
      * mi crea i dischetti del colore in base al''id
      * @param id id del giocatore
      */
+    @Override
     public void createDiscs(int id) {
         personalDiscs.put(ResourceType.VICTORY, new PersonalVictoryDisc(id));
         personalDiscs.put(ResourceType.MILITARY, new PersonalMilitaryDisc(id));
@@ -288,6 +294,7 @@ public class GameController {
      * mi genera e posiziona i dischetti dei giocatori avversari
      * @param id id del giocatore avversario
      */
+    @Override
     public void createOpponentDiscs(int id) {
         Map<ResourceType, PersonalDisc> map = new HashMap<>();
         map.put(ResourceType.VICTORY, new PersonalVictoryDisc(id));
@@ -302,6 +309,7 @@ public class GameController {
      * metodo che mi crea e mi rende visibili i familiari
      * @param id id del giocatore, sulla base del quale si ricava il colore
      */
+    @Override
     public void createFamilyMembers(int id){
         personalFamilyMembers.put(FamilyMemberType.ORANGE_DICE, new GuiFamilyMember(id, FamilyMemberType.ORANGE_DICE));
         personalFamilyMembers.put(FamilyMemberType.BLACK_DICE, new GuiFamilyMember(id, FamilyMemberType.BLACK_DICE));
@@ -312,6 +320,7 @@ public class GameController {
     /**
      * mi riposiziona nella posizione di partenza i miei familiari
      */
+    @Override
     public void relocateFamilyMembers() {
         Platform.runLater(() -> personalFamilyMembers.forEach(((type, guiFamilyMember) -> {
             if (!personalHBox.getChildren().contains(guiFamilyMember))
@@ -327,6 +336,7 @@ public class GameController {
      * @param marketActionType codice mercato
      * @param familyMemberType codice familiare
      */
+    @Override
     public void moveFamilyMember(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, FamilyMemberType familyMemberType) {
         Platform.runLater(() ->{
 //            switch (actionSpacesType) {
@@ -348,6 +358,7 @@ public class GameController {
      * mi modifica i punti del giocatore, cioè mi sposta i dischetti relativi a me stesso
      * @param map mappa dei valori
      */
+    @Override
     public void modifyPoints(Map<ResourceType, Integer> map) {
         Platform.runLater(() -> map.forEach(((resourceType, points) -> personalDiscs.get(resourceType).setCurrentPosition(points))));
     }
@@ -356,6 +367,7 @@ public class GameController {
      * mi modifica i punti di un avversario cioè mi sposta i dischetti relativi ad un giocatore avversario
      * @param map mappa dei valori
      */
+    @Override
     public void modifyOpponentPoints(Map<ResourceType, Integer> map, int id) {
         Platform.runLater(() -> map.forEach(((resourceType, points) -> opponentDiscs.get(id).get(resourceType).setCurrentPosition(points))));
     }
@@ -363,6 +375,7 @@ public class GameController {
     /**
      * mi rende visibile l'alert realtivo alla scelta nella fase scomunica
      */
+    @Override
     public void showExcommunicatingAlert() {
         Platform.runLater(ExcommunicationAlert::new);
     }
@@ -370,17 +383,18 @@ public class GameController {
     /**
      * mi rende visibile l'alert relativo alla scelta di conversione del privilegio
      */
+    @Override
     public void showPrivilegeAlert() {
         Platform.runLater(PrivilegeAlert::new);
     }
 
     @FXML
-    public void endMoveAction(ActionEvent event) throws RemoteException {
+    public void endMoveAction() throws RemoteException {
         client.endMove();
     }
 
     @FXML
-    public void actionDoAction(ActionEvent event) throws RemoteException {
+    public void actionDoAction() throws RemoteException {
         int servantsToPay;
         try{
             servantsToPay = Integer.parseInt(servantsToPayTextField.getText());
@@ -394,7 +408,7 @@ public class GameController {
     }
 
     @FXML
-    public void actionDoNewAction(ActionEvent event) throws RemoteException {
+    public void actionDoNewAction() throws RemoteException {
         int servantsToPay;
         try{
             servantsToPay = Integer.parseInt(servantsToPayTextField.getText());

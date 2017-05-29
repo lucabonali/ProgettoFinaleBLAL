@@ -1,15 +1,11 @@
 package main.CLI;
 
-import javafx.scene.layout.GridPane;
 import main.api.types.*;
 import main.client.AbstractClient;
-import main.gui.game_view.Dice;
-import main.gui.game_view.component.Card;
-import main.gui.game_view.component.action_spaces.ActionSpaceInterface;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,27 +13,15 @@ import java.util.Map;
  * @author Andrea
  * @author Luca
  */
-public class CLIController implements InterfaceGuiCli  {
+public class CLIController implements InterfaceGuiCli, Runnable {
     private AbstractClient client;
+    private BufferedReader in;
+    private String userName, password;
 
-    @Override
-    public void initializeHarvestProduction() {
 
-    }
-
-    @Override
-    public void initializeTowers(CardType cardType, GridPane gridPaneTower) {
-
-    }
-
-    @Override
-    public void initializeMarket(MarketActionType marketType, GridPane gridPaneMarket) {
-
-    }
-
-    @Override
-    public void initializeImageViewCards() {
-
+    public CLIController(){
+        this.in = new BufferedReader(new InputStreamReader(System.in));
+        this.client = AbstractClient.getInstance();
     }
 
     @Override
@@ -91,6 +75,16 @@ public class CLIController implements InterfaceGuiCli  {
     }
 
     @Override
+    public void showDices() {
+
+    }
+
+    @Override
+    public void createDiscs(int id) {
+
+    }
+
+    @Override
     public void showExcommunicatingAlert() {
 
     }
@@ -118,5 +112,14 @@ public class CLIController implements InterfaceGuiCli  {
     @Override
     public void initialize() throws InterruptedException {
         client = AbstractClient.getInstance();
+    }
+
+
+    @Override
+    public void run() {
+        //Ciclo con dentro lo switch incredibile
+        while(true){
+
+        }
     }
 }

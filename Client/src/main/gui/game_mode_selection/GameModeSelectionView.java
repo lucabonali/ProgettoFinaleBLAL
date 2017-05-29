@@ -202,7 +202,7 @@ public class GameModeSelectionView {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/game_view.fxml"));
                 Parent window = (Pane) fxmlLoader.load();
                 GameController controller = fxmlLoader.getController();
-                AbstractClient.getInstance().setGameController(controller); //setto il model
+                AbstractClient.getInstance().setInterfaceController(controller); //setto il model
                 Platform.runLater(()->{
                     theme.stop();
                     Stage stage = (Stage) root.getScene().getWindow();

@@ -191,9 +191,7 @@ public class Board {
      */
     public boolean canGiveSupport(int period, AbstractPlayer player) {
         int minValue = period+2;
-        if (player.getPersonalBoard().getQtaResources().get(ResourceType.FAITH) < minValue)
-            return false;
-        return true;
+        return player.getPersonalBoard().getQtaResources().get(ResourceType.FAITH) >= minValue;
     }
 
     /**

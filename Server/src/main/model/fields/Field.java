@@ -40,4 +40,9 @@ public interface Field {
      */
     void setType(ResourceType type);
 
+    /**
+     * setta la quantità della risorsa
+     * @param reset valore qta
+     */
+    void setQta(int reset);
 }

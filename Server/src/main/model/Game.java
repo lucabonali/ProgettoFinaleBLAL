@@ -183,6 +183,7 @@ public class Game {
             try {
                 checkTurn(player);
                 board.excommunicatePlayer(period, player);
+                player.updateMove();
                 endMove(player);
             }
             catch (LorenzoException e) {
@@ -207,7 +208,8 @@ public class Game {
                     int faithPoints = player.getPersonalBoard().getQtaResources().get(ResourceType.FAITH);
                     Resource res = new Resource(faithPoints, ResourceType.VICTORY);
                     player.getPersonalBoard().modifyResources(res);
-                    player.getPersonalBoard().modifyResources(new Resource(-faithPoints, ResourceType.FAITH));
+                    player.getPersonalBoard().resetResource(ResourceType.FAITH);
+                    player.updateMove();
                     endMove(player);
                 }
                 else {
@@ -355,7 +357,6 @@ public class Game {
      */
     private void endLap() throws RemoteException, NewActionException {
         if (lap == 1 && phase == Phases.EXCOMMUNICATION){
-            phase = Phases.ACTION;
             lap = 1;
             System.out.println("fine turno scomunica");
             endTurn();
@@ -474,7 +475,7 @@ public class Game {
         //military points
         Map<AbstractPlayer, Integer> militaryMap = new HashMap<>();
         for (AbstractPlayer player: turnOrder){
-            militaryMap.put(player, player.getPersonalBoard().getQtaResources().get(7));
+            militaryMap.put(player, player.getPersonalBoard().getQtaResources().get(ResourceType.MILITARY));
         }
 
         List<AbstractPlayer> militaryWinners = new LinkedList<>();
@@ -482,7 +483,7 @@ public class Game {
         Collections.sort(militaryValues);
         for (AbstractPlayer player : turnOrder){
             for(int i=0; i<numPlayers; i++) {
-                if (player.getPersonalBoard().getQtaResources().get(ResourceType.MILITARY) == militaryValues.get(i)) {
+                if (player.getPersonalBoard().getQtaResources().get(ResourceType.MILITARY) == militaryValues.get(i).intValue()) {
                     militaryWinners.add(player);
                     break;
                 }

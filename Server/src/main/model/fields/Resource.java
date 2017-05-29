@@ -58,6 +58,11 @@ public class Resource implements Field {
             this.type = type;
     }
 
+    @Override
+    public void setQta(int reset) {
+        this.qta = reset;
+    }
+
     /**
      * mi crea la risorsa in base al codice preso dal db e che il metodo
      * riceve come parametro

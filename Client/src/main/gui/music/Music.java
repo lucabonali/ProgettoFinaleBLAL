@@ -21,15 +21,15 @@ public class Music {
     }
 
    public void play(String resource) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-        claps = new File(resource);
-        clip = AudioSystem.getClip();
-        audio = AudioSystem.getAudioInputStream(claps);
-        clip.open(audio);
-        clip.start();
+//        claps = new File(resource);
+//        clip = AudioSystem.getClip();
+//        audio = AudioSystem.getAudioInputStream(claps);
+//        clip.open(audio);
+//        clip.start();
     }
 
     public void stop(){
-        clip.stop();
+//        clip.stop();
     }
 
 

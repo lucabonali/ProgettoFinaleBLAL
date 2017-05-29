@@ -54,7 +54,8 @@ public class AreaActivationEffect implements Effect{
      * @return
      */
     public static Effect createInstance(String cod) {
-        return new AreaActivationEffect(VariableIncrementEffect.createInstance(cod.substring(2)),cod.charAt(0));
+        int minValue = Integer.parseInt(cod.charAt(0)+"");
+        return new AreaActivationEffect(VariableIncrementEffect.createInstance(cod.substring(2)),minValue);
     }
 
 

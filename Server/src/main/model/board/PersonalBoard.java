@@ -132,6 +132,14 @@ public class PersonalBoard {
     }
 
     /**
+     * metodo che mi resetta la risorsa del tipo passato come parametro
+     * @param type tipo di risorsa a resettare
+     */
+    public void resetResource(ResourceType type) {
+        resourceList.get(type).setQta(0);
+    }
+
+    /**
      * mi controlla se ho le risorse necessarie
      * @param cost risorsa da verificare
      * @return true se le ho, false altrimenti
@@ -162,22 +170,6 @@ public class PersonalBoard {
     }
 
     /**
-     * mi attiva tutti gli effetti permanenti delle carte territorio
-     * @param action l'azione che me le ha attivate
-     */
-    public void activeTerritoriesEffects(Action action){
-        this.currentAction = action;
-        cardsMap.get(CardType.TERRITORY).forEach((developmentCard -> {
-            try {
-                developmentCard.activePermanentEffects();
-            }
-            catch (RemoteException | NewActionException e) {
-                e.printStackTrace();
-            }
-        }));
-    }
-
-    /**
      * metodo che mi ritorna una mappa delle carte, dove per ciascun tipo mi tiene
      * una lista delle stringhe dei nomi di esse
      * @return ritorna la lista
@@ -196,26 +188,74 @@ public class PersonalBoard {
         return cardsNameMap;
     }
 
-    public void activeBuildingsEffects(Action action) throws RemoteException, NewActionException {
+    /**
+     * mi attiva tutti gli effetti permanenti delle carte territorio
+     * @param action l'azione che me le ha attivate
+     */
+    public void activeTerritoriesEffects(Action action){
         this.currentAction = action;
-        for (DevelopmentCard DevelopmentCard : cardsMap.get(CardType.BUILDING)) {
-            DevelopmentCard.activePermanentEffects();
-        }
+        cardsMap.get(CardType.TERRITORY).forEach((developmentCard -> {
+            try {
+                developmentCard.activePermanentEffects();
+            }
+            catch (RemoteException | NewActionException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
-    public void activeCharacterEffects(Action action) throws RemoteException, NewActionException {
+    /**
+     * mi attiva gli effetti permanenti delle carte edificio
+     * @param action azione appena eseguita
+     */
+    public void activeBuildingsEffects(Action action) {
         this.currentAction = action;
-        for (DevelopmentCard DevelopmentCard : cardsMap.get(CardType.CHARACTER)) {
-            DevelopmentCard.activePermanentEffects();
-        }
+        cardsMap.get(CardType.BUILDING).forEach((developmentCard -> {
+            try {
+                developmentCard.activePermanentEffects();
+            }
+            catch (RemoteException | NewActionException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
-    private void activeVentueresEffects() throws RemoteException, NewActionException {
-        for (DevelopmentCard DevelopmentCard : cardsMap.get(CardType.VENTURES)){
-            DevelopmentCard.activePermanentEffects();
-        }
+    /**
+     * mi attiva gli effetti permanenti delle carte personaggio
+     * @param action azione appena eseguita
+     */
+    public void activeCharacterEffects(Action action) {
+        this.currentAction = action;
+        cardsMap.get(CardType.CHARACTER).forEach((developmentCard -> {
+            try {
+                developmentCard.activePermanentEffects();
+            }
+            catch (RemoteException | NewActionException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
+    /**
+     * mi attiva gli effetti permanenti delle carte impresa
+     */
+    private void activeVentueresEffects() {
+        cardsMap.get(CardType.VENTURES).forEach((developmentCard -> {
+            try {
+                developmentCard.activePermanentEffects();
+            }
+            catch (RemoteException | NewActionException e) {
+                e.printStackTrace();
+            }
+        }));
+    }
+
+    /**
+     * mi setta i valori dei dadi ai rispettivi fmiliari
+     * @param orange arancione
+     * @param white bianco
+     * @param black nero
+     */
     public void setDiceValues(int orange , int white, int black){
         familyMemberList.get(ORANGE_DICE).setValue(orange);
         familyMemberList.get(WHITE_DICE).setValue(white);

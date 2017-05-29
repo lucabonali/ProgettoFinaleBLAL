@@ -19,7 +19,8 @@ import java.util.List;
 public class VariableIncrementEffect implements Effect{
 
     private Field field;
-    private CardType cardType;
+    private CardType cardType = null;
+    private ResourceType resourceType = null;
 
     /**
      * mi incrementa la risorsa field, di una quantità pari al numero
@@ -32,10 +33,22 @@ public class VariableIncrementEffect implements Effect{
         this.cardType = typeCard;
     }
 
+    private VariableIncrementEffect(Field field, ResourceType resType) {
+        this.field = field;
+        this.resourceType = resType;
+    }
+
     @Override
     public void active(AbstractPlayer player) {
-        List<DevelopmentCard> list = player.getPersonalBoard().getCardsList(cardType);
-        int qta = field.getQta()*list.size();
+        int qta;
+        if (cardType != null){
+            List<DevelopmentCard> list = player.getPersonalBoard().getCardsList(cardType);
+            qta = field.getQta() * list.size();
+        }
+        else {
+            int tmp = player.getPersonalBoard().getQtaResources().get(ResourceType.MILITARY)/2;
+            qta = field.getQta() * tmp;
+        }
         Resource newRes = new Resource(qta, field.getType());
         player.getPersonalBoard().modifyResources(newRes);
     }
@@ -49,7 +62,8 @@ public class VariableIncrementEffect implements Effect{
         char resToIncrement = cod.charAt(1);
         int qtaToCheck = Integer.parseInt(cod.substring(2,3));
         char toCheck = cod.charAt(3);
-        CardType cardType;
+        CardType cardType = null;
+        ResourceType resType = null;
         switch (toCheck){
             case EffectsCreator.CHAR_BUILDINGS:
                 cardType = CardType.BUILDING;
@@ -60,20 +74,31 @@ public class VariableIncrementEffect implements Effect{
             case EffectsCreator.CHAR_TERRITORY:
                 cardType = CardType.TERRITORY;
                 break;
-            default: //ventures
+            case EffectsCreator.CHAR_VENTURES:
                 cardType = CardType.VENTURES;
                 break;
+            case EffectsCreator.CHAR_MILITARY:
+                resType = ResourceType.MILITARY;
+                break;
+            default:
+                break;
+
         }
-        Resource res;
+        Resource res = null;
         switch (resToIncrement){
             case EffectsCreator.CHAR_VICTORY:
                 res = new Resource(qtaToIncrement, ResourceType.VICTORY);
                 break;
-            default: //coins
+            case EffectsCreator.CHAR_COIN:
                 res = new Resource(qtaToIncrement, ResourceType.COINS);
+                break;
+            default:
                 break;
 
         }
-        return new VariableIncrementEffect(res, cardType);
+        if (cardType != null)
+            return new VariableIncrementEffect(res, cardType);
+        else
+            return new VariableIncrementEffect(res, resType);
     }
 }

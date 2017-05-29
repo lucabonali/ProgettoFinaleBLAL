@@ -1,11 +1,11 @@
 package main.client;
 
+import main.CLI.InterfaceGuiCli;
 import main.api.ClientInterface;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
 import main.api.types.*;
 import main.gui.Service;
-import main.gui.game_view.GameController;
 import main.gui.game_view.MessagesController;
 import main.gui.game_view.PersonalBoardController;
 
@@ -30,7 +30,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private String username,password;
     private int id;
     private List<Integer> opponentsIdList;
-    private GameController gameController;
+    private InterfaceGuiCli interfaceController; //controller che potrà essere GameController se della gui, oppure CLIController se per la cli
     private MessagesController messagesController;
     private PersonalBoardController personalBoardController;
     private Phases phase;
@@ -63,11 +63,11 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     public void isGameStarted(int id, List<Integer> opponentsId) throws RemoteException{
         this.id = id;
         opponentsIdList = opponentsId;
-        gameController.createDiscs(id);
-        gameController.createFamilyMembers(id);
-        gameController.relocateFamilyMembers();
+        interfaceController.createDiscs(id);
+        interfaceController.createFamilyMembers(id);
+        interfaceController.relocateFamilyMembers();
         personalBoardController.startGame(id);
-        opponentsId.forEach((idValue -> gameController.createOpponentDiscs(idValue)));
+        opponentsId.forEach((idValue -> interfaceController.createOpponentDiscs(idValue)));
         messagesController.setMessage("La partita è iniziata");
     }
 
@@ -77,8 +77,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     public void setTowersCards(List<String> list) throws RemoteException {
-        gameController.setBoardCards(list);
-        gameController.relocateFamilyMembers();
+        interfaceController.setBoardCards(list);
+        interfaceController.relocateFamilyMembers();
     }
 
     /**
@@ -96,7 +96,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
             else
                 pointMap.put(resourceType,integer);
         }));
-        gameController.modifyPoints(pointMap);
+        interfaceController.modifyPoints(pointMap);
         personalBoardController.modifyResources(resourceMap);
     }
 
@@ -107,9 +107,9 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
-        gameController.removeDrawnCards(personalcardsMap);
+        interfaceController.removeDrawnCards(personalcardsMap);
         personalBoardController.updateCards(personalcardsMap);
-        gameController.moveFamilyMember(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
+        interfaceController.moveFamilyMember(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
     };
 
     /**
@@ -121,13 +121,13 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
-        gameController.removeDrawnCards(personalcardsMap); //rimuovo le carte che ha pescato
+        interfaceController.removeDrawnCards(personalcardsMap); //rimuovo le carte che ha pescato
         Map<ResourceType, Integer> pointMap = new HashMap<>();
         qtaResourcesMap.forEach(((resourceType, integer) -> {
             if (resourceType == ResourceType.VICTORY || resourceType == ResourceType.MILITARY || resourceType == ResourceType.FAITH)
                 pointMap.put(resourceType,integer);
         }));
-        gameController.modifyOpponentPoints(pointMap, id);
+        interfaceController.modifyOpponentPoints(pointMap, id);
     }
 
     /**
@@ -150,7 +150,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     @Override
     public void setDiceValues(int orange, int white, int black) throws RemoteException {
         messagesController.setMessage("il primo giocatore ha tirato i dadi");
-        gameController.setDices(orange, white, black);
+        interfaceController.setDices(orange, white, black);
     }
 
     /**
@@ -160,7 +160,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     @Override
     public void notifyHaveToShotDice() throws RemoteException {
         messagesController.setMessage("devi tirare i dadi!!!");
-        gameController.showDices();
+        interfaceController.showDices();
     }
 
     /**
@@ -168,7 +168,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     public void notifyPrivilege() throws RemoteException {
-        gameController.showPrivilegeAlert();
+        interfaceController.showPrivilegeAlert();
     }
 
     /**
@@ -202,7 +202,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyYourExcommunicationTurn() throws RemoteException {
-        gameController.showExcommunicatingAlert();
+        interfaceController.showExcommunicatingAlert();
         phase = Phases.EXCOMMUNICATION;
     }
 
@@ -247,8 +247,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         logged = true;
     }
 
-    public void setGameController(GameController controller) {
-        this.gameController = controller;
+    public void setInterfaceController(InterfaceGuiCli controller) {
+        this.interfaceController = controller;
     }
 
     public void setMessagesController(MessagesController controller) {
