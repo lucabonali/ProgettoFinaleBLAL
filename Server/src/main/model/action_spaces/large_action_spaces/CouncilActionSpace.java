@@ -31,7 +31,9 @@ public class CouncilActionSpace extends LargeActionSpace {
         bonusEffectList.add(new FixedIncrementEffect(
                 new Resource(1, ResourceType.COINS)
         ));
-        //dovrei inserire il privilegio del consiglio
+        bonusEffectList.add(new FixedIncrementEffect(
+                new Resource(1, ResourceType.PRIVILEGE)
+        ));
     }
 
     @Override

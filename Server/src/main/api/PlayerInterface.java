@@ -3,6 +3,7 @@ package main.api;
 
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
+import main.api.types.ResourceType;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -65,4 +66,12 @@ public interface PlayerInterface extends Remote {
      * @throws RemoteException
      */
     void surrender() throws RemoteException;
+
+    /**
+     * il giocatore mi richiede di convertire un privilegio
+     * @param qta quntità in cui convertire
+     * @param type tipo in cui convertire
+     * @throws RemoteException
+     */
+    void convertPrivilege(int qta, ResourceType type) throws RemoteException;
 }

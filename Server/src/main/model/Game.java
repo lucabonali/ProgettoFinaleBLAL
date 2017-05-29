@@ -183,6 +183,7 @@ public class Game {
             try {
                 checkTurn(player);
                 board.excommunicatePlayer(period, player);
+                endMove(player);
             }
             catch (LorenzoException e) {
                player.notifyError(e.getMessage());
@@ -207,6 +208,7 @@ public class Game {
                     Resource res = new Resource(faithPoints, ResourceType.VICTORY);
                     player.getPersonalBoard().modifyResources(res);
                     player.getPersonalBoard().modifyResources(new Resource(-faithPoints, ResourceType.FAITH));
+                    endMove(player);
                 }
                 else {
                     excommunicatePlayer(player);

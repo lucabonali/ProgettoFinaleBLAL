@@ -212,6 +212,10 @@ public class GameController {
         }
     }
 
+    /**
+     * mi rimuove le carte che sono già state pescate
+     * @param nameCards
+     */
     public void removeDrawnCards(Map<CardType, List<String>> nameCards) {
         nameCards.forEach(((cardType, namesList) -> {
             namesList.forEach(name -> {
@@ -361,6 +365,13 @@ public class GameController {
      */
     public void showExcommunicatingAlert() {
         Platform.runLater(ExcommunicationAlert::new);
+    }
+
+    /**
+     * mi rende visibile l'alert relativo alla scelta di conversione del privilegio
+     */
+    public void showPrivilegeAlert() {
+        Platform.runLater(PrivilegeAlert::new);
     }
 
     @FXML

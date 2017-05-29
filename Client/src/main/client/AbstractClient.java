@@ -164,6 +164,14 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     }
 
     /**
+     * notifica l'ottenimento di un nuovo privielgio
+     * @throws RemoteException
+     */
+    public void notifyPrivilege() throws RemoteException {
+        gameController.showPrivilegeAlert();
+    }
+
+    /**
      * notifica al client che deve fare un'altra azione
      * @param value valore dell'azione
      * @param codeAction codice dell'azione (spazio azione)
@@ -354,6 +362,14 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     public abstract void endMove() throws RemoteException;
+
+    /**
+     * manda un messaggio al server dicendo in cosa voglio convertire il mio privilegio
+     * @param qta qta in cui convertire
+     * @param type tipo in cui convertire
+     * @throws RemoteException
+     */
+    public abstract void convertPrivilege(int qta, ResourceType type) throws RemoteException;
 
 
     /**

@@ -99,6 +99,11 @@ public class ClientRMI extends AbstractClient {
         }
     }
 
+    @Override
+    public void convertPrivilege(int qta, ResourceType type) throws RemoteException {
+        serverGame.convertPrivilege(qta, type);
+    }
+
     /**
      * metodo che invia al server i risutlati del lancio dei dadi, il quale si occuperà di inviarlo
      * a tutti gli altri giocatori

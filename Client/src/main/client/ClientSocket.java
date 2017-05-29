@@ -3,6 +3,7 @@ package main.client;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
 import main.api.messages.SocketProtocol;
+import main.api.types.ResourceType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -124,6 +125,11 @@ public class ClientSocket extends AbstractClient implements Runnable{
 
     @Override
     public void endMove() throws RemoteException {
+
+    }
+
+    @Override
+    public void convertPrivilege(int qta, ResourceType type) throws RemoteException {
 
     }
 

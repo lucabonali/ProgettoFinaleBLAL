@@ -112,6 +112,11 @@ public class PlayerRMI extends AbstractPlayer {
         getClientInterface().notifyEndMove();
     }
 
+    @Override
+    public void notifyPrivilege() throws RemoteException {
+        getClientInterface().notifyPrivilege();
+    }
+
 
     //metodi erediati da PLAYER INTERFACE /////////////////////////////////////////////////////////
 

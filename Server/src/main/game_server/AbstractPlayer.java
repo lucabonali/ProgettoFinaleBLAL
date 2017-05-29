@@ -12,6 +12,7 @@ import main.model.board.DevelopmentCard;
 import main.model.board.FamilyMember;
 import main.model.board.PersonalBoard;
 import main.game_server.exceptions.NewActionException;
+import main.model.fields.Resource;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -182,6 +183,12 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      */
     public abstract void notifyEndMove() throws RemoteException;
 
+    /**
+     * metodo che notifica il guadagno di un privilegio
+     * @throws RemoteException
+     */
+    public abstract void notifyPrivilege() throws RemoteException;
+
 
 
     /// METODI IMPLEMENTATI DALL'INTERFACCIA PLAYER INTERFACE ///////////////////////////////////////////////
@@ -233,6 +240,13 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         else {
             game.giveChurchSupport(this);
         }
+    }
+
+    @Override
+    public void convertPrivilege(int qta, ResourceType type) throws RemoteException {
+        personalBoard.modifyResources(new Resource(qta, type));
+        updateMove();
+        game.notifyAllPlayers(this, idPlayer, personalBoard.getPersonalCardsMap(), personalBoard.getQtaResources());
     }
 
 }

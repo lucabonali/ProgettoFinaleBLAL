@@ -100,4 +100,10 @@ public interface ClientInterface extends Remote{
      * @throws RemoteException
      */
     void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException;
+
+    /**
+     * notifica l'ottenimento di un nuovo privilegio
+     * @throws RemoteException
+     */
+    void notifyPrivilege() throws RemoteException;
 }

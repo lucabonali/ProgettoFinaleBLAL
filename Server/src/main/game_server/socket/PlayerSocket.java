@@ -100,6 +100,11 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
         //da implementare
     }
 
+    @Override
+    public void notifyPrivilege() throws RemoteException {
+        //da implementare
+    }
+
     private void printMsgToClient(String content){
         try {
             out.writeObject(SocketProtocol.INFORMATION);
