@@ -34,16 +34,7 @@ public class MessagesController {
     }
 
     private void playAudio() {
-        try {
-            audio.play(audio.getPath()+"whistle"+EXTENSION);
-            talk();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        }
+        new Sound().start();
     }
 
     private void talk() {
@@ -111,6 +102,26 @@ public class MessagesController {
                 }
             }
             lory.setImage(lorenzo);
+        }
+
+    }
+    private class Sound extends Thread{
+
+        public void run(){
+            try {
+                audio.play(audio.getPath()+"whistle"+EXTENSION);
+                Thread.sleep(700);
+                talk();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }
