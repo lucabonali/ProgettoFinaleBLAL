@@ -420,6 +420,8 @@ public class GameController {
         initializeHarvestProduction();
         initializeImageViewCards();
         initializeDices();
+        LorenzoImage lorenzoImage = new LorenzoImage(new Image(getClass().getResourceAsStream("res/lorenzo.png")));
+        anchorPane.getChildren().add(lorenzoImage);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));
             Parent messagesServer = fxmlLoader.load();
