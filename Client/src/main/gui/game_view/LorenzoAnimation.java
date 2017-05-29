@@ -1,8 +1,6 @@
 package main.gui.game_view;
 
-import javafx.animation.ParallelTransition;
-import javafx.animation.RotateTransition;
-import javafx.animation.ScaleTransition;
+import javafx.animation.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -24,10 +22,13 @@ public class LorenzoAnimation {
     private String message;
     private RotateTransition rotateTransition;
     private ScaleTransition scaleTransition;
+    private TranslateTransition translateTransition;
+    private ParallelTransition messageViewTransition;
     private Music audio;
     private Image lorenzo, lorenzoSemi, lorenzoAperta;
     private String EXTENSION = ".wav";
     private Talk lorenzoTalk;
+    private boolean isStartGame = false;
 
 
     public LorenzoAnimation(ImageView lorenzoImageView, String message) {
@@ -40,6 +41,7 @@ public class LorenzoAnimation {
     }
 
     public void startGameAnimation() {
+        isStartGame = true;
         rotateTransition = new RotateTransition(Duration.millis(1500));
         scaleTransition = new ScaleTransition(Duration.millis(1500));
         rotateTransition.setNode(lory);
@@ -52,16 +54,36 @@ public class LorenzoAnimation {
         parallelTransition.play();
         parallelTransition.setOnFinished(event -> {
             startTalkAnimation();
-            //Togliere l' imageView e il relativo fumetto dal gameView
+            goToMessageView();
         } );
+
     }
+
+    private void goToMessageView() {
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setToValue(0.0);
+        translateTransition = new TranslateTransition(Duration.millis(2000));
+        translateTransition.setToY(+100);
+        translateTransition.setToX(+100);
+        messageViewTransition = new ParallelTransition(lory, translateTransition,fadeTransition);
+    }
+
 
     /**
      * Farà anche comparire il "fumetto" di fianco
      */
     public void startTalkAnimation() {
+        messageViewAppearing();
         new Talk().start();
     }
+
+    private void messageViewAppearing() {
+    FadeTransition fadeTransition = new FadeTransition(Duration.millis(1000));
+    fadeTransition.setToValue(1.0);
+    fadeTransition.setNode(lory);
+    fadeTransition.play();
+    }
+
 
     private void moveMouth() {
         int number = 1 + new Random().nextInt(3);
@@ -91,9 +113,11 @@ public class LorenzoAnimation {
         new Animation().start();
     }
 
-    public Talk getLorenzoTalk() {
-        return lorenzoTalk;
+
+    public void setStartGame(boolean b) {
+        isStartGame = b;
     }
+
 
     private class Animation extends Thread {
         public void run() {
@@ -106,6 +130,12 @@ public class LorenzoAnimation {
                 }
             }
             lory.setImage(lorenzo);
+
+            if (isStartGame == true){
+                messageViewTransition.play();
+                isStartGame = false;
+            }
+
         }
     }
 
