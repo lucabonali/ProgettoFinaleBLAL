@@ -24,9 +24,9 @@
       <HBox BorderPane.alignment="CENTER">
          <children>
             <Label id="lorenzoTalks" fx:id="lorenzoTalks" alignment="CENTER" prefHeight="97.0" prefWidth="130.0" stylesheets="@res/style.css" />
-            <ImageView fitHeight="200.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="lory" fitHeight="200.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@res/loryHead.png" />
+                  <Image url="@res/lorenzo.png" />
                </image>
             </ImageView>
          </children>
