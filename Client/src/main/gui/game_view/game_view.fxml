@@ -231,6 +231,11 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                 </GridPane>
+            <ImageView fx:id="lorenzoCenter" fitHeight="150.0" fitWidth="200.0" layoutX="340.0" layoutY="543.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@res/lorenzo.png" />
+               </image>
+            </ImageView>
 
             </children>
         </AnchorPane>

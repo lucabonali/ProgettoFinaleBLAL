@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -37,6 +38,9 @@ public class GameController {
     public static final int CARD_HEIGHT = 126;
     public static final int CARD_WIDTH = 108;
     private AbstractClient client;
+    private LorenzoAnimation lorenzoAnimation;
+
+    @FXML private ImageView lorenzoCenter;
 
     @FXML private GridPane territoriesTower;
     @FXML private GridPane territoryTowersActionSpaces;
@@ -420,8 +424,10 @@ public class GameController {
         initializeHarvestProduction();
         initializeImageViewCards();
         initializeDices();
-        LorenzoImage lorenzoImage = new LorenzoImage(new Image(getClass().getResourceAsStream("res/lorenzo.png")));
-        anchorPane.getChildren().add(lorenzoImage);
+
+        lorenzoAnimation = new LorenzoAnimation(lorenzoCenter, "Hi, i' m Lorenzo , the Magnificent!!");
+        lorenzoAnimation.startGameAnimation();
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));
             Parent messagesServer = fxmlLoader.load();
@@ -439,4 +445,5 @@ public class GameController {
         addToolbarDragAndDrop(toolbar1);
         addToolbarDragAndDrop(toolbar2);
     }
+
 }

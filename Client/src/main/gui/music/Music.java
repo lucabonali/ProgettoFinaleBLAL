@@ -24,8 +24,7 @@ public class Music {
         claps = new File(resource);
         clip = AudioSystem.getClip();
         audio = AudioSystem.getAudioInputStream(claps);
-        if(!clip.isOpen())
-            clip.open(audio);
+        clip.open(audio);
         clip.start();
     }
 
