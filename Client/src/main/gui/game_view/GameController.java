@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import main.Launcher;
+import main.GUILauncher;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
 import main.api.types.*;
@@ -185,14 +185,14 @@ public class GameController {
     private void addToolbarDragAndDrop(ToolBar toolbar) {
         toolbar.setCursor(Cursor.CLOSED_HAND);
         toolbar.setOnMousePressed(event -> {
-            xOffset = Launcher.getPrimaryStage().getX() -event.getScreenX();
-            yOffset = Launcher.getPrimaryStage().getY() -event.getScreenY();
+            xOffset = GUILauncher.getPrimaryStage().getX() -event.getScreenX();
+            yOffset = GUILauncher.getPrimaryStage().getY() -event.getScreenY();
             toolbar.setCursor(Cursor.CLOSED_HAND);
         } );
 
         toolbar.setOnMouseDragged(event -> {
-            Launcher.getPrimaryStage().setX(event.getScreenX() + xOffset);
-            Launcher.getPrimaryStage().setY(event.getScreenY() + yOffset);
+            GUILauncher.getPrimaryStage().setX(event.getScreenX() + xOffset);
+            GUILauncher.getPrimaryStage().setY(event.getScreenY() + yOffset);
         });
     }
 

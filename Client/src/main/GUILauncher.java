@@ -18,7 +18,7 @@ import java.rmi.NotBoundException;
  * @author Luca
  * @author Andrea
  */
-public class Launcher extends Application {
+public class GUILauncher extends Application {
     private static Stage primaryStage;
     /**
      * Metodo Main del client, che lancia il metodo start di questa classe

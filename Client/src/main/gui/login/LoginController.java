@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import main.Launcher;
+import main.GUILauncher;
 import main.client.AbstractClient;
 import main.gui.game_mode_selection.GameModeSelectionView;
 
@@ -131,19 +131,19 @@ public class LoginController {
         buttonLogin.setCursor(Cursor.HAND);
         toolbar.setCursor(Cursor.CLOSED_HAND);
         toolbar.setOnMousePressed(event -> {
-            xOffset = Launcher.getPrimaryStage().getX() -event.getScreenX();
-            yOffset = Launcher.getPrimaryStage().getY() -event.getScreenY();
+            xOffset = GUILauncher.getPrimaryStage().getX() -event.getScreenX();
+            yOffset = GUILauncher.getPrimaryStage().getY() -event.getScreenY();
             toolbar.setCursor(Cursor.CLOSED_HAND);
         } );
 
         toolbar.setOnMouseDragged(event -> {
-            Launcher.getPrimaryStage().setX(event.getScreenX() + xOffset);
-            Launcher.getPrimaryStage().setY(event.getScreenY() + yOffset);
+            GUILauncher.getPrimaryStage().setX(event.getScreenX() + xOffset);
+            GUILauncher.getPrimaryStage().setY(event.getScreenY() + yOffset);
         });
 
     }
 
     public void closeWindow(ActionEvent actionEvent) {
-        Launcher.getPrimaryStage().close();
+        GUILauncher.getPrimaryStage().close();
     }
 }

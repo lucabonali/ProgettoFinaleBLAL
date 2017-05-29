@@ -18,7 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import main.Launcher;
+import main.GUILauncher;
 import main.gui.music.Music;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -78,14 +78,14 @@ public class StartScreenController implements Initializable {
         fadeOut.setOnFinished(e -> fadeIn.play());
 
         rootPane.setOnMousePressed(event -> {
-            xOffset = Launcher.getPrimaryStage().getX() -event.getScreenX();
-            yOffset = Launcher.getPrimaryStage().getY() -event.getScreenY();
+            xOffset = GUILauncher.getPrimaryStage().getX() -event.getScreenX();
+            yOffset = GUILauncher.getPrimaryStage().getY() -event.getScreenY();
             rootPane.setCursor(Cursor.CLOSED_HAND);
         } );
 
         rootPane.setOnMouseDragged(event -> {
-            Launcher.getPrimaryStage().setX(event.getScreenX() + xOffset);
-            Launcher.getPrimaryStage().setY(event.getScreenY() + yOffset);
+            GUILauncher.getPrimaryStage().setX(event.getScreenX() + xOffset);
+            GUILauncher.getPrimaryStage().setY(event.getScreenY() + yOffset);
         });
         rootPane.setOnMouseReleased(event -> rootPane.setCursor(Cursor.DEFAULT));
 
