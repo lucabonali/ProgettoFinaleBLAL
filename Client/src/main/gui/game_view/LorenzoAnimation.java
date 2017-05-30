@@ -63,10 +63,9 @@ public class LorenzoAnimation {
         FadeTransition fadeTransition = new FadeTransition();
         fadeTransition.setToValue(0.0);
         translateTransition = new TranslateTransition(Duration.millis(2000));
-        translateTransition.setToY(+100);
-        translateTransition.setToX(+100);
+        translateTransition.setToY(+1000);
+        translateTransition.setToX(+10);
         messageViewTransition = new ParallelTransition(lory, translateTransition,fadeTransition);
-        messageViewTransition.setOnFinished(event -> lory.getParent().getChildrenUnmodifiable().remove(lory));
     }
 
 

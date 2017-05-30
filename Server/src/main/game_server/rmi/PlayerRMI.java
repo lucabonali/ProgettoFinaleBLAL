@@ -28,7 +28,7 @@ public class PlayerRMI extends AbstractPlayer {
 
     @Override
     public void gameIsStarted(List<Integer> idList) throws RemoteException {
-        getClientInterface().isGameStarted(getIdPlayer(), idList);
+        getClientInterface().isGameStarted(getIdPlayer(), idList, new ArrayList<>());
     }
 
     /**

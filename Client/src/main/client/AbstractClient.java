@@ -64,11 +64,23 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         this.id = id;
         opponentsIdList = opponentsId;
         interfaceController.startGame(id);
-        interfaceController.showExcomCards(codeExcomList);
+        //interfaceController.showExcomCards(codeExcomList);
+        initializeQtaResorcesMap();
         opponentsId.forEach((idValue -> {
             interfaceController.createOpponentDiscs(idValue);
+            opponentQtaResourcesMap.put(idValue, new HashMap<>());
             opponentsCardsMap.put(idValue, new HashMap<>());
         }));
+    }
+
+    private void initializeQtaResorcesMap() {
+        qtaResourcesMap.put(ResourceType.COINS, 4);
+        qtaResourcesMap.put(ResourceType.WOOD, 2);
+        qtaResourcesMap.put(ResourceType.STONE, 2);
+        qtaResourcesMap.put(ResourceType.SERVANTS, 3);
+        qtaResourcesMap.put(ResourceType.MILITARY, 0);
+        qtaResourcesMap.put(ResourceType.FAITH, 0);
+        qtaResourcesMap.put(ResourceType.VICTORY, 0);
     }
 
     /**
@@ -101,6 +113,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     public void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
         myCardsList = personalcardsMap;
         interfaceController.removeDrawnCards(personalcardsMap);
+        interfaceController.updateMyCards(personalcardsMap);
         interfaceController.moveFamilyMember(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
     };
 
@@ -114,6 +127,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     @Override
     public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
         interfaceController.removeDrawnCards(personalcardsMap); //rimuovo le carte che ha pescato
+//        opponentQtaResourcesMap.get(id) = qtaResourcesMap;
+//        opponentsCardsMap.get(id) = personalcardsMap;
         Map<ResourceType, Integer> pointMap = new HashMap<>();
         qtaResourcesMap.forEach(((resourceType, integer) -> {
             if (resourceType == ResourceType.VICTORY || resourceType == ResourceType.MILITARY || resourceType == ResourceType.FAITH)

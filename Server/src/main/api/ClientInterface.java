@@ -20,7 +20,7 @@ public interface ClientInterface extends Remote{
      * @param opponentsId l'id dei giocatori
      * @throws RemoteException
      */
-    void isGameStarted(int id, List<Integer> opponentsId) throws RemoteException;
+    void isGameStarted(int id, List<Integer> opponentsId, List<String> codeExcomList) throws RemoteException;
 
     /** metodo che mi andrà ad aggiornare tutte le mie risorse
      * // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY

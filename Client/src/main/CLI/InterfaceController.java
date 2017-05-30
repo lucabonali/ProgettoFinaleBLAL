@@ -143,8 +143,16 @@ public interface InterfaceController {
      */
     void showExcomCards(List<String> codeList);
 
+    /**
+     * abbandona la partita
+     */
     void surrender();
 
+    /**
+     * aggiorna la lista delle mie carte
+     * @param personalCardsMap
+     */
+    void updateMyCards(Map<CardType, List<String>> personalCardsMap);
 }
 
 

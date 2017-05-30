@@ -236,7 +236,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                 </GridPane>
-            <ImageView fx:id="lorenzoCenter" fitHeight="150.0" fitWidth="200.0" layoutX="389.0" layoutY="527.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="lorenzoCenter" fitHeight="150.0" fitWidth="200.0" layoutX="456.0" layoutY="727.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@res/lorenzo.png" />
                </image>

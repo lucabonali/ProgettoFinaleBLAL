@@ -96,6 +96,8 @@ public class GameController implements InterfaceController {
 
     //lista delle immagini
     private List<Card> imageList = new ArrayList<>();
+    private List<ExcomCard> excomImageList = new ArrayList<>();
+
     private double xOffset;
     private double yOffset;
 
@@ -189,9 +191,13 @@ public class GameController implements InterfaceController {
      * mi inizializza le imagView delle tessere scomunica
      */
     private void initializeImageViewExcomCards() {
-        excomGridPane1.add(new ExcomCard(), 0 , 0);
-        excomGridPane3.add(new ExcomCard(), 0 , 0);
-        excomGridPane3.add(new ExcomCard(), 0 , 0);
+        for (int i=0; i<3; i++) {
+            ExcomCard excomCard = new ExcomCard();
+            excomImageList.add(excomCard);
+        }
+        excomGridPane1.add(excomImageList.get(0), 0 , 0);
+        excomGridPane3.add(excomImageList.get(1), 0 , 0);
+        excomGridPane3.add(excomImageList.get(2), 0 , 0);
     }
 
     /**
@@ -239,8 +245,16 @@ public class GameController implements InterfaceController {
      */
     @Override
     public void removeDrawnCards(Map<CardType, List<String>> personalCardsMap) {
-        personalBoardController.updateCards(personalCardsMap);
         personalCardsMap.forEach(((cardType, namesList) -> namesList.forEach(name -> imageList.forEach(card -> card.remove(name)))));
+    }
+
+    /**
+     * mi aggiorna la lista delle mi carte
+     * @param personalCardsMap mappa delle mie carte
+     */
+    @Override
+    public void updateMyCards(Map<CardType, List<String>> personalCardsMap) {
+        personalBoardController.updateCards(personalCardsMap);
     }
 
     /**
@@ -382,6 +396,14 @@ public class GameController implements InterfaceController {
 
     @Override
     public void showExcomCards(List<String> codeList) {
+        for (int i=0; i<codeList.size(); i++) {
+            excomImageList.get(i).setImage(
+                    new Image(getClass().getResource("res/excom_cards/" + codeList.get(i) + EXTENSION).toExternalForm()), codeList.get(i));
+        }
+    }
+
+    @Override
+    public void surrender() {
 
     }
 
