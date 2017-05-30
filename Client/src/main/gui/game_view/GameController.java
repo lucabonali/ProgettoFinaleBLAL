@@ -63,6 +63,10 @@ public class GameController implements InterfaceController {
     @FXML private GridPane whiteDicePane;
     @FXML private GridPane orangeDicePane;
 
+    @FXML private GridPane excomGridPane1;
+    @FXML private GridPane excomGridPane2;
+    @FXML private GridPane excomGridPane3;
+
     @FXML private ToolBar toolbar1;
     @FXML private ToolBar toolbar2;
 
@@ -176,6 +180,13 @@ public class GameController implements InterfaceController {
                 venturesTower.add(card,0, i-12);
             }
         }
+    }
+
+    /**
+     * mi inizializza le imagView delle tessere scomunica
+     */
+    private void initializeImageViewExcomCards() {
+
     }
 
     /**
@@ -426,6 +437,13 @@ public class GameController implements InterfaceController {
 
     }
 
+    @Override
+    public void startGame(int id) {
+        createDiscs(id);
+        createFamilyMembers(id);
+        relocateFamilyMembers();
+    }
+
     /**
      * inizializza il tabellone
      * @throws InterruptedException
@@ -442,6 +460,7 @@ public class GameController implements InterfaceController {
         initializeMarket(MarketActionType.GRAY, greyMarket);
         initializeHarvestProduction();
         initializeImageViewCards();
+        initializeImageViewExcomCards();
         initializeDices();
 
         lorenzoAnimation = new LorenzoAnimation(lorenzoCenter, "Hi, i' m Lorenzo , the Magnificent!!");

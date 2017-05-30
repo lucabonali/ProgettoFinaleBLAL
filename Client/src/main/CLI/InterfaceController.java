@@ -125,6 +125,12 @@ public interface InterfaceController {
      */
     void exit() throws InterruptedException;
 
+    /**
+     * chiamato quando inizia la partita
+     * @param id id del giocatore
+     */
+    void startGame(int id);
+
 
 }
 

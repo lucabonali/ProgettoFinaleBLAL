@@ -63,9 +63,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     public void isGameStarted(int id, List<Integer> opponentsId) throws RemoteException{
         this.id = id;
         opponentsIdList = opponentsId;
-        interfaceController.createDiscs(id);
-        interfaceController.createFamilyMembers(id);
-        interfaceController.relocateFamilyMembers();
+        interfaceController.startGame(id);
         personalBoardController.startGame(id);
         opponentsId.forEach((idValue -> interfaceController.createOpponentDiscs(idValue)));
         messagesController.setMessage("La partita è iniziata");
