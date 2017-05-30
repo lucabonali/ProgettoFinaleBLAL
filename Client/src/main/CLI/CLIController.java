@@ -20,6 +20,8 @@ public class CLIController implements InterfaceController, Runnable {
     private BufferedReader in;
     private String userName, password;
     private static Map<Integer,MenuHandler> menuChoices;
+    private static Map<Integer , GameHandler > gameMap;
+    private boolean isGameStarted = false;
 
 
     public CLIController(){
@@ -112,6 +114,30 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
+    @Override
+    public void startGame(int id) {
+        isGameStarted = true;
+    }
+
+    @Override
+    public void notifyMessage(String msg) {
+
+    }
+
+    @Override
+    public void showExcomCards(List<String> codeList) {
+
+    }
+
+    @Override
+    public void surrender() {
+        try {
+            client.surrender();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void initialize() throws InterruptedException {
         client = AbstractClient.getInstance();
     }
@@ -186,19 +212,55 @@ public class CLIController implements InterfaceController, Runnable {
         try {
             client.startGame(1);
             new Thread(() -> {
-                game();
+                waitGame();
             }).start();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
-    private void game() {
+
+    private void waitGame() {
+        System.out.print(" Loading Game... ");
+
+        while(!isGameStarted){
+            System.out.print(" . ");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        game();
     }
 
+    /**
+     * metodo che stampa il menu di gioco
+     */
+    private void game(){
+        System.out.println("---- GAME STARTED ----");
+        while(true){
+            System.out.println("-------------------------");
+            System.out.println(" 1 - SHOW BOARD ");
+            System.out.println(" 2 - SHOW PERSONAL BOARD ");
+            System.out.println(" 3 - SHOW OPPONETS PERSONAL BOARD ");
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+            System.out.println(" 0 - SURRENDER ");
 
+            int choice = 0;
 
+            try {
+                choice = Integer.parseInt(in.readLine()) ;
+                handleGame(choice);
+            } catch (IOException e) {
+                System.out.println(" Please, insert a correct option. ");
+            }
+        }
 
+    }
 
     public void exit(){
         System.out.println("exit");
@@ -206,13 +268,22 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
-    @Override
-    public void startGame(int id) {
+    private void initializeGameMenu() {
+        gameMap = new HashMap<>();
+        gameMap.put(GameCostants.SURRENDER , this::surrender);
+        gameMap.put(GameCostants.SHOW_BOARD, this::showBoard);
+        gameMap.put(GameCostants.SHOW_PERSONAL_BOARD, this::showPersonalBoard);
+        gameMap.put(GameCostants.SHOW_OPPONENTS_PERSONAL_BOARD, this::showOpponentsPersonalBoard);
+    }
+
+    private void showOpponentsPersonalBoard() {
+    }
+
+    private void showPersonalBoard() {
 
     }
 
-    @Override
-    public void notifyMessage(String msg) {
+    private void showBoard() {
 
     }
 
@@ -220,16 +291,27 @@ public class CLIController implements InterfaceController, Runnable {
     public void handleMenu(Object object) {
         MenuHandler handler = menuChoices.get(object);
         if (handler != null) {
-            handler.handle();
+            handler.menuHandle();
         }
 
+    }
+
+    public void handleGame(Object object){
+        GameHandler handler = gameMap.get(object);
+        if (handler != null){
+            handler.gameHandle();
+        }
     }
 
     /**
      * interfaccia che semplifica la gestione del menu e puramente funzionale
      */
     private interface MenuHandler{
-        void handle();
+        void menuHandle();
+    }
+
+    public interface GameHandler{
+        void gameHandle();
     }
 
 

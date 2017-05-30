@@ -142,6 +142,9 @@ public interface InterfaceController {
      * @param codeList lista dei codici
      */
     void showExcomCards(List<String> codeList);
+
+    void surrender();
+
 }
 
 
