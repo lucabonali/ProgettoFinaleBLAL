@@ -24,12 +24,14 @@ public class FixedIncrementEffect implements Effect{
 
     @Override
     public void active(AbstractPlayer player) throws RemoteException {
+        player.getPersonalBoard().setCurrentField(field);
         if (field  != null) {
             if (field.getType() != ResourceType.PRIVILEGE)
                 player.getPersonalBoard().modifyResources(field);
             else
                 player.notifyPrivilege();
         }
+        player.activeExcommunicationEffects(player.getPersonalBoard().getCurrentAction(), 2);
     }
 
     public static FixedIncrementEffect createInstance(String code){

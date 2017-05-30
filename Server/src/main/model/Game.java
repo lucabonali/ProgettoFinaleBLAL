@@ -226,11 +226,31 @@ public class Game {
     }
 
     /**
-     * mi attiva gli eventuali effetti dovuti alle scomuniche
+     * attiva il primo periodo
      * @param action azione
+     * @param type tipo di effetto da verificare
+     * @throws RemoteException
+     * @throws NewActionException
      */
-    public void activeExcommunicationEffects(Action action) {
+    public void activeFirstPeriodExcommunication(Action action, int type) throws RemoteException, NewActionException {
+        board.activeFirstPeriodExcommunication(action, type);
+    }
 
+    /**
+     * attiva effetti del secondo periodo
+     * @param action azione
+     * @throws RemoteException
+     * @throws NewActionException
+     */
+    public void activeSecondPeriodExcommunication(Action action) throws RemoteException, NewActionException {
+        board.activeSecondPeriodExcommunication(action);
+    }
+
+    /**
+     * attiva effetti delle tessere scomunica del terzo periodo
+     */
+    public void activeThirdPeriodExcommunication() {
+        board.activeThirdPeriodExcommunication();
     }
 
     /**
@@ -283,6 +303,23 @@ public class Game {
             if (opponent != player)
                 try {
                     opponent.updateOpponentMove(id, personalcardsMap, qtaResourcesMap);
+                }
+                catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+        }));
+    }
+
+    /**
+     * notifica tutti i giocatori che il player è stato scomunicato
+     * @param player giocatore che è stato scomunicato
+     * @param period periodo
+     */
+    public void notifyAllPlayers(AbstractPlayer player, int period) {
+        playerMap.forEach(((integer, opponent) -> {
+            if (opponent != player)
+                try {
+                    opponent.opponentExcommunicate(player.getIdPlayer(), period);
                 }
                 catch (RemoteException e) {
                     e.printStackTrace();
@@ -521,7 +558,7 @@ public class Game {
     /**
      * mi rimuove il giocatore passato come paramentro dalla partita
      * e verifica se la parittiaha ancora un numero sufficiente di giocatori
-     * @param player
+     * @param player il giocatore che ha abbandonato
      */
     public void removePlayer(AbstractPlayer player) {
         playerMap.remove(player.getIdPlayer());
@@ -530,10 +567,16 @@ public class Game {
                 turnOrder.remove(i);
         }
         numPlayers--;
-        if (numPlayers<2){
-            //la partita è finita e l'ultimo giocatorer rimasto è il vincitore.
+        if (numPlayers<2 && isStarted){
+            try {
+                turnOrder.get(0).youWin();
+            }
+            catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 
 
     private class Timer extends Thread{

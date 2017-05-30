@@ -1,9 +1,12 @@
 package main.model.board;
 
+import main.game_server.AbstractPlayer;
 import main.game_server.exceptions.NewActionException;
+import main.model.effects.development_effects.ActionValueModifyingEffect;
 import main.model.effects.development_effects.Effect;
 import main.model.effects.excommunicating_effects.ExcommunicatingEffectCreator;
-import main.game_server.AbstractPlayer;
+import main.model.effects.excommunicating_effects.FamilyMemberValueDecrementEffect;
+import main.model.effects.excommunicating_effects.ForEachGainDecrementEffect;
 
 import java.rmi.RemoteException;
 import java.sql.ResultSet;
@@ -110,9 +113,15 @@ public class Excommunication {
      * @throws RemoteException
      * @throws NewActionException
      */
-    public void activeFirtsPeriod(AbstractPlayer player) throws RemoteException, NewActionException {
+    public void activeFirtsPeriod(AbstractPlayer player, int type) throws RemoteException, NewActionException {
         if (excomPlayerMap.get(1).contains(player)){
-            excomEffectList.get(1).active(player);
+            if (type == 1 && (excomEffectList.get(0) instanceof ActionValueModifyingEffect ||
+                                excomEffectList.get(0) instanceof FamilyMemberValueDecrementEffect)){
+                excomEffectList.get(0).active(player);
+            }
+            else if (type == 2 && excomEffectList.get(0) instanceof ForEachGainDecrementEffect) {
+                excomEffectList.get(0).active(player);
+            }
         }
     }
 
@@ -125,7 +134,8 @@ public class Excommunication {
      */
     public void activeSecondPeriod(AbstractPlayer player) throws RemoteException, NewActionException {
         if (excomPlayerMap.get(2).contains(player)){
-            excomEffectList.get(2).active(player);
+            excomEffectList.get(1).active(player);
+            System.out.println("ho attivato l'effetto scomunica 2 periodo per " + player.getIdPlayer());
         }
     }
 
@@ -138,7 +148,7 @@ public class Excommunication {
      */
     public void activeThirdPeriod(AbstractPlayer player) throws RemoteException, NewActionException {
         if (excomPlayerMap.get(3).contains(player)){
-            excomEffectList.get(3).active(player);
+            excomEffectList.get(2).active(player);
         }
     }
 
@@ -147,8 +157,9 @@ public class Excommunication {
      * @param period periodo della scomunica
      * @param player giocatore da scomunicare
      */
-    public void addPlayer(int period, AbstractPlayer player){
+    public void addPlayer(int period, AbstractPlayer player) throws RemoteException {
         excomPlayerMap.get(period).add(player);
+        player.excommunicate(player.getIdPlayer(), period);
     }
 
     public List<Effect> getExcomCardList() {

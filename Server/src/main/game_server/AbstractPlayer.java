@@ -93,6 +93,32 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         personalBoard.removeAllFamilyMembers();
     };
 
+    public void activeExcommunicationEffects(Action action, int type) throws RemoteException{
+        personalBoard.setCurrentAction(action);
+        try {
+            game.activeFirstPeriodExcommunication(action, type);
+        }
+        catch (NewActionException e) {
+            //non dovrebbe mai verificrsi
+            e.printStackTrace();
+        }
+    }
+
+    public void activeExcommunicationEffects(Action action) throws RemoteException{
+        personalBoard.setCurrentAction(action);
+        try {
+            game.activeSecondPeriodExcommunication(action);
+        }
+        catch (NewActionException e) {
+            //non dovrebbe mai verificrsi
+            e.printStackTrace();
+        }
+    }
+
+    public void activeExcommunicationEffects() throws RemoteException{
+        game.activeThirdPeriodExcommunication();
+    }
+
 
 
     /// METODI ASTRATTI AGGIUNTI DA QUESTA CLASSE E CHE VERRANNO IMPLEMENTATI DALLE SUE DUE DIRETTE SOTTOCLASSI ///////////////
@@ -162,6 +188,21 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     public abstract void notifyRollDice() throws RemoteException;
 
     /**
+     * notifica al giocatore che è stato scomunicato
+     * @param id id del giocatore
+     * @param period periodo
+     * @throws RemoteException
+     */
+    public abstract void excommunicate(int id, int period) throws RemoteException;
+
+    /**
+     * notifica che un altro giocatore è stato scomunicato
+     * @param idPlayer id del giocatore
+     * @param period periodo
+     */
+    public abstract void opponentExcommunicate(int idPlayer, int period) throws RemoteException;
+
+    /**
      * metodo che invia al client i risultati del tiro del dado
      * @param orange valore dado arancione
      * @param white dado bianco
@@ -195,9 +236,6 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     /// METODI IMPLEMENTATI DALL'INTERFACCIA PLAYER INTERFACE ///////////////////////////////////////////////
 
 
-    public void activeExcommunicationEffects(Action action){
-        game.activeExcommunicationEffects(action);
-    }
 
     @Override
     public void shotDice(int orange, int white, int black) throws RemoteException{
@@ -223,7 +261,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     @Override
     public synchronized void surrender() throws RemoteException {
-        //da implementare, anche nella classe game
+        game.removePlayer(this);
     }
 
     @Override
@@ -252,5 +290,4 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         updateMove();
         game.notifyAllPlayers(this, idPlayer, personalBoard.getPersonalCardsMap(), personalBoard.getQtaResources());
     }
-
 }

@@ -45,11 +45,11 @@ public class PlayerRMI extends AbstractPlayer {
     }
 
     public void youWin() throws RemoteException {
-        getClientInterface().notifyMessage("Hai vinto, complimenti!!");
+        getClientInterface().gameEnded("Hai vinto, complimenti!!");
     }
 
     public void youLose() throws RemoteException {
-        getClientInterface().notifyMessage("Hai perso :( ");
+        getClientInterface().gameEnded("Hai perso :( ");
     }
 
     @Override
@@ -115,6 +115,17 @@ public class PlayerRMI extends AbstractPlayer {
     @Override
     public void notifyPrivilege() throws RemoteException {
         getClientInterface().notifyPrivilege();
+    }
+
+    @Override
+    public void excommunicate(int id, int period) throws RemoteException {
+        getGame().notifyAllPlayers(this, period);
+        getClientInterface().excommunicate(id, period);
+    }
+
+    @Override
+    public void opponentExcommunicate(int idPlayer, int period) throws RemoteException {
+        getClientInterface().excommunicate(idPlayer, period);
     }
 
 

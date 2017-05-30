@@ -23,7 +23,10 @@ public class ForEachGainDecrementEffect implements Effect {
 
     @Override
     public void active(AbstractPlayer player) throws RemoteException, NewActionException {
-
+        Field resource = player.getPersonalBoard().getCurrentField();
+        if (resource != null && resource.getType() == this.resource.getType()) {
+            player.getPersonalBoard().modifyResources(this.resource);
+        }
     }
 
     public static Effect createExcomInstance(String codEffect) {

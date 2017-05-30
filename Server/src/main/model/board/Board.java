@@ -177,25 +177,9 @@ public class Board {
     }
 
     /**
-     * mi rappresenta la fase di scomunica dove verifica se il giocatore deve essere scomunicato per
-     * forza oppure no
-     * @param period periodo
-     * @param player giocatore
-     */
-    public void excommunicationPhase(int period, AbstractPlayer player){
-        int minValue = period+2;
-        if (player.getPersonalBoard().getQtaResources().get(ResourceType.FAITH) < minValue)
-            excommunication.addPlayer(period, player);
-        else {
-            //notifico attraverso un apposito messaggio che deve decidere dare sostegno alla chiesa
-            //oppure coccarsi la scomunica
-        }
-    }
-
-    /**
      * metodo che mi dice se posso dare sostegno alla chiesa oppure no
      * @param player giocatore da controllare
-     * @return
+     * @return true se posso dare sostegno, false altrimenti
      */
     public boolean canGiveSupport(int period, AbstractPlayer player) {
         int minValue = period+2;
@@ -204,14 +188,24 @@ public class Board {
 
     /**
      * mi scomunica il giocatore preciso
-     * @param period
-     * @param player
+     * @param period periodo
+     * @param player giocatore
      */
-    public void excommunicatePlayer(int period, AbstractPlayer player){
+    public void excommunicatePlayer(int period, AbstractPlayer player) throws RemoteException {
         excommunication.addPlayer(period, player);
     }
 
-    public void activeExcommunicationEffect(Action action) {
+
+
+    public void activeFirstPeriodExcommunication(Action action, int type) throws RemoteException, NewActionException {
+        excommunication.activeFirtsPeriod(action.getPlayer(), type);
+    }
+
+    public void activeSecondPeriodExcommunication(Action action) throws RemoteException, NewActionException {
+        excommunication.activeSecondPeriod(action.getPlayer());
+    }
+
+    public void activeThirdPeriodExcommunication() {
 
     }
 

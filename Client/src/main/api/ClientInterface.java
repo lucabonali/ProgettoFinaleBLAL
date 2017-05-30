@@ -106,4 +106,18 @@ public interface ClientInterface extends Remote{
      * @throws RemoteException
      */
     void notifyPrivilege() throws RemoteException;
+
+    /**
+     * notifica che sono stato scomunicato nel periodo passato come parametro
+     * @param id id del giocatore scomunicato
+     * @param period periodo
+     * @throws RemoteException
+     */
+    void excommunicate(int id, int period) throws RemoteException;
+
+    /**
+     * notifica che la partita è terminata, con l'esito
+     * @param msg messaggio (esito)
+     */
+    void gameEnded(String msg) throws RemoteException;
 }

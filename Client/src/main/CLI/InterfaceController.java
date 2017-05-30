@@ -150,9 +150,21 @@ public interface InterfaceController {
 
     /**
      * aggiorna la lista delle mie carte
-     * @param personalCardsMap
+     * @param personalCardsMap mappa delle carte personali
      */
     void updateMyCards(Map<CardType, List<String>> personalCardsMap);
+
+    /**
+     * mi informa che un giocatore è stato scomunicato nel periodo period
+     * @param id id del giocatore che è stato scomunicato
+     * @param period periodo della scomunica
+     */
+    void excommunicate(int id, int period);
+
+    /**
+     * mi fa ritornare al menu di scelta del tipo di partita
+     */
+    void backToMenu();
 }
 
 

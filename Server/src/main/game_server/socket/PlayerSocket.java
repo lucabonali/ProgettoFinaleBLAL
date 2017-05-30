@@ -86,6 +86,16 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     }
 
     @Override
+    public void excommunicate(int id, int period) throws RemoteException {
+        //da implementare
+    }
+
+    @Override
+    public void opponentExcommunicate(int idPlayer, int period) throws RemoteException {
+        // da implementare
+    }
+
+    @Override
     public void sendDicesValues(int orange, int white, int black) throws RemoteException {
         //da implementare
     }

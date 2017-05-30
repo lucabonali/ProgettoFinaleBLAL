@@ -7,6 +7,7 @@ import main.api.types.CardType;
 import main.api.types.ResourceType;
 import main.game_server.AbstractPlayer;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class VariableIncrementEffect implements Effect{
     }
 
     @Override
-    public void active(AbstractPlayer player) {
+    public void active(AbstractPlayer player) throws RemoteException {
         int qta;
         if (cardType != null){
             List<DevelopmentCard> list = player.getPersonalBoard().getCardsList(cardType);
@@ -50,7 +51,9 @@ public class VariableIncrementEffect implements Effect{
             qta = field.getQta() * tmp;
         }
         Resource newRes = new Resource(qta, field.getType());
+        player.getPersonalBoard().setCurrentField(newRes);
         player.getPersonalBoard().modifyResources(newRes);
+        player.activeExcommunicationEffects(player.getPersonalBoard().getCurrentAction(), 2);
     }
 
     /**

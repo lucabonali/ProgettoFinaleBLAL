@@ -5,7 +5,7 @@ import main.api.ClientInterface;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
 import main.api.types.*;
-import main.gui.Service;
+import main.GUI.Service;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -28,7 +28,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private String username,password;
     private int id;
     private List<Integer> opponentsIdList;
-    private InterfaceController interfaceController; //controller che potrà essere GameController se della gui, oppure CLIController se per la cli
+    private InterfaceController interfaceController; //controller che potrà essere GUIController se della GUI, oppure CLIController se per la cli
     private Phases phase;
     private ActionSpacesType actionSpacesType;
     private CardType cardType;
@@ -222,6 +222,27 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         interfaceController.notifyMessage("hai terminato il tuo turno attendi il tuo avversario");
     }
 
+    /**
+     * notifica che sono stato scomunicato nel periodo passato come parametro
+     * @param period periodo
+     * @throws RemoteException
+     */
+    @Override
+    public void excommunicate(int id, int period) throws RemoteException{
+        interfaceController.excommunicate(id, period);
+    };
+
+
+    /**
+     * notifica che la partita è terminata, con l'esito
+     * @param msg messaggio (esito)
+     */
+    @Override
+    public void gameEnded(String msg) throws RemoteException {
+        notifyMessage(msg);
+        interfaceController.backToMenu();
+    };
+
 
 
     /// METODI AGGIUNTI DALLA CLASSE ASTRATTA E GIA' IMPLEMENTATI /////////////////////////////////////////////////////////
@@ -370,6 +391,10 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     public abstract void convertPrivilege(int qta, ResourceType type) throws RemoteException;
 
+    /**
+     * mi dice al server che voglio abbandonare la partita
+     * @throws RemoteException
+     */
     public abstract void surrender() throws RemoteException;
 
 

@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.gui.music.Music;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -38,7 +37,7 @@ public class GUILauncher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main/gui/start_screen/start_screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main/GUI/start_screen/start_screen.fxml"));
         stage.setOnCloseRequest(event -> System.exit(0));
         stage.centerOnScreen();
         stage.initStyle(StageStyle.UNDECORATED);

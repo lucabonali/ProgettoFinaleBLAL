@@ -50,6 +50,8 @@ public class ConvertionEffect implements Effect{
         }
         for(Field f : fieldToIncrement) {
             player.getPersonalBoard().modifyResources(f);
+            player.getPersonalBoard().setCurrentField(f);
+            player.activeExcommunicationEffects(player.getPersonalBoard().getCurrentAction(), 2);
         }
     }
 

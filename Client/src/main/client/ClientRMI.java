@@ -99,14 +99,24 @@ public class ClientRMI extends AbstractClient {
         }
     }
 
+    /**
+     * informo il server in cosa voglio convertire i miei privilegi
+     * @param qta qta in cui convertire
+     * @param type tipo in cui convertire
+     * @throws RemoteException
+     */
     @Override
     public void convertPrivilege(int qta, ResourceType type) throws RemoteException {
         serverGame.convertPrivilege(qta, type);
     }
 
+    /**
+     * abbandono la partita, informo il server
+     * @throws RemoteException
+     */
     @Override
     public void surrender() throws RemoteException {
-
+        serverGame.surrender();
     }
 
     /**

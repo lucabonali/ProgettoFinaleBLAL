@@ -13,10 +13,11 @@ import java.rmi.RemoteException;
  * @author Andrea
  */
 public class FamilyMemberValueDecrementEffect implements Effect {
+
     @Override
     public void active(AbstractPlayer player) throws RemoteException, NewActionException {
         Action action = player.getPersonalBoard().getCurrentAction();
-        if (action.getFamilyMember().getType() != FamilyMemberType.NEUTRAL_DICE)
+        if (action.getFamilyMember() != null && action.getFamilyMember().getType() != FamilyMemberType.NEUTRAL_DICE)
             player.getPersonalBoard().getCurrentAction().modifyValue(-1);
     }
 }

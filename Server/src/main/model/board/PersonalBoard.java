@@ -1,9 +1,9 @@
 package main.model.board;
 
-import main.game_server.exceptions.NewActionException;
 import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
+import main.game_server.exceptions.NewActionException;
 import main.model.action_spaces.Action;
 import main.model.fields.Field;
 import main.model.fields.Resource;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static main.api.types.FamilyMemberType.*;
-import static main.api.types.ResourceType.*;
+import static main.api.types.ResourceType.WOOD;
 
 /**
  * @author Luca
@@ -26,21 +26,20 @@ import static main.api.types.ResourceType.*;
 public class PersonalBoard {
     //lista dei familiari in possesso, uno neutro e tre personali
     private Map<FamilyMemberType,FamilyMember> familyMemberList;
-
     // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY
     //private List<Resource> resourceList;
     private Map<ResourceType, Resource> resourceList;
-
     //liste delle carte in possesso, al massimo 6 per tipo
     private Map<CardType, List<DevelopmentCard>> cardsMap;
-
     //id del giocatore e quindi della plancia
     private int id;
-
+    //lista dei correnti effetti
+    private Field currentField = null;
     //azione corrente
     private Action currentAction;
+
     /**
-     *
+     * costruttore della classe
      * @param id identifica il giocatore in ordine di connessione
      */
     public PersonalBoard(int id){
@@ -50,9 +49,16 @@ public class PersonalBoard {
         initializeCardsLists();
     }
 
-
     public Action getCurrentAction() {
         return currentAction;
+    }
+
+    public void setCurrentField(Field field) {
+        this.currentField = field;
+    }
+
+    public Field getCurrentField() {
+        return currentField;
     }
 
     //rimuovere
