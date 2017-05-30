@@ -68,7 +68,7 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
     @Override
-    public void modifyPoints(Map<ResourceType, Integer> map) {
+    public void modifyResources(Map<ResourceType, Integer> map) {
 
     }
 
@@ -206,9 +206,15 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
+    @Override
+    public void startGame(int id) {
 
+    }
 
+    @Override
+    public void notifyMessage(String msg) {
 
+    }
 
 
     public void handleMenu(Object object) {

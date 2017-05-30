@@ -77,6 +77,9 @@ public class GameController implements InterfaceController {
 
     @FXML private TextField servantsToPayTextField;
 
+    private MessagesController messagesController;
+    private PersonalBoardController personalBoardController;
+
     private Map<CardType, GridPane> gridPaneSpacesTowersMap = new HashMap<>();
     private Map<MarketActionType, GridPane> gridPaneSpacesMarketMap = new HashMap<>();
 
@@ -230,11 +233,12 @@ public class GameController implements InterfaceController {
 
     /**
      * mi rimuove le carte che sono già state pescate
-     * @param nameCards
+     * @param personalCardsMap mappa delle liste dei nomi delle carte che il giocatore possiede
      */
     @Override
-    public void removeDrawnCards(Map<CardType, List<String>> nameCards) {
-        nameCards.forEach(((cardType, namesList) -> namesList.forEach(name -> imageList.forEach(card -> card.remove(name)))));
+    public void removeDrawnCards(Map<CardType, List<String>> personalCardsMap) {
+        personalBoardController.updateCards(personalCardsMap);
+        personalCardsMap.forEach(((cardType, namesList) -> namesList.forEach(name -> imageList.forEach(card -> card.remove(name)))));
     }
 
     /**
@@ -365,13 +369,27 @@ public class GameController implements InterfaceController {
         });
     }
 
+    @Override
+    public void notifyMessage(String msg) {
+        messagesController.setMessage(msg);
+    }
+
     /**
      * mi modifica i punti del giocatore, cioè mi sposta i dischetti relativi a me stesso
-     * @param map mappa dei valori
+     * @param qtaResourcesMap mappa delle qta delle risorse
      */
     @Override
-    public void modifyPoints(Map<ResourceType, Integer> map) {
-        Platform.runLater(() -> map.forEach(((resourceType, points) -> personalDiscs.get(resourceType).setCurrentPosition(points))));
+    public void modifyResources(Map<ResourceType, Integer> qtaResourcesMap) {
+        Map<ResourceType, Integer> resourceMap = new HashMap<>();
+        Map<ResourceType, Integer> pointMap = new HashMap<>();
+        qtaResourcesMap.forEach(((resourceType, integer) -> {
+            if (resourceType == ResourceType.COINS || resourceType == ResourceType.WOOD || resourceType == ResourceType.STONE || resourceType == ResourceType.SERVANTS)
+                resourceMap.put(resourceType, integer);
+            else
+                pointMap.put(resourceType,integer);
+        }));
+        Platform.runLater(() -> pointMap.forEach(((resourceType, points) -> personalDiscs.get(resourceType).setCurrentPosition(points))));
+        personalBoardController.modifyResources(resourceMap);
     }
 
     /**
@@ -442,6 +460,8 @@ public class GameController implements InterfaceController {
         createDiscs(id);
         createFamilyMembers(id);
         relocateFamilyMembers();
+        personalBoardController.startGame(id);
+        messagesController.setMessage("La partita è iniziata");
     }
 
     /**
@@ -469,11 +489,11 @@ public class GameController implements InterfaceController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));
             Parent messagesServer = fxmlLoader.load();
-            client.setMessagesController(fxmlLoader.getController());
+            messagesController = fxmlLoader.getController();
             personalGridPane.add(messagesServer, 0, 2);
             fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/personal_board_view.fxml"));
             Parent personalBoard = fxmlLoader.load();
-            client.setPersonalBoardController(fxmlLoader.getController());
+            personalBoardController = fxmlLoader.getController();
             myPersonalBoardGridPane.add(personalBoard, 0, 0);
         }
         catch (IOException e) {

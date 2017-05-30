@@ -70,7 +70,7 @@ public interface InterfaceController {
     * mi modifica i punti del giocatore, cioè mi sposta i dischetti relativi a me stesso
     * @param map mappa dei valori
     */
-    void modifyPoints(Map<ResourceType, Integer> map);
+    void modifyResources(Map<ResourceType, Integer> map);
 
     /**
     * mi modifica i punti di un avversario cioè mi sposta i dischetti relativi ad un giocatore avversario
@@ -131,7 +131,11 @@ public interface InterfaceController {
      */
     void startGame(int id);
 
-
+    /**
+     * mi notifica un messaggio proveniente dal server
+     * @param msg
+     */
+    void notifyMessage(String msg);
 }
 
 

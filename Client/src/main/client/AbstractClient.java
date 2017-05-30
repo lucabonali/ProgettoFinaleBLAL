@@ -6,8 +6,6 @@ import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
 import main.api.types.*;
 import main.gui.Service;
-import main.gui.game_view.MessagesController;
-import main.gui.game_view.PersonalBoardController;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -31,8 +29,6 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private int id;
     private List<Integer> opponentsIdList;
     private InterfaceController interfaceController; //controller che potrà essere GameController se della gui, oppure CLIController se per la cli
-    private MessagesController messagesController;
-    private PersonalBoardController personalBoardController;
     private Phases phase;
     private ActionSpacesType actionSpacesType;
     private CardType cardType;
@@ -64,9 +60,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         this.id = id;
         opponentsIdList = opponentsId;
         interfaceController.startGame(id);
-        personalBoardController.startGame(id);
         opponentsId.forEach((idValue -> interfaceController.createOpponentDiscs(idValue)));
-        messagesController.setMessage("La partita è iniziata");
     }
 
     /**
@@ -86,16 +80,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
-        Map<ResourceType, Integer> resourceMap = new HashMap<>();
-        Map<ResourceType, Integer> pointMap = new HashMap<>();
-        qtaResourcesMap.forEach(((resourceType, integer) -> {
-            if (resourceType == ResourceType.COINS || resourceType == ResourceType.WOOD || resourceType == ResourceType.STONE || resourceType == ResourceType.SERVANTS)
-                resourceMap.put(resourceType, integer);
-            else
-                pointMap.put(resourceType,integer);
-        }));
-        interfaceController.modifyPoints(pointMap);
-        personalBoardController.modifyResources(resourceMap);
+        interfaceController.modifyResources(qtaResourcesMap);
     }
 
     /**
@@ -106,7 +91,6 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     @Override
     public void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
         interfaceController.removeDrawnCards(personalcardsMap);
-        personalBoardController.updateCards(personalcardsMap);
         interfaceController.moveFamilyMember(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
     };
 
@@ -135,7 +119,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyMessage(String msg) throws RemoteException {
-        messagesController.setMessage(msg);
+        interfaceController.notifyMessage(msg);
     }
 
     /**
@@ -147,7 +131,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void setDiceValues(int orange, int white, int black) throws RemoteException {
-        messagesController.setMessage("il primo giocatore ha tirato i dadi");
+        interfaceController.notifyMessage("il primo giocatore ha tirato i dadi");
         interfaceController.setDices(orange, white, black);
     }
 
@@ -157,7 +141,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyHaveToShotDice() throws RemoteException {
-        messagesController.setMessage("devi tirare i dadi!!!");
+        interfaceController.notifyMessage("devi tirare i dadi!!!");
         interfaceController.showDices();
     }
 
@@ -177,7 +161,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyNewAction(int value, char codeAction) throws RemoteException {
-        messagesController.setMessage("devi fare una nuova azione");
+        interfaceController.notifyMessage("devi fare una nuova azione");
         currentNewActionValue = value;
         currentNewActionActionSpaceType = Service.getActionSpaceType(codeAction);
         currentNewActionCardType = Service.getCardType(codeAction);
@@ -190,7 +174,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyYourTurn() throws RemoteException {
-        messagesController.setMessage("è il tuo turno!!!");
+        interfaceController.notifyMessage("è il tuo turno!!!");
         phase = Phases.ACTION;
     }
 
@@ -210,7 +194,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyEndMove() throws RemoteException{
-        messagesController.setMessage("hai terminato il tuo turno attendi il tuo avversario");
+        interfaceController.notifyMessage("hai terminato il tuo turno attendi il tuo avversario");
     }
 
 
@@ -249,17 +233,6 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         this.interfaceController = controller;
     }
 
-    public void setMessagesController(MessagesController controller) {
-        this.messagesController = controller;
-    }
-
-    public void setPersonalBoardController(PersonalBoardController controller) {
-        this.personalBoardController = controller;
-    }
-
-    public PersonalBoardController getPersonalBoardController() {
-        return personalBoardController;
-    }
 
     /**
      * metodo che mi codifica il messaggio azione
@@ -267,9 +240,9 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     public MessageAction encondingMessageAction() {
         if (actionSpacesType == null)
-            messagesController.setMessage("non hai selezionato lo spazio azione");
+            interfaceController.notifyMessage("non hai selezionato lo spazio azione");
         else if (familyMemberType == null)
-            messagesController.setMessage("non hai selezionato il familiare");
+            interfaceController.notifyMessage("non hai selezionato il familiare");
         else
             return new MessageAction(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
         return null;
@@ -289,11 +262,11 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
                 return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
         }
         else if (actionSpacesType != currentNewActionActionSpaceType)
-            messagesController.setMessage("non hai selezionato lo spazio azione corretto");
+            interfaceController.notifyMessage("non hai selezionato lo spazio azione corretto");
         else if (currentNewActionCardType == null) //va bene qualsiasi torre
             return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
         else if (cardType != currentNewActionCardType)
-            messagesController.setMessage("non hai selezionato la torre corretta");
+            interfaceController.notifyMessage("non hai selezionato la torre corretta");
         return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
     }
 
