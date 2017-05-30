@@ -24,7 +24,6 @@ import java.util.Map;
  * classe che mi identifica il giocatore connesso tramite Socket
  */
 public class PlayerSocket extends AbstractPlayer implements Runnable {
-
     private Socket socketClient = null;
     private ObjectInputStream in;
     private ObjectOutputStream out;
