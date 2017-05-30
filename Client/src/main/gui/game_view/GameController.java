@@ -63,9 +63,7 @@ public class GameController implements InterfaceController {
     @FXML private GridPane whiteDicePane;
     @FXML private GridPane orangeDicePane;
 
-    @FXML private GridPane excomGridPane1;
-    @FXML private GridPane excomGridPane2;
-    @FXML private GridPane excomGridPane3;
+    @FXML private GridPane excomGridPane;
 
     @FXML private ToolBar toolbar1;
     @FXML private ToolBar toolbar2;
@@ -193,11 +191,12 @@ public class GameController implements InterfaceController {
     private void initializeImageViewExcomCards() {
         for (int i=0; i<3; i++) {
             ExcomCard excomCard = new ExcomCard();
+            excomCard.setOnMouseEntered(event -> Service.zoomIn(excomCard));
+            excomCard.setOnMouseExited(event -> Service.zoomOut(excomCard));
+            excomCard.setPreserveRatio(false);
             excomImageList.add(excomCard);
+            excomGridPane.add(excomCard, i, 0);
         }
-        excomGridPane1.add(excomImageList.get(0), 0 , 0);
-        excomGridPane3.add(excomImageList.get(1), 0 , 0);
-        excomGridPane3.add(excomImageList.get(2), 0 , 0);
     }
 
     /**
@@ -234,9 +233,11 @@ public class GameController implements InterfaceController {
      */
     @Override
     public void setBoardCards(List<String> namesList) {
-        for (int i=0; i<namesList.size(); i++) {
-            imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()), namesList.get(i));
-        }
+        Platform.runLater(() ->{
+            for (int i=0; i<namesList.size(); i++) {
+                imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()), namesList.get(i));
+            }
+        });
     }
 
     /**
@@ -245,7 +246,7 @@ public class GameController implements InterfaceController {
      */
     @Override
     public void removeDrawnCards(Map<CardType, List<String>> personalCardsMap) {
-        personalCardsMap.forEach(((cardType, namesList) -> namesList.forEach(name -> imageList.forEach(card -> card.remove(name)))));
+        Platform.runLater(() -> personalCardsMap.forEach(((cardType, namesList) -> namesList.forEach(name -> imageList.forEach(card -> card.remove(name))))));
     }
 
     /**
@@ -396,10 +397,12 @@ public class GameController implements InterfaceController {
 
     @Override
     public void showExcomCards(List<String> codeList) {
-        for (int i=0; i<codeList.size(); i++) {
-            excomImageList.get(i).setImage(
-                    new Image(getClass().getResource("res/excom_cards/" + codeList.get(i) + EXTENSION).toExternalForm()), codeList.get(i));
-        }
+        Platform.runLater(()->{
+            for (int i=0; i<codeList.size(); i++) {
+                excomImageList.get(i).setImage(
+                        new Image(getClass().getResource("res/excom_cards/" + codeList.get(i) + EXTENSION).toExternalForm()), codeList.get(i));
+            }
+        });
     }
 
     @Override
@@ -517,8 +520,8 @@ public class GameController implements InterfaceController {
         initializeImageViewExcomCards();
         initializeDices();
 
-        lorenzoAnimation = new LorenzoAnimation(lorenzoCenter, "Hi, i' m Lorenzo , the Magnificent!!");
-        lorenzoAnimation.startGameAnimation();
+//        lorenzoAnimation = new LorenzoAnimation(lorenzoCenter, "Hi, i' m Lorenzo , the Magnificent!!");
+//        lorenzoAnimation.startGameAnimation();
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/message_view.fxml"));

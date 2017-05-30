@@ -10,6 +10,7 @@ import main.api.types.ResourceType;
 import main.game_server.AbstractPlayer;
 import main.game_server.exceptions.LorenzoException;
 import main.game_server.exceptions.NewActionException;
+import main.model.action_spaces.Action;
 import main.model.board.Board;
 import main.model.board.FamilyMember;
 import main.model.fields.Resource;
@@ -92,7 +93,7 @@ public class Game {
                     if (opponent != player)
                         arrayListId.add(opponentId);
                 });
-                player.gameIsStarted(arrayListId);
+                player.gameIsStarted(arrayListId, board.getExcomCodeList());
             }
             catch (RemoteException e) {
                 e.printStackTrace();
@@ -222,6 +223,14 @@ public class Game {
         else {
             player.notifyError("non sei nella fase di scomunica!!!");
         }
+    }
+
+    /**
+     * mi attiva gli eventuali effetti dovuti alle scomuniche
+     * @param action azione
+     */
+    public void activeExcommunicationEffects(Action action) {
+
     }
 
     /**

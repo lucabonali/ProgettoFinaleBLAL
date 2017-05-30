@@ -27,8 +27,8 @@ public class PlayerRMI extends AbstractPlayer {
     // OVERRADI DEI METODI EREDITATI DA ABSTRACT PLAYER /////////////////////////////////////////////////
 
     @Override
-    public void gameIsStarted(List<Integer> idList) throws RemoteException {
-        getClientInterface().isGameStarted(getIdPlayer(), idList, new ArrayList<>());
+    public void gameIsStarted(List<Integer> idList, List<String> codeList) throws RemoteException {
+        getClientInterface().isGameStarted(getIdPlayer(), idList, codeList);
     }
 
     /**

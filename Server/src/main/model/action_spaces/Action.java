@@ -53,6 +53,7 @@ public class Action {
      */
     public void commitAction() throws LorenzoException, RemoteException, NewActionException {
         player.getPersonalBoard().activeCharacterEffects(this);
+        player.activeExcommunicationEffects(this);
         //dopo che ho attivato gli effetti delle carte personaggio
         this.actionSpace.doAction(this);
     }

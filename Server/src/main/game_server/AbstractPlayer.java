@@ -7,11 +7,12 @@ import main.api.messages.MessageNewAction;
 import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
 import main.api.types.ResourceType;
+import main.game_server.exceptions.NewActionException;
 import main.model.Game;
+import main.model.action_spaces.Action;
 import main.model.board.DevelopmentCard;
 import main.model.board.FamilyMember;
 import main.model.board.PersonalBoard;
-import main.game_server.exceptions.NewActionException;
 import main.model.fields.Resource;
 
 import java.rmi.RemoteException;
@@ -101,7 +102,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      * mi notifica che la partita è cominciata
      * @throws RemoteException
      */
-    public abstract void gameIsStarted(List<Integer> idList) throws RemoteException;
+    public abstract void gameIsStarted(List<Integer> idList, List<String> codeList) throws RemoteException;
 
     /**
      * mi notifica che è il mio turno
@@ -194,6 +195,9 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     /// METODI IMPLEMENTATI DALL'INTERFACCIA PLAYER INTERFACE ///////////////////////////////////////////////
 
 
+    public void activeExcommunicationEffects(Action action){
+        game.activeExcommunicationEffects(action);
+    }
 
     @Override
     public void shotDice(int orange, int white, int black) throws RemoteException{

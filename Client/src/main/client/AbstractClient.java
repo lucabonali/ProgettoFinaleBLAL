@@ -64,7 +64,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         this.id = id;
         opponentsIdList = opponentsId;
         interfaceController.startGame(id);
-        //interfaceController.showExcomCards(codeExcomList);
+        interfaceController.showExcomCards(codeExcomList);
         initializeQtaResorcesMap();
         opponentsId.forEach((idValue -> {
             interfaceController.createOpponentDiscs(idValue);

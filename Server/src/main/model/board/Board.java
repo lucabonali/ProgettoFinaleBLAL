@@ -114,6 +114,14 @@ public class Board {
     }
 
     /**
+     * ritorna la lista dei codici delle tessere scomunica
+     * @return lista codici
+     */
+    public List<String> getExcomCodeList() {
+        return excommunication.getCodeList();
+    }
+
+    /**
      * metodo che mi ritorna la lista di tutte le carte presenti sulle torre
      * nell'ordine territori, personaggi, edifici, imprese.
      * @return lista di carte sviluppo
@@ -201,6 +209,10 @@ public class Board {
      */
     public void excommunicatePlayer(int period, AbstractPlayer player){
         excommunication.addPlayer(period, player);
+    }
+
+    public void activeExcommunicationEffect(Action action) {
+
     }
 
     /**

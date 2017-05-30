@@ -14,8 +14,8 @@ public class ExcomCard extends ImageView{
 
     public ExcomCard() {
         super();
-        setFitWidth(70);
-        setFitHeight(102);
+        setFitWidth(79);
+        setFitHeight(103);
     }
 
     public String getCode() {
@@ -35,7 +35,7 @@ public class ExcomCard extends ImageView{
      * animazione che mi fa comparire la carta
      */
     private void startShowAnimation() {
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(6000), this);
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(5000), this);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         fadeIn.play();

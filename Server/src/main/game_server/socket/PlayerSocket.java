@@ -36,7 +36,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     // metodi ereditati e da implementare da ABSTRACT PLAYER //////////////////////////////////////
 
     @Override
-    public void gameIsStarted(List<Integer> idList) throws RemoteException {
+    public void gameIsStarted(List<Integer> idList, List<String> codeExcomList) throws RemoteException {
 
     }
 

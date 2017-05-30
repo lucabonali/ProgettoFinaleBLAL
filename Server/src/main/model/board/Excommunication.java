@@ -25,18 +25,20 @@ public class Excommunication {
     private final String QUERY_PERIOD_3 = "SELECT * FROM excommunicatingcards WHERE period=3 AND id=";
     private ConnectionDB connectionDB;
     private List<Effect> excomEffectList;
+    private List<String> codeList;
     private Map<Integer,List<AbstractPlayer>> excomPlayerMap;
 
     public Excommunication(){
         connectionDB = new ConnectionDB();
         excomEffectList = new ArrayList<>();
+        codeList = new ArrayList<>();
         excomPlayerMap = new HashMap<>();
         excomPlayerMap.put(1, new ArrayList<>());
         excomPlayerMap.put(2, new ArrayList<>());
         excomPlayerMap.put(3, new ArrayList<>());
-        //prelameCardFirstPeriodFromDB();
-        //prelameCardSecondPeriodFromDB();
-        //prelameCardThirdPeriodFromDB();
+        prelameCardFirstPeriodFromDB();
+        prelameCardSecondPeriodFromDB();
+        prelameCardThirdPeriodFromDB();
     }
 
     /**
@@ -49,6 +51,7 @@ public class Excommunication {
         ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_1 + (rand.nextInt(5)+1));
         try {
             rs.next();
+            codeList.add(rs.getInt("period") + "" + rs.getInt("id"));
             String codEffect = rs.getString("effect_code");
             excomEffectList.add(ExcommunicatingEffectCreator.createInstanceFirstPeriod(codEffect));
         } catch (SQLException e) {
@@ -66,6 +69,7 @@ public class Excommunication {
         ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_2 + (rand.nextInt(3)+1));
         try {
             rs.next();
+            codeList.add(rs.getInt("period") + "" + rs.getInt("id"));
             String codEffect = rs.getString("effect_code");
             excomEffectList.add(ExcommunicatingEffectCreator.createInstanceSecondPeriod(codEffect));
         } catch (SQLException e) {
@@ -83,11 +87,20 @@ public class Excommunication {
         ResultSet rs = connectionDB.executeQuery(QUERY_PERIOD_3 + (rand.nextInt(5)+1));
         try {
             rs.next();
+            codeList.add(rs.getInt("period") + "" + rs.getInt("id"));
             String codEffect = rs.getString("effect_code");
             excomEffectList.add(ExcommunicatingEffectCreator.createInstanceThirdPeriod(codEffect));
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * ritorna la lista dei codici delle tessere scomunica pescate
+     * @return lista codici
+     */
+    public List<String> getCodeList() {
+        return codeList;
     }
 
     /**
