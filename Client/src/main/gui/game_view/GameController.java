@@ -407,6 +407,7 @@ public class GameController implements InterfaceController {
 
     }
 
+
     /**
      * mi modifica i punti del giocatore, cioè mi sposta i dischetti relativi a me stesso
      * @param qtaResourcesMap mappa delle qta delle risorse

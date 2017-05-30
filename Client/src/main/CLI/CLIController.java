@@ -22,6 +22,7 @@ public class CLIController implements InterfaceController, Runnable {
     private static Map<Integer,MenuHandler> menuChoices;
     private static Map<Integer , GameHandler > gameMap;
     private boolean isGameStarted = false;
+    private List<String> boardCards;
 
 
     public CLIController(){
@@ -31,7 +32,7 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void setBoardCards(List<String> namesList) {
-
+        this.boardCards = namesList;
     }
 
     @Override
@@ -138,6 +139,11 @@ public class CLIController implements InterfaceController, Runnable {
         }
     }
 
+    @Override
+    public void updateMyCards(Map<CardType, List<String>> personalCardsMap) {
+
+    }
+
     public void initialize() throws InterruptedException {
         client = AbstractClient.getInstance();
     }
@@ -163,6 +169,9 @@ public class CLIController implements InterfaceController, Runnable {
             try {
                 choice = Integer.parseInt(in.readLine()) ;
                 handleMenu(choice);
+                if(choice >= 0 && choice <= 6 )
+                   break;
+
             } catch (IOException e) {
                 System.out.println(" Please, insert a correct option. ");
             }
@@ -203,13 +212,23 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
     private void twoPlayersGame() {
-        System.out.println("twoPlayers");
+        System.out.println("---- TWO PLAYERS ----");
+        try{
+            client = AbstractClient.getInstance();
+            client.startGame(2);
+            new Thread(() ->{
+                waitGame();
+            }).start();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 
     private void randomGame() {
         System.out.println("---- RANDOM GAME ----");
         try {
+            client = AbstractClient.getInstance();
             client.startGame(1);
             new Thread(() -> {
                 waitGame();
