@@ -142,10 +142,4 @@ public class ClientRMI extends AbstractClient {
     public void excommunicationChoice(boolean choice) throws RemoteException {
         serverGame.excommunicationChoice(choice);
     }
-
-
-    public void printString(String name) throws RemoteException {
-        System.out.println(name);
-    }
-
 }

@@ -3,6 +3,7 @@ package main.client;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
 import main.api.messages.SocketProtocol;
+import main.api.types.CardType;
 import main.api.types.ResourceType;
 
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Classe che identifica i messaggi dal server tramite il socket e che modifica l' interfaccia utente
@@ -71,20 +74,36 @@ public class ClientSocket extends AbstractClient implements Runnable{
     }
 
     @Override
-    public void doAction(MessageAction msg, int servantsToPay) {
-        try {
-            out.writeObject(msg);
-            out.flush();
+    public void doAction(MessageAction msg, int servantsToPay) throws RemoteException {
+        if (servantsToPay <= getQtaResource(ResourceType.SERVANTS)) {
+            msg.setValue(servantsToPay);
+            try {
+                out.writeObject(msg);
+                out.flush();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        else
+            notifyMessage("Non hai abbastanza servitori");
 
     }
 
     @Override
     public void doNewAction(MessageNewAction msg, int servantsToPay) throws RemoteException {
-
+        if (servantsToPay <= getQtaResource(ResourceType.SERVANTS)) {
+            msg.setAdditionalValue(servantsToPay);
+            try {
+                out.writeObject(msg);
+                out.flush();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+            notifyMessage("Non hai abbastanza servitori");
     }
 
     @Override
@@ -125,21 +144,44 @@ public class ClientSocket extends AbstractClient implements Runnable{
 
     @Override
     public void endMove() throws RemoteException {
-
+        try {
+            out.writeObject(SocketProtocol.END_MOVE);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void convertPrivilege(int qta, ResourceType type) throws RemoteException {
-
+        try {
+            out.writeObject(SocketProtocol.CONVERT_PRIVILEGE);
+            out.flush();
+            out.writeInt(qta);
+            out.flush();
+            out.writeObject(type);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void surrender() throws RemoteException {
-
+        try {
+            out.writeObject(SocketProtocol.SURRENDER);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void run() {
+        String response;
         try{
             while (true) {
                 try {
@@ -147,7 +189,69 @@ public class ClientSocket extends AbstractClient implements Runnable{
                     if (msg instanceof SocketProtocol){
                         switch ((SocketProtocol) msg){
                             case INFORMATION:
-                                String response = (String)in.readObject();
+                                response = (String)in.readObject();
+                                notifyMessage(response);
+                                break;
+                            case GAME_ENDED:
+                                response = (String)in.readObject();
+                                gameEnded(response);
+                                break;
+                            case EXCOMMUNICATE:
+                                int id = in.readInt();
+                                int period = in.readInt();
+                                excommunicate(id, period);
+                                break;
+                            case END_MOVE:
+                                notifyEndMove();
+                                break;
+                            case YOUR_EXCOMMUNICATION_TURN:
+                                notifyYourExcommunicationTurn();
+                                break;
+                            case YOUR_TURN:
+                                notifyYourTurn();
+                                break;
+                            case NEW_ACTION:
+                                int value = in.readInt();
+                                char codeAction = in.readChar();
+                                notifyNewAction(value, codeAction);
+                                break;
+                            case PRIVILEGE:
+                                notifyPrivilege();
+                                break;
+                            case HAVE_TO_SHOT:
+                                notifyHaveToShotDice();
+                                break;
+                            case DICE_VALUES:
+                                int orange = in.readInt();
+                                int white = in.readInt();
+                                int black = in.readInt();
+                                setDiceValues(orange, white, black);
+                                break;
+                            case OPPONENT_MOVE:
+                                int opponentId = in.readInt();
+                                //dovre fare un check su instanceof
+                                Map<CardType, List<String>> cardsMap = (Map<CardType, List<String>>) in.readObject();
+                                Map<ResourceType, Integer> qtaResourcesMap = (Map<ResourceType, Integer>) in.readObject();
+                                opponentMove(opponentId, cardsMap, qtaResourcesMap);
+                                break;
+                            case UPDATE_PERSONAL_CARDS:
+                                Map<CardType, List<String>> personalCardsMap = (Map<CardType, List<String>>) in.readObject();
+                                updatePersonalCards(personalCardsMap);
+                                break;
+                            case UPDATE_RESOURCES:
+                                Map<ResourceType, Integer> personalQtaResourcesMap = (Map<ResourceType, Integer>) in.readObject();
+                                updateResources(personalQtaResourcesMap);
+                                break;
+                            case TOWERS_CARDS:
+                                List<String> boardCards = (List<String>) in.readObject();
+                                setTowersCards(boardCards);
+                                break;
+                            case IS_GAME_STARTED:
+                                int myId = in.readInt();
+                                List<Integer> opponentsId = (List<Integer>) in.readObject();
+                                List<String> codeExcomList = (List<String>) in.readObject();
+                                isGameStarted(myId, opponentsId, codeExcomList);
+                                break;
                         }
                     }
                 } catch (ClassNotFoundException e) {
