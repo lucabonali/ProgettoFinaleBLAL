@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -206,10 +207,12 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
 
     @Override
     public void initializeBoard(List<DevelopmentCard> towersCardsList) throws RemoteException {
+        List<String> list = new ArrayList<>();
+        towersCardsList.forEach((developmentCard -> list.add(developmentCard.getName())));
         try {
             out.writeObject(SocketProtocol.TOWERS_CARDS);
             out.flush();
-            out.writeObject(towersCardsList);
+            out.writeObject(list);
             out.flush();
         }
         catch (IOException e) {
