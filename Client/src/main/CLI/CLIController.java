@@ -1,5 +1,6 @@
 package main.CLI;
 
+import com.sun.org.apache.regexp.internal.RE;
 import main.api.types.*;
 import main.client.AbstractClient;
 
@@ -16,18 +17,32 @@ import java.util.Map;
  * @author Luca
  */
 public class CLIController implements InterfaceController, Runnable {
+    public static final String RESET = "\u001B[0m";
+    public static final String BLACK = "\u001B[30m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BLUE = "\u001B[34m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String CYAN = "\u001B[36m";
+    public static final String WHITE = "\u001B[37m";
+
     private AbstractClient client;
     private BufferedReader in;
     private String userName, password;
     private static Map<Integer,MenuHandler> menuChoices;
-    private static Map<Integer , GameHandler > gameMap;
+    private static Map<Integer,GameHandler > gameMap;
     private boolean isGameStarted = false;
-    private List<String> boardCards;
+    private List<String> boardCards; // sono tutte le carte
+    private List<String> excomCards;
+    private CLICards cliCards;
+
 
 
     public CLIController(){
         this.in = new BufferedReader(new InputStreamReader(System.in));
         this.client = AbstractClient.getInstance();
+        cliCards = new CLICards();
     }
 
     @Override
@@ -127,7 +142,7 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void showExcomCards(List<String> codeList) {
-
+        excomCards = codeList ;
     }
 
     @Override
@@ -144,6 +159,16 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
+    @Override
+    public void excommunicate(int id, int period) {
+
+    }
+
+    @Override
+    public void backToMenu() {
+
+    }
+
     public void initialize() throws InterruptedException {
         client = AbstractClient.getInstance();
     }
@@ -155,7 +180,7 @@ public class CLIController implements InterfaceController, Runnable {
 
         //Ciclo con dentro lo switch incredibile
         while(true){
-            System.out.println("-------------- LORENZO IL MAGNIFICO --------------");
+            System.out.println(RED + "-------------- LORENZO IL MAGNIFICO --------------" + RESET);
             System.out.println(" 1 - RANDOM GAME ");
             System.out.println(" 2 - TWO PLAYERS ");
             System.out.println(" 3 - THREE PLAYERS ");
@@ -211,8 +236,11 @@ public class CLIController implements InterfaceController, Runnable {
         System.out.println("threePlayers");
     }
 
+    /**
+     * metodo che lancia la creazione di una partita con 2 players
+     */
     private void twoPlayersGame() {
-        System.out.println("---- TWO PLAYERS ----");
+        System.out.println(RED + "---- TWO PLAYERS ----" + RESET);
         try{
             client = AbstractClient.getInstance();
             client.startGame(2);
@@ -224,9 +252,11 @@ public class CLIController implements InterfaceController, Runnable {
         }
     }
 
-
+    /**
+     * metodo che lancia la creazione di una partita con un numero di giocatori random
+     */
     private void randomGame() {
-        System.out.println("---- RANDOM GAME ----");
+        System.out.println(RED + "---- RANDOM GAME ----"+ RESET);
         try {
             client = AbstractClient.getInstance();
             client.startGame(1);
@@ -239,8 +269,11 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
 
+    /**
+     * metodo che attende la inizializzazione di una partita, e la connessione di un numero sufficente di giocatori
+     */
     private void waitGame() {
-        System.out.print(" Loading Game... ");
+        System.out.print(GREEN +"--- Loading Game ");
 
         while(!isGameStarted){
             System.out.print(" . ");
@@ -257,17 +290,19 @@ public class CLIController implements InterfaceController, Runnable {
      * metodo che stampa il menu di gioco
      */
     private void game(){
-        System.out.println("---- GAME STARTED ----");
+        System.out.println();
+        System.out.println(RED +"---- GAME STARTED ----" +RESET);
+
+        initializeGameMenu();
         while(true){
-            System.out.println("-------------------------");
+            System.out.println(CYAN + "-------------------------" + RESET);
             System.out.println(" 1 - SHOW BOARD ");
             System.out.println(" 2 - SHOW PERSONAL BOARD ");
-            System.out.println(" 3 - SHOW OPPONETS PERSONAL BOARD ");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
+            System.out.println(" 3 - SHOW OPPONENTS PERSONAL BOARD ");
+            System.out.println(" 4 - DO ACTION ");
+            System.out.println(" 5 - END TURN ");
             System.out.println(" 0 - SURRENDER ");
+            System.out.println(CYAN + "-------------------------" + CYAN);
 
             int choice = 0;
 
@@ -281,12 +316,17 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
+    /**
+     * metodo exit che fa uscire dal menu principale e termina il programma
+     */
     public void exit(){
-        System.out.println("exit");
-
-
+        System.out.println(RED + " GOODBYE :) "  + RESET );
+        System.exit(0);
     }
 
+    /**
+     * metodo che inizializza le scelte del menu di gioco
+     */
     private void initializeGameMenu() {
         gameMap = new HashMap<>();
         gameMap.put(GameCostants.SURRENDER , this::surrender);
@@ -299,10 +339,43 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
     private void showPersonalBoard() {
+        System.out.println("----- Personal Development Cards -----");
+
 
     }
 
     private void showBoard() {
+        System.out.println(RED + "----- Development Cards -----" + RESET);
+        for(int i = 0; i<boardCards.size(); i++) {
+            String card = boardCards.get(i);
+            if(i<4) {
+                System.out.print(GREEN +"Name : " + card + " --- Description : ");
+                System.out.print(cliCards.getTerritoryCardList().get(card));
+                System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) +RESET );
+            }
+            else if(i<8){
+                System.out.print(CYAN + "Name : " + card + " --- Description : ");
+                System.out.print(cliCards.getCharacterCardList().get(card));
+                System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) +RESET );
+            }
+            else if(i<12){
+                System.out.print(YELLOW + "Name : " + card + " --- Description : ");
+                System.out.print(cliCards.getBuildingsCardList().get(card));
+                System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) +RESET );
+            }
+            else{
+                System.out.print(PURPLE + "Name : " + card + " --- Description : ");
+                System.out.print(cliCards.getVenturesCardList().get(card));
+                System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) + RESET );
+            }
+        }
+
+        System.out.println(RED +"----- Excommunicating Cards -----" +RESET );
+        for(int i = 0; i < 3; i++){
+            System.out.println(GREEN + " "+i+"^ Period : " + cliCards.getExcomCards(excomCards.get(i)) + RESET);
+        }
+        System.out.println(RED +"---------------------------------" +RESET);
+
 
     }
 

@@ -25,6 +25,10 @@ import main.GUI.music.Music;
 import main.GUILauncher;
 import main.client.AbstractClient;
 
+
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +66,7 @@ public class GameModeSelectionView {
 
     private Music theme;
 
-    public GameModeSelectionView()  {
+    public GameModeSelectionView() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         root = new Pane();
         root.setPrefWidth(WIDTH);
         root.setPrefHeight(HEIGHT);
@@ -182,7 +186,7 @@ public class GameModeSelectionView {
         st.play();
     }
 
-    public static void createGameModeSelectionView() {
+    public static void createGameModeSelectionView() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         GameModeSelectionView nextView = new GameModeSelectionView();
         Parent window = nextView.createContent();
         Platform.runLater(()->{
@@ -209,7 +213,7 @@ public class GameModeSelectionView {
         public void run() {
             try {
                 client.startGame(gameMode);
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/GUI/game_view/game_view.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/gui/game_view/game_view.fxml"));
                 Parent window = (Pane) fxmlLoader.load();
                 GUIController controller = fxmlLoader.getController();
                 AbstractClient.getInstance().setInterfaceController(controller); //setto il model

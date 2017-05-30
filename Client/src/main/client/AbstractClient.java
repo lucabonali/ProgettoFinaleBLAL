@@ -5,7 +5,6 @@ import main.api.ClientInterface;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
 import main.api.types.*;
-import main.GUI.Service;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -188,8 +187,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     public void notifyNewAction(int value, char codeAction) throws RemoteException {
         interfaceController.notifyMessage("devi fare una nuova azione");
         currentNewActionValue = value;
-        currentNewActionActionSpaceType = Service.getActionSpaceType(codeAction);
-        currentNewActionCardType = Service.getCardType(codeAction);
+        currentNewActionActionSpaceType = main.GUI.Service.getActionSpaceType(codeAction);
+        currentNewActionCardType = main.GUI.Service.getCardType(codeAction);
         phase = Phases.NEW_ACTION;
     }
 

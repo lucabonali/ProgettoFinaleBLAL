@@ -23,6 +23,8 @@ import main.api.messages.MessageNewAction;
 import main.api.types.*;
 import main.client.AbstractClient;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -274,6 +276,12 @@ public class GUIController implements InterfaceController {
             GameModeSelectionView.createGameModeSelectionView();
         }
         catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         }
     }

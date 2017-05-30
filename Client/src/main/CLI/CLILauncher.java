@@ -15,6 +15,10 @@ import java.util.Map;
  * @author Luca
  */
 public class CLILauncher {
+
+    public static final String RED = "\u001B[31m";
+    public static final String RESET = "\u001B[0m";
+
     private static BufferedReader in ;
     private static CLIController cliController;
     private AbstractClient abstractClient;
@@ -28,7 +32,7 @@ public class CLILauncher {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        System.out.println("-------------- LORENZO IL MAGNIFICO --------------");
+        System.out.println(RED + "-------------- LORENZO IL MAGNIFICO --------------" +RESET);
         boolean b = true;
         in = new BufferedReader(new InputStreamReader(System.in));
         boolean conn = false;
@@ -60,7 +64,7 @@ public class CLILauncher {
      */
     private static void login(boolean connection) {
         String userName, password;
-        System.out.println("--------------- LORENZO IL MAGNIFICO ---------------");
+        System.out.println(RED + "-------------- LORENZO IL MAGNIFICO --------------" +RESET);
         System.out.println(" - Insert username and password : ");
         boolean correct = true;
         AbstractClient client = null;

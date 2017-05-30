@@ -1,23 +1,75 @@
 package main.CLI;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Classe che gestisce la disposizione delle carte sulle torri nella CLI
  * @author Andrea
  * @author Luca
  */
 class CLICards {
     private Map<String,String> territoryCardList;
-
     private Map<String,String> buildingsCardList;
     private Map<String,String> characterCardList ;
     private Map<String,String> venturesCardList;
+    private Map<Integer,Integer> actionSpaceValue;
+
+    private Map<String, String> excomCards;
 
     public CLICards() {
+        territoryCardList = new HashMap<>();
+        buildingsCardList = new HashMap<>();
+        characterCardList = new HashMap<>();
+        venturesCardList = new HashMap<>();
         initializeTerritories();
         initializeBuildings();
         initializeCharacters();
         initializeVentures();
+        initializeActionSpaceValue();
+        initializeExcomCards();
+    }
+
+
+
+    private void initializeExcomCards() {
+        excomCards = new HashMap();
+        excomCards.put("11","- every time you earn military points, you earn 1 less");
+        excomCards.put("12","every time you earn coins, you earn 1 less");
+        excomCards.put("13","every time you earn servents, you earn 1 less");
+        excomCards.put("14"," -1 to all dices rolls");
+        excomCards.put("15"," -3 to the all harvest actions");
+        excomCards.put("16"," -3 to all production actions");
+        excomCards.put("21"," -4 to all buildings actions");
+        excomCards.put("22"," -4 to all territories actions ");
+        excomCards.put("23"," -4 to all ventures actions");
+        excomCards.put("24"," -4 to all characters actions");
+        excomCards.put("31"," you won't earn any victory points from territores cards");
+        excomCards.put("32"," you won't earn any victory points from ventures cards");
+        excomCards.put("33"," you won't earn any victory points from characters cards");
+        excomCards.put("34"," every 5 victory points earned you will lose 1");
+        excomCards.put("35"," every military points you have earned will costs you -1 victory points");
+        excomCards.put("36"," for each physical resource you have you will lose 1 victory point");
+    }
+
+    private void initializeActionSpaceValue() {
+        actionSpaceValue = new HashMap<>();
+        actionSpaceValue.put(0,7);
+        actionSpaceValue.put(1,5);
+        actionSpaceValue.put(2,3);
+        actionSpaceValue.put(3,1);
+        actionSpaceValue.put(4,7);
+        actionSpaceValue.put(5,5);
+        actionSpaceValue.put(6,3);
+        actionSpaceValue.put(7,1);
+        actionSpaceValue.put(8,7);
+        actionSpaceValue.put(9,5);
+        actionSpaceValue.put(10,3);
+        actionSpaceValue.put(11,1);
+        actionSpaceValue.put(12,7);
+        actionSpaceValue.put(13,5);
+        actionSpaceValue.put(14,3);
+        actionSpaceValue.put(15,1);
     }
 
     private void initializeVentures() {
@@ -80,6 +132,12 @@ class CLICards {
         return venturesCardList;
     }
 
+    public int getActionSpaceValue(int i) {
+        return actionSpaceValue.get(i);
+    }
 
+    public String getExcomCards(String code) {
+        return excomCards.get(code);
+    }
 
 }
