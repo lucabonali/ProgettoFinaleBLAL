@@ -134,6 +134,11 @@ public class ClientSocket extends AbstractClient implements Runnable{
     }
 
     @Override
+    public void surrender() throws RemoteException {
+
+    }
+
+    @Override
     public void run() {
         try{
             while (true) {

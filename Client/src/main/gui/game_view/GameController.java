@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import main.CLI.InterfaceGuiCli;
+import main.CLI.InterfaceController;
 import main.GUILauncher;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
@@ -33,7 +33,7 @@ import java.util.Map;
  * @author Luca
  * @author Andrea
  */
-public class GameController implements InterfaceGuiCli{
+public class GameController implements InterfaceController {
     private static final String EXTENSION = ".png";
     public static final int CARD_HEIGHT = 126;
     public static final int CARD_WIDTH = 108;
@@ -419,6 +419,11 @@ public class GameController implements InterfaceGuiCli{
         MessageNewAction msg = client.encondingMessageNewAction();
         if (msg != null)
             client.doNewAction(msg, servantsToPay);
+    }
+
+    @Override
+    public void exit() throws InterruptedException {
+
     }
 
     /**

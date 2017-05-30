@@ -1,6 +1,6 @@
 package main.client;
 
-import main.CLI.InterfaceGuiCli;
+import main.CLI.InterfaceController;
 import main.api.ClientInterface;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
@@ -30,7 +30,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private String username,password;
     private int id;
     private List<Integer> opponentsIdList;
-    private InterfaceGuiCli interfaceController; //controller che potrà essere GameController se della gui, oppure CLIController se per la cli
+    private InterfaceController interfaceController; //controller che potrà essere GameController se della gui, oppure CLIController se per la cli
     private MessagesController messagesController;
     private PersonalBoardController personalBoardController;
     private Phases phase;
@@ -247,7 +247,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         logged = true;
     }
 
-    public void setInterfaceController(InterfaceGuiCli controller) {
+    public void setInterfaceController(InterfaceController controller) {
         this.interfaceController = controller;
     }
 
@@ -370,6 +370,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     public abstract void convertPrivilege(int qta, ResourceType type) throws RemoteException;
+
+    public abstract void surrender() throws RemoteException;
 
 
     /**

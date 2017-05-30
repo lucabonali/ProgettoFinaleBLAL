@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
+import java.util.Map;
 
 /**
  * Classe che farà da interfaccia utente da linea di comando
@@ -18,6 +19,14 @@ public class CLILauncher {
     private static CLIController cliController;
     private AbstractClient abstractClient;
 
+
+
+    /**
+     * metodo principale del CLILauncher, si occupa di far selezionare all' utente un metodo di
+     * connessione e chiama tutti gli altri metodi della partita
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         System.out.println("-------------- LORENZO IL MAGNIFICO --------------");
         boolean b = true;
@@ -44,6 +53,11 @@ public class CLILauncher {
         login(conn);
     }
 
+
+    /**
+     * metodo che si occupa dell' invio dei dati di login
+     * @param connection
+     */
     private static void login(boolean connection) {
         String userName, password;
         System.out.println("--------------- LORENZO IL MAGNIFICO ---------------");
@@ -61,7 +75,7 @@ public class CLILauncher {
             }
             catch (IOException e) {
                 correct = false;
-                System.out.println("Please, insert a correct Username");
+                System.out.println("Please, insert a correct field.");
             }
             catch (NotBoundException e) {
                 e.printStackTrace();
@@ -70,4 +84,9 @@ public class CLILauncher {
         client.setInterfaceController(cliController);
         new Thread(cliController).start();
     }
+
+
+
+
+
 }
