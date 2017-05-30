@@ -136,6 +136,12 @@ public interface InterfaceController {
      * @param msg
      */
     void notifyMessage(String msg);
+
+    /**
+     * mi notifica le tessere scomunica al giocatore
+     * @param codeList lista dei codici
+     */
+    void showExcomCards(List<String> codeList);
 }
 
 

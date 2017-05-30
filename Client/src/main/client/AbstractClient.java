@@ -38,6 +38,10 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private int currentNewActionValue;
     private ActionSpacesType currentNewActionActionSpaceType;
     private CardType currentNewActionCardType;
+    private Map<ResourceType, Integer> qtaResourcesMap = new HashMap<>();
+    private Map<Integer, Map<ResourceType, Integer>> opponentQtaResourcesMap = new HashMap<>();
+    private Map<CardType, List<String>> myCardsList = new HashMap<>();
+    private Map<Integer, Map<CardType, List<String>>> opponentsCardsMap = new HashMap<>();
 
     protected AbstractClient() throws RemoteException {
     }
@@ -56,11 +60,15 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @param opponentsId l'id dei giocatori
      */
     @Override
-    public void isGameStarted(int id, List<Integer> opponentsId) throws RemoteException{
+    public void isGameStarted(int id, List<Integer> opponentsId, List<String> codeExcomList) throws RemoteException{
         this.id = id;
         opponentsIdList = opponentsId;
         interfaceController.startGame(id);
-        opponentsId.forEach((idValue -> interfaceController.createOpponentDiscs(idValue)));
+        interfaceController.showExcomCards(codeExcomList);
+        opponentsId.forEach((idValue -> {
+            interfaceController.createOpponentDiscs(idValue);
+            opponentsCardsMap.put(idValue, new HashMap<>());
+        }));
     }
 
     /**
@@ -80,6 +88,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void updateResources(Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
+        this.qtaResourcesMap = qtaResourcesMap;
         interfaceController.modifyResources(qtaResourcesMap);
     }
 
@@ -90,6 +99,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
+        myCardsList = personalcardsMap;
         interfaceController.removeDrawnCards(personalcardsMap);
         interfaceController.moveFamilyMember(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
     };
@@ -233,6 +243,9 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         this.interfaceController = controller;
     }
 
+    int getQtaResource(ResourceType type) {
+        return qtaResourcesMap.get(type);
+    }
 
     /**
      * metodo che mi codifica il messaggio azione

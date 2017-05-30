@@ -189,7 +189,9 @@ public class GameController implements InterfaceController {
      * mi inizializza le imagView delle tessere scomunica
      */
     private void initializeImageViewExcomCards() {
-
+        excomGridPane1.add(new ExcomCard(), 0 , 0);
+        excomGridPane3.add(new ExcomCard(), 0 , 0);
+        excomGridPane3.add(new ExcomCard(), 0 , 0);
     }
 
     /**
@@ -369,9 +371,18 @@ public class GameController implements InterfaceController {
         });
     }
 
+    /**
+     * notifica sul controller relativo ai messsaggi
+     * @param msg
+     */
     @Override
     public void notifyMessage(String msg) {
         messagesController.setMessage(msg);
+    }
+
+    @Override
+    public void showExcomCards(List<String> codeList) {
+
     }
 
     /**

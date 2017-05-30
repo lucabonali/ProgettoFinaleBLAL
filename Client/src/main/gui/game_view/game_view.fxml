@@ -236,12 +236,12 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                 </GridPane>
-            <ImageView fx:id="lorenzoCenter" fitHeight="150.0" fitWidth="200.0" layoutX="360.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="lorenzoCenter" fitHeight="150.0" fitWidth="200.0" layoutX="389.0" layoutY="527.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@res/lorenzo.png" />
                </image>
             </ImageView>
-            <GridPane fx:id="excomGridPane1" layoutX="193.0" layoutY="607.0" prefHeight="94.0" prefWidth="70.0">
+            <GridPane fx:id="excomGridPane1" layoutX="196.0" layoutY="602.0" prefHeight="102.0" prefWidth="70.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -249,7 +249,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <GridPane fx:id="excomGridPane3" layoutX="341.0" layoutY="607.0" prefHeight="94.0" prefWidth="70.0">
+            <GridPane fx:id="excomGridPane2" layoutX="266.0" layoutY="611.0" prefHeight="102.0" prefWidth="70.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
@@ -257,7 +257,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <GridPane fx:id="excomGridPane2" layoutX="263.0" layoutY="618.0" prefHeight="94.0" prefWidth="80.0">
+            <GridPane fx:id="excomGridPane3" layoutX="344.0" layoutY="602.0" prefHeight="102.0" prefWidth="70.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>

@@ -14,6 +14,8 @@ public class ExcomCard extends ImageView{
 
     public ExcomCard() {
         super();
+        setFitWidth(70);
+        setFitHeight(102);
     }
 
     public String getCode() {

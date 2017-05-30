@@ -42,7 +42,7 @@ public class ClientRMI extends AbstractClient {
      */
     @Override
     public void doAction(MessageAction msg, int servantsToPay) throws RemoteException {
-        if (servantsToPay <= getPersonalBoardController().getQtaResource(ResourceType.SERVANTS)) {
+        if (servantsToPay <= getQtaResource(ResourceType.SERVANTS)) {
             msg.setValue(servantsToPay);
             serverGame.doAction(msg);
         }
@@ -52,7 +52,7 @@ public class ClientRMI extends AbstractClient {
 
     @Override
     public void doNewAction(MessageNewAction msg, int servantsToPay) throws RemoteException {
-        if (servantsToPay <= getPersonalBoardController().getQtaResource(ResourceType.SERVANTS)) {
+        if (servantsToPay <= getQtaResource(ResourceType.SERVANTS)) {
             msg.setAdditionalValue(servantsToPay);
             serverGame.doNewAction(msg);
         }
