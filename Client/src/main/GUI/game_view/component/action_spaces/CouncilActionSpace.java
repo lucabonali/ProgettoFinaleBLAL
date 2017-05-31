@@ -2,6 +2,7 @@ package main.GUI.game_view.component.action_spaces;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.Cursor;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -21,9 +22,11 @@ public class CouncilActionSpace extends Pane implements ActionSpaceInterface {
     private List<GuiFamilyMember> familyMemberList;
     private ActionSpacesType type;
     private Rectangle rectangle;
+    private GridPane container;
 
-    public CouncilActionSpace(ActionSpacesType type) {
+    public CouncilActionSpace(ActionSpacesType type, GridPane container) {
         this.type = type;
+        this.container = container;
         familyMemberList = new ArrayList<>();
         setMaxSize(WIDTH, HEIGHT);
         setPrefSize(WIDTH, HEIGHT);
@@ -50,7 +53,7 @@ public class CouncilActionSpace extends Pane implements ActionSpaceInterface {
         familyMemberList.add(familyMember);
         familyMember.setTranslateX(20 + (30*counter));
         familyMember.setTranslateY(27);
-        getChildren().add(familyMember);
+        container.getChildren().add(familyMember);
         counter++;
     }
 

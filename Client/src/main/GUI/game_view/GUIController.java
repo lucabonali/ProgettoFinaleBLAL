@@ -108,23 +108,23 @@ public class GUIController implements InterfaceController {
      */
     private void initializeHarvestProduction() {
         //raccolta singolo
-        SingleActionSpace harvest = new SingleActionSpace(ActionSpacesType.SINGLE_HARVEST);
+        SingleActionSpace harvest = new SingleActionSpace(ActionSpacesType.SINGLE_HARVEST, singleHarvest);
         singleHarvest.add(harvest, 0, 0);
         actionSpacesMap.put(harvest.getType(), harvest);
         //raccolta larga
-        LargeActionSpace lHarvest = new LargeActionSpace(ActionSpacesType.LARGE_HARVEST);
+        LargeActionSpace lHarvest = new LargeActionSpace(ActionSpacesType.LARGE_HARVEST, largeHarvest);
         largeHarvest.add(lHarvest, 0, 0);
         actionSpacesMap.put(lHarvest.getType(), lHarvest);
         //produzione singolo
-        SingleActionSpace production = new SingleActionSpace(ActionSpacesType.SINGLE_PRODUCTION);
+        SingleActionSpace production = new SingleActionSpace(ActionSpacesType.SINGLE_PRODUCTION, singleProduction);
         singleProduction.add(production, 0, 0);
         actionSpacesMap.put(production.getType(), production);
         //produzione larga
-        LargeActionSpace lProduction = new LargeActionSpace(ActionSpacesType.LARGE_PRODUCTION);
+        LargeActionSpace lProduction = new LargeActionSpace(ActionSpacesType.LARGE_PRODUCTION, largeProduction);
         largeProduction.add(lProduction, 0, 0);
         actionSpacesMap.put(lProduction.getType(), lProduction);
         //palazzo del consiglio
-        CouncilActionSpace councilActionSpace = new CouncilActionSpace(ActionSpacesType.COUNCIL);
+        CouncilActionSpace councilActionSpace = new CouncilActionSpace(ActionSpacesType.COUNCIL, council);
         council.add(councilActionSpace, 0, 0);
         actionSpacesMap.put(councilActionSpace.getType(), councilActionSpace);
     }
@@ -140,7 +140,7 @@ public class GUIController implements InterfaceController {
         gridPaneSpacesTowersMap.put(cardType, gridPaneTower);
         int gridCounter=0;
         for (int floor=3; floor>=0; floor--) {
-            GuiFloorActionSpace actionSpace = new GuiFloorActionSpace(ActionSpacesType.TOWERS, cardType, floor);
+            GuiFloorActionSpace actionSpace = new GuiFloorActionSpace(ActionSpacesType.TOWERS, cardType, floor, gridCounter, gridPaneSpacesTowersMap.get(cardType));
             array[floor] = actionSpace;
             gridPaneSpacesTowersMap.get(cardType).add(actionSpace, 0, gridCounter);
             gridCounter++;
@@ -154,7 +154,7 @@ public class GUIController implements InterfaceController {
      */
     private void initializeMarket(MarketActionType marketType, GridPane gridPaneMarket) {
         gridPaneSpacesMarketMap.put(marketType, gridPaneMarket);
-        GuiMarketActionSpace actionSpace = new GuiMarketActionSpace(ActionSpacesType.MARKET, marketType);
+        GuiMarketActionSpace actionSpace = new GuiMarketActionSpace(ActionSpacesType.MARKET, marketType, gridPaneSpacesMarketMap.get(marketType));
         marketMap.put(marketType, actionSpace);
         gridPaneSpacesMarketMap.get(marketType).add(actionSpace, 0, 0);
     }
@@ -399,17 +399,17 @@ public class GUIController implements InterfaceController {
     @Override
     public void moveFamilyMember(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, FamilyMemberType familyMemberType) {
         Platform.runLater(() ->{
-//            switch (actionSpacesType) {
-//                case TOWERS:
-//                    towerMap.get(cardType)[numFloor].addFamilyMember(personalFamilyMembers.get(familyMemberType));
-//                    break;
-//                case MARKET:
-//                    marketMap.get(marketActionType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
-//                    break;
-//                default:
-//                    actionSpacesMap.get(actionSpacesType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
-//                    break;
-//            }
+            buildingTowersActionSpaces.add(personalFamilyMembers.get(familyMemberType), 0, 0);
+            switch (actionSpacesType) {
+                case TOWERS:
+                    towerMap.get(cardType)[numFloor].addFamilyMember(personalFamilyMembers.get(familyMemberType));
+                    break;
+                case MARKET:
+                    marketMap.get(marketActionType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
+                    break;
+                default:
+                    actionSpacesMap.get(actionSpacesType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
+                    break;            }
             personalHBox.getChildren().remove(personalFamilyMembers.get(familyMemberType));
         });
     }

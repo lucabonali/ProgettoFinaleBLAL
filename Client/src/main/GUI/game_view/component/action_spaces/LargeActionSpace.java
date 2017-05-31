@@ -2,12 +2,13 @@ package main.GUI.game_view.component.action_spaces;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.Cursor;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import main.GUI.game_view.component.GuiFamilyMember;
 import main.api.types.ActionSpacesType;
 import main.client.AbstractClient;
-import main.GUI.game_view.component.GuiFamilyMember;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,11 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
     private List<GuiFamilyMember> familyMemberList;
     private ActionSpacesType type;
     private Rectangle rectangle;
+    private GridPane container;
 
-    public LargeActionSpace(ActionSpacesType type) {
+    public LargeActionSpace(ActionSpacesType type, GridPane container) {
         this.type = type;
+        this.container = container;
         familyMemberList = new ArrayList<>();
         setMaxSize(WIDTH, HEIGHT);
         setPrefSize(WIDTH, HEIGHT);
@@ -51,7 +54,7 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
         familyMemberList.add(familyMember);
         familyMember.setTranslateX(25 + (25*counter));
         familyMember.setTranslateY(19.5);
-        getChildren().add(familyMember);
+        container.getChildren().add(familyMember);
         counter++;
     }
 

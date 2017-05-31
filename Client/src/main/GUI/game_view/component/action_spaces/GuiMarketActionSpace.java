@@ -1,5 +1,6 @@
 package main.GUI.game_view.component.action_spaces;
 
+import javafx.scene.layout.GridPane;
 import main.api.types.ActionSpacesType;
 import main.api.types.MarketActionType;
 import main.client.AbstractClient;
@@ -11,8 +12,8 @@ import main.client.AbstractClient;
 public class GuiMarketActionSpace extends SingleActionSpace {
     private MarketActionType marketActionType;
 
-    public GuiMarketActionSpace(ActionSpacesType actionSpacesType, MarketActionType marketActionType) {
-        super(actionSpacesType);
+    public GuiMarketActionSpace(ActionSpacesType actionSpacesType, MarketActionType marketActionType, GridPane container) {
+        super(actionSpacesType, container);
         this.marketActionType = marketActionType;
     }
 

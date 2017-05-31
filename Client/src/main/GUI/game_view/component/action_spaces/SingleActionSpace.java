@@ -1,28 +1,30 @@
 package main.GUI.game_view.component.action_spaces;
 
 import javafx.beans.binding.Bindings;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import main.GUI.game_view.component.GuiFamilyMember;
 import main.api.types.ActionSpacesType;
 import main.client.AbstractClient;
-import main.GUI.game_view.component.GuiFamilyMember;
 
 /**
  * @author Andrea
  * @author Luca
  */
-public class SingleActionSpace extends Pane implements ActionSpaceInterface{
+public class SingleActionSpace extends AnchorPane implements ActionSpaceInterface{
     private static final double WIDTH = 64, HEIGHT = 38;
     private GuiFamilyMember familyMember;
     private ActionSpacesType type;
     private Rectangle rectangle;
+    private GridPane container;
 
-    public SingleActionSpace(ActionSpacesType type) {
+    public SingleActionSpace(ActionSpacesType type, GridPane container) {
         this.type = type;
-        setMaxSize(WIDTH, HEIGHT);
-        setPrefSize(WIDTH, HEIGHT);
+        this.container = container;
         setCursor(Cursor.HAND);
         setOnMouseClicked(event -> setCurrentActionSpace());
 //        createPane();
@@ -42,6 +44,10 @@ public class SingleActionSpace extends Pane implements ActionSpaceInterface{
         getChildren().add(rectangle);
     }
 
+    public GridPane getContainer() {
+        return container;
+    }
+
     /**
      * aggiunge un familiare allo spazio azione
      * @param familyMember familiare da aggiungere
@@ -49,10 +55,15 @@ public class SingleActionSpace extends Pane implements ActionSpaceInterface{
     @Override
     public void addFamilyMember(GuiFamilyMember familyMember) {
         this.familyMember = familyMember;
-        getChildren().add(familyMember);
-        familyMember.setTranslateX(30);
+        container.add(familyMember, 0 ,0);
+        container.setAlignment(Pos.CENTER);
+//        familyMember.setTranslateX(30);
 //        familyMember.setTranslateX(-216);
-        familyMember.setTranslateY(18);
+//        familyMember.setTranslateY(18);
+    }
+
+    public void setFamilyMember(GuiFamilyMember familyMember) {
+        this.familyMember = familyMember;
     }
 
     /**

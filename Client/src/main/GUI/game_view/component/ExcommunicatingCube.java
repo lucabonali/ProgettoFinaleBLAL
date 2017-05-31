@@ -11,9 +11,9 @@ import javafx.scene.shape.Rectangle;
  * @author Luca
  */
 public class ExcommunicatingCube extends Rectangle{
-    private static final int WIDTH = 10, HEIGHT = 10;
-    private final int START=30;
-    private final int INC=10;
+    private static final int WIDTH = 15, HEIGHT = 15;
+    private final int START=20;
+    private final int INC=20;
     private static int COUNTER_1=0, COUNTER_2=0, COUNTER_3=0;
     private int period;
     private AnchorPane pane;
