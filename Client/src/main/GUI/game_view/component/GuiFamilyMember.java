@@ -1,6 +1,7 @@
 package main.GUI.game_view.component;
 
 import javafx.scene.Cursor;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.paint.Color;
@@ -14,7 +15,7 @@ import main.client.AbstractClient;
  * @author Luca
  * @author Andrea
  */
-public class GuiFamilyMember extends Circle {
+public class GuiFamilyMember extends ToggleButton {
     private static final double RADIUS = 15;
     private int id;
     private Color color;
@@ -24,28 +25,32 @@ public class GuiFamilyMember extends Circle {
     private boolean selected = false;
 
     public GuiFamilyMember(int id, FamilyMemberType familyMemberType) {
-        super(RADIUS);
+        super();
         this.id = id;
         this.familyMemberType = familyMemberType;
+        setPrefSize(RADIUS*2, RADIUS*2);
         createPane();
     }
 
     private void createPane() {
         setStyle("-fx-border-color: black");
-        setStrokeWidth(6);
+        Circle clip = new Circle(RADIUS);
+        clip.setStrokeWidth(6);
         Light.Distant light = new Light.Distant();
         light.setAzimuth(-135.0);
         Lighting lighting = new Lighting();
         lighting.setLight(light);
         lighting.setSurfaceScale(5.0);
         if (familyMemberType == FamilyMemberType.NEUTRAL_DICE) {
-            setFill(Service.getColorByFamilyMemberType(familyMemberType));
-            setStroke(Service.getColorById(id));
+            clip.setFill(Service.getColorByFamilyMemberType(familyMemberType));
+            clip.setStroke(Service.getColorById(id));
         }
         else {
-            setFill(Service.getColorById(id));
-            setStroke(Service.getColorByFamilyMemberType(familyMemberType));
+            clip.setFill(Service.getColorById(id));
+            clip.setStroke(Service.getColorByFamilyMemberType(familyMemberType));
         }
+        setGraphic(clip);
+        setClip(clip);
         setCursor(Cursor.HAND);
         setOnMouseClicked(event -> {
             selected = !selected;

@@ -1,5 +1,6 @@
 package main.CLI;
 
+import main.api.messages.MessageAction;
 import main.api.types.*;
 
 import java.rmi.RemoteException;
@@ -165,6 +166,14 @@ public interface InterfaceController {
      * mi fa ritornare al menu di scelta del tipo di partita
      */
     void backToMenu();
+
+    /**
+     * in base alla mossa codificata nel messaggio, mi dice dove l'avversario ha mosso il suo familiare
+     * e quale
+     * @param id id del giocatore che ha mosso
+     * @param msgAction messaggio dell'azione
+     */
+    void updateOpponentFamilyMemberMove(int id, MessageAction msgAction);
 }
 
 

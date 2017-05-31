@@ -1,5 +1,6 @@
 package main.GUI.game_view.component.action_spaces;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Cursor;
 import javafx.scene.layout.GridPane;
@@ -53,7 +54,7 @@ public class CouncilActionSpace extends Pane implements ActionSpaceInterface {
         familyMemberList.add(familyMember);
         familyMember.setTranslateX(20 + (30*counter));
         familyMember.setTranslateY(27);
-        container.getChildren().add(familyMember);
+        Platform.runLater(() -> container.getChildren().add(familyMember));
         counter++;
     }
 

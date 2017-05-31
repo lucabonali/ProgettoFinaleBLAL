@@ -235,7 +235,8 @@ public class ClientSocket extends AbstractClient implements Runnable{
                             //dovre fare un check su instanceof
                             Map<CardType, List<String>> cardsMap = (Map<CardType, List<String>>) in.readObject();
                             Map<ResourceType, Integer> qtaResourcesMap = (Map<ResourceType, Integer>) in.readObject();
-                            opponentMove(opponentId, cardsMap, qtaResourcesMap);
+                            MessageAction msgAction = null;
+                            opponentMove(opponentId, cardsMap, qtaResourcesMap, msgAction);
                             break;
                         case UPDATE_PERSONAL_CARDS:
                             Map<CardType, List<String>> personalCardsMap = (Map<CardType, List<String>>) in.readObject();

@@ -123,7 +123,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     }
 
     @Override
-    public void updateMove() throws RemoteException {
+    public void updateMove(MessageAction msgAction) throws RemoteException {
         try {
             out.writeObject(SocketProtocol.UPDATE_RESOURCES);
             out.flush();
@@ -133,7 +133,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
             out.flush();
             out.writeObject(getPersonalBoard().getPersonalCardsMap());
             out.flush();
-            getGame().notifyAllPlayers(this, getIdPlayer(), getPersonalBoard().getPersonalCardsMap(), getPersonalBoard().getQtaResources());
+            getGame().notifyAllPlayers(this, getIdPlayer(), getPersonalBoard().getPersonalCardsMap(), getPersonalBoard().getQtaResources(), msgAction);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -141,7 +141,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     }
 
     @Override
-    public void updateOpponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
+    public void updateOpponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap, MessageAction msgAction) throws RemoteException {
         try {
             out.writeObject(SocketProtocol.OPPONENT_MOVE);
             out.flush();

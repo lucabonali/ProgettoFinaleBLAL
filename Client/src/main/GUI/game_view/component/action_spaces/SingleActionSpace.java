@@ -1,5 +1,6 @@
 package main.GUI.game_view.component.action_spaces;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -55,7 +56,7 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
     @Override
     public void addFamilyMember(GuiFamilyMember familyMember) {
         this.familyMember = familyMember;
-        container.add(familyMember, 0 ,0);
+        Platform.runLater(() -> container.add(familyMember, 0 ,0));
         container.setAlignment(Pos.CENTER);
 //        familyMember.setTranslateX(30);
 //        familyMember.setTranslateX(-216);

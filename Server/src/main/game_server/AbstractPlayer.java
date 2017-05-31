@@ -171,15 +171,16 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     /**
      * mi notifica i cambiamenti nella mia plancia in seguito alla mia mossa
+     * @param msgAction messaggio codificato dell'azione appena andata a buon fine
      * @throws RemoteException
      */
-    public abstract void updateMove() throws RemoteException;
+    public abstract void updateMove(MessageAction msgAction) throws RemoteException;
 
     /**
      * notifica a tutti i giocatori che cosa ha mosso il giocatore che ha appena effettuato la mossa
      * @throws RemoteException
      */
-    public abstract void updateOpponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException;
+    public abstract void updateOpponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap, MessageAction msg) throws RemoteException;
 
     /**
      * notifica al giocatore che deve tirare i dadi
@@ -287,7 +288,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     @Override
     public void convertPrivilege(int qta, ResourceType type) throws RemoteException {
         personalBoard.modifyResources(new Resource(qta, type));
-        updateMove();
-        game.notifyAllPlayers(this, idPlayer, personalBoard.getPersonalCardsMap(), personalBoard.getQtaResources());
+        //updateMove();
+        game.notifyAllPlayers(this, idPlayer, personalBoard.getPersonalCardsMap(), personalBoard.getQtaResources(), null);
     }
 }

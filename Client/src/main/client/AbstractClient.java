@@ -146,19 +146,23 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @param id id del giocatore che ha mosso
      * @param personalcardsMap mappa delle carte personali del giocatore che ha mosso
      * @param qtaResourcesMap mappa delle qta delle risorse del giocatore che ha mosso
+     * @param msgAction messaggio codificato della mossa
      * @throws RemoteException
      */
     @Override
-    public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
+    public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap, MessageAction msgAction) throws RemoteException {
         interfaceController.removeDrawnCards(personalcardsMap); //rimuovo le carte che ha pescato
-//        opponentQtaResourcesMap.get(id) = qtaResourcesMap;
-//        opponentsCardsMap.get(id) = personalcardsMap;
+        //aggiorno le risorse e le carte del giocatore che ha appena mosso
+        //opponentQtaResourcesMap.get(id) = qtaResourcesMap;
+        //opponentsCardsMap.get(id) = personalcardsMap;
         Map<ResourceType, Integer> pointMap = new HashMap<>();
         qtaResourcesMap.forEach(((resourceType, integer) -> {
             if (resourceType == ResourceType.VICTORY || resourceType == ResourceType.MILITARY || resourceType == ResourceType.FAITH)
                 pointMap.put(resourceType,integer);
         }));
         interfaceController.modifyOpponentPoints(pointMap, id);
+        if (msgAction != null)
+            interfaceController.updateOpponentFamilyMemberMove(id, msgAction);
     }
 
     /**
