@@ -26,14 +26,14 @@ public class CLIController implements InterfaceController, Runnable {
     public static final String PURPLE = "\u001B[35m";
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
-    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    public static final String BLACK_BACKGROUND = "\u001B[40m";
+    public static final String RED_BACKGROUND = "\u001B[41m";
+    public static final String GREEN_BACKGROUND = "\u001B[42m";
+    public static final String YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String BLUE_BACKGROUND = "\u001B[44m";
+    public static final String PURPLE_BACKGROUND = "\u001B[45m";
+    public static final String CYAN_BACKGROUND = "\u001B[46m";
+    public static final String WHITE_BACKGROUND = "\u001B[47m";
 
     private AbstractClient client;
     private BufferedReader in;
@@ -154,7 +154,8 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void notifyMessage(String msg) {
-
+        System.out.println();
+        System.out.println(WHITE_BACKGROUND + BLACK + "GAME MESSAGE : "+msg +RESET);
     }
 
     @Override
@@ -201,12 +202,10 @@ public class CLIController implements InterfaceController, Runnable {
         client = AbstractClient.getInstance();
     }
 
-
     @Override
     public void run() {
         initializeMenuChoices();
 
-        //Ciclo con dentro lo switch incredibile
         while(true){
             System.out.println(RED + "-------------- LORENZO IL MAGNIFICO --------------" + RESET);
             System.out.println(" 1 - RANDOM GAME ");
@@ -225,16 +224,13 @@ public class CLIController implements InterfaceController, Runnable {
                 if(choice >= 0 && choice <= 6 )
                    break;
 
-            } catch (IOException e) {
+            } catch (IOException | NumberFormatException e) {
                 System.out.println(" Please, insert a correct option. ");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
-
-
-
 
     /**
      * metodo che inizializza il menù della partita
@@ -313,6 +309,7 @@ public class CLIController implements InterfaceController, Runnable {
                 e.printStackTrace();
             }
         }
+
         game(false);
     }
 
@@ -376,13 +373,17 @@ public class CLIController implements InterfaceController, Runnable {
         int personalId = client.getId();
 
         for(int i = 0; i<client.getOpponentsIdList().size() ; i++){
-            if(client.getOpponentsIdList().get(i) != personalId)
-                showCorrectPersonalBoard(false,i);
+            if(client.getOpponentsIdList().get(i) != personalId) {
+                System.out.println(WHITE +" ID PLAYER: "+ client.getOpponentsIdList().get(i));
+                showCorrectPersonalBoard(false, client.getOpponentsIdList().get(i));
+            }
         }
 
         for(int i = 0; i < client.getOpponentsIdList().size() ; i++) {
-            if(client.getOpponentsIdList().get(i) != personalId)
-                showPersonalCardsList(false, i);
+            if(client.getOpponentsIdList().get(i) != personalId) {
+                System.out.println(WHITE + " ID PLAYER: " + client.getOpponentsIdList().get(i));
+                showPersonalCardsList(false, client.getOpponentsIdList().get(i));
+            }
         }
     }
 
@@ -412,7 +413,8 @@ public class CLIController implements InterfaceController, Runnable {
         System.out.println(YELLOW +" ---  " + ResourceType.VICTORY + " : " +qtaResourceMap.get(ResourceType.VICTORY) + RESET);
 
         System.out.println(RED +"----- Personal Development Cards -----" +RESET);
-        showPersonalCardsList(true , 0);
+        if(personal)
+            showPersonalCardsList(true , 0);
     }
 
     /**

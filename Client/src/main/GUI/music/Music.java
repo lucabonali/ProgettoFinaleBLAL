@@ -1,8 +1,8 @@
 package main.GUI.music;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Andrea
@@ -21,15 +21,20 @@ public class Music {
     }
 
    public void play(String resource){
-//        claps = new File(resource);
-//        clip = AudioSystem.getClip();
-//        audio = AudioSystem.getAudioInputStream(claps);
-//        clip.open(audio);
-//        clip.start();
-    }
+
+       try {
+           claps = new File(resource);
+           clip = AudioSystem.getClip();
+           audio = AudioSystem.getAudioInputStream(claps);
+           clip.open(audio);
+           clip.start();
+       } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+           System.out.println("Audio ok");
+       }
+   }
 
     public void stop(){
-//        clip.stop();
+        clip.stop();
     }
 
 

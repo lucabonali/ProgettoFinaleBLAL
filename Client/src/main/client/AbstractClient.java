@@ -9,6 +9,7 @@ import main.api.types.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,16 +42,9 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private ActionSpacesType currentNewActionActionSpaceType;
     private CardType currentNewActionCardType;
 
-
-
     private Map<ResourceType, Integer> qtaResourcesMap = new HashMap<>();
-
-
-
     private Map<Integer, Map<ResourceType, Integer>> opponentQtaResourcesMap = new HashMap<>();
-
     private Map<CardType, List<String>> myCardsList = new HashMap<>();
-
     private Map<Integer, Map<CardType, List<String>>> opponentsCardsMap = new HashMap<>();
 
 
@@ -81,7 +75,26 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
             interfaceController.createOpponentDiscs(idValue);
             opponentQtaResourcesMap.put(idValue, new HashMap<>());
             opponentsCardsMap.put(idValue, new HashMap<>());
+            initializeOpponentsResources(idValue);
+            initializeOpponentsCardsList(idValue);
         }));
+    }
+
+    private void initializeOpponentsCardsList(int idPlayer) {
+        opponentsCardsMap.get(idPlayer).put(CardType.TERRITORY, new ArrayList<String>());
+        opponentsCardsMap.get(idPlayer).put(CardType.CHARACTER, new ArrayList<String>());
+        opponentsCardsMap.get(idPlayer).put(CardType.BUILDING, new ArrayList<String>());
+        opponentsCardsMap.get(idPlayer).put(CardType.VENTURES , new ArrayList<String>());
+    }
+
+    private void initializeOpponentsResources(int idPlayer) {
+        opponentQtaResourcesMap.get(idPlayer).put(ResourceType.COINS, 4);
+        opponentQtaResourcesMap.get(idPlayer).put(ResourceType.WOOD, 2);
+        opponentQtaResourcesMap.get(idPlayer).put(ResourceType.STONE, 2);
+        opponentQtaResourcesMap.get(idPlayer).put(ResourceType.SERVANTS, 3);
+        opponentQtaResourcesMap.get(idPlayer).put(ResourceType.MILITARY, 0);
+        opponentQtaResourcesMap.get(idPlayer).put(ResourceType.FAITH, 0);
+        opponentQtaResourcesMap.get(idPlayer).put(ResourceType.VICTORY, 0);
     }
 
     private void initializeQtaResorcesMap() {
@@ -167,7 +180,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void setDiceValues(int orange, int white, int black) throws RemoteException {
-        interfaceController.notifyMessage("il primo giocatore ha tirato i dadi");
+        interfaceController.notifyMessage("First player has rolled the dices!");
         interfaceController.setDices(orange, white, black);
     }
 
@@ -177,7 +190,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyHaveToShotDice() throws RemoteException {
-        interfaceController.notifyMessage("devi tirare i dadi!!!");
+        interfaceController.notifyMessage("You have to roll the dices!");
         interfaceController.showDices();
     }
 
@@ -197,7 +210,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyNewAction(int value, char codeAction) throws RemoteException {
-        interfaceController.notifyMessage("devi fare una nuova azione");
+        interfaceController.notifyMessage("You can do a new Action");
         currentNewActionValue = value;
         currentNewActionActionSpaceType = main.GUI.Service.getActionSpaceType(codeAction);
         currentNewActionCardType = main.GUI.Service.getCardType(codeAction);
@@ -210,7 +223,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyYourTurn() throws RemoteException {
-        interfaceController.notifyMessage("è il tuo turno!!!");
+        interfaceController.notifyMessage("Is your turn");
         phase = Phases.ACTION;
     }
 
@@ -230,7 +243,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     @Override
     public void notifyEndMove() throws RemoteException{
-        interfaceController.notifyMessage("hai terminato il tuo turno attendi il tuo avversario");
+        interfaceController.notifyMessage("You have ended your turn, please wait for your opponents");
     }
 
     /**
@@ -317,9 +330,9 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      */
     public MessageAction encondingMessageAction() {
         if (actionSpacesType == null)
-            interfaceController.notifyMessage("non hai selezionato lo spazio azione");
+            interfaceController.notifyMessage("You haven't selected the Action Space");
         else if (familyMemberType == null)
-            interfaceController.notifyMessage("non hai selezionato il familiare");
+            interfaceController.notifyMessage("You haven't selected the family member");
         else
             return new MessageAction(actionSpacesType, cardType, numFloor, marketActionType, familyMemberType);
         return null;
@@ -339,11 +352,11 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
                 return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
         }
         else if (actionSpacesType != currentNewActionActionSpaceType)
-            interfaceController.notifyMessage("non hai selezionato lo spazio azione corretto");
+            interfaceController.notifyMessage("You haven't selected the correct Action Space");
         else if (currentNewActionCardType == null) //va bene qualsiasi torre
             return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
         else if (cardType != currentNewActionCardType)
-            interfaceController.notifyMessage("non hai selezionato la torre corretta");
+            interfaceController.notifyMessage("You haven't selected the correct Tower");
         return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
     }
 
