@@ -1,5 +1,6 @@
 package main.GUI.game_view.component.action_spaces;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Cursor;
 import javafx.scene.layout.GridPane;
@@ -54,7 +55,7 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
         familyMemberList.add(familyMember);
         familyMember.setTranslateX(25 + (25*counter));
         familyMember.setTranslateY(19.5);
-        container.getChildren().add(familyMember);
+        Platform.runLater(() -> container.getChildren().add(familyMember));
         counter++;
     }
 

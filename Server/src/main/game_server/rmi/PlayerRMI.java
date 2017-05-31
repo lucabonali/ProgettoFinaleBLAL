@@ -1,9 +1,10 @@
 package main.game_server.rmi;
 
+import main.api.messages.MessageAction;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.model.board.DevelopmentCard;
 import main.game_server.AbstractPlayer;
+import main.model.board.DevelopmentCard;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -63,15 +64,15 @@ public class PlayerRMI extends AbstractPlayer {
     }
 
     @Override
-    public void updateMove() throws RemoteException {
+    public void updateMove(MessageAction msg) throws RemoteException {
         getClientInterface().updateResources(getPersonalBoard().getQtaResources());
         getClientInterface().updatePersonalCards(getPersonalBoard().getPersonalCardsMap());
-        getGame().notifyAllPlayers(this, getIdPlayer(), getPersonalBoard().getPersonalCardsMap(), getPersonalBoard().getQtaResources());
+        getGame().notifyAllPlayers(this, getIdPlayer(), getPersonalBoard().getPersonalCardsMap(), getPersonalBoard().getQtaResources(), msg);
     }
 
     @Override
-    public void updateOpponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
-        getClientInterface().opponentMove(id, personalcardsMap, qtaResourcesMap);
+    public void updateOpponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap, MessageAction msgAction) throws RemoteException {
+        getClientInterface().opponentMove(id, personalcardsMap, qtaResourcesMap, msgAction);
     }
 
     /**

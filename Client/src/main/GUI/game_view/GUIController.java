@@ -240,6 +240,16 @@ public class GUIController implements InterfaceController {
                 imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()), namesList.get(i));
             }
         });
+        //rimuovo i familiari dalle torri
+        towerMap.forEach(((cardType, actionSpaceInterfaces) -> {
+            for (ActionSpaceInterface actionSapce : actionSpaceInterfaces) {
+                actionSapce.removeAllFamilyMembers();
+            }
+        }));
+        //rimuovo i familiari dal mercato
+        marketMap.forEach(((marketActionType, actionSpaceInterface) -> actionSpaceInterface.removeAllFamilyMembers()));
+        //rimuovo i familiari da tutti gli altri spazi azione
+        actionSpacesMap.forEach((actionSpacesType, actionSpaceInterface) -> actionSpaceInterface.removeAllFamilyMembers());
     }
 
     /**
@@ -269,21 +279,35 @@ public class GUIController implements InterfaceController {
         new ExcommunicatingCube(Service.getColorById(id), excomGridPane, period);
     }
 
+    /**
+     * mi fa tornare al menu precedente
+     */
     @Override
     public void backToMenu() {
         try {
             Thread.sleep(2000);
             GameModeSelectionView.createGameModeSelectionView();
         }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (UnsupportedAudioFileException e) {
+        catch (InterruptedException | IOException | UnsupportedAudioFileException | LineUnavailableException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * mi capisce dove deve mettere il familiare di un avversario, e quale
+     * @param id id del giocatore che ha mosso
+     * @param msgAction messaggio dell'azione
+     */
+    @Override
+    public void updateOpponentFamilyMemberMove(int id, MessageAction msgAction) {
+        GuiFamilyMember familyMember = new GuiFamilyMember(id, msgAction.getFamilyMemberType());
+        if (msgAction.getActionSpacesType() == ActionSpacesType.TOWERS)
+            towerMap.get(msgAction.getCardType())[msgAction.getNumFloor()]
+                    .addFamilyMember(familyMember);
+        else if (msgAction.getActionSpacesType() == ActionSpacesType.MARKET)
+            marketMap.get(msgAction.getMarketActionType()).addFamilyMember(familyMember);
+        else
+            actionSpacesMap.get(msgAction.getActionSpacesType()).addFamilyMember(familyMember);
     }
 
     /**
@@ -300,11 +324,11 @@ public class GUIController implements InterfaceController {
             whiteDice.initializeDiceListeners();
             anchorPane.getChildren().addAll(blackDice, whiteDice, orangeDice);
             blackDice.setX(300);
-            blackDice.setY(500);
+            blackDice.setY(700);
             whiteDice.setX(400);
-            whiteDice.setY(500);
+            whiteDice.setY(700);
             orangeDice.setX(500);
-            orangeDice.setY(500);
+            orangeDice.setY(700);
         });
     }
 
@@ -399,18 +423,21 @@ public class GUIController implements InterfaceController {
     @Override
     public void moveFamilyMember(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, FamilyMemberType familyMemberType) {
         Platform.runLater(() ->{
-            buildingTowersActionSpaces.add(personalFamilyMembers.get(familyMemberType), 0, 0);
-            switch (actionSpacesType) {
-                case TOWERS:
-                    towerMap.get(cardType)[numFloor].addFamilyMember(personalFamilyMembers.get(familyMemberType));
-                    break;
-                case MARKET:
-                    marketMap.get(marketActionType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
-                    break;
-                default:
-                    actionSpacesMap.get(actionSpacesType).addFamilyMember(personalFamilyMembers.get(familyMemberType));
-                    break;            }
-            personalHBox.getChildren().remove(personalFamilyMembers.get(familyMemberType));
+            GuiFamilyMember familyMember = personalFamilyMembers.get(familyMemberType);
+            if (personalHBox.getChildren().contains(familyMember)) {
+                personalHBox.getChildren().remove(familyMember);
+                switch (actionSpacesType) {
+                    case TOWERS:
+                        towerMap.get(cardType)[numFloor].addFamilyMember(familyMember);
+                        break;
+                    case MARKET:
+                        marketMap.get(marketActionType).addFamilyMember(familyMember);
+                        break;
+                    default:
+                        actionSpacesMap.get(actionSpacesType).addFamilyMember(familyMember);
+                        break;
+                }
+            }
         });
     }
 

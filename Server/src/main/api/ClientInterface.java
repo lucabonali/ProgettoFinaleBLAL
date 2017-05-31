@@ -1,5 +1,6 @@
 package main.api;
 
+import main.api.messages.MessageAction;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
 
@@ -96,10 +97,11 @@ public interface ClientInterface extends Remote{
      * mi notifica al client che un suo avversario ha mosso, e cosa ha modificato
      * @param id id del giocatore che ha mosso
      * @param personalcardsMap mappa delle carte personali del giocatore che ha mosso
-     * @param qtaResourcesMap mappa delle qta delle risorse del giocatore che ha mosso
+     * @param qtaResourcesMap mappa delle qta delle risorse del giocatore che ha mosso.
+     * @param msgAction messaggio codificato della mossa, eventualmente null
      * @throws RemoteException
      */
-    void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException;
+    void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap, MessageAction msgAction) throws RemoteException;
 
     /**
      * notifica l'ottenimento di un nuovo privilegio

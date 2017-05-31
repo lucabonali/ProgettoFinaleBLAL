@@ -184,7 +184,7 @@ public class Game {
             try {
                 checkTurn(player);
                 board.excommunicatePlayer(period, player);
-                player.updateMove();
+                player.updateMove(null);
                 endMove(player);
             }
             catch (LorenzoException e) {
@@ -210,7 +210,7 @@ public class Game {
                     Resource res = new Resource(faithPoints, ResourceType.VICTORY);
                     player.getPersonalBoard().modifyResources(res);
                     player.getPersonalBoard().resetResource(ResourceType.FAITH);
-                    player.updateMove();
+                    player.updateMove(null);
                     endMove(player);
                 }
                 else {
@@ -270,13 +270,13 @@ public class Game {
                 board.doAction(player, msg, familyMember);
                 player.getPersonalBoard().modifyResources(new Resource(-msg.getValue(), ResourceType.SERVANTS)); //mi toglie gli eventuali servitori che ho pagato
                 familyMember.setPositioned(true);
-                player.updateMove();
+                player.updateMove(msg);
                 endMove(player); //mi esegue la fine de turno
             }
             catch (NewActionException e) {
                 player.getPersonalBoard().modifyResources(new Resource(-msg.getValue(), ResourceType.SERVANTS)); //mi toglie gli eventuali servitori che ho pagato
                 familyMember.setPositioned(true);familyMember.setPositioned(true);
-                player.updateMove();
+                player.updateMove(msg);
                 //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
                 phase = Phases.NEW_ACTION;
             }
@@ -297,11 +297,11 @@ public class Game {
      * @param personalcardsMap mappa delle carte personali
      * @param qtaResourcesMap mappa delle risorse
      */
-    public void notifyAllPlayers(AbstractPlayer player, int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) {
+    public void notifyAllPlayers(AbstractPlayer player, int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap, MessageAction msg) {
         playerMap.forEach(((integer, opponent) -> {
             if (opponent != player)
                 try {
-                    opponent.updateOpponentMove(id, personalcardsMap, qtaResourcesMap);
+                    opponent.updateOpponentMove(id, personalcardsMap, qtaResourcesMap, msg);
                 }
                 catch (RemoteException e) {
                     e.printStackTrace();
@@ -340,7 +340,7 @@ public class Game {
                 checkTurn(player);
                 board.doNewAction(player, msg);
                 player.getPersonalBoard().modifyResources(new Resource(-msg.getAdditionalValue(), ResourceType.SERVANTS)); //mi toglie gli eventuali servitori che ho pagato
-                player.updateMove();
+                player.updateMove(null);
                 phase = Phases.ACTION;
                 endMove(player);
             }
@@ -348,6 +348,8 @@ public class Game {
                 player.notifyError(e.getMessage());
             }
             catch (NewActionException e) {
+                player.getPersonalBoard().modifyResources(new Resource(-msg.getValue(), ResourceType.SERVANTS)); //mi toglie gli eventuali servitori che ho pagato
+                player.updateMove(null);
                 //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
                 phase = Phases.NEW_ACTION;
             }
