@@ -45,11 +45,11 @@ public class PlayerRMI extends AbstractPlayer {
     }
 
     public void youWin() throws RemoteException {
-        getClientInterface().gameEnded("Hai vinto, complimenti!!");
+        getClientInterface().gameEnded("YOU WON; CONGRATS BUDDY!!");
     }
 
     public void youLose() throws RemoteException {
-        getClientInterface().gameEnded("Hai perso :( ");
+        getClientInterface().gameEnded(" YOU LOSE, SORRY ");
     }
 
     @Override

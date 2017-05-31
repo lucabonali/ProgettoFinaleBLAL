@@ -1,5 +1,6 @@
 package main.CLI;
 
+import com.sun.org.apache.regexp.internal.RE;
 import main.api.types.*;
 import main.api.types.ResourceType;
 import main.client.AbstractClient;
@@ -45,8 +46,8 @@ public class CLIController implements InterfaceController, Runnable {
     private List<String> boardCards; // sono tutte le carte del tabellone
     private List<String> excomCards;
     private CLICards cliCards;
-    private boolean isMyTurn = false;
     private int personalId;
+    private int black = 0,orange = 0 ,white = 0;
 
 
     public CLIController(){
@@ -65,9 +66,17 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
+    /**
+     * metodo chiamato dal server che setta il valore dei dadi una volta che il primo giocatore li ha tirati
+     * @param orange
+     * @param white
+     * @param black
+     */
     @Override
     public void setDices(int orange, int white, int black) {
-
+        this.black = black;
+        this.white = white;
+        this.orange = orange;
     }
 
     @Override
@@ -250,9 +259,8 @@ public class CLIController implements InterfaceController, Runnable {
             try {
                 choice = Integer.parseInt(in.readLine()) ;
                 handleMenu(choice);
-                if(choice >= 0 && choice <= 6 )
+                if(choice >= 0 && choice <= 4 )
                    break;
-
             } catch (IOException | NumberFormatException e) {
                 System.out.println(" Please, insert a correct option. ");
             } catch (InterruptedException e) {
@@ -276,7 +284,15 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
     private void credits() {
-        System.out.println("Credits");
+        System.out.println("\n\n\n\n");
+
+        System.out.println(BLUE_BACKGROUND + BLACK + " ----- CREDITS -----" +RESET);
+        System.out.println("\nAUTHORS : (In alphabetic order, no discrimination ;) )\n");
+        System.out.println(RED +"------ BONALI LUCA ------" +RESET);
+        System.out.println(BLUE +"------ LAMPARELLI ANDREA ------" +RESET);
+        System.out.println("\n\n\n\n");
+        System.out.println("And that' s it, there's no other Credits, Thank you very much.");
+
     }
 
     private void options() {
@@ -284,11 +300,29 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
     private void fourPlayerGame() {
-        System.out.println("fourPlayers");
+        System.out.println(RED + "---- FOUR PLAYERS ----" + RESET);
+        try{
+            client = AbstractClient.getInstance();
+            client.startGame(4);
+            new Thread(() ->{
+                waitGame();
+            }).start();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     private void threePlayerGame() {
-        System.out.println("threePlayers");
+        System.out.println(RED + "---- THREE PLAYERS ----" + RESET);
+        try{
+            client = AbstractClient.getInstance();
+            client.startGame(3);
+            new Thread(() ->{
+                waitGame();
+            }).start();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -392,10 +426,6 @@ public class CLIController implements InterfaceController, Runnable {
         }
 
     }
-
-    /**
-     * metodo exit che fa uscire dal menu principale e termina il programma
-     */
 
     /**
      * metodo che mostra le plancie degli altri giocatori
@@ -524,7 +554,22 @@ public class CLIController implements InterfaceController, Runnable {
             System.out.println(GREEN + " "+(i+1)+"^ Period : " + cliCards.getExcomCards(excomCards.get(i)) + RESET);
         }
         System.out.println(RED +"---------------------------------" +RESET);
+        if(black != 0){
+            System.out.println(WHITE_BACKGROUND + BLACK + " BLACK DICE :" + black + RESET);
+            System.out.println(BLACK_BACKGROUND + WHITE + " WHITE DICE :" + white + RESET);
+            System.out.println(RED_BACKGROUND + YELLOW + " ORANGE DICE :" + orange + RESET);
+        }
+        else{
+            System.out.println(RED +"Dices not rolled yet :(" + RESET);
+        }
+        showActionSpaces();
 
+    }
+
+    /**
+     * metodo che mostra gli spazi azione e se sono occupati
+     */
+    private void showActionSpaces() {
 
     }
 
