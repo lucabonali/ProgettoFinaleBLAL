@@ -34,7 +34,7 @@ class CLICards {
 
     private void initializeExcomCards() {
         excomCards = new HashMap();
-        excomCards.put("11","- every time you earn military points, you earn 1 less");
+        excomCards.put("11","every time you earn military points, you earn 1 less");
         excomCards.put("12","every time you earn coins, you earn 1 less");
         excomCards.put("13","every time you earn servents, you earn 1 less");
         excomCards.put("14"," -1 to all dices rolls");

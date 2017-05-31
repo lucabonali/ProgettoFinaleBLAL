@@ -26,6 +26,9 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private static AbstractClient instance;
     private String username,password;
     private int id;
+
+
+
     private List<Integer> opponentsIdList;
     private InterfaceController interfaceController; //controller che potrà essere GUIController se della GUI, oppure CLIController se per la cli
     private Phases phase;
@@ -37,19 +40,28 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private int currentNewActionValue;
     private ActionSpacesType currentNewActionActionSpaceType;
     private CardType currentNewActionCardType;
+
+
+
     private Map<ResourceType, Integer> qtaResourcesMap = new HashMap<>();
+
+
+
     private Map<Integer, Map<ResourceType, Integer>> opponentQtaResourcesMap = new HashMap<>();
+
     private Map<CardType, List<String>> myCardsList = new HashMap<>();
+
     private Map<Integer, Map<CardType, List<String>>> opponentsCardsMap = new HashMap<>();
+
 
     protected AbstractClient() throws RemoteException {
     }
-
 
     public AbstractClient(String username, String password) throws RemoteException {
         this.username = username;
         this.password = password;
     }
+
 
     /// METODI EREDITATI DALL'INTERFACCIA CLIENT INTERFACE ////////////////
 
@@ -231,7 +243,6 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         interfaceController.excommunicate(id, period);
     };
 
-
     /**
      * notifica che la partita è terminata, con l'esito
      * @param msg messaggio (esito)
@@ -240,9 +251,27 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     public void gameEnded(String msg) throws RemoteException {
         notifyMessage(msg);
         interfaceController.backToMenu();
+
     };
 
+    public Map<ResourceType, Integer> getQtaResourcesMap() {
+        return qtaResourcesMap;
+    }
+    public Map<CardType, List<String>> getMyCardsList() {
+        return myCardsList;
+    }
 
+    public Map<ResourceType, Integer> getOpponentQtaResourcesMap(int id) {
+        return opponentQtaResourcesMap.get(id);
+    }
+
+    public Map<Integer, Map<CardType, List<String>>> getOpponentsCardsMap() {
+        return opponentsCardsMap;
+    }
+
+    public List<Integer> getOpponentsIdList() {
+        return opponentsIdList;
+    }
 
     /// METODI AGGIUNTI DALLA CLASSE ASTRATTA E GIA' IMPLEMENTATI /////////////////////////////////////////////////////////
 
@@ -278,7 +307,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         this.interfaceController = controller;
     }
 
-    int getQtaResource(ResourceType type) {
+    public int getQtaResource(ResourceType type) {
         return qtaResourcesMap.get(type);
     }
 

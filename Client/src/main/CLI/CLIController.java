@@ -1,7 +1,7 @@
 package main.CLI;
 
-import com.sun.org.apache.regexp.internal.RE;
 import main.api.types.*;
+import main.api.types.ResourceType;
 import main.client.AbstractClient;
 
 import java.io.BufferedReader;
@@ -26,6 +26,14 @@ public class CLIController implements InterfaceController, Runnable {
     public static final String PURPLE = "\u001B[35m";
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     private AbstractClient client;
     private BufferedReader in;
@@ -33,7 +41,7 @@ public class CLIController implements InterfaceController, Runnable {
     private static Map<Integer,MenuHandler> menuChoices;
     private static Map<Integer,GameHandler > gameMap;
     private boolean isGameStarted = false;
-    private List<String> boardCards; // sono tutte le carte
+    private List<String> boardCards; // sono tutte le carte del tabellone
     private List<String> excomCards;
     private CLICards cliCards;
 
@@ -120,6 +128,10 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
+    /**
+     * metodo che compie un' azione su uno spazio azione attraverso il posizionamento di un familliare
+     * @throws RemoteException
+     */
     @Override
     public void actionDoAction() throws RemoteException {
 
@@ -127,6 +139,11 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void actionDoNewAction() throws RemoteException {
+
+    }
+
+    @Override
+    public void exit() throws InterruptedException {
 
     }
 
@@ -147,6 +164,17 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void surrender() {
+        System.out.println("---- ARE YOU SURE YOU WANNA SURRENDER ? (yes - no) ----");
+        try {
+            String surrenderChoice = in.readLine();
+            if(surrenderChoice.equals("yes"))
+                backToMenu();
+            else if(surrenderChoice.equals("no"))
+                game(true);
+        } catch (IOException e) {
+            System.out.println(" Please, insert a correct option. ");
+        }
+
         try {
             client.surrender();
         } catch (RemoteException e) {
@@ -166,7 +194,7 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void backToMenu() {
-
+        new Thread(this).start();
     }
 
     public void initialize() throws InterruptedException {
@@ -199,6 +227,8 @@ public class CLIController implements InterfaceController, Runnable {
 
             } catch (IOException e) {
                 System.out.println(" Please, insert a correct option. ");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -283,45 +313,7 @@ public class CLIController implements InterfaceController, Runnable {
                 e.printStackTrace();
             }
         }
-        game();
-    }
-
-    /**
-     * metodo che stampa il menu di gioco
-     */
-    private void game(){
-        System.out.println();
-        System.out.println(RED +"---- GAME STARTED ----" +RESET);
-
-        initializeGameMenu();
-        while(true){
-            System.out.println(CYAN + "-------------------------" + RESET);
-            System.out.println(" 1 - SHOW BOARD ");
-            System.out.println(" 2 - SHOW PERSONAL BOARD ");
-            System.out.println(" 3 - SHOW OPPONENTS PERSONAL BOARD ");
-            System.out.println(" 4 - DO ACTION ");
-            System.out.println(" 5 - END TURN ");
-            System.out.println(" 0 - SURRENDER ");
-            System.out.println(CYAN + "-------------------------" + CYAN);
-
-            int choice = 0;
-
-            try {
-                choice = Integer.parseInt(in.readLine()) ;
-                handleGame(choice);
-            } catch (IOException e) {
-                System.out.println(" Please, insert a correct option. ");
-            }
-        }
-
-    }
-
-    /**
-     * metodo exit che fa uscire dal menu principale e termina il programma
-     */
-    public void exit(){
-        System.out.println(RED + " GOODBYE :) "  + RESET );
-        System.exit(0);
+        game(false);
     }
 
     /**
@@ -333,17 +325,142 @@ public class CLIController implements InterfaceController, Runnable {
         gameMap.put(GameCostants.SHOW_BOARD, this::showBoard);
         gameMap.put(GameCostants.SHOW_PERSONAL_BOARD, this::showPersonalBoard);
         gameMap.put(GameCostants.SHOW_OPPONENTS_PERSONAL_BOARD, this::showOpponentsPersonalBoard);
+        gameMap.put(GameCostants.DO_ACTION, this::actionDoAction);
+        gameMap.put(GameCostants.END_TURN, this::endMoveAction);
     }
 
+    /**
+     * metodo che stampa il menu di gioco
+     */
+    private void game(boolean returned){
+        if(!returned){
+            System.out.println();
+            System.out.println(RED + "---- GAME STARTED ----" + RESET);
+            initializeGameMenu();
+        }
+        while(true){
+            System.out.println(CYAN + "-------------------------" + RESET);
+            System.out.println(" 1 - SHOW BOARD ");
+            System.out.println(" 2 - SHOW PERSONAL BOARD ");
+            System.out.println(" 3 - SHOW OPPONENTS PERSONAL BOARD ");
+            System.out.println(" 4 - DO ACTION ");
+            System.out.println(" 5 - END TURN ");
+            System.out.println(" 0 - SURRENDER ");
+            System.out.println(CYAN + "-------------------------" + RESET);
+
+            int choice = 0;
+
+            try {
+                choice = Integer.parseInt(in.readLine()) ;
+                if(choice == 0) {
+                    handleGame(choice);
+                    break;
+                }
+                else
+                    handleGame(choice);
+            } catch (IOException | NumberFormatException e) {
+                System.out.println(" Please, insert a correct option. ");
+            }
+        }
+
+    }
+
+    /**
+     * metodo exit che fa uscire dal menu principale e termina il programma
+     */
+
+    /**
+     * metodo che mostra le plancie degli altri giocatori
+     */
     private void showOpponentsPersonalBoard() {
+        int personalId = client.getId();
+
+        for(int i = 0; i<client.getOpponentsIdList().size() ; i++){
+            if(client.getOpponentsIdList().get(i) != personalId)
+                showCorrectPersonalBoard(false,i);
+        }
+
+        for(int i = 0; i < client.getOpponentsIdList().size() ; i++) {
+            if(client.getOpponentsIdList().get(i) != personalId)
+                showPersonalCardsList(false, i);
+        }
     }
 
-    private void showPersonalBoard() {
-        System.out.println("----- Personal Development Cards -----");
 
-
+    private void showPersonalBoard(){
+        showCorrectPersonalBoard(true ,0);
     }
 
+    /**
+     * metodo che mostra la propria plancia, quindi risorse e carte personali sviluppo
+     */
+    private void showCorrectPersonalBoard(boolean personal, int id) {
+        Map<ResourceType,Integer> qtaResourceMap;
+        if(personal)
+            qtaResourceMap = client.getQtaResourcesMap();
+        else{
+            qtaResourceMap = client.getOpponentQtaResourcesMap(id);
+        }
+
+        System.out.println(RED +"----- Personal Resources -----" +RESET);
+        System.out.println(GREEN + " ---  " + ResourceType.WOOD + " : " +qtaResourceMap.get(ResourceType.WOOD) + RESET);
+        System.out.println(WHITE +" ---  " + ResourceType.STONE + " : " +qtaResourceMap.get(ResourceType.STONE) + RESET);
+        System.out.println(PURPLE +" ---  " + ResourceType.SERVANTS + " : " +qtaResourceMap.get(ResourceType.SERVANTS) + RESET);
+        System.out.println(YELLOW +" ---  " + ResourceType.COINS + " : " +qtaResourceMap.get(ResourceType.COINS) + RESET);
+        System.out.println(RED +" ---  " + ResourceType.FAITH + " : " +qtaResourceMap.get(ResourceType.FAITH) + RESET);
+        System.out.println(WHITE +" ---  " + ResourceType.MILITARY + " : " +qtaResourceMap.get(ResourceType.MILITARY) + RESET);
+        System.out.println(YELLOW +" ---  " + ResourceType.VICTORY + " : " +qtaResourceMap.get(ResourceType.VICTORY) + RESET);
+
+        System.out.println(RED +"----- Personal Development Cards -----" +RESET);
+        showPersonalCardsList(true , 0);
+    }
+
+    /**
+     * metodo di supporto a showCorrectPersonalBoard che stampa la lista delle carte sulla propria plancia
+     */
+    private void showPersonalCardsList(boolean personal, int id) {
+        Map<CardType, List<String>> cardList;
+        if(personal)
+            cardList = client.getMyCardsList();
+        else{
+            cardList = client.getOpponentsCardsMap().get(id);
+        }
+
+
+        System.out.println(GREEN + " ---- Territories ---- " );
+        if(cardList.get(CardType.TERRITORY) != null) {
+            for (int i = 0; i < cardList.get(CardType.TERRITORY).size(); i++) {
+                System.out.print(GREEN + "Name : " + cardList.get(CardType.TERRITORY).get(i) + " --- Description : ");
+                System.out.print(cliCards.getTerritoryCardList().get(cardList.get(CardType.TERRITORY).get(i)));
+            }
+        }
+        System.out.println(CYAN + " ---- Characters ---- " );
+        if(cardList.get(CardType.CHARACTER) != null) {
+            for (int i = 0; i < cardList.get(CardType.CHARACTER).size(); i++) {
+                System.out.print(CYAN + "Name : " + cardList.get(CardType.CHARACTER).get(i) + " --- Description : ");
+                System.out.print(cliCards.getTerritoryCardList().get(cardList.get(CardType.CHARACTER).get(i)));
+            }
+        }
+        System.out.println(YELLOW + " ---- Buildings ---- " );
+        if(cardList.get(CardType.BUILDING) != null) {
+            for (int i = 0; i < cardList.get(CardType.BUILDING).size(); i++) {
+                System.out.print(YELLOW + "Name : " + cardList.get(CardType.BUILDING).get(i) + " --- Description : ");
+                System.out.print(cliCards.getTerritoryCardList().get(cardList.get(CardType.BUILDING).get(i)));
+            }
+        }
+        System.out.println(PURPLE + " ---- Ventures ---- " );
+        if(cardList.get(CardType.VENTURES) != null) {
+            for (int i = 0; i < cardList.get(CardType.VENTURES).size(); i++) {
+                System.out.print(PURPLE + "Name : " + cardList.get(CardType.VENTURES).get(i) + " --- Description : ");
+                System.out.print(cliCards.getTerritoryCardList().get(cardList.get(CardType.VENTURES).get(i)));
+            }
+        }
+    }
+
+    /**
+     * metodo che stampa lo stato del tabellone
+     *
+     */
     private void showBoard() {
         System.out.println(RED + "----- Development Cards -----" + RESET);
         for(int i = 0; i<boardCards.size(); i++) {
@@ -372,7 +489,7 @@ public class CLIController implements InterfaceController, Runnable {
 
         System.out.println(RED +"----- Excommunicating Cards -----" +RESET );
         for(int i = 0; i < 3; i++){
-            System.out.println(GREEN + " "+i+"^ Period : " + cliCards.getExcomCards(excomCards.get(i)) + RESET);
+            System.out.println(GREEN + " "+(i+1)+"^ Period : " + cliCards.getExcomCards(excomCards.get(i)) + RESET);
         }
         System.out.println(RED +"---------------------------------" +RESET);
 
@@ -380,7 +497,7 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
 
-    public void handleMenu(Object object) {
+    public void handleMenu(Object object) throws InterruptedException {
         MenuHandler handler = menuChoices.get(object);
         if (handler != null) {
             handler.menuHandle();
@@ -388,7 +505,7 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
-    public void handleGame(Object object){
+    public void handleGame(Object object) throws RemoteException {
         GameHandler handler = gameMap.get(object);
         if (handler != null){
             handler.gameHandle();
@@ -399,11 +516,11 @@ public class CLIController implements InterfaceController, Runnable {
      * interfaccia che semplifica la gestione del menu e puramente funzionale
      */
     private interface MenuHandler{
-        void menuHandle();
+        void menuHandle() throws InterruptedException;
     }
 
     public interface GameHandler{
-        void gameHandle();
+        void gameHandle() throws RemoteException;
     }
 
 
