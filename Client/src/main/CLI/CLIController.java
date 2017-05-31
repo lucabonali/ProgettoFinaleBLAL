@@ -67,11 +67,7 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void setDices(int orange, int white, int black) {
-        try {
-            client.setDiceValues(orange,white,black);
-        } catch (RemoteException e) {
-            System.out.println(RED_BACKGROUND + BLACK + " ERRORE NELL? INVIO DEI DADI " + RESET);
-        }
+
     }
 
     @Override
@@ -83,7 +79,11 @@ public class CLIController implements InterfaceController, Runnable {
         System.out.println(WHITE_BACKGROUND + BLACK + " BLACK DICE :" + black + RESET);
         System.out.println(BLACK_BACKGROUND + WHITE + " WHITE DICE :" + white + RESET);
         System.out.println(RED_BACKGROUND + YELLOW + " ORANGE DICE :" + orange + RESET);
-        setDices(orange , white , black);
+        try {
+            client.shotDice(orange , white , black);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

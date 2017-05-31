@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
  */
 public interface ServerInterface extends Remote {
 
+
     /**
      * metodo che esegue il login di un giocatore
      * @param username username del giocatore
