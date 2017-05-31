@@ -48,7 +48,7 @@ public class ClientSocket extends AbstractClient implements Runnable{
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());
             boolean resp = in.readBoolean();
-            System.out.println(resp);
+//            System.out.println(resp);
             return resp;
         }
         catch (IOException e) {
@@ -78,6 +78,8 @@ public class ClientSocket extends AbstractClient implements Runnable{
         if (servantsToPay <= getQtaResource(ResourceType.SERVANTS)) {
             msg.setValue(servantsToPay);
             try {
+                out.writeObject(SocketProtocol.ACTION);
+                out.flush();
                 out.writeObject(msg);
                 out.flush();
             }
@@ -95,6 +97,8 @@ public class ClientSocket extends AbstractClient implements Runnable{
         if (servantsToPay <= getQtaResource(ResourceType.SERVANTS)) {
             msg.setAdditionalValue(servantsToPay);
             try {
+                out.writeObject(SocketProtocol.NEW_ACTION);
+                out.flush();
                 out.writeObject(msg);
                 out.flush();
             }
@@ -185,75 +189,74 @@ public class ClientSocket extends AbstractClient implements Runnable{
         try{
             while (true) {
                 try {
-                    Object msg = in.readObject();
-                    if (msg instanceof SocketProtocol){
-                        switch ((SocketProtocol) msg){
-                            case INFORMATION:
-                                response = (String)in.readObject();
-                                notifyMessage(response);
-                                break;
-                            case GAME_ENDED:
-                                response = (String)in.readObject();
-                                gameEnded(response);
-                                break;
-                            case EXCOMMUNICATE:
-                                int id = in.readInt();
-                                int period = in.readInt();
-                                excommunicate(id, period);
-                                break;
-                            case END_MOVE:
-                                notifyEndMove();
-                                break;
-                            case YOUR_EXCOMMUNICATION_TURN:
-                                notifyYourExcommunicationTurn();
-                                break;
-                            case YOUR_TURN:
-                                notifyYourTurn();
-                                break;
-                            case NEW_ACTION:
-                                int value = in.readInt();
-                                char codeAction = in.readChar();
-                                notifyNewAction(value, codeAction);
-                                break;
-                            case PRIVILEGE:
-                                notifyPrivilege();
-                                break;
-                            case HAVE_TO_SHOT:
-                                notifyHaveToShotDice();
-                                break;
-                            case DICE_VALUES:
-                                int orange = in.readInt();
-                                int white = in.readInt();
-                                int black = in.readInt();
-                                setDiceValues(orange, white, black);
-                                break;
-                            case OPPONENT_MOVE:
-                                int opponentId = in.readInt();
-                                //dovre fare un check su instanceof
-                                Map<CardType, List<String>> cardsMap = (Map<CardType, List<String>>) in.readObject();
-                                Map<ResourceType, Integer> qtaResourcesMap = (Map<ResourceType, Integer>) in.readObject();
-                                opponentMove(opponentId, cardsMap, qtaResourcesMap);
-                                break;
-                            case UPDATE_PERSONAL_CARDS:
-                                Map<CardType, List<String>> personalCardsMap = (Map<CardType, List<String>>) in.readObject();
-                                updatePersonalCards(personalCardsMap);
-                                break;
-                            case UPDATE_RESOURCES:
-                                Map<ResourceType, Integer> personalQtaResourcesMap = (Map<ResourceType, Integer>) in.readObject();
-                                updateResources(personalQtaResourcesMap);
-                                break;
-                            case TOWERS_CARDS:
-                                List<String> boardCards = (List<String>) in.readObject();
-                                setTowersCards(boardCards);
-                                break;
-                            case IS_GAME_STARTED:
-                                int myId = in.readInt();
-                                List<Integer> opponentsId = (List<Integer>) in.readObject();
-                                List<String> codeExcomList = (List<String>) in.readObject();
-                                isGameStarted(myId, opponentsId, codeExcomList);
-                                break;
-                        }
+                    SocketProtocol msg = (SocketProtocol) in.readObject();
+                    switch (msg){
+                        case INFORMATION:
+                            response = (String)in.readObject();
+                            notifyMessage(response);
+                            break;
+                        case GAME_ENDED:
+                            response = (String)in.readObject();
+                            gameEnded(response);
+                            break;
+                        case EXCOMMUNICATE:
+                            int id = in.readInt();
+                            int period = in.readInt();
+                            excommunicate(id, period);
+                            break;
+                        case END_MOVE:
+                            notifyEndMove();
+                            break;
+                        case YOUR_EXCOMMUNICATION_TURN:
+                            notifyYourExcommunicationTurn();
+                            break;
+                        case YOUR_TURN:
+                            notifyYourTurn();
+                            break;
+                        case NEW_ACTION:
+                            int value = in.readInt();
+                            char codeAction = in.readChar();
+                            notifyNewAction(value, codeAction);
+                            break;
+                        case PRIVILEGE:
+                            notifyPrivilege();
+                            break;
+                        case HAVE_TO_SHOT:
+                            notifyHaveToShotDice();
+                            break;
+                        case DICE_VALUES:
+                            int orange = in.readInt();
+                            int white = in.readInt();
+                            int black = in.readInt();
+                            setDiceValues(orange, white, black);
+                            break;
+                        case OPPONENT_MOVE:
+                            int opponentId = in.readInt();
+                            //dovre fare un check su instanceof
+                            Map<CardType, List<String>> cardsMap = (Map<CardType, List<String>>) in.readObject();
+                            Map<ResourceType, Integer> qtaResourcesMap = (Map<ResourceType, Integer>) in.readObject();
+                            opponentMove(opponentId, cardsMap, qtaResourcesMap);
+                            break;
+                        case UPDATE_PERSONAL_CARDS:
+                            Map<CardType, List<String>> personalCardsMap = (Map<CardType, List<String>>) in.readObject();
+                            updatePersonalCards(personalCardsMap);
+                            break;
+                        case UPDATE_RESOURCES:
+                            Map<ResourceType, Integer> personalQtaResourcesMap = (Map<ResourceType, Integer>) in.readObject();
+                            updateResources(personalQtaResourcesMap);
+                            break;
+                        case TOWERS_CARDS:
+                            List<String> boardCards = (List<String>) in.readObject();
+                            setTowersCards(boardCards);
+                            break;
+                        case IS_GAME_STARTED:
+                            int myId = in.readInt();
+                            List<Integer> opponentsId = (List<Integer>) in.readObject();
+                            List<String> codeExcomList = (List<String>) in.readObject();
+                            isGameStarted(myId, opponentsId, codeExcomList);
+                            break;
                     }
+
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

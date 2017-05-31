@@ -5,8 +5,8 @@ import main.api.messages.MessageNewAction;
 import main.api.messages.SocketProtocol;
 import main.api.types.CardType;
 import main.api.types.ResourceType;
-import main.model.board.DevelopmentCard;
 import main.game_server.AbstractPlayer;
+import main.model.board.DevelopmentCard;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -161,6 +161,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     public void notifyRollDice() throws RemoteException {
         try {
             out.writeObject(SocketProtocol.HAVE_TO_SHOT);
+            out.flush();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -254,7 +255,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
         }
     }
 
-    // metodi eredita dalla PLAYER INTERFACE ////////////////////////////////////////
+    // metodi ereditati dalla PLAYER INTERFACE ////////////////////////////////////////
 
 
     public void setSocketConnection(Socket socket, ObjectInputStream in, ObjectOutputStream out) {
@@ -265,54 +266,53 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
 
     @Override
     public void run() {
-
         try{
-            while (!socketClient.isClosed()) {
-                try {
-                    Object msg = in.readObject();
-                    if (msg instanceof MessageAction){
-                        doAction((MessageAction) msg);
-                        break;
-                    }
-                    else if (msg instanceof MessageNewAction) {
-                        doNewAction((MessageNewAction) msg);
-                        break;
-                    }
-                    else if (msg instanceof SocketProtocol){
-                        switch ((SocketProtocol) msg){
-                            case SHOT_DICE:
-                                int orange = in.readInt();
-                                int white = in.readInt();
-                                int black = in.readInt();
-                                shotDice(orange, white, black);
-                                break;
-                            case EXCOMMUNICATION_CHOICE:
-                                boolean choice = in.readBoolean();
-                                excommunicationChoice(choice);
-                                break;
-                            case END_MOVE:
-                                endMove();
-                                break;
-                            case SURRENDER:
-                                surrender();
-                                break;
-                            case CONVERT_PRIVILEGE:
-                                int qta = in.readInt();
-                                ResourceType type = (ResourceType) in.readObject();
-                                convertPrivilege(qta, type);
-                                break;
-                        }
+            try{
+                while (!socketClient.isClosed()) {
+                    SocketProtocol msg = (SocketProtocol) in.readObject();
+                    switch (msg){
+                        case NEW_ACTION:
+                            MessageNewAction msgNewAction = (MessageNewAction) in.readObject();
+                            doNewAction(msgNewAction);
+                            break;
+                        case ACTION:
+                            MessageAction msgAction = (MessageAction) in.readObject();
+                            doAction(msgAction);
+                            break;
+                        case SHOT_DICE:
+                            int orange = in.readInt();
+                            int white = in.readInt();
+                            int black = in.readInt();
+                            shotDice(orange, white, black);
+                            break;
+                        case EXCOMMUNICATION_CHOICE:
+                            boolean choice = in.readBoolean();
+                            excommunicationChoice(choice);
+                            break;
+                        case END_MOVE:
+                            endMove();
+                            break;
+                        case SURRENDER:
+                            surrender();
+                            break;
+                        case CONVERT_PRIVILEGE:
+                            int qta = in.readInt();
+                            ResourceType type = (ResourceType) in.readObject();
+                            convertPrivilege(qta, type);
+                            break;
                     }
                 }
-                catch (IOException | ClassNotFoundException e) {
-                    try {
-                        in.close();
-                        in = null;
-                        out.close();
-                        out = null;
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
+
+            }
+            catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                try {
+                    in.close();
+                    in = null;
+                    out.close();
+                    out = null;
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
             }
         }
