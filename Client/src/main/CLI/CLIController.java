@@ -45,7 +45,8 @@ public class CLIController implements InterfaceController, Runnable {
     private List<String> boardCards; // sono tutte le carte del tabellone
     private List<String> excomCards;
     private CLICards cliCards;
-
+    private boolean isMyTurn = false;
+    private int personalId;
 
 
     public CLIController(){
@@ -66,7 +67,11 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void setDices(int orange, int white, int black) {
-
+        try {
+            client.setDiceValues(orange,white,black);
+        } catch (RemoteException e) {
+            System.out.println(RED_BACKGROUND + BLACK + " ERRORE NELL? INVIO DEI DADI " + RESET);
+        }
     }
 
     @Override
@@ -74,9 +79,11 @@ public class CLIController implements InterfaceController, Runnable {
         int orange = new Random().nextInt(5)+1;
         int white = new Random().nextInt(5)+1;
         int black = new Random().nextInt(5)+1;
-
-
-
+        System.out.println(WHITE + "DICES ROLLED : " + RESET);
+        System.out.println(WHITE_BACKGROUND + BLACK + " BLACK DICE :" + black + RESET);
+        System.out.println(BLACK_BACKGROUND + WHITE + " WHITE DICE :" + white + RESET);
+        System.out.println(RED_BACKGROUND + YELLOW + " ORANGE DICE :" + orange + RESET);
+        setDices(orange , white , black);
     }
 
     @Override
@@ -113,19 +120,20 @@ public class CLIController implements InterfaceController, Runnable {
     public void showDices() {
 
         System.out.println(" ---- Press 0 to roll the dices ---- ");
-        try {
-            while (true){
+        while (true) {
+            try {
                 int roll = Integer.parseInt(in.readLine());
-            if (roll == 0) {
-                sendDices();
-                break;
-            }
-            else
-                System.out.println("Please, insert 0 to roll the dices");
-            }
-        } catch (IOException | NumberFormatException e) {
-            System.out.println("Please, insert 0 to roll the dices");
+                if (roll == 0) {
+                    sendDices();
+                    game(false);
+                    break;
+                } else
+                    System.out.println("Please, insert 0 to roll the dices");
 
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Please, insert 0 to roll the dices");
+
+            }
         }
     }
 
@@ -146,7 +154,7 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void endMoveAction() throws RemoteException {
-
+        client.endMove();
     }
 
     /**
@@ -320,9 +328,9 @@ public class CLIController implements InterfaceController, Runnable {
      * metodo che attende la inizializzazione di una partita, e la connessione di un numero sufficente di giocatori
      */
     private void waitGame() {
-        System.out.print(GREEN +"--- Loading Game ");
+        System.out.print(GREEN + "--- Loading Game ");
 
-        while(!isGameStarted){
+        while (!isGameStarted) {
             System.out.print(" . ");
             try {
                 Thread.sleep(1000);
@@ -330,8 +338,10 @@ public class CLIController implements InterfaceController, Runnable {
                 e.printStackTrace();
             }
         }
-
-        game(false);
+        personalId = client.getId();
+        if (personalId != 1){
+            game(false);
+        }
     }
 
     /**
@@ -391,7 +401,6 @@ public class CLIController implements InterfaceController, Runnable {
      * metodo che mostra le plancie degli altri giocatori
      */
     private void showOpponentsPersonalBoard() {
-        int personalId = client.getId();
 
         for(int i = 0; i<client.getOpponentsIdList().size() ; i++){
             if(client.getOpponentsIdList().get(i) != personalId) {
