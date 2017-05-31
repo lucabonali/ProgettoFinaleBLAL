@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Andrea
@@ -70,6 +71,11 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void sendDices() {
+        int orange = new Random().nextInt(5)+1;
+        int white = new Random().nextInt(5)+1;
+        int black = new Random().nextInt(5)+1;
+
+
 
     }
 
@@ -106,6 +112,21 @@ public class CLIController implements InterfaceController, Runnable {
     @Override
     public void showDices() {
 
+        System.out.println(" ---- Press 0 to roll the dices ---- ");
+        try {
+            while (true){
+                int roll = Integer.parseInt(in.readLine());
+            if (roll == 0) {
+                sendDices();
+                break;
+            }
+            else
+                System.out.println("Please, insert 0 to roll the dices");
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("Please, insert 0 to roll the dices");
+
+        }
     }
 
     @Override
