@@ -1,7 +1,6 @@
 package main.GUI.game_view.component.action_spaces;
 
 import javafx.application.Platform;
-import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import main.GUI.game_view.component.GuiFamilyMember;
 import main.api.types.ActionSpacesType;
@@ -39,7 +38,6 @@ public class GuiFloorActionSpace extends SingleActionSpace {
     @Override
     public void addFamilyMember(GuiFamilyMember familyMember) {
         setFamilyMember(familyMember);
-        getContainer().setAlignment(Pos.CENTER);
         if (!getContainer().getChildren().contains(familyMember))
             Platform.runLater(() -> getContainer().add(familyMember, 0 ,gridPosition));
     }

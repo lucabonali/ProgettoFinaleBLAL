@@ -23,11 +23,13 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
     private Rectangle rectangle;
     private GridPane container;
 
+
     public SingleActionSpace(ActionSpacesType type, GridPane container) {
         this.type = type;
         this.container = container;
         setCursor(Cursor.HAND);
         setOnMouseClicked(event -> setCurrentActionSpace());
+        container.setAlignment(Pos.CENTER);
 //        createPane();
     }
 
@@ -56,11 +58,8 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
     @Override
     public void addFamilyMember(GuiFamilyMember familyMember) {
         this.familyMember = familyMember;
-        Platform.runLater(() -> container.add(familyMember, 0 ,0));
-        container.setAlignment(Pos.CENTER);
-//        familyMember.setTranslateX(30);
-//        familyMember.setTranslateX(-216);
-//        familyMember.setTranslateY(18);
+        if (!container.getChildren().contains(familyMember))
+            Platform.runLater(() -> container.add(familyMember, 0 ,0));
     }
 
     public void setFamilyMember(GuiFamilyMember familyMember) {
@@ -72,7 +71,7 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
      */
     @Override
     public void removeAllFamilyMembers() {
-        getChildren().remove(familyMember);
+        Platform.runLater(() -> container.getChildren().removeAll(familyMember));
         familyMember = null;
     }
 

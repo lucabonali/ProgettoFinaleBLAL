@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -77,6 +78,9 @@ public class GUIController implements InterfaceController {
     @FXML private AnchorPane anchorPane;
 
     @FXML private TextField servantsToPayTextField;
+
+
+    private ToggleGroup toggleGroup = new ToggleGroup();
 
     private MessagesController messagesController;
     private PersonalBoardController personalBoardController;
@@ -301,6 +305,9 @@ public class GUIController implements InterfaceController {
     @Override
     public void updateOpponentFamilyMemberMove(int id, MessageAction msgAction) {
         GuiFamilyMember familyMember = new GuiFamilyMember(id, msgAction.getFamilyMemberType());
+        familyMember.removeMouseClicked();
+        familyMember.setDisable(true);
+        familyMember.setOpacity(1);
         if (msgAction.getActionSpacesType() == ActionSpacesType.TOWERS)
             towerMap.get(msgAction.getCardType())[msgAction.getNumFloor()]
                     .addFamilyMember(familyMember);
@@ -399,6 +406,7 @@ public class GUIController implements InterfaceController {
         personalFamilyMembers.put(FamilyMemberType.BLACK_DICE, new GuiFamilyMember(id, FamilyMemberType.BLACK_DICE));
         personalFamilyMembers.put(FamilyMemberType.WHITE_DICE, new GuiFamilyMember(id, FamilyMemberType.WHITE_DICE));
         personalFamilyMembers.put(FamilyMemberType.NEUTRAL_DICE, new GuiFamilyMember(id, FamilyMemberType.NEUTRAL_DICE));
+        personalFamilyMembers.forEach(((familyMemberType, familyMember) -> familyMember.setToggleGroup(toggleGroup)));
     }
 
     /**
@@ -407,8 +415,11 @@ public class GUIController implements InterfaceController {
     @Override
     public void relocateFamilyMembers() {
         Platform.runLater(() -> personalFamilyMembers.forEach(((type, guiFamilyMember) -> {
-            if (!personalHBox.getChildren().contains(guiFamilyMember))
+            if (!personalHBox.getChildren().contains(guiFamilyMember)) {
                 personalHBox.getChildren().add(guiFamilyMember);
+                guiFamilyMember.setToggleGroup(toggleGroup);
+                guiFamilyMember.setDisable(false);
+            }
         })));
     }
 
@@ -425,6 +436,8 @@ public class GUIController implements InterfaceController {
         Platform.runLater(() ->{
             GuiFamilyMember familyMember = personalFamilyMembers.get(familyMemberType);
             if (personalHBox.getChildren().contains(familyMember)) {
+                familyMember.setDisable(true);
+                familyMember.setOpacity(1);
                 personalHBox.getChildren().remove(familyMember);
                 switch (actionSpacesType) {
                     case TOWERS:

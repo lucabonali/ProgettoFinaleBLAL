@@ -1,11 +1,9 @@
 package main.GUI.game_view.component.action_spaces;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.scene.Cursor;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.GUI.game_view.component.GuiFamilyMember;
 import main.api.types.ActionSpacesType;
@@ -34,20 +32,15 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
         setPrefSize(WIDTH, HEIGHT);
         setCursor(Cursor.HAND);
         setOnMouseClicked(event -> setCurrentActionSpace());
-//        createPane();
     }
 
-    private void createPane() {
-        rectangle = new Rectangle(WIDTH, HEIGHT);
-        rectangle.setArcHeight(HEIGHT/2);
-        rectangle.setArcWidth(WIDTH/3);
-        rectangle.fillProperty().bind(
-                Bindings.when(hoverProperty())
-                        .then(Color.color(1,1,1, 0.75))
-                        .otherwise(Color.color(1,1,1,0.25))
-        );
-        rectangle.setCursor(Cursor.HAND);
-        getChildren().add(rectangle);
+
+    public GridPane getContainer() {
+        return container;
+    }
+
+    public void setFamilyMember(GuiFamilyMember familyMember) {
+        familyMemberList.add(familyMember);
     }
 
     @Override
@@ -61,7 +54,8 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
 
     @Override
     public void removeAllFamilyMembers() {
-        familyMemberList.forEach(familyMember -> getChildren().remove(familyMember));
+        Platform.runLater(() -> container.getChildren().removeAll(familyMemberList));
+        //Platform.runLater(() -> familyMemberList.forEach(familyMember -> container.getChildren().remove(familyMember)));
         familyMemberList = new ArrayList<>();
     }
 

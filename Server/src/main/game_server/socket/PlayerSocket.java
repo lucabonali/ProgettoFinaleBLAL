@@ -151,6 +151,8 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
             out.flush();
             out.writeObject(qtaResourcesMap);
             out.flush();
+            out.writeObject(msgAction);
+            out.flush();
         }
         catch (IOException e) {
             e.printStackTrace();

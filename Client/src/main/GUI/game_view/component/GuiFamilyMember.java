@@ -4,12 +4,11 @@ import javafx.scene.Cursor;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import main.GUI.Service;
 import main.api.types.FamilyMemberType;
 import main.client.AbstractClient;
+
 
 /**
  * @author Luca
@@ -18,11 +17,7 @@ import main.client.AbstractClient;
 public class GuiFamilyMember extends ToggleButton {
     private static final double RADIUS = 15;
     private int id;
-    private Color color;
     private FamilyMemberType familyMemberType;
-    private Circle circle;
-    private Rectangle rectangle;
-    private boolean selected = false;
 
     public GuiFamilyMember(int id, FamilyMemberType familyMemberType) {
         super();
@@ -33,32 +28,32 @@ public class GuiFamilyMember extends ToggleButton {
     }
 
     private void createPane() {
-        setStyle("-fx-border-color: black");
-        Circle clip = new Circle(RADIUS);
-        clip.setStrokeWidth(6);
+        Circle circle = new Circle(RADIUS);
+        circle.setStrokeWidth(6);
         Light.Distant light = new Light.Distant();
         light.setAzimuth(-135.0);
         Lighting lighting = new Lighting();
         lighting.setLight(light);
         lighting.setSurfaceScale(5.0);
         if (familyMemberType == FamilyMemberType.NEUTRAL_DICE) {
-            clip.setFill(Service.getColorByFamilyMemberType(familyMemberType));
-            clip.setStroke(Service.getColorById(id));
+            circle.setFill(Service.getColorByFamilyMemberType(familyMemberType));
+            circle.setStroke(Service.getColorById(id));
         }
         else {
-            clip.setFill(Service.getColorById(id));
-            clip.setStroke(Service.getColorByFamilyMemberType(familyMemberType));
+            circle.setFill(Service.getColorById(id));
+            circle.setStroke(Service.getColorByFamilyMemberType(familyMemberType));
         }
-        setGraphic(clip);
-        setClip(clip);
+        setShape(circle);
+        setGraphic(circle);
         setCursor(Cursor.HAND);
-        setOnMouseClicked(event -> {
-            selected = !selected;
-            if (selected)
-                setEffect(lighting);
-            else
-                setEffect(null);
-            AbstractClient.getInstance().setFamilyMemberType(familyMemberType);
-        });
+        addMouseClicked();
+    }
+
+    public void addMouseClicked() {
+        setOnMouseClicked(event -> AbstractClient.getInstance().setFamilyMemberType(familyMemberType));
+    }
+
+    public void removeMouseClicked() {
+        setOnMouseClicked(null);
     }
 }

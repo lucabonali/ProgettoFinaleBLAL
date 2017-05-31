@@ -288,7 +288,7 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
     @Override
     public void convertPrivilege(int qta, ResourceType type) throws RemoteException {
         personalBoard.modifyResources(new Resource(qta, type));
-        //updateMove();
+        updateMove(null);
         game.notifyAllPlayers(this, idPlayer, personalBoard.getPersonalCardsMap(), personalBoard.getQtaResources(), null);
     }
 }
