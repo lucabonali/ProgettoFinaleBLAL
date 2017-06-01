@@ -46,7 +46,7 @@ public class PlayerRMI extends AbstractPlayer {
     }
 
     public void youWin() throws RemoteException {
-        getClientInterface().gameEnded("YOU WON; CONGRATS BUDDY!!");
+        getClientInterface().gameEnded("YOU WON, CONGRATS BUDDY!!");
     }
 
     public void youLose() throws RemoteException {

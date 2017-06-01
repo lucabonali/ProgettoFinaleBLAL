@@ -80,7 +80,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
         try {
             out.writeObject(SocketProtocol.GAME_ENDED);
             out.flush();
-            out.writeObject("Hai vinto, complimenti!!");
+            out.writeObject("YOU WON, CONGRATS BUDDY!!");
             out.flush();
         }
         catch (IOException e) {
@@ -94,7 +94,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
         try {
             out.writeObject(SocketProtocol.GAME_ENDED);
             out.flush();
-            out.writeObject("Hai perso :(");
+            out.writeObject(" YOU LOSE, SORRY");
             out.flush();
         }
         catch (IOException e) {

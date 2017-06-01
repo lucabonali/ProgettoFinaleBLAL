@@ -1,6 +1,6 @@
 package main.CLI;
 
-import com.sun.org.apache.regexp.internal.RE;
+import main.api.messages.MessageAction;
 import main.api.types.*;
 import main.api.types.ResourceType;
 import main.client.AbstractClient;
@@ -48,6 +48,10 @@ public class CLIController implements InterfaceController, Runnable {
     private CLICards cliCards;
     private int personalId;
     private int black = 0,orange = 0 ,white = 0;
+    private ActionSpacesType actionSpacesType;
+    private Map<ActionSpacesType, ActionSpaceHandler> actionSpaceMap;
+
+
 
 
     public CLIController(){
@@ -79,6 +83,9 @@ public class CLIController implements InterfaceController, Runnable {
         this.orange = orange;
     }
 
+    /**
+     * metodo che comunica al server che i dadi sono stati tirati, passandogli i valori
+     */
     @Override
     public void sendDices() {
         int orange = new Random().nextInt(5)+1;
@@ -125,6 +132,9 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
+    /**
+     * metodo che comunica al player che deve tirare i dadi
+     */
     @Override
     public void showDices() {
 
@@ -172,7 +182,92 @@ public class CLIController implements InterfaceController, Runnable {
      */
     @Override
     public void actionDoAction() throws RemoteException {
+        System.out.println(GREEN + " Please, select the type of the Action Space" + RESET );
+        initizlizeActionSpacesMenu();
+        showActionSpacesTypeMenu();
 
+    }
+
+    private void initizlizeActionSpacesMenu(){
+        actionSpaceMap = new HashMap<>();
+        actionSpaceMap.put(ActionSpacesType.TOWERS, this::selectTowerAndFloor);
+        actionSpaceMap.put(ActionSpacesType.SINGLE_PRODUCTION, this::singleProduction);
+        actionSpaceMap.put(ActionSpacesType.LARGE_PRODUCTION,this::largeProduction);
+        actionSpaceMap.put(ActionSpacesType.SINGLE_HARVEST,this::singleHarvest);
+        actionSpaceMap.put(ActionSpacesType.LARGE_HARVEST,this::largeHarvest);
+        actionSpaceMap.put(ActionSpacesType.COUNCIL,this::council);
+        actionSpaceMap.put(ActionSpacesType.MARKET,this::market);
+    }
+
+
+    // metodi che identificano e differenziano le operazioni sugli spazi azione
+    private void market() {
+    }
+
+    private void council() {
+    }
+
+    private void largeHarvest() {
+    }
+
+    private void singleHarvest() {
+    }
+
+    private void largeProduction() {
+    }
+
+    private void singleProduction() {
+    }
+
+    private void selectTowerAndFloor() {
+        int choiceTower = 1;
+        int choiceFloor = 1;
+
+        System.out.println(RED +" SELECT A TOWER :" + RESET);
+        while(true) {
+            System.out.println(GREEN + " 1 - Green tower, territories ");
+            System.out.println(BLUE + " 2 - Blue tower, territories ");
+            System.out.println(YELLOW + " 3 - Yellow tower, territories ");
+            System.out.println(PURPLE + " 4 - Purple tower, territories ");
+
+            try {
+                choiceTower = Integer.parseInt(in.readLine());
+            } catch (IOException | NumberFormatException e) {
+                System.out.println(" Please, insert a correct number ");
+            }
+        }
+    }
+
+    /**
+     * metodo che mostra il menu dei tipi di spazi azione su cui eseguire un' azione
+     */
+    private void showActionSpacesTypeMenu() {
+        while(true){
+            System.out.println( RED + " ACTION SPACES TYPES " + RESET);
+            System.out.println(WHITE +" 1 - TOWERS ");
+            System.out.println(" 2 - SINGLE PRODUCTION ");
+            System.out.println(" 3 - LARGE PRODUCTION ");
+            System.out.println(" 4 - SINGLE HARVEST ");
+            System.out.println(" 5 - LARGE HARVEST ");
+            System.out.println(" 6 - COUNCIL ");
+            System.out.println(" 7 - MARKET " + RESET);
+
+            int choice = 0;
+
+            try {
+                choice = Integer.parseInt(in.readLine()) ;
+                handleMenu(choice);
+                if(choice >= 0 && choice <= 7 )
+                    break;
+            } catch (IOException | NumberFormatException e) {
+                System.out.println(" Please, insert a correct option. ");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
     }
 
     @Override
@@ -234,6 +329,11 @@ public class CLIController implements InterfaceController, Runnable {
     @Override
     public void backToMenu() {
         new Thread(this).start();
+    }
+
+    @Override
+    public void updateOpponentFamilyMemberMove(int id, MessageAction msgAction) {
+
     }
 
     public void initialize() throws InterruptedException {
@@ -301,54 +401,32 @@ public class CLIController implements InterfaceController, Runnable {
 
     private void fourPlayerGame() {
         System.out.println(RED + "---- FOUR PLAYERS ----" + RESET);
-        try{
-            client = AbstractClient.getInstance();
-            client.startGame(4);
-            new Thread(() ->{
-                waitGame();
-            }).start();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        createGame(4);
     }
 
     private void threePlayerGame() {
         System.out.println(RED + "---- THREE PLAYERS ----" + RESET);
-        try{
-            client = AbstractClient.getInstance();
-            client.startGame(3);
-            new Thread(() ->{
-                waitGame();
-            }).start();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    createGame(3);
     }
 
-    /**
-     * metodo che lancia la creazione di una partita con 2 players
-     */
     private void twoPlayersGame() {
         System.out.println(RED + "---- TWO PLAYERS ----" + RESET);
-        try{
-            client = AbstractClient.getInstance();
-            client.startGame(2);
-            new Thread(() ->{
-                waitGame();
-            }).start();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        createGame(2);
+    }
+
+    private void randomGame(){
+        System.out.println(RED + "---- RANDOM GAME ----"+ RESET);
+        createGame(1);
     }
 
     /**
-     * metodo che lancia la creazione di una partita con un numero di giocatori random
+     * crea una partita in base alla modalità che gli viene passata in input
+     * @param modality di gioco ( random, two player ecc)
      */
-    private void randomGame() {
-        System.out.println(RED + "---- RANDOM GAME ----"+ RESET);
+    private void createGame(int modality) {
         try {
             client = AbstractClient.getInstance();
-            client.startGame(1);
+            client.startGame(modality);
             new Thread(() -> {
                 waitGame();
             }).start();
@@ -356,7 +434,6 @@ public class CLIController implements InterfaceController, Runnable {
             e.printStackTrace();
         }
     }
-
 
     /**
      * metodo che attende la inizializzazione di una partita, e la connessione di un numero sufficente di giocatori
@@ -524,7 +601,7 @@ public class CLIController implements InterfaceController, Runnable {
      *
      */
     private void showBoard() {
-        System.out.println(RED + "----- Development Cards -----" + RESET);
+        System.out.println(RED + "----- Towers Development Cards -----" + RESET);
         for(int i = 0; i<boardCards.size(); i++) {
             String card = boardCards.get(i);
             if(i<4) {
@@ -589,8 +666,14 @@ public class CLIController implements InterfaceController, Runnable {
         }
     }
 
+    public void actionSpaceHandle(Object object){
+        ActionSpaceHandler handler = actionSpaceMap.get(object);
+        if(handler != null){
+            handler.actionSpaceHandle();
+        }
+    }
     /**
-     * interfaccia che semplifica la gestione del menu e puramente funzionale
+     * interfaccie che semplificano la gestione del menu e puramente funzionali
      */
     private interface MenuHandler{
         void menuHandle() throws InterruptedException;
@@ -600,6 +683,9 @@ public class CLIController implements InterfaceController, Runnable {
         void gameHandle() throws RemoteException;
     }
 
+    public interface ActionSpaceHandler{
+        void actionSpaceHandle();
+    }
 
 
 }
