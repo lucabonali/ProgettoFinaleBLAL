@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -40,17 +39,13 @@ public class CLIController implements InterfaceController, Runnable {
     private AbstractClient client;
     private BufferedReader in;
     private String userName, password;
-    private static Map<Integer,MenuHandler> menuChoices;
-    private static Map<Integer,GameHandler > gameMap;
-    private boolean isGameStarted = false;
+       private boolean isGameStarted = false;
     private List<String> boardCards; // sono tutte le carte del tabellone
     private List<String> excomCards;
     private CLICards cliCards;
     private int personalId;
     private int black = 0,orange = 0 ,white = 0;
-    private ActionSpacesType actionSpacesType;
-    private Map<ActionSpacesType, ActionSpaceHandler> actionSpaceMap;
-
+    private GameMenu gameMenu;
 
 
 
@@ -58,6 +53,7 @@ public class CLIController implements InterfaceController, Runnable {
         this.in = new BufferedReader(new InputStreamReader(System.in));
         this.client = AbstractClient.getInstance();
         cliCards = new CLICards();
+        gameMenu = new GameMenu(this);
     }
 
     @Override
@@ -172,6 +168,21 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
     @Override
+    public void showGameEndedAlert(String msg) {
+
+    }
+
+    @Override
+    public void updateOpponentPersonalBoard(Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> resourcesMap, int id) {
+
+    }
+
+    @Override
+    public void opponentSurrender(int surrenderId) {
+
+    }
+
+    @Override
     public void endMoveAction() throws RemoteException {
         client.endMove();
     }
@@ -183,47 +194,35 @@ public class CLIController implements InterfaceController, Runnable {
     @Override
     public void actionDoAction() throws RemoteException {
         System.out.println(GREEN + " Please, select the type of the Action Space" + RESET );
-        initizlizeActionSpacesMenu();
         showActionSpacesTypeMenu();
 
     }
 
-    private void initizlizeActionSpacesMenu(){
-        actionSpaceMap = new HashMap<>();
-        actionSpaceMap.put(ActionSpacesType.TOWERS, this::selectTowerAndFloor);
-        actionSpaceMap.put(ActionSpacesType.SINGLE_PRODUCTION, this::singleProduction);
-        actionSpaceMap.put(ActionSpacesType.LARGE_PRODUCTION,this::largeProduction);
-        actionSpaceMap.put(ActionSpacesType.SINGLE_HARVEST,this::singleHarvest);
-        actionSpaceMap.put(ActionSpacesType.LARGE_HARVEST,this::largeHarvest);
-        actionSpaceMap.put(ActionSpacesType.COUNCIL,this::council);
-        actionSpaceMap.put(ActionSpacesType.MARKET,this::market);
-    }
-
 
     // metodi che identificano e differenziano le operazioni sugli spazi azione
-    private void market() {
+    void market() {
     }
 
-    private void council() {
+    void council() {
     }
 
-    private void largeHarvest() {
+    void largeHarvest() {
     }
 
-    private void singleHarvest() {
+    void singleHarvest() {
     }
 
-    private void largeProduction() {
+    void largeProduction() {
     }
 
-    private void singleProduction() {
+    void singleProduction() {
     }
 
-    private void selectTowerAndFloor() {
+    void selectTowerAndFloor() {
         int choiceTower = 1;
         int choiceFloor = 1;
 
-        System.out.println(RED +" SELECT A TOWER :" + RESET);
+        System.out.println(RED +" SELECT A TOWER AND FLOOR :" + RESET);
         while(true) {
             System.out.println(GREEN + " 1 - Green tower, territories ");
             System.out.println(BLUE + " 2 - Blue tower, territories ");
@@ -232,6 +231,20 @@ public class CLIController implements InterfaceController, Runnable {
 
             try {
                 choiceTower = Integer.parseInt(in.readLine());
+                gameMenu.handleTower(choiceTower);
+                if(choiceTower > 0 && choiceTower <5){
+                    System.out.println("Select a FLOOR: (1,3,5,7)");
+                    switch (Integer.parseInt(in.readLine())){
+                        case 1:
+                            break;
+                        case 2 :
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                    }
+                }
             } catch (IOException | NumberFormatException e) {
                 System.out.println(" Please, insert a correct number ");
             }
@@ -256,17 +269,12 @@ public class CLIController implements InterfaceController, Runnable {
 
             try {
                 choice = Integer.parseInt(in.readLine()) ;
-                handleMenu(choice);
+                gameMenu.actionSpaceHandle(choice);
                 if(choice >= 0 && choice <= 7 )
                     break;
             } catch (IOException | NumberFormatException e) {
                 System.out.println(" Please, insert a correct option. ");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-
-
-
         }
     }
 
@@ -288,7 +296,7 @@ public class CLIController implements InterfaceController, Runnable {
     @Override
     public void notifyMessage(String msg) {
         System.out.println();
-        System.out.println(WHITE_BACKGROUND + BLACK + "GAME MESSAGE : "+msg +RESET);
+        System.out.println(WHITE_BACKGROUND + RED + "GAME MESSAGE : "+msg +RESET);
     }
 
     @Override
@@ -336,14 +344,17 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
+    @Override
+    public void showOrderList(List<Integer> orderList) {
+
+    }
+
     public void initialize() throws InterruptedException {
         client = AbstractClient.getInstance();
     }
 
     @Override
     public void run() {
-        initializeMenuChoices();
-
         while(true){
             System.out.println(RED + "-------------- LORENZO IL MAGNIFICO --------------" + RESET);
             System.out.println(" 1 - RANDOM GAME ");
@@ -358,7 +369,7 @@ public class CLIController implements InterfaceController, Runnable {
 
             try {
                 choice = Integer.parseInt(in.readLine()) ;
-                handleMenu(choice);
+                gameMenu.handleMenu(choice);
                 if(choice >= 0 && choice <= 4 )
                    break;
             } catch (IOException | NumberFormatException e) {
@@ -369,21 +380,8 @@ public class CLIController implements InterfaceController, Runnable {
         }
     }
 
-    /**
-     * metodo che inizializza il menù della partita
-     */
-    private void initializeMenuChoices() {
-        menuChoices = new HashMap<>();
-        menuChoices.put(MenuCostants.MENU_EXIT ,  this::exit);
-        menuChoices.put(MenuCostants.RANDOM, this::randomGame);
-        menuChoices.put(MenuCostants.TWO_PALYERS, this::twoPlayersGame);
-        menuChoices.put(MenuCostants.THREE_PLAYERS, this::threePlayerGame);
-        menuChoices.put(MenuCostants.FOUR_PLAYERS, this::fourPlayerGame);
-        menuChoices.put(MenuCostants.OPTIONS, this::options);
-        menuChoices.put(MenuCostants.CREDITS, this::credits);
-    }
 
-    private void credits() {
+    void credits() {
         System.out.println("\n\n\n\n");
 
         System.out.println(BLUE_BACKGROUND + BLACK + " ----- CREDITS -----" +RESET);
@@ -395,26 +393,26 @@ public class CLIController implements InterfaceController, Runnable {
 
     }
 
-    private void options() {
+    void options() {
         System.out.println("Options");
     }
 
-    private void fourPlayerGame() {
+    void fourPlayerGame() {
         System.out.println(RED + "---- FOUR PLAYERS ----" + RESET);
         createGame(4);
     }
 
-    private void threePlayerGame() {
+    void threePlayerGame() {
         System.out.println(RED + "---- THREE PLAYERS ----" + RESET);
     createGame(3);
     }
 
-    private void twoPlayersGame() {
+    void twoPlayersGame() {
         System.out.println(RED + "---- TWO PLAYERS ----" + RESET);
         createGame(2);
     }
 
-    private void randomGame(){
+    void randomGame(){
         System.out.println(RED + "---- RANDOM GAME ----"+ RESET);
         createGame(1);
     }
@@ -454,20 +452,6 @@ public class CLIController implements InterfaceController, Runnable {
             game(false);
         }
     }
-
-    /**
-     * metodo che inizializza le scelte del menu di gioco
-     */
-    private void initializeGameMenu() {
-        gameMap = new HashMap<>();
-        gameMap.put(GameCostants.SURRENDER , this::surrender);
-        gameMap.put(GameCostants.SHOW_BOARD, this::showBoard);
-        gameMap.put(GameCostants.SHOW_PERSONAL_BOARD, this::showPersonalBoard);
-        gameMap.put(GameCostants.SHOW_OPPONENTS_PERSONAL_BOARD, this::showOpponentsPersonalBoard);
-        gameMap.put(GameCostants.DO_ACTION, this::actionDoAction);
-        gameMap.put(GameCostants.END_TURN, this::endMoveAction);
-    }
-
     /**
      * metodo che stampa il menu di gioco
      */
@@ -475,7 +459,6 @@ public class CLIController implements InterfaceController, Runnable {
         if(!returned){
             System.out.println();
             System.out.println(RED + "---- GAME STARTED ----" + RESET);
-            initializeGameMenu();
         }
         while(true){
             System.out.println(CYAN + "-------------------------" + RESET);
@@ -491,12 +474,10 @@ public class CLIController implements InterfaceController, Runnable {
 
             try {
                 choice = Integer.parseInt(in.readLine()) ;
+                gameMenu.handleGame(choice);
                 if(choice == 0) {
-                    handleGame(choice);
                     break;
                 }
-                else
-                    handleGame(choice);
             } catch (IOException | NumberFormatException e) {
                 System.out.println(" Please, insert a correct option. ");
             }
@@ -507,7 +488,7 @@ public class CLIController implements InterfaceController, Runnable {
     /**
      * metodo che mostra le plancie degli altri giocatori
      */
-    private void showOpponentsPersonalBoard() {
+    void showOpponentsPersonalBoard() {
 
         for(int i = 0; i<client.getOpponentsIdList().size() ; i++){
             if(client.getOpponentsIdList().get(i) != personalId) {
@@ -525,7 +506,7 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
 
-    private void showPersonalBoard(){
+    void showPersonalBoard(){
         showCorrectPersonalBoard(true ,0);
     }
 
@@ -600,7 +581,7 @@ public class CLIController implements InterfaceController, Runnable {
      * metodo che stampa lo stato del tabellone
      *
      */
-    private void showBoard() {
+    void showBoard() {
         System.out.println(RED + "----- Towers Development Cards -----" + RESET);
         for(int i = 0; i<boardCards.size(); i++) {
             String card = boardCards.get(i);
@@ -649,43 +630,5 @@ public class CLIController implements InterfaceController, Runnable {
     private void showActionSpaces() {
 
     }
-
-
-    public void handleMenu(Object object) throws InterruptedException {
-        MenuHandler handler = menuChoices.get(object);
-        if (handler != null) {
-            handler.menuHandle();
-        }
-
-    }
-
-    public void handleGame(Object object) throws RemoteException {
-        GameHandler handler = gameMap.get(object);
-        if (handler != null){
-            handler.gameHandle();
-        }
-    }
-
-    public void actionSpaceHandle(Object object){
-        ActionSpaceHandler handler = actionSpaceMap.get(object);
-        if(handler != null){
-            handler.actionSpaceHandle();
-        }
-    }
-    /**
-     * interfaccie che semplificano la gestione del menu e puramente funzionali
-     */
-    private interface MenuHandler{
-        void menuHandle() throws InterruptedException;
-    }
-
-    public interface GameHandler{
-        void gameHandle() throws RemoteException;
-    }
-
-    public interface ActionSpaceHandler{
-        void actionSpaceHandle();
-    }
-
 
 }
