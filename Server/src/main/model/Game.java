@@ -94,6 +94,7 @@ public class Game {
                         arrayListId.add(opponentId);
                 });
                 player.gameIsStarted(arrayListId, board.getExcomCodeList());
+                player.sendOrder(turnOrder);
             }
             catch (RemoteException e) {
                 e.printStackTrace();
@@ -339,7 +340,8 @@ public class Game {
             try {
                 checkTurn(player);
                 board.doNewAction(player, msg);
-                player.getPersonalBoard().modifyResources(new Resource(-msg.getAdditionalValue(), ResourceType.SERVANTS)); //mi toglie gli eventuali servitori che ho pagato
+                //mi toglie gli eventuali servitori che ho pagato
+                player.getPersonalBoard().modifyResources(new Resource(-msg.getAdditionalValue(), ResourceType.SERVANTS));
                 player.updateMove(null);
                 phase = Phases.ACTION;
                 endMove(player);
@@ -348,7 +350,8 @@ public class Game {
                 player.notifyError(e.getMessage());
             }
             catch (NewActionException e) {
-                player.getPersonalBoard().modifyResources(new Resource(-msg.getValue(), ResourceType.SERVANTS)); //mi toglie gli eventuali servitori che ho pagato
+                //mi toglie gli eventuali servitori che ho pagato
+                player.getPersonalBoard().modifyResources(new Resource(-msg.getValue(), ResourceType.SERVANTS));
                 player.updateMove(null);
                 //ho attivato un effetto che mi fa fare una nuova azione, perciò non è finito il mio turno
                 phase = Phases.NEW_ACTION;
@@ -505,6 +508,7 @@ public class Game {
         playerMap.forEach(((id, player) -> {
             try {
                 player.initializeBoard(board.getCompleteListTowersCards());
+                player.sendOrder(turnOrder);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -563,10 +567,7 @@ public class Game {
      */
     public void removePlayer(AbstractPlayer player) {
         playerMap.remove(player.getIdPlayer());
-        for (int i=0; i<numPlayers; i++){
-            if (turnOrder.get(i) == player)
-                turnOrder.remove(i);
-        }
+        turnOrder.remove(player);
         numPlayers--;
         if (numPlayers<2 && isStarted){
             try {

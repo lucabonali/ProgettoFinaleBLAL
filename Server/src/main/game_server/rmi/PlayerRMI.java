@@ -72,7 +72,9 @@ public class PlayerRMI extends AbstractPlayer {
 
     @Override
     public void updateOpponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap, MessageAction msgAction) throws RemoteException {
-        getClientInterface().opponentMove(id, personalcardsMap, qtaResourcesMap, msgAction);
+        getClientInterface().opponentMove(id, personalcardsMap, qtaResourcesMap);
+        if (msgAction != null)
+            getClientInterface().opponentFamilyMemberMove(id, msgAction);
     }
 
     /**
@@ -116,6 +118,20 @@ public class PlayerRMI extends AbstractPlayer {
     @Override
     public void notifyPrivilege() throws RemoteException {
         getClientInterface().notifyPrivilege();
+    }
+
+    /**
+     * invio la lista degli id dei giocatori nell'ordine corretto
+     * @param playersOrderList lista dei giocatori
+     * @throws RemoteException
+     */
+    @Override
+    public void sendOrder(List<AbstractPlayer> playersOrderList) throws RemoteException {
+        List<Integer> orderList = new ArrayList<>();
+        for (AbstractPlayer player: playersOrderList) {
+            orderList.add(player.getIdPlayer());
+        }
+        getClientInterface().notifyTurnOrder(orderList);
     }
 
     @Override

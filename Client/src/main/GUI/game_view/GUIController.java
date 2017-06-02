@@ -76,6 +76,7 @@ public class GUIController implements InterfaceController {
     @FXML private GridPane myPersonalBoardGridPane;
     @FXML private HBox personalHBox;
     @FXML private AnchorPane anchorPane;
+    @FXML private GridPane orderGridPane;
 
     @FXML private TextField servantsToPayTextField;
 
@@ -318,6 +319,23 @@ public class GUIController implements InterfaceController {
     }
 
     /**
+     * mi setta l'ordine dei giocatori
+     * @param orderList lista di interi(id)
+     */
+    @Override
+    public void showOrderList(List<Integer> orderList) {
+        Platform.runLater(() -> {
+            orderGridPane.getChildren().clear();
+            int counter = 0;
+            for (Integer id: orderList) {
+                PersonalOrderDisc pod = new PersonalOrderDisc(id);
+                orderGridPane.add(pod, 0, counter);
+                counter++;
+            }
+        });
+    }
+
+    /**
      * mi rende visibili i dadi, e posso tirarli
      */
     @Override
@@ -526,6 +544,11 @@ public class GUIController implements InterfaceController {
     @Override
     public void showPrivilegeAlert() {
         Platform.runLater(PrivilegeAlert::new);
+    }
+
+    @Override
+    public void showGameEndedAlert(String msg) {
+        Platform.runLater(() -> new GameEndedAlert(msg, this));
     }
 
     @FXML

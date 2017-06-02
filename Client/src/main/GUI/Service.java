@@ -16,13 +16,13 @@ import main.api.types.FamilyMemberType;
  * classe di servizio per alcuni tipi di animazioni, riutlizzati di frequente
  */
 public class Service {
-    public static final char CHAR_TERRITORY = 't';
-    public static final char CHAR_CHARACTERS = 'y';
-    public static final char CHAR_BUILDINGS = 'b';
-    public static final char CHAR_VENTURES = 'x';
-    public static final char CHAR_PRODUCTION = 'e';
-    public static final char CHAR_HARVEST = 'h';
-    public static final char CHAR_TOWER_ACTION = 'a';
+    private static final char CHAR_TERRITORY = 't';
+    private static final char CHAR_CHARACTERS = 'y';
+    private static final char CHAR_BUILDINGS = 'b';
+    private static final char CHAR_VENTURES = 'x';
+    private static final char CHAR_PRODUCTION = 'e';
+    private static final char CHAR_HARVEST = 'h';
+    private static final char CHAR_TOWER_ACTION = 'a';
 
     /**
      * mi fa lo zoom della carta quando ci vado sopra col puntatore
@@ -41,9 +41,9 @@ public class Service {
      */
     public static void zoomOut(ImageView img) {
         ScaleTransition st = new ScaleTransition(Duration.millis(500), img);
-        img.toBack();
         st.setToY(1);
         st.setToX(1);
+        st.setOnFinished(event -> img.toBack());
         st.play();
     }
 

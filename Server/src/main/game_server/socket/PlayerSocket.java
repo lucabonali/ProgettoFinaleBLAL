@@ -151,8 +151,14 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
             out.flush();
             out.writeObject(qtaResourcesMap);
             out.flush();
-            out.writeObject(msgAction);
-            out.flush();
+            if (msgAction != null) {
+                out.writeObject(SocketProtocol.OPPONENT_MEMBER_MOVE);
+                out.flush();
+                out.writeInt(id);
+                out.flush();
+                out.writeObject(msgAction);
+                out.flush();
+            }
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -238,6 +244,23 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     public void notifyPrivilege() throws RemoteException {
         try {
             out.writeObject(SocketProtocol.PRIVILEGE);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendOrder(List<AbstractPlayer> playersOrderList) throws RemoteException {
+        List<Integer> orderList = new ArrayList<>();
+        for (AbstractPlayer player: playersOrderList) {
+            orderList.add(player.getIdPlayer());
+        }
+        try {
+            out.writeObject(SocketProtocol.ORDER);
+            out.flush();
+            out.writeObject(orderList);
             out.flush();
         }
         catch (IOException e) {

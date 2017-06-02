@@ -91,17 +91,6 @@ public interface InterfaceController {
     void createDiscs(int id);
 
     /**
-    * mi rende visibile l'alert realtivo alla scelta nella fase scomunica
-    */
-    void showExcommunicatingAlert() ;
-
-    /**
-    * mi rende visibile l'alert relativo alla scelta di conversione del privilegio
-    */
-    void showPrivilegeAlert() ;
-
-
-    /**
     * metodo che notifica la fine della mossa al server
     * @throws RemoteException
     */
@@ -174,6 +163,28 @@ public interface InterfaceController {
      * @param msgAction messaggio dell'azione
      */
     void updateOpponentFamilyMemberMove(int id, MessageAction msgAction);
+
+    /**
+     * mi fa vedere l'ordine dei giocatori in questo turno
+     * @param orderList lista di interi(id)
+     */
+    void showOrderList(List<Integer> orderList);
+
+    /**
+     * mi rende visibile l'alert realtivo alla scelta nella fase scomunica
+     */
+    void showExcommunicatingAlert() ;
+
+    /**
+     * mi rende visibile l'alert relativo alla scelta di conversione del privilegio
+     */
+    void showPrivilegeAlert();
+
+    /**
+     * mi rende visibile l'alert che mi notifica la fine della partita
+     * @param msg messaggio da notificare al giocatore
+     */
+    void showGameEndedAlert(String msg);
 }
 
 

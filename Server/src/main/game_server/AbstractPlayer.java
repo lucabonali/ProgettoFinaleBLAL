@@ -232,6 +232,13 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      */
     public abstract void notifyPrivilege() throws RemoteException;
 
+    /**
+     * invia al client l'ordine dei giocatori
+     * @param playersOrderList lista dei giocatori
+     * @throws RemoteException
+     */
+    public abstract void sendOrder(List<AbstractPlayer> playersOrderList) throws RemoteException;
+
 
 
     /// METODI IMPLEMENTATI DALL'INTERFACCIA PLAYER INTERFACE ///////////////////////////////////////////////

@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -65,6 +66,8 @@ public class GameModeSelectionView {
     private Line line;
 
     private Music theme;
+    private double xOffset;
+    private double yOffset;
 
     public GameModeSelectionView() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         root = new Pane();
@@ -122,13 +125,23 @@ public class GameModeSelectionView {
      * aggiungo lo sfondo
      */
     private void addBackground() {
-        ImageView imageView = new ImageView(new Image(getClass().getResource("res/old_florence.jpg").toExternalForm()));
-        imageView.setFitWidth(WIDTH);
-        imageView.setFitHeight(HEIGHT);
-        imageView.fitWidthProperty().bind(root.widthProperty());
-        imageView.fitHeightProperty().bind(root.heightProperty());
+        ImageView bgImage = new ImageView(new Image(getClass().getResource("res/old_florence.jpg").toExternalForm()));
+        bgImage.setFitWidth(WIDTH);
+        bgImage.setFitHeight(HEIGHT);
+        bgImage.fitWidthProperty().bind(root.widthProperty());
+        bgImage.fitHeightProperty().bind(root.heightProperty());
+        bgImage.setOnMousePressed(event -> {
+            xOffset = GUILauncher.getPrimaryStage().getX() -event.getScreenX();
+            yOffset = GUILauncher.getPrimaryStage().getY() -event.getScreenY();
+            bgImage.setCursor(Cursor.CLOSED_HAND);
+        } );
 
-        root.getChildren().add(imageView);
+        bgImage.setOnMouseDragged(event -> {
+            GUILauncher.getPrimaryStage().setX(event.getScreenX() + xOffset);
+            GUILauncher.getPrimaryStage().setY(event.getScreenY() + yOffset);
+        });
+
+        root.getChildren().add(bgImage);
     }
 
     /**

@@ -146,11 +146,10 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @param id id del giocatore che ha mosso
      * @param personalcardsMap mappa delle carte personali del giocatore che ha mosso
      * @param qtaResourcesMap mappa delle qta delle risorse del giocatore che ha mosso
-     * @param msgAction messaggio codificato della mossa
      * @throws RemoteException
      */
     @Override
-    public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap, MessageAction msgAction) throws RemoteException {
+    public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
         interfaceController.removeDrawnCards(personalcardsMap); //rimuovo le carte che ha pescato
         //aggiorno le risorse e le carte del giocatore che ha appena mosso
         //opponentQtaResourcesMap.get(id) = qtaResourcesMap;
@@ -161,8 +160,17 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
                 pointMap.put(resourceType,integer);
         }));
         interfaceController.modifyOpponentPoints(pointMap, id);
-        if (msgAction != null)
-            interfaceController.updateOpponentFamilyMemberMove(id, msgAction);
+    }
+
+    /**
+     * chiama il metodo del controller che mi sposta il familiare nello spazio azione corretto
+     * @param id id del giocatore che muove
+     * @param msgAction messaggio codificato della mossa
+     * @throws RemoteException
+     */
+    @Override
+    public void opponentFamilyMemberMove(int id, MessageAction msgAction) throws RemoteException {
+        interfaceController.updateOpponentFamilyMemberMove(id, msgAction);
     }
 
     /**
@@ -263,17 +271,31 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     /**
      * notifica che la partita è terminata, con l'esito
      * @param msg messaggio (esito)
+     * @throws RemoteException
      */
     @Override
     public void gameEnded(String msg) throws RemoteException {
-        notifyMessage(msg);
-        interfaceController.backToMenu();
-
+        interfaceController.showGameEndedAlert(msg);
+        //interfaceController.backToMenu();
     };
+
+    /**
+     * notifica al controller che deve esporre la lista dei giocatori
+     * @param orderList lista degli id
+     * @throws RemoteException
+     */
+    @Override
+    public void notifyTurnOrder(List<Integer> orderList) throws RemoteException {
+        interfaceController.showOrderList(orderList);
+    }
+
+
+    /// METODI AGGIUNTI DALLA CLASSE ASTRATTA E GIA' IMPLEMENTATI /////////////////////////////////////////////////////////
 
     public Map<ResourceType, Integer> getQtaResourcesMap() {
         return qtaResourcesMap;
     }
+
     public Map<CardType, List<String>> getMyCardsList() {
         return myCardsList;
     }
@@ -289,8 +311,6 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     public List<Integer> getOpponentsIdList() {
         return opponentsIdList;
     }
-
-    /// METODI AGGIUNTI DALLA CLASSE ASTRATTA E GIA' IMPLEMENTATI /////////////////////////////////////////////////////////
 
     public void setActionSpacesType(ActionSpacesType actionSpacesType) {
         this.actionSpacesType = actionSpacesType;

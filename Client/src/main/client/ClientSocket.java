@@ -232,11 +232,15 @@ public class ClientSocket extends AbstractClient implements Runnable{
                             break;
                         case OPPONENT_MOVE:
                             int opponentId = in.readInt();
-                            //dovre fare un check su instanceof
+                            //dovrei fare un check su instanceof
                             Map<CardType, List<String>> cardsMap = (Map<CardType, List<String>>) in.readObject();
                             Map<ResourceType, Integer> qtaResourcesMap = (Map<ResourceType, Integer>) in.readObject();
+                            opponentMove(opponentId, cardsMap, qtaResourcesMap);
+                            break;
+                        case OPPONENT_MEMBER_MOVE:
+                            int opId = in.readInt();
                             MessageAction msgAction = (MessageAction) in.readObject();
-                            opponentMove(opponentId, cardsMap, qtaResourcesMap, msgAction);
+                            opponentFamilyMemberMove(opId, msgAction);
                             break;
                         case UPDATE_PERSONAL_CARDS:
                             Map<CardType, List<String>> personalCardsMap = (Map<CardType, List<String>>) in.readObject();
@@ -249,6 +253,10 @@ public class ClientSocket extends AbstractClient implements Runnable{
                         case TOWERS_CARDS:
                             List<String> boardCards = (List<String>) in.readObject();
                             setTowersCards(boardCards);
+                            break;
+                        case ORDER:
+                            List<Integer> orderList = (List<Integer>) in.readObject();
+                            notifyTurnOrder(orderList);
                             break;
                         case IS_GAME_STARTED:
                             int myId = in.readInt();
