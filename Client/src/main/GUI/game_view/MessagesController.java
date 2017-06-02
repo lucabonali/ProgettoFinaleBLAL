@@ -4,8 +4,11 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.*;
 import main.GUI.music.Music;
 
 /**
@@ -17,6 +20,9 @@ public class MessagesController {
     @FXML private ImageView lory;
     @FXML private Label messagesLabel;
     @FXML private Label lorenzoTalks;
+    @FXML private TextFlow textFlow;
+
+    private Text text;
     private Music audio;
 
 
@@ -24,8 +30,11 @@ public class MessagesController {
     private String EXTENSION = ".wav";
 
     public void setMessage(String msg){
-        Platform.runLater(()->message.setValue(msg));
-        playAnimation(msg);
+        //Platform.runLater(()->message.setValue(msg));
+        Platform.runLater(() -> {
+            message.setValue(msg);
+            playAnimation(msg);
+        });
     }
 
     /**
@@ -38,14 +47,23 @@ public class MessagesController {
 
     public void initialize() {
         message = new SimpleStringProperty();
-        messagesLabel.textProperty().bind(message);
-        messagesLabel.setOnMouseEntered(event -> {
-            //fare qualcosa
+        textFlow.setOnMouseEntered(event -> {
+            textFlow.setStyle("-fx-border-radius: 30%;" +
+                    "-fx-border-color: yellow;");
         });
-        messagesLabel.setOnMouseExited(event -> {
-           //fare qualcos'altro
+        textFlow.setOnMouseExited(event -> {
+            textFlow.setStyle("-fx-border-radius: 30%;" +
+                    "-fx-border-color: black;");
         });
-        //messagesLabel.setEffect(new GaussianBlur(20));
-        lorenzoTalks.setText("Hi i'm Lorenzo!!");
+        text = new Text();
+        text.textProperty().bind(message);
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setTextOrigin(VPos.CENTER);
+        text.setFill(Color.BLACK);
+        text.setFont(Font.font("sans-serif", FontWeight.BOLD, 30));
+        text.setWrappingWidth(400);
+        textFlow.setTextAlignment(TextAlignment.CENTER);
+        textFlow.getChildren().add(text);
+        //lorenzoTalks.setText("Hi i'm Lorenzo!!");
     }
 }

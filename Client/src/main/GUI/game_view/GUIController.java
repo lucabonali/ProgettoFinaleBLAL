@@ -5,14 +5,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import main.CLI.InterfaceController;
 import main.GUI.Service;
 import main.GUI.game_mode_selection.GameModeSelectionView;
@@ -67,6 +66,8 @@ public class GUIController implements InterfaceController {
     @FXML private GridPane whiteDicePane;
     @FXML private GridPane orangeDicePane;
 
+    @FXML private TabPane infoTabPane;
+
     @FXML private GridPane excomGridPane;
 
     @FXML private ToolBar toolbar1;
@@ -83,16 +84,22 @@ public class GUIController implements InterfaceController {
 
     private ToggleGroup toggleGroup = new ToggleGroup();
 
+    private Map<Integer, PersonalBoardController> opponentPersonalBoardControllerMap = new HashMap<>();
+
     private MessagesController messagesController;
     private PersonalBoardController personalBoardController;
 
     private Map<CardType, GridPane> gridPaneSpacesTowersMap = new HashMap<>();
     private Map<MarketActionType, GridPane> gridPaneSpacesMarketMap = new HashMap<>();
 
-    private Map<Integer, Map<ResourceType, PersonalDisc>> opponentDiscs = new HashMap<>(); //mappa dei dischetti avversari
 
     private Map<ResourceType,PersonalDisc> personalDiscs = new HashMap<>(); //mappa dei dischetti dei punti personali
-    private Map<FamilyMemberType,GuiFamilyMember> personalFamilyMembers = new HashMap<>(); //mappa dei familiari personali
+    private Map<FamilyMemberType,GuiFamilyMember> personalFamilyMembersMap = new HashMap<>(); //mappa dei familiari personali
+
+    private Map<Integer, Map<ResourceType, PersonalDisc>> opponentDiscs = new HashMap<>(); //mappa dei dischetti avversari
+    private Map<Integer, Map<FamilyMemberType,GuiFamilyMember>> opponentsFamilyMembersMap = new HashMap<>();
+    private Map<Integer, Map<FamilyMemberType, Pane>> paneMap = new HashMap<>();
+
     private Dice blackDice, whiteDice, orangeDice; //dadi
 
     //mappe degli spazi azione
@@ -290,7 +297,6 @@ public class GUIController implements InterfaceController {
     @Override
     public void backToMenu() {
         try {
-            Thread.sleep(2000);
             GameModeSelectionView.createGameModeSelectionView();
         }
         catch (InterruptedException | IOException | UnsupportedAudioFileException | LineUnavailableException e) {
@@ -305,7 +311,7 @@ public class GUIController implements InterfaceController {
      */
     @Override
     public void updateOpponentFamilyMemberMove(int id, MessageAction msgAction) {
-        GuiFamilyMember familyMember = new GuiFamilyMember(id, msgAction.getFamilyMemberType());
+        GuiFamilyMember familyMember = opponentsFamilyMembersMap.get(id).get(msgAction.getFamilyMemberType());
         familyMember.removeMouseClicked();
         familyMember.setDisable(true);
         familyMember.setOpacity(1);
@@ -393,10 +399,9 @@ public class GUIController implements InterfaceController {
      */
     @Override
     public void createDiscs(int id) {
-        personalDiscs.put(ResourceType.VICTORY, new PersonalVictoryDisc(id));
-        personalDiscs.put(ResourceType.MILITARY, new PersonalMilitaryDisc(id));
-        personalDiscs.put(ResourceType.FAITH, new PersonalFaithDisc(id));
-        Platform.runLater(() -> personalDiscs.forEach(((resourceType, personalDisc) -> anchorPane.getChildren().add(personalDisc))));
+        personalDiscs.put(ResourceType.VICTORY, new PersonalVictoryDisc(id, anchorPane));
+        personalDiscs.put(ResourceType.MILITARY, new PersonalMilitaryDisc(id, anchorPane));
+        personalDiscs.put(ResourceType.FAITH, new PersonalFaithDisc(id, anchorPane));
     }
 
     /**
@@ -405,12 +410,32 @@ public class GUIController implements InterfaceController {
      */
     @Override
     public void createOpponentDiscs(int id) {
+        Tab tab = new Tab("opponent " + id);
+        Platform.runLater(() -> {
+            infoTabPane.getTabs().add(tab);
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/GUI/game_view/personal_board_view.fxml"));
+                Parent personalBoard = fxmlLoader.load();
+                opponentPersonalBoardControllerMap.put(id, fxmlLoader.getController());
+                tab.setContent(personalBoard);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        Map<FamilyMemberType, Pane> paneMap = new HashMap<>();
+        this.paneMap.put(id, paneMap);
+        Map<FamilyMemberType, GuiFamilyMember> familyMap = new HashMap<>();
+        familyMap.put(FamilyMemberType.ORANGE_DICE, new GuiFamilyMember(id, FamilyMemberType.ORANGE_DICE));
+        familyMap.put(FamilyMemberType.WHITE_DICE, new GuiFamilyMember(id, FamilyMemberType.WHITE_DICE));
+        familyMap.put(FamilyMemberType.BLACK_DICE, new GuiFamilyMember(id, FamilyMemberType.BLACK_DICE));
+        familyMap.put(FamilyMemberType.NEUTRAL_DICE, new GuiFamilyMember(id, FamilyMemberType.NEUTRAL_DICE));
+        opponentsFamilyMembersMap.put(id, familyMap);
         Map<ResourceType, PersonalDisc> map = new HashMap<>();
-        map.put(ResourceType.VICTORY, new PersonalVictoryDisc(id));
-        map.put(ResourceType.MILITARY, new PersonalMilitaryDisc(id));
-        map.put(ResourceType.FAITH, new PersonalFaithDisc(id));
+        map.put(ResourceType.VICTORY, new PersonalVictoryDisc(id, anchorPane));
+        map.put(ResourceType.MILITARY, new PersonalMilitaryDisc(id, anchorPane));
+        map.put(ResourceType.FAITH, new PersonalFaithDisc(id, anchorPane));
         opponentDiscs.put(id, map);
-        Platform.runLater(() -> map.forEach(((resourceType, opponentDisc) -> anchorPane.getChildren().add(opponentDisc))));
     }
 
 
@@ -420,11 +445,11 @@ public class GUIController implements InterfaceController {
      */
     @Override
     public void createFamilyMembers(int id){
-        personalFamilyMembers.put(FamilyMemberType.ORANGE_DICE, new GuiFamilyMember(id, FamilyMemberType.ORANGE_DICE));
-        personalFamilyMembers.put(FamilyMemberType.BLACK_DICE, new GuiFamilyMember(id, FamilyMemberType.BLACK_DICE));
-        personalFamilyMembers.put(FamilyMemberType.WHITE_DICE, new GuiFamilyMember(id, FamilyMemberType.WHITE_DICE));
-        personalFamilyMembers.put(FamilyMemberType.NEUTRAL_DICE, new GuiFamilyMember(id, FamilyMemberType.NEUTRAL_DICE));
-        personalFamilyMembers.forEach(((familyMemberType, familyMember) -> familyMember.setToggleGroup(toggleGroup)));
+        personalFamilyMembersMap.put(FamilyMemberType.ORANGE_DICE, new GuiFamilyMember(id, FamilyMemberType.ORANGE_DICE));
+        personalFamilyMembersMap.put(FamilyMemberType.BLACK_DICE, new GuiFamilyMember(id, FamilyMemberType.BLACK_DICE));
+        personalFamilyMembersMap.put(FamilyMemberType.WHITE_DICE, new GuiFamilyMember(id, FamilyMemberType.WHITE_DICE));
+        personalFamilyMembersMap.put(FamilyMemberType.NEUTRAL_DICE, new GuiFamilyMember(id, FamilyMemberType.NEUTRAL_DICE));
+        personalFamilyMembersMap.forEach(((familyMemberType, familyMember) -> familyMember.setToggleGroup(toggleGroup)));
     }
 
     /**
@@ -432,7 +457,7 @@ public class GUIController implements InterfaceController {
      */
     @Override
     public void relocateFamilyMembers() {
-        Platform.runLater(() -> personalFamilyMembers.forEach(((type, guiFamilyMember) -> {
+        Platform.runLater(() -> personalFamilyMembersMap.forEach(((type, guiFamilyMember) -> {
             if (!personalHBox.getChildren().contains(guiFamilyMember)) {
                 personalHBox.getChildren().add(guiFamilyMember);
                 guiFamilyMember.setToggleGroup(toggleGroup);
@@ -443,7 +468,7 @@ public class GUIController implements InterfaceController {
 
     /**
      * mi sposta il mio familiare nello spazio azione corretto
-     * @param actionSpacesType codice spazio azion
+     * @param actionSpacesType codice spazio azione
      * @param cardType codice torre
      * @param numFloor codice piano
      * @param marketActionType codice mercato
@@ -452,8 +477,9 @@ public class GUIController implements InterfaceController {
     @Override
     public void moveFamilyMember(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, FamilyMemberType familyMemberType) {
         Platform.runLater(() ->{
-            GuiFamilyMember familyMember = personalFamilyMembers.get(familyMemberType);
+            GuiFamilyMember familyMember = personalFamilyMembersMap.get(familyMemberType);
             if (personalHBox.getChildren().contains(familyMember)) {
+                familyMember.removeMouseClicked();
                 familyMember.setDisable(true);
                 familyMember.setOpacity(1);
                 personalHBox.getChildren().remove(familyMember);
@@ -501,7 +527,6 @@ public class GUIController implements InterfaceController {
             e.printStackTrace();
         }
     }
-
 
     /**
      * mi modifica i punti del giocatore, cioè mi sposta i dischetti relativi a me stesso
@@ -551,6 +576,18 @@ public class GUIController implements InterfaceController {
         Platform.runLater(() -> new GameEndedAlert(msg, this));
     }
 
+    @Override
+    public void updateOpponentPersonalBoard(Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> resourcesMap, int id) {
+        opponentPersonalBoardControllerMap.get(id).updateCards(personalcardsMap);
+        opponentPersonalBoardControllerMap.get(id).modifyResources(resourcesMap);
+    }
+
+    @Override
+    public void opponentSurrender(int surrenderId) {
+        notifyMessage("opponent " + surrenderId + " give up!!");
+        opponentDiscs.get(surrenderId).forEach((type, personalDisc) -> personalDisc.remove());
+    }
+
     @FXML
     public void endMoveAction() throws RemoteException {
         client.endMove();
@@ -586,7 +623,12 @@ public class GUIController implements InterfaceController {
 
     @Override
     public void exit() throws InterruptedException {
-
+        try {
+            client.exit();
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

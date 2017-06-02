@@ -1,5 +1,7 @@
 package main.GUI.game_view.component;
 
+import javafx.scene.layout.AnchorPane;
+
 /**
  * @author Luca
  * @author Andrea
@@ -16,8 +18,8 @@ public class PersonalVictoryDisc extends PersonalDisc{
 
     private int currentPosition = 0;
 
-    public PersonalVictoryDisc(int id) {
-        super(id);
+    public PersonalVictoryDisc(int id, AnchorPane container) {
+        super(id, container);
         START_Y = 18 - (NUMBER_OF_DISC*6);
         FINAL_X = START_X + (INC_X*19) + INC_FINAL_X + (NUMBER_OF_DISC*6);
         NUMBER_OF_DISC++;

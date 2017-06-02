@@ -239,6 +239,13 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
      */
     public abstract void sendOrder(List<AbstractPlayer> playersOrderList) throws RemoteException;
 
+    /**
+     * notifica al giocatore che il giocatore con id (id) si è arreso
+     * @param id id del giocatore arreso
+     * @throws RemoteException
+     */
+    public abstract void opponentSurrender(int id) throws RemoteException;
+
 
 
     /// METODI IMPLEMENTATI DALL'INTERFACCIA PLAYER INTERFACE ///////////////////////////////////////////////

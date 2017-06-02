@@ -6,7 +6,6 @@
 
 }
 #closeButton {
-
     -fx-background-image: url("../../login/res/X.png");
     -fx-background-repeat: no-repeat;
     -fx-background-color: transparent;
@@ -15,6 +14,13 @@
 }
 
 #toolbar {
-
     -fx-background-color: transparent;
+}
+
+#textFlow {
+    -fx-border-radius: 20%;
+    -fx-border-color: black;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-tile-alignment: center;
 }

@@ -282,7 +282,7 @@
                 <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="275.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                <TabPane fx:id="infoTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                         <Tab text="PersonalTab">
                      <content>
@@ -295,11 +295,6 @@
                           </rowConstraints>
                         </GridPane>
                      </content>
-                        </Tab>
-                        <Tab text="Opponents">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                            </content>
                         </Tab>
                     </tabs>
                 </TabPane>
@@ -316,7 +311,8 @@
       <ToolBar id="toolbar" fx:id="toolbar1" prefHeight="30.0" prefWidth="200.0" stylesheets="@res/style.css" />
       <ToolBar id="toolbar" fx:id="toolbar2" prefHeight="30.0" prefWidth="200.0" stylesheets="@res/style.css" GridPane.columnIndex="1">
          <items>
-            <Button mnemonicParsing="false" onAction="#surrender" text="Exit" />
+            <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#surrender" text="Surrend" textAlignment="CENTER" />
+            <Button alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#exit" text="X" />
          </items></ToolBar>
     </children>
 </GridPane>

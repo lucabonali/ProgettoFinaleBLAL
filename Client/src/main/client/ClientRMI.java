@@ -119,6 +119,12 @@ public class ClientRMI extends AbstractClient {
         serverGame.surrender();
     }
 
+    @Override
+    public void exit() throws RemoteException {
+        surrender();
+        System.exit(0);
+    }
+
     /**
      * metodo che invia al server i risutlati del lancio dei dadi, il quale si occuperà di inviarlo
      * a tutti gli altri giocatori

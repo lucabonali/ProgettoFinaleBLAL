@@ -9,10 +9,7 @@ import main.api.types.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Classe che rappresenta il client generico, che avrà metodi in comune tra entrambi i tipi
@@ -152,13 +149,17 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
         interfaceController.removeDrawnCards(personalcardsMap); //rimuovo le carte che ha pescato
         //aggiorno le risorse e le carte del giocatore che ha appena mosso
-        //opponentQtaResourcesMap.get(id) = qtaResourcesMap;
-        //opponentsCardsMap.get(id) = personalcardsMap;
+        opponentQtaResourcesMap.put(id, qtaResourcesMap);
+        opponentsCardsMap.put(id, personalcardsMap);
         Map<ResourceType, Integer> pointMap = new HashMap<>();
+        Map<ResourceType, Integer> resourcesMap = new HashMap<>();
         qtaResourcesMap.forEach(((resourceType, integer) -> {
             if (resourceType == ResourceType.VICTORY || resourceType == ResourceType.MILITARY || resourceType == ResourceType.FAITH)
                 pointMap.put(resourceType,integer);
+            else
+                resourcesMap.put(resourceType, integer);
         }));
+        interfaceController.updateOpponentPersonalBoard(personalcardsMap, resourcesMap, id);
         interfaceController.modifyOpponentPoints(pointMap, id);
     }
 
@@ -185,9 +186,9 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
 
     /**
      * metodo che serve per notificare al server di lanciare i dadi
-     * @param orange
-     * @param white
-     * @param black
+     * @param orange dado arancione
+     * @param white bianco
+     * @param black nero
      * @throws RemoteException
      */
     @Override
@@ -287,6 +288,16 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     @Override
     public void notifyTurnOrder(List<Integer> orderList) throws RemoteException {
         interfaceController.showOrderList(orderList);
+    }
+
+    /**
+     * notifica e aggiorna l'interfaccia eleiminando ogni traccia del giocatore che ha abbandonato
+     * @param surrenderId id del giocatore che ha abbandonato
+     * @throws RemoteException
+     */
+    @Override
+    public void notifyOpponentSurrender(int surrenderId) throws RemoteException{
+        interfaceController.opponentSurrender(surrenderId);
     }
 
 
@@ -461,6 +472,12 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     public abstract void surrender() throws RemoteException;
+
+    /**
+     * esce totalmente dal gioco
+     * @throws RemoteException
+     */
+    public abstract void exit() throws RemoteException;
 
 
     /**

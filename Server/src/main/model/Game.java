@@ -577,6 +577,16 @@ public class Game {
                 e.printStackTrace();
             }
         }
+        else {
+            turnOrder.forEach((abstractPlayer -> {
+                try {
+                    abstractPlayer.opponentSurrender(player.getIdPlayer());
+                }
+                catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }));
+        }
     }
 
 

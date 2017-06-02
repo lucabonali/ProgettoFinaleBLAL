@@ -268,6 +268,19 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
         }
     }
 
+    @Override
+    public void opponentSurrender(int id) throws RemoteException {
+        try {
+            out.writeObject(SocketProtocol.OPPONENT_SURRENDER);
+            out.flush();
+            out.writeInt(id);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void printMsgToClient(String content){
         try {
             out.writeObject(SocketProtocol.INFORMATION);
@@ -293,7 +306,8 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     public void run() {
         try{
             try{
-                while (!socketClient.isClosed()) {
+                boolean connect = true;
+                while (connect) {
                     SocketProtocol msg = (SocketProtocol) in.readObject();
                     switch (msg){
                         case NEW_ACTION:
@@ -325,12 +339,16 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
                             ResourceType type = (ResourceType) in.readObject();
                             convertPrivilege(qta, type);
                             break;
+                        case EXIT:
+                            connect = false;
+                            out.writeObject(SocketProtocol.EXIT);
+                            out.flush();
+                            break;
                     }
                 }
 
             }
             catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
                 try {
                     in.close();
                     in = null;

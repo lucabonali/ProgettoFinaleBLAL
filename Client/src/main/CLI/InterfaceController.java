@@ -185,6 +185,20 @@ public interface InterfaceController {
      * @param msg messaggio da notificare al giocatore
      */
     void showGameEndedAlert(String msg);
+
+    /**
+     * aggiorna la plancia del giocatore con id
+     * @param personalcardsMap mappa delle carte
+     * @param resourcesMap mappa delle risorse
+     * @param id id del giocatore
+     */
+    void updateOpponentPersonalBoard(Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> resourcesMap, int id);
+
+    /**
+     * aggiorna l'interfaccia eliminando il giocatore con id
+     * @param surrenderId id del giocatore da eliminare
+     */
+    void opponentSurrender(int surrenderId);
 }
 
 

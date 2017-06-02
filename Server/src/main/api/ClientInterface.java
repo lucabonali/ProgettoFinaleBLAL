@@ -136,4 +136,11 @@ public interface ClientInterface extends Remote{
      * @throws RemoteException
      */
     void notifyTurnOrder(List<Integer> orderList) throws RemoteException;
+
+    /**
+     * notifica e aggiorna l'interfaccia eleiminando ogni traccia del giocatore che ha abbandonato
+     * @param surrenderId id del giocatore che ha abbandonato
+     * @throws RemoteException
+     */
+    void notifyOpponentSurrender(int surrenderId) throws RemoteException;
 }

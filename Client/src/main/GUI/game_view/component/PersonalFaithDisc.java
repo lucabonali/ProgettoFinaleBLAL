@@ -1,5 +1,7 @@
 package main.GUI.game_view.component;
 
+import javafx.scene.layout.AnchorPane;
+
 /**
  * @author Luca
  * @author Andrea
@@ -12,8 +14,8 @@ public class PersonalFaithDisc extends PersonalDisc{
     private final double INC_PLUS_X = 65;
     private int currentPosition;
 
-    public PersonalFaithDisc(int id) {
-        super(id);
+    public PersonalFaithDisc(int id, AnchorPane container) {
+        super(id, container);
         FINAL_Y = 734 + (NUMBER_OF_DISC * 4);
         setTranslateY(FINAL_Y);
         setTranslateX(START_X);

@@ -1,13 +1,10 @@
 package main.GUI.game_view.component.action_spaces;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import main.GUI.game_view.component.GuiFamilyMember;
 import main.api.types.ActionSpacesType;
 import main.client.AbstractClient;
@@ -20,7 +17,6 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
     private static final double WIDTH = 64, HEIGHT = 38;
     private GuiFamilyMember familyMember;
     private ActionSpacesType type;
-    private Rectangle rectangle;
     private GridPane container;
 
 
@@ -30,21 +26,6 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
         setCursor(Cursor.HAND);
         setOnMouseClicked(event -> setCurrentActionSpace());
         container.setAlignment(Pos.CENTER);
-//        createPane();
-    }
-
-    private void createPane() {
-        rectangle = new Rectangle(WIDTH, HEIGHT);
-        rectangle.setArcHeight(HEIGHT/2);
-        rectangle.setArcWidth(WIDTH/2);
-        rectangle.fillProperty().bind(
-                Bindings.when(hoverProperty())
-                        .then(Color.color(1,1,1, 0.75))
-                        .otherwise(Color.color(1,1,1,0.25))
-        );
-        rectangle.setCursor(Cursor.HAND);
-        rectangle.setOnMouseClicked(event -> setCurrentActionSpace());
-        getChildren().add(rectangle);
     }
 
     public GridPane getContainer() {
@@ -57,13 +38,18 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
      */
     @Override
     public void addFamilyMember(GuiFamilyMember familyMember) {
-        this.familyMember = familyMember;
-        if (!container.getChildren().contains(familyMember))
-            Platform.runLater(() -> container.add(familyMember, 0 ,0));
+        setFamilyMember(familyMember);
+        if (!container.getChildren().contains(this.familyMember)) {
+            Platform.runLater(() -> container.add(this.familyMember, 0, 0));
+        }
     }
 
-    public void setFamilyMember(GuiFamilyMember familyMember) {
+    void setFamilyMember(GuiFamilyMember familyMember) {
         this.familyMember = familyMember;
+    }
+
+    GuiFamilyMember getFamilyMember() {
+        return this.familyMember;
     }
 
     /**
@@ -71,7 +57,12 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
      */
     @Override
     public void removeAllFamilyMembers() {
-        Platform.runLater(() -> container.getChildren().removeAll(familyMember));
+        Platform.runLater(() -> {
+            if (container.getChildren().contains(this.familyMember)) {
+                container.getChildren().removeAll(this.familyMember);
+                System.out.println("rimosso");
+            }
+        });
         familyMember = null;
     }
 

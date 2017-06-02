@@ -54,8 +54,7 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
 
     @Override
     public void removeAllFamilyMembers() {
-        Platform.runLater(() -> container.getChildren().removeAll(familyMemberList));
-        //Platform.runLater(() -> familyMemberList.forEach(familyMember -> container.getChildren().remove(familyMember)));
+        Platform.runLater(() -> container.getChildren().removeAll(this.familyMemberList));
         familyMemberList = new ArrayList<>();
     }
 

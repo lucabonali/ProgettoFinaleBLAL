@@ -184,10 +184,23 @@ public class ClientSocket extends AbstractClient implements Runnable{
     }
 
     @Override
+    public void exit() throws RemoteException {
+        try {
+            surrender();
+            out.writeObject(SocketProtocol.EXIT);
+            out.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void run() {
         String response;
+        boolean connect = true;
         try{
-            while (true) {
+            while (connect) {
                 try {
                     SocketProtocol msg = (SocketProtocol) in.readObject();
                     switch (msg){
@@ -263,6 +276,14 @@ public class ClientSocket extends AbstractClient implements Runnable{
                             List<Integer> opponentsId = (List<Integer>) in.readObject();
                             List<String> codeExcomList = (List<String>) in.readObject();
                             isGameStarted(myId, opponentsId, codeExcomList);
+                            break;
+                        case OPPONENT_SURRENDER:
+                            int surrendId = in.readInt();
+                            notifyOpponentSurrender(surrendId);
+                            break;
+                        case EXIT:
+                            connect = false;
+                            System.exit(0);
                             break;
                     }
 

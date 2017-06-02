@@ -115,6 +115,10 @@ public class PlayerRMI extends AbstractPlayer {
         getClientInterface().notifyEndMove();
     }
 
+    /**
+     * notifica che ha appena ottenuto un privilegio
+     * @throws RemoteException
+     */
     @Override
     public void notifyPrivilege() throws RemoteException {
         getClientInterface().notifyPrivilege();
@@ -132,6 +136,11 @@ public class PlayerRMI extends AbstractPlayer {
             orderList.add(player.getIdPlayer());
         }
         getClientInterface().notifyTurnOrder(orderList);
+    }
+
+    @Override
+    public void opponentSurrender(int id) throws RemoteException {
+        getClientInterface().notifyOpponentSurrender(id);
     }
 
     @Override
