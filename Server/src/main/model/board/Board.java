@@ -3,10 +3,12 @@ package main.model.board;
 import main.api.messages.Message;
 import main.api.messages.MessageAction;
 import main.api.messages.MessageNewAction;
-import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.MarketActionType;
 import main.api.types.ResourceType;
+import main.game_server.AbstractPlayer;
+import main.game_server.exceptions.LorenzoException;
+import main.game_server.exceptions.NewActionException;
 import main.model.action_spaces.Action;
 import main.model.action_spaces.ActionSpaceInterface;
 import main.model.action_spaces.large_action_spaces.CouncilActionSpace;
@@ -15,9 +17,6 @@ import main.model.action_spaces.large_action_spaces.LargeProductionActionSpace;
 import main.model.action_spaces.single_action_spaces.HarvestActionSpace;
 import main.model.action_spaces.single_action_spaces.MarketActionSpace;
 import main.model.action_spaces.single_action_spaces.ProductionActionSpace;
-import main.game_server.AbstractPlayer;
-import main.game_server.exceptions.LorenzoException;
-import main.game_server.exceptions.NewActionException;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -242,9 +241,7 @@ public class Board {
      * @return lo spazioe azione corretto.
      */
     private ActionSpaceInterface convertActionMessage(Message msg) {
-        ActionSpaceInterface actionSpace;
-        ActionSpacesType code = msg.getActionSpacesType();
-        switch (code) {
+        switch (msg.getActionSpacesType()) {
             case MARKET:
                 return marketActionSpaceMap.get(msg.getMarketActionType());
             case TOWERS:

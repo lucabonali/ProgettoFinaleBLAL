@@ -374,7 +374,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     }
 
     /**
-     * metodo che mi codifica il messaggio azione
+     * metodo che mi codifica il messaggio azione DA RICONTROLLARE
      * @return ritorna il MessageAction corretto da inviare al server
      */
     public MessageNewAction encondingMessageNewAction() {
@@ -383,7 +383,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
                 return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
         }
         else if (currentNewActionActionSpaceType == ActionSpacesType.SINGLE_PRODUCTION){
-            if (actionSpacesType == ActionSpacesType.SINGLE_PRODUCTION || actionSpacesType == ActionSpacesType.SINGLE_PRODUCTION)
+            if (actionSpacesType == ActionSpacesType.SINGLE_PRODUCTION || actionSpacesType == ActionSpacesType.LARGE_PRODUCTION)
                 return new MessageNewAction(actionSpacesType, cardType, numFloor, marketActionType, currentNewActionValue);
         }
         else if (actionSpacesType != currentNewActionActionSpaceType)
