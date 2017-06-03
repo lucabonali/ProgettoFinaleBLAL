@@ -407,24 +407,26 @@ public class GUIController implements InterfaceController {
     /**
      * mi genera e posiziona i dischetti dei giocatori avversari
      * @param id id del giocatore avversario
+     * @param name nome del giocatore
      */
     @Override
-    public void createOpponentDiscs(int id) {
-        Tab tab = new Tab("opponent " + id);
+    public void createOpponentDiscs(int id, String name) {
+        Tab tab = new Tab( id + " " + name.toUpperCase());
+        tab.setClosable(false);
         Platform.runLater(() -> {
             infoTabPane.getTabs().add(tab);
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/GUI/game_view/personal_board_view.fxml"));
                 Parent personalBoard = fxmlLoader.load();
-                opponentPersonalBoardControllerMap.put(id, fxmlLoader.getController());
+                PersonalBoardController controller = fxmlLoader.getController();
+                controller.setBackgroundColor(id);
+                opponentPersonalBoardControllerMap.put(id, controller);
                 tab.setContent(personalBoard);
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
         });
-        Map<FamilyMemberType, Pane> paneMap = new HashMap<>();
-        this.paneMap.put(id, paneMap);
         Map<FamilyMemberType, GuiFamilyMember> familyMap = new HashMap<>();
         familyMap.put(FamilyMemberType.ORANGE_DICE, new GuiFamilyMember(id, FamilyMemberType.ORANGE_DICE));
         familyMap.put(FamilyMemberType.WHITE_DICE, new GuiFamilyMember(id, FamilyMemberType.WHITE_DICE));
@@ -512,7 +514,8 @@ public class GUIController implements InterfaceController {
         Platform.runLater(()->{
             for (int i=0; i<codeList.size(); i++) {
                 excomImageList.get(i).setImage(
-                        new Image(getClass().getResource("res/excom_cards/" + codeList.get(i) + EXTENSION).toExternalForm()), codeList.get(i));
+                        new Image(getClass()
+                                .getResource("res/excom_cards/" + codeList.get(i) + EXTENSION).toExternalForm()), codeList.get(i));
             }
         });
     }
@@ -632,11 +635,11 @@ public class GUIController implements InterfaceController {
     }
 
     @Override
-    public void startGame(int id) {
+    public void startGame(int id, String username) {
         createDiscs(id);
         createFamilyMembers(id);
         relocateFamilyMembers();
-        personalBoardController.startGame(id);
+        personalBoardController.startGame(id, username);
         messagesController.setMessage("La partita è iniziata");
     }
 

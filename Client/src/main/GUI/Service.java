@@ -66,6 +66,25 @@ public class Service {
         return null;
     }
 
+    /**
+     * mi ritorna il colore del mio familiare sotto forma di stringa
+     * @param id id del giocatore
+     * @return stringa del colore
+     */
+    public static String getStringColorById(int id) {
+        switch (id) {
+            case 1:
+                return "red";
+            case 2:
+                return "green";
+            case 3:
+                return "blue";
+            case 4:
+                return "yellow";
+        }
+        return null;
+    }
+
     public static Color getColorByFamilyMemberType(FamilyMemberType type) {
         switch (type) {
             case ORANGE_DICE:

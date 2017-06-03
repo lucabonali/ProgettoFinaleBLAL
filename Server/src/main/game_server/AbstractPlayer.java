@@ -26,13 +26,13 @@ import java.util.Map;
  */
 public abstract class AbstractPlayer extends UnicastRemoteObject implements PlayerInterface {
     private ClientInterface clientInterface;
-    private String userName;
+    private String username;
     private PersonalBoard personalBoard;
     private int idPlayer;
     private Game game;
 
-    public AbstractPlayer(String userName) throws RemoteException {
-        this.userName = userName;
+    public AbstractPlayer(String username) throws RemoteException {
+        this.username = username;
     }
 
     public void setGame(Game game) {
@@ -85,6 +85,10 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
         return idPlayer;
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
     /**
      * metodo che mi rimuove tutti i familiari dalle loro postazione
      * cioè mi setterà a false il boolean isPositioned di ciascuno.
@@ -126,9 +130,11 @@ public abstract class AbstractPlayer extends UnicastRemoteObject implements Play
 
     /**
      * mi notifica che la partita è cominciata
+     * @param opponents giocatori avversari
+     * @param codeList codici delle tessete scomuniche
      * @throws RemoteException
      */
-    public abstract void gameIsStarted(List<Integer> idList, List<String> codeList) throws RemoteException;
+    public abstract void gameIsStarted(Map<Integer, String> opponents, List<String> codeList) throws RemoteException;
 
     /**
      * mi notifica che è il mio turno

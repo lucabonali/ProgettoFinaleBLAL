@@ -10,18 +10,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Interfaccia implementata nel main.client e invocata dal server (PLayerRMI) per modificare il main.client (Serve solo per rmi)
- * Created by Luca, Andrea on 15/05/2017.
+ * @author Andrea
+ * @author Luca
+ *
+ * Interfaccia implementata nel client e invocata dal server (PLayerRMI) per notifiche e modifiche
+ * dell'interfaccia grafica, i suoi metodi vengono invocati direttamente in caso di connessione RMI
+ * mentre indirettamente nel caso di connessione socket.
+ *
+ * @see main.client.AbstractClient
  */
 public interface ClientInterface extends Remote{
 
     /**
      * mi notifica al client che la partita è incominciata
      * @param id mio id
-     * @param opponentsId l'id dei giocatori
+     * @param opponents id e nomi dei giocatori avversari
      * @throws RemoteException
      */
-    void isGameStarted(int id, List<Integer> opponentsId, List<String> codeExcomList) throws RemoteException;
+    void isGameStarted(int id, Map<Integer, String> opponents, List<String> codeExcomList) throws RemoteException;
 
     /** metodo che mi andrà ad aggiornare tutte le mie risorse
      * // WOOD , STONE , SERVANTS , COINS , VICTORY , FAITH , MILITARY

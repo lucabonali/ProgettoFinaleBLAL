@@ -36,36 +36,37 @@ public interface InterfaceController {
     void setDices(int orange, int white, int black) ;
 
     /**
-    * mi invia il risulato dei dadi, appena lanciati, al server
-    */
+     * mi invia il risulato dei dadi, appena lanciati, al server
+     */
     void sendDices();
 
     /**
-    * mi genera e posiziona i dischetti dei giocatori avversari
-    * @param id id del giocatore avversario
-    */
-    void createOpponentDiscs(int id) ;
+     * mi genera e posiziona i dischetti dei giocatori avversari
+     * @param id id del giocatore avversario
+     * @param name nome del giocatore
+     */
+    void createOpponentDiscs(int id, String name) ;
 
 
     /**
-    * metodo che mi crea e mi rende visibili i familiari
-    * @param id id del giocatore, sulla base del quale si ricava il colore
-    */
+     * metodo che mi crea e mi rende visibili i familiari
+     * @param id id del giocatore, sulla base del quale si ricava il colore
+     */
     void createFamilyMembers(int id);
 
     /**
-    * mi riposiziona nella posizione di partenza i miei familiari
-    */
+     * mi riposiziona nella posizione di partenza i miei familiari
+     */
     void relocateFamilyMembers();
 
     /**
-    * mi sposta il mio familiare nello spazio azione corretto
-    * @param actionSpacesType codice spazio azion
-    * @param cardType codice torre
-    * @param numFloor codice piano
-    * @param marketActionType codice mercato
-    * @param familyMemberType codice familiare
-    */
+     * mi sposta il mio familiare nello spazio azione corretto
+     * @param actionSpacesType codice spazio azion
+     * @param cardType codice torre
+     * @param numFloor codice piano
+     * @param marketActionType codice mercato
+     * @param familyMemberType codice familiare
+     */
     void moveFamilyMember(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, FamilyMemberType familyMemberType);
     /**
     * mi modifica i punti del giocatore, cioè mi sposta i dischetti relativi a me stesso
@@ -117,9 +118,10 @@ public interface InterfaceController {
 
     /**
      * chiamato quando inizia la partita
+     * @param username username del giocatore
      * @param id id del giocatore
      */
-    void startGame(int id);
+    void startGame(int id, String username);
 
     /**
      * mi notifica un messaggio proveniente dal server

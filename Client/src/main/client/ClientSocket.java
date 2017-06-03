@@ -273,9 +273,9 @@ public class ClientSocket extends AbstractClient implements Runnable{
                             break;
                         case IS_GAME_STARTED:
                             int myId = in.readInt();
-                            List<Integer> opponentsId = (List<Integer>) in.readObject();
+                            Map<Integer, String> opponents = (Map<Integer, String>) in.readObject();
                             List<String> codeExcomList = (List<String>) in.readObject();
-                            isGameStarted(myId, opponentsId, codeExcomList);
+                            isGameStarted(myId, opponents, codeExcomList);
                             break;
                         case OPPONENT_SURRENDER:
                             int surrendId = in.readInt();

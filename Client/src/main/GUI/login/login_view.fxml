@@ -54,7 +54,7 @@
                   <Font name="AR JULIAN" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="userName">
+            <TextField fx:id="username">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>

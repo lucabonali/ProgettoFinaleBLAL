@@ -25,11 +25,18 @@ public class PlayerRMI extends AbstractPlayer {
 
     }
 
-    // OVERRADI DEI METODI EREDITATI DA ABSTRACT PLAYER /////////////////////////////////////////////////
+    // OVERRIDE DEI METODI EREDITATI DA ABSTRACT PLAYER /////////////////////////////////////////////////
 
+
+    /**
+     * notifica l'inizio della partita passando i giocatori avversarie le tessere scomunica
+     * @param opponents giocatori avversari
+     * @param codeList codici delle tessete scomuniche
+     * @throws RemoteException
+     */
     @Override
-    public void gameIsStarted(List<Integer> idList, List<String> codeList) throws RemoteException {
-        getClientInterface().isGameStarted(getIdPlayer(), idList, codeList);
+    public void gameIsStarted(Map<Integer, String> opponents, List<String> codeList) throws RemoteException {
+        getClientInterface().isGameStarted(getIdPlayer(), opponents, codeList);
     }
 
     /**

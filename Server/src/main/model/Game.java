@@ -88,12 +88,12 @@ public class Game {
         playerMap.forEach(((integer, player) -> {
             try {
                 player.initializeBoard(board.getCompleteListTowersCards());
-                ArrayList<Integer> arrayListId = new ArrayList<>();
+                Map<Integer, String> opponentsMap = new HashMap<>();
                 playerMap.forEach((opponentId, opponent) -> {
                     if (opponent != player)
-                        arrayListId.add(opponentId);
+                        opponentsMap.put(opponentId, opponent.getUsername());
                 });
-                player.gameIsStarted(arrayListId, board.getExcomCodeList());
+                player.gameIsStarted(opponentsMap, board.getExcomCodeList());
                 player.sendOrder(turnOrder);
             }
             catch (RemoteException e) {

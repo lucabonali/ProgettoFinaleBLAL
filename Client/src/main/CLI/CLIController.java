@@ -99,7 +99,7 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
     @Override
-    public void createOpponentDiscs(int id) {
+    public void createOpponentDiscs(int id, String username) {
 
     }
 
@@ -289,7 +289,7 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
     @Override
-    public void startGame(int id) {
+    public void startGame(int id, String username) {
         isGameStarted = true;
     }
 

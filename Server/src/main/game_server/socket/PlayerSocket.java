@@ -37,13 +37,13 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
     // metodi ereditati e da implementare da ABSTRACT PLAYER //////////////////////////////////////
 
     @Override
-    public void gameIsStarted(List<Integer> idList, List<String> codeExcomList) throws RemoteException {
+    public void gameIsStarted(Map<Integer, String> opponents, List<String> codeExcomList) throws RemoteException {
         try {
             out.writeObject(SocketProtocol.IS_GAME_STARTED);
             out.flush();
             out.writeInt(getIdPlayer());
             out.flush();
-            out.writeObject(idList);
+            out.writeObject(opponents);
             out.flush();
             out.writeObject(codeExcomList);
             out.flush();

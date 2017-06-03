@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import main.api.types.CardType;
@@ -32,6 +33,8 @@ public class PersonalBoardController {
     @FXML private Rectangle woodGroup;
     @FXML private Rectangle stoneGroup;
     @FXML private Rectangle servantsGroup;
+
+    @FXML private AnchorPane rootPane;
 
     @FXML private GridPane buildingsGridPane;
     @FXML private GridPane territoriesGridPane;
@@ -67,6 +70,10 @@ public class PersonalBoardController {
         });
     }
 
+    public void setBackgroundColor(int id) {
+        rootPane.setStyle("-fx-background-color: " + Service.getStringColorById(id));
+    }
+
     /**
      * mi setta il GUIController principale, in modo che esso possa comunicare
      * @param GUIController controller
@@ -78,9 +85,11 @@ public class PersonalBoardController {
     /**
      * informa che la partita è iniziata e mi inizializza la risorsa relativa alle monete, in funcione
      * dell'id del giocatore passato come parametro
+     * @param username username del giocatore
      * @param id ide del giocatore
      */
-    public void startGame(int id) {
+    void startGame(int id, String username) {
+        setBackgroundColor(id);
         int num = Integer.parseInt(qtaResourceLabelMap.get(ResourceType.COINS).getText()) + id;
         Platform.runLater(() -> qtaResourceLabelMap.get(ResourceType.COINS).setText(num + ""));
     }

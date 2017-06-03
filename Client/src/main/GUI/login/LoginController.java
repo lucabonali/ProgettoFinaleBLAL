@@ -20,7 +20,7 @@ import java.rmi.NotBoundException;
  * @author Andrea
  */
 public class LoginController {
-    @FXML private TextField userName;
+    @FXML private TextField username;
     @FXML private PasswordField password;
     @FXML private Button buttonLogin;
     @FXML private RadioButton RMI,socket;
@@ -42,7 +42,7 @@ public class LoginController {
         }
         else{
             if(socket.isSelected() ) {
-                AbstractClient clientTmp = AbstractClient.createInstance(false, userName.getText(), password.getText());
+                AbstractClient clientTmp = AbstractClient.createInstance(false, username.getText(), password.getText());
                 if (clientTmp.login()) {
                     //passi alla schermata successiva
                     clientTmp.setLogged();
@@ -53,7 +53,7 @@ public class LoginController {
 
             }
             else if(RMI.isSelected()) {
-                AbstractClient clientTmp = AbstractClient.createInstance(true, userName.getText(), password.getText());
+                AbstractClient clientTmp = AbstractClient.createInstance(true, username.getText(), password.getText());
                 if (clientTmp.login()) {
                     //passi alla schermata successiva
                     clientTmp.setLogged();
@@ -69,11 +69,11 @@ public class LoginController {
     }
 
     /**
-     * controlla che i due campi userName e password non siano vuoti
+     * controlla che i due campi username e password non siano vuoti
      * @return true se entrambi i campi sono pieni, false altrimenti
      */
     private boolean checkFields() {
-        return !(userName.getText().isEmpty() || password.getText().isEmpty());
+        return !(username.getText().isEmpty() || password.getText().isEmpty());
     }
 
 

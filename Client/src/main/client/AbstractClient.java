@@ -59,17 +59,17 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     /**
      * mi salva il mio id e l'id dei giocatori
      * @param id mio id
-     * @param opponentsId l'id dei giocatori
+     * @param opponents l'id dei giocatori
      */
     @Override
-    public void isGameStarted(int id, List<Integer> opponentsId, List<String> codeExcomList) throws RemoteException{
+    public void isGameStarted(int id, Map<Integer, String> opponents, List<String> codeExcomList) throws RemoteException{
         this.id = id;
-        opponentsIdList = opponentsId;
-        interfaceController.startGame(id);
+        opponentsIdList = new ArrayList<>(opponents.keySet());
+        interfaceController.startGame(id, username);
         interfaceController.showExcomCards(codeExcomList);
         initializeQtaResorcesMap();
-        opponentsId.forEach((idValue -> {
-            interfaceController.createOpponentDiscs(idValue);
+        opponents.forEach(((idValue, name) -> {
+            interfaceController.createOpponentDiscs(idValue, name);
             opponentQtaResourcesMap.put(idValue, new HashMap<>());
             opponentsCardsMap.put(idValue, new HashMap<>());
             initializeOpponentsResources(idValue);
