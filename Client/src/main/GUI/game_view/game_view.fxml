@@ -152,7 +152,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                 </GridPane>
-                <GridPane fx:id="blueMarket" layoutX="712.0" layoutY="821.0" prefHeight="39.0" prefWidth="62.0">
+                <GridPane fx:id="blueMarket" layoutX="712.0" layoutY="821.0" prefHeight="39.0" prefWidth="70.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>

@@ -17,7 +17,7 @@ import java.rmi.RemoteException;
 public class ForEachGainDecrementEffect implements Effect {
     private Field resource;
 
-    public ForEachGainDecrementEffect(ResourceType resourceType){
+    private ForEachGainDecrementEffect(ResourceType resourceType){
         this.resource = new Resource(-1, resourceType);
     }
 

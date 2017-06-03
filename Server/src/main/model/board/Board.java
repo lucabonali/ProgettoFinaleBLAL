@@ -218,7 +218,7 @@ public class Board {
     public void doAction(AbstractPlayer player, MessageAction msg,  FamilyMember familyMember) throws LorenzoException, RemoteException, NewActionException {
         ActionSpaceInterface actionSpace = convertActionMessage(msg);
         if (actionSpace == null)
-            throw new LorenzoException("codice spazio azione errato");
+            throw new LorenzoException("non puoi fare la mossa qui, spazio azione bloccato");
         int force = familyMember.getValue() + msg.getValue();
         currentAction = new Action(actionSpace, force, familyMember, player);
         currentAction.commitAction();
@@ -228,7 +228,7 @@ public class Board {
     public void doNewAction(AbstractPlayer player, MessageNewAction msg) throws LorenzoException, RemoteException, NewActionException {
         ActionSpaceInterface actionSpace = convertActionMessage(msg);
         if (actionSpace == null)
-            throw new LorenzoException("codice spazio azione errato");
+            throw new LorenzoException("non puoi fare la mossa qui, spazio azione bloccato");
         int force = msg.getValue() + msg.getAdditionalValue();
         currentAction = new Action(actionSpace, force, null, player);
         currentAction.commitAction();
@@ -238,7 +238,7 @@ public class Board {
      * metodo che in base al messaggio come parametro mi ritorna
      * lo spazio azione corretto del mio tabellone
      * @param msg messaggio da convertire
-     * @return lo spazioe azione corretto.
+     * @return lo spazio azione corretto.
      */
     private ActionSpaceInterface convertActionMessage(Message msg) {
         switch (msg.getActionSpacesType()) {
