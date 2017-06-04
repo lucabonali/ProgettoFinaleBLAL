@@ -40,6 +40,7 @@ public class DevelopmentDeck {
         charactersList = createCharactersList();
         buildingsList = createBuildingList();
         venturesList = createEnterprisesList();
+        connectionDB.closeConnection();
     }
 
     /**

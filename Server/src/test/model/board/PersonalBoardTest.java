@@ -30,6 +30,7 @@ import static org.junit.Assert.assertTrue;
  * @author lampa
  */
 public class PersonalBoardTest {
+
     @Test
     public void personalBoardConstructor() {
         int id = 1;

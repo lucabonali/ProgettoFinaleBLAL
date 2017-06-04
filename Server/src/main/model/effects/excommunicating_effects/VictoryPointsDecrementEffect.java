@@ -5,6 +5,7 @@ import main.api.types.ResourceType;
 import main.model.effects.development_effects.Effect;
 import main.model.fields.Resource;
 import main.game_server.AbstractPlayer;
+import org.jetbrains.annotations.Nullable;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class VictoryPointsDecrementEffect implements Effect{
         }));
     }
 
+    @Nullable
     public static Effect createExcomInstance(String codEffect) {
         List<ResourceType> resourceTypes = new ArrayList<>();
         switch (codEffect.charAt(0)){

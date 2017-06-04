@@ -4,6 +4,7 @@ import main.api.types.ResourceType;
 import main.model.fields.Field;
 import main.model.fields.Resource;
 import main.game_server.AbstractPlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.rmi.RemoteException;
 
@@ -34,10 +35,12 @@ public class FixedIncrementEffect implements Effect{
         player.activeExcommunicationEffects(player.getPersonalBoard().getCurrentAction(), 2);
     }
 
+    @NotNull
     public static FixedIncrementEffect createInstance(String code){
         return new FixedIncrementEffect(Resource.createResource(code, false));
     }
 
+    @NotNull
     public static Effect createInstance(String substring, boolean incDec) {
         if(incDec)
             return FixedIncrementEffect.createInstance(substring);

@@ -45,12 +45,16 @@ public class ConnectionDB {
     }
 
     /**
-     metodo che mi chiude la connessione
-     * @throws SQLException in caso dire errori col db
+     * metodo che mi chiude la connessione col database
      */
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
+    public void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

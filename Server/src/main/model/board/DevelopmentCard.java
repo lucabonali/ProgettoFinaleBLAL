@@ -48,14 +48,6 @@ public class DevelopmentCard {
         return costs;
     }
 
-    public List<Effect> getQuickEffects() {
-        return quickEffects;
-    }
-
-    public List<Effect> getPermanentEffects() {
-        return permanentEffects;
-    }
-
     public AbstractPlayer getPlayer() {
         return player;
     }

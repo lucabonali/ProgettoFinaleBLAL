@@ -42,6 +42,7 @@ public class Excommunication {
         prelameCardFirstPeriodFromDB();
         prelameCardSecondPeriodFromDB();
         prelameCardThirdPeriodFromDB();
+        connectionDB.closeConnection();
     }
 
     /**
