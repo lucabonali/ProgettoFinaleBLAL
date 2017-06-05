@@ -15,7 +15,7 @@ public class GuiFloorActionSpace extends SingleActionSpace {
     private CardType cardType;
     private int numFloor;
     private int gridPosition;
-
+    private int index;
 
     public GuiFloorActionSpace(ActionSpacesType type, CardType cardType, int numFloor, int gridPosition, GridPane container) {
         super(type, container);
@@ -41,5 +41,13 @@ public class GuiFloorActionSpace extends SingleActionSpace {
         if (!getContainer().getChildren().contains(getFamilyMember())) {
             Platform.runLater(() -> getContainer().add(getFamilyMember(), 0, gridPosition));
         }
+    }
+
+    @Override
+    public void removeAllFamilyMembers() {
+        Platform.runLater(() -> {
+            getContainer().getChildren().remove(getFamilyMember());
+            setFamilyMember(null);
+        });
     }
 }

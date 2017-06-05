@@ -141,22 +141,31 @@ public class GUIController implements InterfaceController {
         actionSpacesMap.put(councilActionSpace.getType(), councilActionSpace);
     }
 
+    private void initializeTowers() {
+        initializeTower(CardType.TERRITORY, territoryTowersActionSpaces);
+        initializeTower(CardType.CHARACTER, characterTowersActionSpaces);
+        initializeTower(CardType.BUILDING, buildingTowersActionSpaces);
+        initializeTower(CardType.VENTURES, venturesTowersActionSpaces);
+    }
+
     /**
      * mi inizializza gli spazi azione delle torri
      * @param cardType tipo di torre
      * @param gridPaneTower contenitore che mi identifica la posizione sul tabellone
      */
-    private void initializeTowers(CardType cardType, GridPane gridPaneTower) {
-        GuiFloorActionSpace[] array = new GuiFloorActionSpace[4];
-        towerMap.put(cardType, array);
-        gridPaneSpacesTowersMap.put(cardType, gridPaneTower);
-        int gridCounter=0;
-        for (int floor=3; floor>=0; floor--) {
-            GuiFloorActionSpace actionSpace = new GuiFloorActionSpace(ActionSpacesType.TOWERS, cardType, floor, gridCounter, gridPaneSpacesTowersMap.get(cardType));
-            array[floor] = actionSpace;
-            gridPaneSpacesTowersMap.get(cardType).add(actionSpace, 0, gridCounter);
-            gridCounter++;
-        }
+    private void initializeTower(CardType cardType, GridPane gridPaneTower) {
+        Platform.runLater(() -> {
+            GuiFloorActionSpace[] array = new GuiFloorActionSpace[4];
+            towerMap.put(cardType, array);
+            gridPaneSpacesTowersMap.put(cardType, gridPaneTower);
+            int gridCounter=0;
+            for (int floor=3; floor>=0; floor--) {
+                GuiFloorActionSpace actionSpace = new GuiFloorActionSpace(ActionSpacesType.TOWERS, cardType, floor, gridCounter, gridPaneSpacesTowersMap.get(cardType));
+                array[floor] = actionSpace;
+                gridPaneSpacesTowersMap.get(cardType).add(actionSpace, 0, gridCounter);
+                gridCounter++;
+            }
+        });
     }
 
     /**
@@ -258,6 +267,7 @@ public class GUIController implements InterfaceController {
                 actionSapce.removeAllFamilyMembers();
             }
         }));
+        initializeTowers();
         //rimuovo i familiari dal mercato
         marketMap.forEach(((marketActionType, actionSpaceInterface) -> actionSpaceInterface.removeAllFamilyMembers()));
         //rimuovo i familiari da tutti gli altri spazi azione
@@ -459,13 +469,15 @@ public class GUIController implements InterfaceController {
      */
     @Override
     public void relocateFamilyMembers() {
-        Platform.runLater(() -> personalFamilyMembersMap.forEach(((type, guiFamilyMember) -> {
-            if (!personalHBox.getChildren().contains(guiFamilyMember)) {
-                personalHBox.getChildren().add(guiFamilyMember);
-                guiFamilyMember.setToggleGroup(toggleGroup);
-                guiFamilyMember.setDisable(false);
+        Platform.runLater(() -> {
+            for (GuiFamilyMember familyMember : personalFamilyMembersMap.values()) {
+                if (!personalHBox.getChildren().contains(familyMember)) {
+                    personalHBox.getChildren().add(familyMember);
+                    familyMember.setToggleGroup(toggleGroup);
+                    familyMember.setDisable(false);
+                }
             }
-        })));
+        });
     }
 
     /**
@@ -649,10 +661,7 @@ public class GUIController implements InterfaceController {
      */
     public void initialize() throws InterruptedException {
         client = AbstractClient.getInstance();
-        initializeTowers(CardType.TERRITORY, territoryTowersActionSpaces);
-        initializeTowers(CardType.CHARACTER, characterTowersActionSpaces);
-        initializeTowers(CardType.BUILDING, buildingTowersActionSpaces);
-        initializeTowers(CardType.VENTURES, venturesTowersActionSpaces);
+        initializeTowers();
         initializeMarket(MarketActionType.YELLOW, yellowMarket);
         initializeMarket(MarketActionType.PURPLE, purpleMarket);
         initializeMarket(MarketActionType.BLUE, blueMarket);

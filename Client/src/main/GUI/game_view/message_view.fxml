@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -29,6 +30,9 @@
       <Label prefHeight="59.0" prefWidth="322.0" BorderPane.alignment="CENTER" />
    </top>
    <center>
-      <TextFlow id="textFlow" fx:id="textFlow" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" stylesheets="@res/style.css" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+      <TextFlow id="textFlow" fx:id="textFlow" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" stylesheets="@res/style.css" textAlignment="CENTER" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets top="70.0" />
+         </padding></TextFlow>
    </center>
 </BorderPane>

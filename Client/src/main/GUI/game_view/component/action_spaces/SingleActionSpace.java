@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import main.GUI.game_view.component.GuiFamilyMember;
 import main.api.types.ActionSpacesType;
 import main.client.AbstractClient;
@@ -14,6 +15,7 @@ import main.client.AbstractClient;
  * @author Luca
  */
 public class SingleActionSpace extends AnchorPane implements ActionSpaceInterface{
+    private static Pane pane = new Pane();
     private static final double WIDTH = 64, HEIGHT = 38;
     private GuiFamilyMember familyMember;
     private ActionSpacesType type;
@@ -58,12 +60,9 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
     @Override
     public void removeAllFamilyMembers() {
         Platform.runLater(() -> {
-            if (container.getChildren().contains(this.familyMember)) {
-                container.getChildren().removeAll(this.familyMember);
-                System.out.println("rimosso");
-            }
+            getContainer().getChildren().remove(familyMember);
+            familyMember = null;
         });
-        familyMember = null;
     }
 
     /**

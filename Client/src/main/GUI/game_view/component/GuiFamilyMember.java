@@ -49,6 +49,10 @@ public class GuiFamilyMember extends ToggleButton {
         addMouseClicked();
     }
 
+    public int getFamilyId() {
+        return id;
+    }
+
     public void addMouseClicked() {
         setOnMouseClicked(event -> AbstractClient.getInstance().setFamilyMemberType(familyMemberType));
     }
