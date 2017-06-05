@@ -4,6 +4,8 @@ import main.api.messages.MessageAction;
 import main.api.types.*;
 import main.api.types.ResourceType;
 import main.client.AbstractClient;
+import main.model.action_spaces.Action;
+import main.model.action_spaces.single_action_spaces.ActionSpace;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,9 +63,13 @@ public class CLIController implements InterfaceController, Runnable {
         this.boardCards = namesList;
     }
 
+    /**
+     * metodo che aggiorna lo stato del tabellone togliendo le carte che sono state pescate dagli altri giocatori
+     * @param nameCards
+     */
     @Override
     public void removeDrawnCards(Map<CardType, List<String>> nameCards) {
-
+        updateBoardCards(false,nameCards);
     }
 
     /**
@@ -201,21 +207,52 @@ public class CLIController implements InterfaceController, Runnable {
 
     // metodi che identificano e differenziano le operazioni sugli spazi azione
     void market() {
+        int chioceMarket = 0;
+        client.setActionSpacesType(ActionSpacesType.MARKET);
+        while(true) {
+            System.out.println(RED + "Please, select the market space : (coin:1,servants:2,Military&coins:3,privileges:4) ");
+            try {
+                chioceMarket = Integer.parseInt(in.readLine());
+                if (chioceMarket > 0 && chioceMarket < 5) {;
+                    client.setMarketActionType(gameMenu.getMarketMap().get(chioceMarket));
+                    break;
+                }
+            } catch (IOException e) {
+                System.out.println("Please, insert a correct option");
+            }
+        }
+        selectFamilyMember();
+        selectNumberServants();
     }
 
     void council() {
+        client.setActionSpacesType(ActionSpacesType.COUNCIL);
+        selectFamilyMember();
+        selectNumberServants();
     }
 
     void largeHarvest() {
+        client.setActionSpacesType(ActionSpacesType.LARGE_HARVEST);
+        selectFamilyMember();
+        selectNumberServants();
     }
 
     void singleHarvest() {
+        client.setActionSpacesType(ActionSpacesType.SINGLE_HARVEST);
+        selectFamilyMember();
+        selectNumberServants();
     }
 
     void largeProduction() {
+        client.setActionSpacesType(ActionSpacesType.LARGE_PRODUCTION);
+        selectFamilyMember();
+        selectNumberServants();
     }
 
     void singleProduction() {
+        client.setActionSpacesType(ActionSpacesType.SINGLE_PRODUCTION);
+        selectFamilyMember();
+        selectNumberServants();
     }
 
     void selectTowerAndFloor() {
@@ -230,7 +267,7 @@ public class CLIController implements InterfaceController, Runnable {
 
             try {
                 choiceTower[0] = Integer.parseInt(in.readLine());
-                gameMenu.getTowerMap().get(choiceTower[0]);
+                client.setCardType(gameMenu.getTowerMap().get(choiceTower[0]));
                 if(choiceTower[0] > 0 && choiceTower[0] <5){
                     System.out.println("Select a FLOOR: (1,2,3,4)");
                     choiceTower[1] = Integer.parseInt(in.readLine());
@@ -269,16 +306,57 @@ public class CLIController implements InterfaceController, Runnable {
             System.out.println(RED + " Do you want to add servants to the action ? (0,1,2,3,4,5,6)" + RESET);
             try {
                 servants = Integer.parseInt(in.readLine());
-                client.doAction(client.encondingMessageAction(),servants);
+                if(servants>= 0 && servants<7 ) {
+                    client.doAction(client.encondingMessageAction(), servants);
+                    updateBoardCards(true, null);
+                    break;
+                }
             } catch (IOException | NumberFormatException e) {
                 System.out.println("Please, insert a correct option");
             }
         }
     }
 
+    /**
+     * Metodo che aggiorna lo stato del tabellone con le carte che sono state pescate da me
+     */
+    private void updateBoardCards(boolean personal, Map<CardType,List<String>> cardToUpdate) {
+        Map<CardType,List<String>> cardList;
+        if(personal){
+            cardList = client.getMyCardsList();
+        }
+        else{
+            cardList = cardToUpdate;
+        }
+        List<String> myTerritories = cardList.get(CardType.TERRITORY);
+        List<String> myCharacters = cardList.get(CardType.CHARACTER);
+        List<String> myBuildings = cardList.get(CardType.BUILDING);
+        List<String> myVentures = cardList.get(CardType.VENTURES);
+        for(int i = 0 ; i< myTerritories.size() ; i++){
+            int index = boardCards.indexOf(myTerritories.get(i));
+            if(index!= (-1))
+                boardCards.set(index, "Empty");
+        }
+        for(int i = 0 ; i< myCharacters.size() ; i++){
+            int index = boardCards.indexOf(myCharacters.get(i));
+            if(index!= (-1))
+                boardCards.set(index, "Empty");
+        }
+        for(int i = 0 ; i< myBuildings.size() ; i++){
+            int index = boardCards.indexOf(myBuildings.get(i));
+            if(index!= (-1))
+                boardCards.set(index, "Empty");
+        }
+        for(int i = 0 ; i< myVentures.size() ; i++){
+            int index = boardCards.indexOf(myVentures.get(i));
+            if(index!= (-1))
+                boardCards.set(index, "Empty");
+        }
+    }
+
     private void setTowerAndFloor(int[] choiceTower){
         client.setActionSpacesType(ActionSpacesType.TOWERS);
-        client.setNumFloor(choiceTower[1]);
+        client.setNumFloor(choiceTower[1]-1);
     }
 
     /**
@@ -326,7 +404,7 @@ public class CLIController implements InterfaceController, Runnable {
     @Override
     public void notifyMessage(String msg) {
         System.out.println();
-        System.out.println(WHITE_BACKGROUND + RED + "GAME MESSAGE : "+msg +RESET);
+        System.out.println(BLACK_BACKGROUND + WHITE + "GAME MESSAGE : "+msg +RESET);
     }
 
     @Override
@@ -588,7 +666,7 @@ public class CLIController implements InterfaceController, Runnable {
         if(cardList.get(CardType.CHARACTER) != null) {
             for (int i = 0; i < cardList.get(CardType.CHARACTER).size(); i++) {
                 System.out.print(CYAN + "Name : " + cardList.get(CardType.CHARACTER).get(i) + " --- Description : ");
-                System.out.print(cliCards.getTerritoryCardList().get(cardList.get(CardType.CHARACTER).get(i)));
+                System.out.println(cliCards.getTerritoryCardList().get(cardList.get(CardType.CHARACTER).get(i)));
             }
         }
         System.out.println(YELLOW + " ---- Buildings ---- " );
@@ -615,25 +693,27 @@ public class CLIController implements InterfaceController, Runnable {
         System.out.println(RED + "----- Towers Development Cards -----" + RESET);
         for(int i = 0; i<boardCards.size(); i++) {
             String card = boardCards.get(i);
-            if(i<4) {
-                System.out.print(GREEN +"Name : " + card + " --- Description : ");
-                System.out.print(cliCards.getTerritoryCardList().get(card));
-                System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) +RESET );
-            }
-            else if(i<8){
-                System.out.print(CYAN + "Name : " + card + " --- Description : ");
-                System.out.print(cliCards.getCharacterCardList().get(card));
-                System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) +RESET );
-            }
-            else if(i<12){
-                System.out.print(YELLOW + "Name : " + card + " --- Description : ");
-                System.out.print(cliCards.getBuildingsCardList().get(card));
-                System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) +RESET );
+            if(!card.equals("Empty")) {
+                if (i < 4) {
+                    System.out.print(GREEN + "Name : " + card + " --- Description : ");
+                    System.out.print(cliCards.getTerritoryCardList().get(card));
+                    System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) + RESET);
+                } else if (i < 8) {
+                    System.out.print(CYAN + "Name : " + card + " --- Description : ");
+                    System.out.print(cliCards.getCharacterCardList().get(card));
+                    System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) + RESET);
+                } else if (i < 12) {
+                    System.out.print(YELLOW + "Name : " + card + " --- Description : ");
+                    System.out.print(cliCards.getBuildingsCardList().get(card));
+                    System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) + RESET);
+                } else {
+                    System.out.print(PURPLE + "Name : " + card + " --- Description : ");
+                    System.out.print(cliCards.getVenturesCardList().get(card));
+                    System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) + RESET);
+                }
             }
             else{
-                System.out.print(PURPLE + "Name : " + card + " --- Description : ");
-                System.out.print(cliCards.getVenturesCardList().get(card));
-                System.out.println(" Action Space Value : " + cliCards.getActionSpaceValue(i) + RESET );
+                System.out.println(RED + "Empty Floor" + RESET);
             }
         }
 

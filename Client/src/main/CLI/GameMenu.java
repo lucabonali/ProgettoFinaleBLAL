@@ -3,6 +3,7 @@ package main.CLI;
 import main.api.types.ActionSpacesType;
 import main.api.types.CardType;
 import main.api.types.FamilyMemberType;
+import main.api.types.MarketActionType;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -23,51 +24,60 @@ class GameMenu {
     private Map<Integer,CardType> towerMap;
     private Map<Integer,GameHandler> gameMap;
 
-
+    private Map<Integer,MarketActionType> marketMap;
 
     private Map<Integer,FamilyMemberType> familyMemberTypeMap;
+
+
 
     /**
      * costanti del menu di gioco
      */
     static final int SURRENDER = 0;
+
     static final int SHOW_BOARD = 1;
     static final int SHOW_PERSONAL_BOARD = 2;
     static final int SHOW_OPPONENTS_PERSONAL_BOARD = 3;
     static final int DO_ACTION = 4;
     static final int END_TURN = 5;
-
     /**
      * Costanti del del menu
      */
     static final int MENU_EXIT = 0;
+
     static final int RANDOM = 1;
     static final int TWO_PALYERS = 2;
     static final int THREE_PLAYERS = 3;
     static final int FOUR_PLAYERS = 4;
     static final int OPTIONS = 5;
     static final int CREDITS = 6;
-
     /**
      * costanti degli spazi azione
      */
     static final int TOWERS = 1;
+
     static final int SINGLE_PRODUCTION = 2;
     static final int LARGE_PRODUCTION = 3;
     static final int SINGLE_HARVEST = 4;
     static final int LARGE_HARVEST = 5;
     static final int COUNCIL = 6;
     static final int MARKET = 7;
-
     /**
      * costanti delle torri
      */
     static final int GREEN = 1;
+
     static final int BLUE = 1;
     static final int YELLOW = 1;
     static final int PURPLE = 1;
+    /**
+     * costanti del market
+     */
+    static final int YELLOW_MARKET = 1;
 
-
+    static final int PURPLE_MARKET = 2;
+    static final int GRAY_MARKET = 3;
+    static final int BLUE_MARKET = 4;
     public GameMenu(CLIController cliController){
         this.cliController = cliController;
         initializeGameMenu();
@@ -75,6 +85,23 @@ class GameMenu {
         initizlizeActionSpacesMenu();
         initializeTowerMap();
         initizlizeFamilyMembers();
+        initializeMarketMap();
+    }
+
+
+    /**
+     * interfaccie che semplificano la gestione del menu e puramente funzionali
+     */
+    public Map<Integer, MarketActionType> getMarketMap() {
+        return marketMap;
+    }
+
+    private void initializeMarketMap() {
+        marketMap = new HashMap<>();
+        marketMap.put(YELLOW_MARKET,MarketActionType.YELLOW);
+        marketMap.put(PURPLE_MARKET,MarketActionType.PURPLE);
+        marketMap.put(GRAY_MARKET,MarketActionType.GRAY);
+        marketMap.put(BLUE_MARKET,MarketActionType.BLUE);
     }
 
     private void initializeTowerMap() {
@@ -162,9 +189,6 @@ class GameMenu {
         }
     }
 
-    /**
-     * interfaccie che semplificano la gestione del menu e puramente funzionali
-     */
     private interface MenuHandler{
         void menuHandle() throws InterruptedException;
     }
