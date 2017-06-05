@@ -1,6 +1,8 @@
 package main.CLI;
 
 import main.api.types.ActionSpacesType;
+import main.api.types.CardType;
+import main.api.types.FamilyMemberType;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -14,9 +16,16 @@ class GameMenu {
     private CLIController cliController;
     private ActionSpacesType actionSpacesType;
     private Map<Integer, ActionSpaceHandler> actionSpaceMap;
-    private Map<Integer,TowerHandler> towersMap;
     private Map<Integer,MenuHandler> menuChoices;
+
+
+
+    private Map<Integer,CardType> towerMap;
     private Map<Integer,GameHandler> gameMap;
+
+
+
+    private Map<Integer,FamilyMemberType> familyMemberTypeMap;
 
     /**
      * costanti del menu di gioco
@@ -50,25 +59,46 @@ class GameMenu {
     static final int COUNCIL = 6;
     static final int MARKET = 7;
 
-
     /**
-     * towers costants
+     * costanti delle torri
      */
-
     static final int GREEN = 1;
-    static final int BLUE = 2;
-    static final int YELLOW = 3;
-    static final int PURPLE = 4;
-
-
+    static final int BLUE = 1;
+    static final int YELLOW = 1;
+    static final int PURPLE = 1;
 
 
     public GameMenu(CLIController cliController){
         this.cliController = cliController;
         initializeGameMenu();
         initializeMenuChoices();
-        initializeTowerMenu();
         initizlizeActionSpacesMenu();
+        initializeTowerMap();
+        initizlizeFamilyMembers();
+    }
+
+    private void initializeTowerMap() {
+        towerMap = new HashMap<>();
+        towerMap.put(1,CardType.TERRITORY);
+        towerMap.put(2,CardType.CHARACTER);
+        towerMap.put(3,CardType.BUILDING);
+        towerMap.put(4,CardType.VENTURES);
+    }
+
+    public Map<Integer, CardType> getTowerMap() {
+        return towerMap;
+    }
+
+    private void initizlizeFamilyMembers() {
+        familyMemberTypeMap = new HashMap<>();
+        familyMemberTypeMap.put(1,FamilyMemberType.BLACK_DICE);
+        familyMemberTypeMap.put(2,FamilyMemberType.WHITE_DICE);
+        familyMemberTypeMap.put(3,FamilyMemberType.ORANGE_DICE);
+        familyMemberTypeMap.put(4,FamilyMemberType.NEUTRAL_DICE);
+    }
+
+    public Map<Integer, FamilyMemberType> getFamilyMemberTypeMap() {
+        return familyMemberTypeMap;
     }
 
 
@@ -81,11 +111,6 @@ class GameMenu {
         actionSpaceMap.put(LARGE_HARVEST,cliController::largeHarvest);
         actionSpaceMap.put(COUNCIL,cliController::council);
         actionSpaceMap.put(MARKET,cliController::market);
-    }
-
-    public void initializeTowerMenu(){
-        towersMap = new HashMap<>();
-
     }
 
     /**
@@ -137,12 +162,6 @@ class GameMenu {
         }
     }
 
-    public void handleTower(Object object){
-        TowerHandler handler =towersMap.get(object);
-        if(handler != null){
-            handler.towerHandle();
-        }
-    }
     /**
      * interfaccie che semplificano la gestione del menu e puramente funzionali
      */
@@ -156,10 +175,6 @@ class GameMenu {
 
     private interface ActionSpaceHandler{
         void actionSpaceHandle();
-    }
-
-    private interface TowerHandler{
-        void towerHandle();
     }
 
 

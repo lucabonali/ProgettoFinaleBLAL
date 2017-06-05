@@ -114,7 +114,7 @@ public class Game {
         try{
             checkTurn(player);
             if((player != turnOrder.get(0)) || (lap != 1) || (phase != Phases.ACTION))
-                player.notifyError("I dadi sono già stati tirati");
+                player.notifyError("DICES HAVE ALREADY BEEN ROLLED");
             else {
                 turnOrder.forEach(abstractPlayer -> abstractPlayer.setDiceValues(orange, white, black));
                 currentPlayer.isYourTurn();
@@ -154,7 +154,7 @@ public class Game {
      */
     public void checkTurn(AbstractPlayer player) throws LorenzoException {
         if (player != currentPlayer)
-            throw new LorenzoException("non è il tuo turno");
+            throw new LorenzoException("IS NOT YOUR TURN");
     }
 
     /**
@@ -164,7 +164,7 @@ public class Game {
      */
     private void isAlreadyPositioned(FamilyMember familyMember) throws LorenzoException {
         if (familyMember.isPositioned())
-            throw new LorenzoException("il familiare è già stato posizionato!!");
+            throw new LorenzoException("FAMLY MEMBER ALREADY POSITIONED");
     }
 
     /**
@@ -173,7 +173,7 @@ public class Game {
      */
     private void isStarted() throws LorenzoException {
         if (!isStarted)
-            throw new LorenzoException("la partita non è ancora cominciata!!");
+            throw new LorenzoException("GAME NOT STARTED YET");
     }
 
     /**
@@ -193,7 +193,7 @@ public class Game {
             }
         }
         else {
-            player.notifyError("non sei nella fase di scomunica!!!");
+            player.notifyError("YOU AREN'T IN THE EXCOMMUNICATION TURN");
         }
     }
 
@@ -222,7 +222,7 @@ public class Game {
             }
         }
         else {
-            player.notifyError("non sei nella fase di scomunica!!!");
+            player.notifyError("YOU AREN'T IN THE EXCOMMUNICATION TURN");
         }
     }
 
@@ -286,7 +286,7 @@ public class Game {
             }
         }
         else {
-            player.notifyError("non sei nella fase azione della partita!!!");
+            player.notifyError("YOU AREN'T IN THE ACTION PHASE");
         }
     }
 
@@ -358,7 +358,7 @@ public class Game {
             }
         }
         else {
-            player.notifyError("non sei nella fase azione della partita!!!");
+            player.notifyError("YOU AREN'T IN THE ACTION PHASE");
         }
     }
 
@@ -376,7 +376,7 @@ public class Game {
             for(int i = 0 ; i < numPlayers ; i++){
                 if(currentPlayer == turnOrder.get(i)) {
                     if (i == numPlayers - 1) {
-                        System.out.println("fine giro " + lap);
+                        System.out.println("END " + lap + "^ LAP");
                         endLap();
                         return;
                     }
@@ -408,7 +408,7 @@ public class Game {
     private void endLap() throws RemoteException, NewActionException {
         if (lap == 1 && phase == Phases.EXCOMMUNICATION){
             lap = 1;
-            System.out.println("fine turno scomunica");
+            System.out.println("END EXCOMMUNICATION TURN");
             endTurn();
         }
         else if (lap == 4 && phase == Phases.ACTION){

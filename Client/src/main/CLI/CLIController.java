@@ -219,36 +219,66 @@ public class CLIController implements InterfaceController, Runnable {
     }
 
     void selectTowerAndFloor() {
-        int choiceTower = 1;
-        int choiceFloor = 1;
+        int[] choiceTower = {0,0};
 
         System.out.println(RED +" SELECT A TOWER AND FLOOR :" + RESET);
         while(true) {
             System.out.println(GREEN + " 1 - Green tower, territories ");
-            System.out.println(BLUE + " 2 - Blue tower, territories ");
-            System.out.println(YELLOW + " 3 - Yellow tower, territories ");
-            System.out.println(PURPLE + " 4 - Purple tower, territories ");
+            System.out.println(BLUE + " 2 - Blue tower, characters ");
+            System.out.println(YELLOW + " 3 - Yellow tower, buildings ");
+            System.out.println(PURPLE + " 4 - Purple tower, ventures ");
 
             try {
-                choiceTower = Integer.parseInt(in.readLine());
-                gameMenu.handleTower(choiceTower);
-                if(choiceTower > 0 && choiceTower <5){
-                    System.out.println("Select a FLOOR: (1,3,5,7)");
-                    switch (Integer.parseInt(in.readLine())){
-                        case 1:
-                            break;
-                        case 2 :
-                            break;
-                        case 3:
-                            break;
-                        case 4:
-                            break;
+                choiceTower[0] = Integer.parseInt(in.readLine());
+                gameMenu.getTowerMap().get(choiceTower[0]);
+                if(choiceTower[0] > 0 && choiceTower[0] <5){
+                    System.out.println("Select a FLOOR: (1,2,3,4)");
+                    choiceTower[1] = Integer.parseInt(in.readLine());
+                    if(choiceTower[1] > 0 && choiceTower[1] < 5){
+                        setTowerAndFloor(choiceTower);
+                        selectFamilyMember();
+                        break;
                     }
                 }
             } catch (IOException | NumberFormatException e) {
                 System.out.println(" Please, insert a correct number ");
             }
         }
+    }
+
+    private void selectFamilyMember() {
+        int familyMember;
+        while(true) {
+            System.out.println(RED + "--- Select family member to do the action : (black:1 , white:2 , orange:3 , neutral:4) " + RESET);
+            try {
+                familyMember = Integer.parseInt(in.readLine());
+                if(familyMember>0 && familyMember<5) {
+                    client.setFamilyMemberType(gameMenu.getFamilyMemberTypeMap().get(familyMember));
+                    selectNumberServants();
+                    break;
+                }
+            } catch (IOException e) {
+                System.out.println(" Plase, select a correct option ");
+            }
+        }
+    }
+
+    private void selectNumberServants() {
+        int servants;
+        while(true) {
+            System.out.println(RED + " Do you want to add servants to the action ? (0,1,2,3,4,5,6)" + RESET);
+            try {
+                servants = Integer.parseInt(in.readLine());
+                client.doAction(client.encondingMessageAction(),servants);
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Please, insert a correct option");
+            }
+        }
+    }
+
+    private void setTowerAndFloor(int[] choiceTower){
+        client.setActionSpacesType(ActionSpacesType.TOWERS);
+        client.setNumFloor(choiceTower[1]);
     }
 
     /**

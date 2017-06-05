@@ -47,7 +47,7 @@ public class ClientRMI extends AbstractClient {
             serverGame.doAction(msg);
         }
         else
-            notifyMessage("Non hai abbastanza servitori");
+            notifyMessage("YOU HAVEN'T ENOUGH SERVANTS");
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ClientRMI extends AbstractClient {
             serverGame.doNewAction(msg);
         }
         else
-            notifyMessage("Non hai abbastanza servitori");
+            notifyMessage("YOU HAVEN'T ENOUGH SERVANTS");
     }
 
 
