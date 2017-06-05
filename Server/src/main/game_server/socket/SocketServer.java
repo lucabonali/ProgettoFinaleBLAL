@@ -33,7 +33,7 @@ public class SocketServer extends AbstractServer implements Runnable {
 
 
     @Override
-    public PlayerInterface startGame(String username, int gameMode, ClientInterface client) throws RemoteException {
+    public synchronized PlayerInterface startGame(String username, int gameMode, ClientInterface client) throws RemoteException {
         Game game = getFreeGame(gameMode); //la prima partita libera trovata, in caso ne crea una nuova
         PlayerSocket playerSocket = new PlayerSocket(username);
         playerSocket.setGame(game);

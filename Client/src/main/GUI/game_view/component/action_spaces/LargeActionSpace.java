@@ -5,6 +5,7 @@ import javafx.scene.Cursor;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import main.GUI.game_view.GUIController;
 import main.GUI.game_view.component.GuiFamilyMember;
 import main.api.types.ActionSpacesType;
 import main.client.AbstractClient;
@@ -23,10 +24,12 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
     private ActionSpacesType type;
     private Rectangle rectangle;
     private GridPane container;
+    private GUIController guiController;
 
-    public LargeActionSpace(ActionSpacesType type, GridPane container) {
+    public LargeActionSpace(ActionSpacesType type, GridPane container, GUIController guiController) {
         this.type = type;
         this.container = container;
+        this.guiController = guiController;
         familyMemberList = new ArrayList<>();
         setMaxSize(WIDTH, HEIGHT);
         setPrefSize(WIDTH, HEIGHT);
@@ -55,7 +58,8 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
     @Override
     public void removeAllFamilyMembers() {
         Platform.runLater(() -> {
-            getContainer().getChildren().removeAll(familyMemberList);
+            for (GuiFamilyMember familyMember : familyMemberList)
+                getContainer().getChildren().remove(familyMember);
             familyMemberList = new ArrayList<>();
         });
     }
@@ -68,5 +72,6 @@ public class LargeActionSpace extends Pane implements ActionSpaceInterface{
     @Override
     public void setCurrentActionSpace() {
         AbstractClient.getInstance().setActionSpacesType(type);
+        AbstractClient.getInstance().encodingAndSendingMessage(guiController.getServantsToPay());
     }
 }

@@ -18,9 +18,39 @@
 }
 
 #textFlow {
-    -fx-border-radius: 20%;
+    -fx-border-width: 5;
     -fx-border-color: black;
-    -fx-text-alignment: center;
-    -fx-alignment: center;
-    -fx-tile-alignment: center;
+    -fx-background-color: floralwhite;
+}
+
+#messageRootPane {
+    -fx-background-image: url("sfondo_lorenzo_scritta.jpg");
+}
+
+#gamePersonalRootPane {
+
+}
+
+#yellowButton {
+    -fx-border-color: black;
+    -fx-border-width: 4px;
+    -fx-background-color: lightyellow;
+}
+
+#whiteButton {
+    -fx-border-color: black;
+    -fx-border-width: 4px;
+    -fx-background-color: whitesmoke;
+}
+
+#redButton {
+    -fx-border-color: black;
+    -fx-border-width: 4px;
+    -fx-background-color: darkred;
+}
+
+#greenButton {
+    -fx-border-color: black;
+    -fx-border-width: 4px;
+    -fx-background-color: greenyellow;
 }

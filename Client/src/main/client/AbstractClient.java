@@ -9,7 +9,10 @@ import main.api.types.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Classe che rappresenta il client generico, che avrà metodi in comune tra entrambi i tipi
@@ -24,8 +27,6 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     private static AbstractClient instance;
     private String username,password;
     private int id;
-
-
 
     private List<Integer> opponentsIdList;
     private InterfaceController interfaceController; //controller che potrà essere GUIController se della GUI, oppure CLIController se per la cli
@@ -75,6 +76,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
             initializeOpponentsResources(idValue);
             initializeOpponentsCardsList(idValue);
         }));
+        phase = Phases.ACTION;
     }
 
     private void initializeOpponentsCardsList(int idPlayer) {
@@ -257,6 +259,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     @Override
     public void notifyEndMove() throws RemoteException{
         interfaceController.notifyMessage("You have ended your turn, please wait for your opponents");
+        if (phase == Phases.NEW_ACTION)
+            phase = Phases.ACTION;
     }
 
     /**
@@ -355,8 +359,26 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         this.interfaceController = controller;
     }
 
-    public int getQtaResource(ResourceType type) {
+    int getQtaResource(ResourceType type) {
         return qtaResourcesMap.get(type);
+    }
+
+    public void encodingAndSendingMessage(int servantsToPay) {
+        try {
+            if (phase == Phases.NEW_ACTION) {
+                MessageNewAction msgNewAction = encondingMessageNewAction();
+                if (msgNewAction != null)
+                    doNewAction(msgNewAction, servantsToPay);
+            }
+            else {
+                MessageAction msgAction = encondingMessageAction();
+                if (msgAction != null)
+                    doAction(msgAction, servantsToPay);
+            }
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

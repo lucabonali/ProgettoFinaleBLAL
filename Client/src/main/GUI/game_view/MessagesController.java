@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import main.GUI.music.Music;
@@ -21,6 +22,7 @@ public class MessagesController {
     @FXML private Label messagesLabel;
     @FXML private Label lorenzoTalks;
     @FXML private TextFlow textFlow;
+    @FXML private BorderPane rootPane;
 
     private Text text;
     private Music audio;
@@ -48,12 +50,10 @@ public class MessagesController {
     public void initialize() {
         message = new SimpleStringProperty();
         textFlow.setOnMouseEntered(event -> {
-            textFlow.setStyle("-fx-border-radius: 30%;" +
-                    "-fx-border-color: yellow;");
+            textFlow.setStyle("-fx-border-color: yellow;");
         });
         textFlow.setOnMouseExited(event -> {
-            textFlow.setStyle("-fx-border-radius: 30%;" +
-                    "-fx-border-color: black;");
+            textFlow.setStyle("-fx-border-color: black;");
         });
         text = new Text();
         text.textProperty().bind(message);

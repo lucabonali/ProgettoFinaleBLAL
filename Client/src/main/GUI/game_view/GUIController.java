@@ -19,7 +19,6 @@ import main.GUI.game_view.component.*;
 import main.GUI.game_view.component.action_spaces.*;
 import main.GUILauncher;
 import main.api.messages.MessageAction;
-import main.api.messages.MessageNewAction;
 import main.api.types.*;
 import main.client.AbstractClient;
 
@@ -81,6 +80,8 @@ public class GUIController implements InterfaceController {
 
     @FXML private TextField servantsToPayTextField;
 
+    @FXML private Button endMoveButton;
+    @FXML private Tab personalTab;
 
     private ToggleGroup toggleGroup = new ToggleGroup();
 
@@ -120,23 +121,23 @@ public class GUIController implements InterfaceController {
      */
     private void initializeHarvestProduction() {
         //raccolta singolo
-        SingleActionSpace harvest = new SingleActionSpace(ActionSpacesType.SINGLE_HARVEST, singleHarvest);
+        SingleActionSpace harvest = new SingleActionSpace(ActionSpacesType.SINGLE_HARVEST, singleHarvest, this);
         singleHarvest.add(harvest, 0, 0);
         actionSpacesMap.put(harvest.getType(), harvest);
         //raccolta larga
-        LargeActionSpace lHarvest = new LargeActionSpace(ActionSpacesType.LARGE_HARVEST, largeHarvest);
+        LargeActionSpace lHarvest = new LargeActionSpace(ActionSpacesType.LARGE_HARVEST, largeHarvest, this);
         largeHarvest.add(lHarvest, 0, 0);
         actionSpacesMap.put(lHarvest.getType(), lHarvest);
         //produzione singolo
-        SingleActionSpace production = new SingleActionSpace(ActionSpacesType.SINGLE_PRODUCTION, singleProduction);
+        SingleActionSpace production = new SingleActionSpace(ActionSpacesType.SINGLE_PRODUCTION, singleProduction, this);
         singleProduction.add(production, 0, 0);
         actionSpacesMap.put(production.getType(), production);
         //produzione larga
-        LargeActionSpace lProduction = new LargeActionSpace(ActionSpacesType.LARGE_PRODUCTION, largeProduction);
+        LargeActionSpace lProduction = new LargeActionSpace(ActionSpacesType.LARGE_PRODUCTION, largeProduction, this);
         largeProduction.add(lProduction, 0, 0);
         actionSpacesMap.put(lProduction.getType(), lProduction);
         //palazzo del consiglio
-        CouncilActionSpace councilActionSpace = new CouncilActionSpace(ActionSpacesType.COUNCIL, council);
+        CouncilActionSpace councilActionSpace = new CouncilActionSpace(ActionSpacesType.COUNCIL, council, this);
         council.add(councilActionSpace, 0, 0);
         actionSpacesMap.put(councilActionSpace.getType(), councilActionSpace);
     }
@@ -160,7 +161,7 @@ public class GUIController implements InterfaceController {
             gridPaneSpacesTowersMap.put(cardType, gridPaneTower);
             int gridCounter=0;
             for (int floor=3; floor>=0; floor--) {
-                GuiFloorActionSpace actionSpace = new GuiFloorActionSpace(ActionSpacesType.TOWERS, cardType, floor, gridCounter, gridPaneSpacesTowersMap.get(cardType));
+                GuiFloorActionSpace actionSpace = new GuiFloorActionSpace(ActionSpacesType.TOWERS, cardType, floor, gridCounter, gridPaneSpacesTowersMap.get(cardType), this);
                 array[floor] = actionSpace;
                 gridPaneSpacesTowersMap.get(cardType).add(actionSpace, 0, gridCounter);
                 gridCounter++;
@@ -175,7 +176,7 @@ public class GUIController implements InterfaceController {
      */
     private void initializeMarket(MarketActionType marketType, GridPane gridPaneMarket) {
         gridPaneSpacesMarketMap.put(marketType, gridPaneMarket);
-        GuiMarketActionSpace actionSpace = new GuiMarketActionSpace(ActionSpacesType.MARKET, marketType, gridPaneSpacesMarketMap.get(marketType));
+        GuiMarketActionSpace actionSpace = new GuiMarketActionSpace(ActionSpacesType.MARKET, marketType, gridPaneSpacesMarketMap.get(marketType), this);
         marketMap.put(marketType, actionSpace);
         gridPaneSpacesMarketMap.get(marketType).add(actionSpace, 0, 0);
     }
@@ -470,13 +471,14 @@ public class GUIController implements InterfaceController {
     @Override
     public void relocateFamilyMembers() {
         Platform.runLater(() -> {
-            for (GuiFamilyMember familyMember : personalFamilyMembersMap.values()) {
+            personalFamilyMembersMap.forEach(((familyMemberType, familyMember) -> {
                 if (!personalHBox.getChildren().contains(familyMember)) {
                     personalHBox.getChildren().add(familyMember);
+                    familyMember.addMouseClicked();
                     familyMember.setToggleGroup(toggleGroup);
                     familyMember.setDisable(false);
                 }
-            }
+            }));
         });
     }
 
@@ -608,22 +610,21 @@ public class GUIController implements InterfaceController {
         client.endMove();
     }
 
-    @FXML
+    @Override
     public void actionDoAction() throws RemoteException {
-        int servantsToPay;
-        try{
-            servantsToPay = Integer.parseInt(servantsToPayTextField.getText());
-        }
-        catch (NumberFormatException e) {
-            servantsToPay = 0;
-        }
-        MessageAction msg = client.encondingMessageAction();
-        if (msg != null)
-            client.doAction(msg, servantsToPay);
+        // da eliminare
     }
 
-    @FXML
+    @Override
     public void actionDoNewAction() throws RemoteException {
+        // da eliminare
+    }
+
+    /**
+     * ritorna il numero di servitori che ho intenzione di pagare
+     * @return servitori che voglio pagare
+     */
+    public int getServantsToPay() {
         int servantsToPay;
         try{
             servantsToPay = Integer.parseInt(servantsToPayTextField.getText());
@@ -631,9 +632,7 @@ public class GUIController implements InterfaceController {
         catch (NumberFormatException e) {
             servantsToPay = 0;
         }
-        MessageNewAction msg = client.encondingMessageNewAction();
-        if (msg != null)
-            client.doNewAction(msg, servantsToPay);
+        return servantsToPay;
     }
 
     @Override
@@ -653,6 +652,9 @@ public class GUIController implements InterfaceController {
         relocateFamilyMembers();
         personalBoardController.startGame(id, username);
         messagesController.setMessage("La partita è iniziata");
+        endMoveButton.setId(Service.getStringColorById(id) + "Button");
+        personalHBox.setStyle("-fx-background-color: " + Service.getStringColorById(id) + ";");
+        Platform.runLater(() -> personalTab.setText(id + " " + username.toUpperCase()));
     }
 
     /**
@@ -670,7 +672,7 @@ public class GUIController implements InterfaceController {
         initializeImageViewCards();
         initializeImageViewExcomCards();
         initializeDices();
-
+        endMoveButton.setCursor(Cursor.HAND);
 //        lorenzoAnimation = new LorenzoAnimation(lorenzoCenter, "Hi, i' m Lorenzo , the Magnificent!!");
 //        lorenzoAnimation.startGameAnimation();
 

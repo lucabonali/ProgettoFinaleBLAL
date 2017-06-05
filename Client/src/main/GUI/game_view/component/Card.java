@@ -11,6 +11,7 @@ import javafx.util.Duration;
  */
 public class Card extends ImageView{
     private String name;
+    private Image image;
 
     public Card() {
         super();
@@ -21,20 +22,15 @@ public class Card extends ImageView{
     }
 
     public void setImage(Image image, String name) {
+        this.image = image;
         setOpacity(0);
-        new Thread(() -> {
-            setImage(image);
-            startShowAnimation();
-        }).start();
+        new Thread(this::startShowAnimation).start();
         this.name = name;
     }
 
     public void remove(String nameToRemove) {
         if (name.equals(nameToRemove)){
-            new Thread(() -> {
-                startHideAnimation();
-                setImage(null);
-            }).start();
+            new Thread(this::startHideAnimation).start();
         }
     }
 
@@ -42,9 +38,10 @@ public class Card extends ImageView{
      * animazione che mi fa comparire la carta
      */
     private void startShowAnimation() {
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(5000), this);
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(3000), this);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
+        setImage(image);
         fadeIn.play();
     }
 
@@ -52,9 +49,10 @@ public class Card extends ImageView{
      * animazione che mi fa dissolvere la carta
      */
     private void startHideAnimation() {
-        FadeTransition fadeOut = new FadeTransition(Duration.millis(5000), this);
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(3000), this);
         fadeOut.setFromValue(1);
         fadeOut.setToValue(0);
+        fadeOut.setOnFinished(event -> setImage(null));
         fadeOut.play();
     }
 }

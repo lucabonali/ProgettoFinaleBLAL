@@ -6,6 +6,7 @@ import javafx.scene.Cursor;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import main.GUI.game_view.GUIController;
 import main.GUI.game_view.component.GuiFamilyMember;
 import main.api.types.ActionSpacesType;
 import main.client.AbstractClient;
@@ -20,11 +21,15 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
     private GuiFamilyMember familyMember;
     private ActionSpacesType type;
     private GridPane container;
+    private GUIController guiController;
+    private AbstractClient client;
 
 
-    public SingleActionSpace(ActionSpacesType type, GridPane container) {
+    public SingleActionSpace(ActionSpacesType type, GridPane container, GUIController guiController) {
         this.type = type;
         this.container = container;
+        this.guiController = guiController;
+        this.client = AbstractClient.getInstance();
         setCursor(Cursor.HAND);
         setOnMouseClicked(event -> setCurrentActionSpace());
         container.setAlignment(Pos.CENTER);
@@ -74,11 +79,16 @@ public class SingleActionSpace extends AnchorPane implements ActionSpaceInterfac
         return type;
     }
 
+    public GUIController getGuiController() {
+        return guiController;
+    }
+
     /**
      * mi setta lo spazio azione corrente
      */
     @Override
     public void setCurrentActionSpace() {
-        AbstractClient.getInstance().setActionSpacesType(type);
+        client.setActionSpacesType(type);
+        client.encodingAndSendingMessage(guiController.getServantsToPay());
     }
 }

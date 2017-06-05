@@ -1,6 +1,8 @@
 package main.GUI.game_view.component;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -15,6 +17,7 @@ public class ExcomCard extends ImageView{
     private String code;
     private AnchorPane container;
     private int period;
+    private Image image;
 
     public ExcomCard(GridPane pane, int period) {
         super();
@@ -30,11 +33,9 @@ public class ExcomCard extends ImageView{
     }
 
     public void setImage(Image image, String code) {
+        this.image = image;
         setOpacity(0);
-        new Thread(() -> {
-            setImage(image);
-            startShowAnimation();
-        }).start();
+        new Thread(this::startShowAnimation).start();
         this.code = code;
     }
 
@@ -42,9 +43,14 @@ public class ExcomCard extends ImageView{
      * animazione che mi fa comparire la carta
      */
     private void startShowAnimation() {
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(5000), this);
+        setImage(image);
+        RotateTransition rotate = new RotateTransition(Duration.millis(2000), this);
+        rotate.setCycleCount(2);
+        rotate.setAutoReverse(false);
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(2000), this);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
-        fadeIn.play();
+        ParallelTransition parallel = new ParallelTransition(rotate, fadeIn);
+        parallel.play();
     }
 }

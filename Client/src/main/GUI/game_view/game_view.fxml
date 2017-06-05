@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
@@ -260,19 +261,19 @@
 
             </children>
         </AnchorPane>
-        <GridPane fx:id="personalGridPane" prefHeight="1000.0" prefWidth="700.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <GridPane id="gamePersonalRootPane" fx:id="personalGridPane" prefHeight="1000.0" prefWidth="700.0" stylesheets="@res/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="700.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="695.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="275.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="705.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="45.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <TabPane fx:id="infoTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab closable="false" style="-fx-backround-color: red;" text="PersonalTab">
+                        <Tab fx:id="personalTab" closable="false" style="-fx-backround-color: red;" text="PersonalTab">
                      <content>
                         <GridPane fx:id="myPersonalBoardGridPane" alignment="BOTTOM_CENTER">
                           <columnConstraints>
@@ -286,12 +287,16 @@
                         </Tab>
                     </tabs>
                 </TabPane>
-            <HBox fx:id="personalHBox" prefHeight="30.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="1">
+            <HBox fx:id="personalHBox" alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="30.0" GridPane.rowIndex="1">
                <children>
-                  <Button mnemonicParsing="false" onAction="#endMoveAction" text="End Move" />
-                  <Button mnemonicParsing="false" onAction="#actionDoAction" text="Do Action" />
-                  <Button mnemonicParsing="false" onAction="#actionDoNewAction" text="Do New Action" />
-                  <TextField fx:id="servantsToPayTextField" maxWidth="-Infinity" prefWidth="80.0" promptText="servants" />
+                  <Button id="endMoveButton" fx:id="endMoveButton" mnemonicParsing="false" onAction="#endMoveAction" prefHeight="45.0" prefWidth="135.0" stylesheets="@res/style.css" text="END MOVE">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Button>
+                  <TextField fx:id="servantsToPayTextField" maxWidth="-Infinity" prefHeight="45.0" prefWidth="90.0" promptText="servants">
+                     <font>
+                        <Font size="18.0" />
+                     </font></TextField>
                </children>
             </HBox>
             </children>

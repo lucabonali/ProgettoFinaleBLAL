@@ -504,9 +504,9 @@ public class Game {
         }
         //inizializza il turno sul tabellone
         board.initializeTurn(period, turn);
-        playerMap.forEach(((integer, abstractPlayer) -> abstractPlayer.removeAllFamilyMembers()));
         playerMap.forEach(((id, player) -> {
             try {
+                player.removeAllFamilyMembers();
                 player.initializeBoard(board.getCompleteListTowersCards());
                 player.sendOrder(turnOrder);
             } catch (RemoteException e) {
@@ -569,23 +569,25 @@ public class Game {
         playerMap.remove(player.getIdPlayer());
         turnOrder.remove(player);
         numPlayers--;
-        if (numPlayers<2 && isStarted){
-            try {
-                turnOrder.get(0).youWin();
-            }
-            catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            turnOrder.forEach((abstractPlayer -> {
+        if (isStarted) {
+            if (numPlayers<2){
                 try {
-                    abstractPlayer.opponentSurrender(player.getIdPlayer());
+                    turnOrder.get(0).youWin();
                 }
                 catch (RemoteException e) {
                     e.printStackTrace();
                 }
-            }));
+            }
+            else {
+                turnOrder.forEach((abstractPlayer -> {
+                    try {
+                        abstractPlayer.opponentSurrender(player.getIdPlayer());
+                    }
+                    catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }));
+            }
         }
     }
 

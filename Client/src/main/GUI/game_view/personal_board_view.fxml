@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane fx:id="rootPane" prefHeight="695.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.GUI.game_view.PersonalBoardController">
+<AnchorPane fx:id="rootPane" maxHeight="660.0" maxWidth="-Infinity" prefHeight="660.0" prefWidth="703.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.GUI.game_view.PersonalBoardController">
    <children>
-      <ImageView fitHeight="310.0" fitWidth="703.0" pickOnBounds="true">
+      <ImageView fitHeight="290.0" fitWidth="700.0" pickOnBounds="true">
          <image>
             <Image url="@../images/ImmaginiModificate/planciaModificata.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="380.0" fitWidth="700.0" layoutY="315.0" pickOnBounds="true">
+      <ImageView fitHeight="380.0" fitWidth="700.0" layoutX="2.0" layoutY="301.0" pickOnBounds="true">
          <image>
             <Image url="@../images/ImmaginiModificate/plancia.png" />
          </image>

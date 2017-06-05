@@ -20,7 +20,7 @@ public class ServerRMI extends AbstractServer {
     }
 
     @Override
-    public PlayerInterface startGame(String username, int gameMode, ClientInterface client) throws RemoteException {
+    public synchronized PlayerInterface startGame(String username, int gameMode, ClientInterface client) throws RemoteException {
         Game game = getFreeGame(gameMode); //la prima partita libera trovata
         PlayerRMI playerRMI = new PlayerRMI(username);
         playerRMI.addClientInterface(client);
