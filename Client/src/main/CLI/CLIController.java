@@ -213,7 +213,7 @@ public class CLIController implements InterfaceController, Runnable {
             System.out.println(RED + "Please, select the market space : (coin:1,servants:2,Military&coins:3,privileges:4) ");
             try {
                 chioceMarket = Integer.parseInt(in.readLine());
-                if (chioceMarket > 0 && chioceMarket < 5) {;
+                if (chioceMarket > 0 && chioceMarket < 5) {
                     client.setMarketActionType(gameMenu.getMarketMap().get(chioceMarket));
                     break;
                 }
@@ -255,6 +255,9 @@ public class CLIController implements InterfaceController, Runnable {
         selectNumberServants();
     }
 
+    /**
+     * metodo che setta la torre e il piano su cui eseguire l' azione
+     */
     void selectTowerAndFloor() {
         int[] choiceTower = {0,0};
 
@@ -283,6 +286,9 @@ public class CLIController implements InterfaceController, Runnable {
         }
     }
 
+    /**
+     * metodo che sette il familiare per eseguire l' azione
+     */
     private void selectFamilyMember() {
         int familyMember;
         while(true) {
@@ -300,6 +306,9 @@ public class CLIController implements InterfaceController, Runnable {
         }
     }
 
+    /**
+     * metodo che setta il numero di servitori nella classe abstract client per eseguire un' azione
+     */
     private void selectNumberServants() {
         int servants;
         while(true) {
@@ -328,31 +337,26 @@ public class CLIController implements InterfaceController, Runnable {
         else{
             cardList = cardToUpdate;
         }
-        List<String> myTerritories = cardList.get(CardType.TERRITORY);
-        List<String> myCharacters = cardList.get(CardType.CHARACTER);
-        List<String> myBuildings = cardList.get(CardType.BUILDING);
-        List<String> myVentures = cardList.get(CardType.VENTURES);
-        for(int i = 0 ; i< myTerritories.size() ; i++){
-            int index = boardCards.indexOf(myTerritories.get(i));
-            if(index!= (-1))
-                boardCards.set(index, "Empty");
-        }
-        for(int i = 0 ; i< myCharacters.size() ; i++){
-            int index = boardCards.indexOf(myCharacters.get(i));
-            if(index!= (-1))
-                boardCards.set(index, "Empty");
-        }
-        for(int i = 0 ; i< myBuildings.size() ; i++){
-            int index = boardCards.indexOf(myBuildings.get(i));
-            if(index!= (-1))
-                boardCards.set(index, "Empty");
-        }
-        for(int i = 0 ; i< myVentures.size() ; i++){
-            int index = boardCards.indexOf(myVentures.get(i));
-            if(index!= (-1))
-                boardCards.set(index, "Empty");
+        updateCards(cardList.get(CardType.TERRITORY));
+        updateCards(cardList.get(CardType.CHARACTER));
+        updateCards(cardList.get(CardType.BUILDING));
+        updateCards(cardList.get(CardType.VENTURES));
+    }
+
+    /**
+     * prende in ingresso una lista di carte e aggiorna lo stato del tabellone
+     * @param cards
+     */
+    private void updateCards(List<String> cards) {
+        if(cards != null) {
+            for (int i = 0; i < cards.size(); i++) {
+                int index = boardCards.indexOf(cards.get(i));
+                if (index != (-1))
+                    boardCards.set(index, "Empty");
+            }
         }
     }
+
 
     private void setTowerAndFloor(int[] choiceTower){
         client.setActionSpacesType(ActionSpacesType.TOWERS);
@@ -655,38 +659,38 @@ public class CLIController implements InterfaceController, Runnable {
         }
 
 
-        System.out.println(GREEN + " ---- Territories ---- " );
+        System.out.println(GREEN + "\n ---- Territories ---- " );
         if(cardList.get(CardType.TERRITORY) != null) {
             for (int i = 0; i < cardList.get(CardType.TERRITORY).size(); i++) {
                 System.out.print(GREEN + "Name : " + cardList.get(CardType.TERRITORY).get(i) + " --- Description : ");
-                System.out.print(cliCards.getTerritoryCardList().get(cardList.get(CardType.TERRITORY).get(i)));
+                System.out.println(cliCards.getTerritoryCardList().get(cardList.get(CardType.TERRITORY).get(i)));
             }
         }
-        System.out.println(CYAN + " ---- Characters ---- " );
+        System.out.println(CYAN + "\n ---- Characters ---- " );
         if(cardList.get(CardType.CHARACTER) != null) {
             for (int i = 0; i < cardList.get(CardType.CHARACTER).size(); i++) {
                 System.out.print(CYAN + "Name : " + cardList.get(CardType.CHARACTER).get(i) + " --- Description : ");
-                System.out.println(cliCards.getTerritoryCardList().get(cardList.get(CardType.CHARACTER).get(i)));
+                System.out.println(cliCards.getCharacterCardList().get(cardList.get(CardType.CHARACTER).get(i)));
             }
         }
-        System.out.println(YELLOW + " ---- Buildings ---- " );
+        System.out.println(YELLOW + "\n ---- Buildings ---- " );
         if(cardList.get(CardType.BUILDING) != null) {
             for (int i = 0; i < cardList.get(CardType.BUILDING).size(); i++) {
                 System.out.print(YELLOW + "Name : " + cardList.get(CardType.BUILDING).get(i) + " --- Description : ");
-                System.out.print(cliCards.getTerritoryCardList().get(cardList.get(CardType.BUILDING).get(i)));
+                System.out.println(cliCards.getBuildingsCardList().get(cardList.get(CardType.BUILDING).get(i)));
             }
         }
-        System.out.println(PURPLE + " ---- Ventures ---- " );
+        System.out.println(PURPLE + "\n ---- Ventures ---- " );
         if(cardList.get(CardType.VENTURES) != null) {
             for (int i = 0; i < cardList.get(CardType.VENTURES).size(); i++) {
                 System.out.print(PURPLE + "Name : " + cardList.get(CardType.VENTURES).get(i) + " --- Description : ");
-                System.out.print(cliCards.getTerritoryCardList().get(cardList.get(CardType.VENTURES).get(i)));
+                System.out.println(cliCards.getVenturesCardList().get(cardList.get(CardType.VENTURES).get(i)));
             }
         }
     }
 
     /**
-     * metodo che stampa lo stato del tabellone
+     * metodo che stampa lo stato del tabellone, torri, dadi e spazi azione
      *
      */
     void showBoard() {
