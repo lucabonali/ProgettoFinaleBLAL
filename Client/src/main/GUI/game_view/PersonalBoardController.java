@@ -90,7 +90,7 @@ public class PersonalBoardController {
      * @param id ide del giocatore
      */
     void startGame(int id, String username) {
-        setBackgroundColor(id);
+//        setBackgroundColor(id);
         int num = Integer.parseInt(qtaResourceLabelMap.get(ResourceType.COINS).getText()) + id;
         Platform.runLater(() -> qtaResourceLabelMap.get(ResourceType.COINS).setText(num + ""));
     }
