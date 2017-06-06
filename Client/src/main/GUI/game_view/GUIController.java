@@ -71,6 +71,7 @@ public class GUIController implements InterfaceController {
 
     @FXML private ToolBar toolbar1;
     @FXML private ToolBar toolbar2;
+    @FXML private GridPane rootGridPane;
 
     @FXML private GridPane personalGridPane;
     @FXML private GridPane myPersonalBoardGridPane;
@@ -81,6 +82,8 @@ public class GUIController implements InterfaceController {
     @FXML private TextField servantsToPayTextField;
 
     @FXML private Button endMoveButton;
+    @FXML private Button increaseButton;
+    @FXML private Button decreaseButton;
     @FXML private Tab personalTab;
 
     private ToggleGroup toggleGroup = new ToggleGroup();
@@ -430,7 +433,6 @@ public class GUIController implements InterfaceController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/GUI/game_view/personal_board_view.fxml"));
                 Parent personalBoard = fxmlLoader.load();
                 PersonalBoardController controller = fxmlLoader.getController();
-                controller.setBackgroundColor(id);
                 opponentPersonalBoardControllerMap.put(id, controller);
                 tab.setContent(personalBoard);
             }
@@ -636,6 +638,34 @@ public class GUIController implements InterfaceController {
         }
     }
 
+    @FXML
+    public void increaseServants() {
+        int servants;
+        try{
+            servants = Integer.parseInt(servantsToPayTextField.getText());
+        }
+        catch (NumberFormatException e) {
+            servants = 0;
+        }
+        servants++;
+        servantsToPayTextField.setText(servants + "");
+    }
+
+    @FXML
+    public void decreaseServants() {
+        int servants;
+        try{
+            servants = Integer.parseInt(servantsToPayTextField.getText());
+        }
+        catch (NumberFormatException e) {
+            servants = 0;
+        }
+        servants--;
+        if (servants < 0)
+            servants = 0;
+        servantsToPayTextField.setText(servants + "");
+    }
+
     @Override
     public void startGame(int id, String username) {
         createDiscs(id);
@@ -644,7 +674,8 @@ public class GUIController implements InterfaceController {
         personalBoardController.startGame(id, username);
         messagesController.setMessage("Game is started!");
         endMoveButton.setId(Service.getStringColorById(id) + "Button");
-//        personalHBox.setStyle("-fx-background-color: " + Service.getStringColorById(id) + ";");
+        increaseButton.setId(Service.getStringColorById(id) + "Button");
+        decreaseButton.setId(Service.getStringColorById(id) + "Button");
         Platform.runLater(() -> personalTab.setText(id + " " + username.toUpperCase()));
     }
 
@@ -663,7 +694,11 @@ public class GUIController implements InterfaceController {
         initializeImageViewCards();
         initializeImageViewExcomCards();
         initializeDices();
+        addToolbarDragAndDrop(toolbar1);
+        addToolbarDragAndDrop(toolbar2);
         endMoveButton.setCursor(Cursor.HAND);
+        increaseButton.setCursor(Cursor.HAND);
+        decreaseButton.setCursor(Cursor.HAND);
 //        lorenzoAnimation = new LorenzoAnimation(lorenzoCenter, "Hi, i' m Lorenzo , the Magnificent!!");
 //        lorenzoAnimation.startGameAnimation();
 
@@ -675,14 +710,11 @@ public class GUIController implements InterfaceController {
             fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/GUI/game_view/personal_board_view.fxml"));
             Parent personalBoard = fxmlLoader.load();
             personalBoardController = fxmlLoader.getController();
-            myPersonalBoardGridPane.add(personalBoard, 0, 0);
+//            myPersonalBoardGridPane.add(personalBoard, 0, 0);
+            personalTab.setContent(personalBoard);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-
-        addToolbarDragAndDrop(toolbar1);
-        addToolbarDragAndDrop(toolbar2);
     }
-
 }

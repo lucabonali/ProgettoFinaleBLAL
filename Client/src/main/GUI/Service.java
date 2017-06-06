@@ -46,31 +46,37 @@ public class Service {
 
     public static void zoomIn(ImageView img) {
         ScaleTransition st = createScaleTransition(img, 1.5, 2);
+        img.toFront();
         st.play();
     }
 
     public static void zoomInSx(ImageView img) {
         ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, 20, 0));
+        img.toFront();
         pt.play();
     }
 
     public static void zoomInDx(ImageView img) {
         ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, -20, 0));
+        img.toFront();
         pt.play();
     }
 
     public static void zoomInUpperDx(ImageView img) {
         ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, -20, 40));
+        img.toFront();
         pt.play();
     }
 
     public static void zoomInUpperSx(ImageView img) {
         ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, 20, 40));
+        img.toFront();
         pt.play();
     }
 
     public static void zoomInUpper(ImageView img) {
         ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, 0, 40));
+        img.toFront();
         pt.play();
     }
 
@@ -79,11 +85,13 @@ public class Service {
      */
     public static void zoomOut(ImageView img) {
         ScaleTransition st = createScaleTransition(img, 1, 1);
+        st.setOnFinished(event -> img.toBack());
         st.play();
     }
 
     public static void zoomOutBoard(ImageView img) {
         ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1, 1), createTranslateTransition(img, 0,0));
+        pt.setOnFinished(event -> img.toBack());
         pt.play();
     }
 

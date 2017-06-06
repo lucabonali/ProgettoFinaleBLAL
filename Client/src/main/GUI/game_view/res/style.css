@@ -33,28 +33,42 @@
 
 #yellowButton {
     -fx-border-color: black;
-    -fx-border-radius: 15%;
+    -fx-border-radius: 5%;
+    -fx-arc-width: 5%;
+    -fx-arc-height: 5%;
     -fx-border-width: 4px;
-    -fx-background-color: yellow;
+    -fx-background-color: rgba(183,174,22,0.71);
 }
 
 #blueButton {
     -fx-border-color: black;
-    -fx-border-radius: 15%;
+    -fx-border-radius: 5%;
+    -fx-arc-width: 5%;
+    -fx-arc-height: 5%;
     -fx-border-width: 4px;
-    -fx-background-color: dodgerblue;
+    -fx-background-color: rgba(8,20,136,0.71);
 }
 
 #redButton {
     -fx-border-color: black;
-    -fx-border-radius: 15%;
+    -fx-border-radius: 5%;
+    -fx-arc-width: 5%;
+    -fx-arc-height: 5%;
     -fx-border-width: 4px;
-    -fx-background-color: red;
+    -fx-background-color: rgba(227,1,4,0.71);
 }
 
 #greenButton {
     -fx-border-color: black;
-    -fx-border-radius: 15%;
+    -fx-border-radius: 5%;
+    -fx-arc-width: 5%;
+    -fx-arc-height: 5%;
     -fx-border-width: 4px;
-    -fx-background-color: lawngreen;
+    -fx-background-color: rgba(18,227,61,0.71);
+}
+
+#toolbarButton {
+    -fx-background-color: rgba(57,29,4,0.71);
+    -fx-border-color: black;
+    -fx-border-radius: 5%;
 }
