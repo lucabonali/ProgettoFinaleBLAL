@@ -36,6 +36,7 @@ public class PersonalBoardController {
 
     @FXML private AnchorPane rootPane;
 
+    @FXML private GridPane cardsGridPane;
     @FXML private GridPane buildingsGridPane;
     @FXML private GridPane territoriesGridPane;
     @FXML private GridPane charactersGridPane;
@@ -134,25 +135,62 @@ public class PersonalBoardController {
         return Integer.parseInt(qtaResourceLabelMap.get(type).getText());
     }
 
-    private void initializeCardsImage(CardType cardType, GridPane gridPane) {
+    private void initializeCardsImage(CardType cardType) {
         List<ImageView> list = new ArrayList<>();
         cardsMap.put(cardType, list);
-        for (int i=0; i<6; i++) {
+        for (int column=0; column<6; column++) {
             ImageView img = new ImageView();
             list.add(img);
-            img.setFitWidth(111);
-            img.setFitHeight(128);
-            img.setOnMouseEntered(event -> Service.zoomIn(img));
-            img.setOnMouseExited(event -> Service.zoomOut(img));
-            gridPane.add(img, i, 0);
+            img.setFitWidth(112);
+            img.setFitHeight(130);
+            if (column==0 && cardType != CardType.VENTURES) {
+                img.setOnMouseEntered(event -> Service.zoomInSx(img));
+                img.setOnMouseExited(event -> Service.zoomOutBoard(img));
+            }
+            else if (column==5 && cardType != CardType.VENTURES) {
+                img.setOnMouseEntered(event -> Service.zoomInDx(img));
+                img.setOnMouseExited(event -> Service.zoomOutBoard(img));
+            }
+            else if (column==0) { //caso ventures
+                img.setOnMouseEntered(event -> Service.zoomInUpperSx(img));
+                img.setOnMouseExited(event -> Service.zoomOutBoard(img));
+            }
+            else if (column == 5) { //caso ventures
+                img.setOnMouseEntered(event -> Service.zoomInUpperDx(img));
+                img.setOnMouseExited(event -> Service.zoomOutBoard(img));
+            }
+            else if (cardType == CardType.VENTURES) {
+                img.setOnMouseEntered(event -> Service.zoomInUpper(img));
+                img.setOnMouseExited(event -> Service.zoomOut(img));
+            }
+            else {
+                img.setOnMouseEntered(event -> Service.zoomIn(img));
+                img.setOnMouseExited(event -> Service.zoomOut(img));
+            }
+            int row = 0;
+            switch (cardType) {
+                case TERRITORY:
+                    row = 3;
+                    break;
+                case CHARACTER:
+                    row = 1;
+                    break;
+                case BUILDING:
+                    row = 2;
+                    break;
+                case VENTURES:
+                    row = 0;
+                    break;
+            }
+            cardsGridPane.add(img, column, row);
         }
     }
 
     public void initialize() {
-        initializeCardsImage(CardType.TERRITORY, territoriesGridPane);
-        initializeCardsImage(CardType.BUILDING, buildingsGridPane);
-        initializeCardsImage(CardType.CHARACTER, charactersGridPane);
-        initializeCardsImage(CardType.VENTURES, venturesGridPane);
+        initializeCardsImage(CardType.TERRITORY);
+        initializeCardsImage(CardType.CHARACTER);
+        initializeCardsImage(CardType.BUILDING);
+        initializeCardsImage(CardType.VENTURES);
         qtaResourceLabelMap.put(ResourceType.COINS, coinsLabel);
         qtaResourceLabelMap.put(ResourceType.WOOD, woodLabel);
         qtaResourceLabelMap.put(ResourceType.STONE, stoneLabel);

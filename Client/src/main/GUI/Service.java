@@ -1,7 +1,8 @@
 package main.GUI;
 
+import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
-import javafx.scene.Cursor;
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -27,25 +28,65 @@ public class Service {
     /**
      * mi fa lo zoom della carta quando ci vado sopra col puntatore
      */
-    public static void zoomIn(ImageView img) {
-        img.setCursor(Cursor.HAND);
-        img.toFront();
+    private static ScaleTransition createScaleTransition(ImageView img, double toX, double toY) {
         ScaleTransition st = new ScaleTransition(Duration.millis(500), img);
-        st.setToY(2);
-        st.setToX(1.5);
+        st.setToY(toY);
+        st.setToX(toX);
+        st.setOnFinished(event -> img.toBack());
+        return st;
+    }
+
+    private static TranslateTransition createTranslateTransition(ImageView img, double toX, double toY) {
+        TranslateTransition tt = new TranslateTransition(Duration.millis(500), img);
+        tt.setToX(toX);
+        tt.setToY(toY);
+        return tt;
+    }
+
+
+    public static void zoomIn(ImageView img) {
+        ScaleTransition st = createScaleTransition(img, 1.5, 2);
         st.play();
+    }
+
+    public static void zoomInSx(ImageView img) {
+        ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, 20, 0));
+        pt.play();
+    }
+
+    public static void zoomInDx(ImageView img) {
+        ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, -20, 0));
+        pt.play();
+    }
+
+    public static void zoomInUpperDx(ImageView img) {
+        ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, -20, 40));
+        pt.play();
+    }
+
+    public static void zoomInUpperSx(ImageView img) {
+        ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, 20, 40));
+        pt.play();
+    }
+
+    public static void zoomInUpper(ImageView img) {
+        ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1.5, 2), createTranslateTransition(img, 0, 40));
+        pt.play();
     }
 
     /**
      * mi rimpicciolisce la carta qunado esco da essa col puntatore
      */
     public static void zoomOut(ImageView img) {
-        ScaleTransition st = new ScaleTransition(Duration.millis(500), img);
-        st.setToY(1);
-        st.setToX(1);
-        st.setOnFinished(event -> img.toBack());
+        ScaleTransition st = createScaleTransition(img, 1, 1);
         st.play();
     }
+
+    public static void zoomOutBoard(ImageView img) {
+        ParallelTransition pt = new ParallelTransition(createScaleTransition(img, 1, 1), createTranslateTransition(img, 0,0));
+        pt.play();
+    }
+
 
     /**
      * mi ritorna il colore del mio familiare in funzione del mio id

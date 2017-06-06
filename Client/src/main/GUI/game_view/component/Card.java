@@ -23,14 +23,15 @@ public class Card extends ImageView{
 
     public void setImage(Image image, String name) {
         this.image = image;
-        setOpacity(0);
-        new Thread(this::startShowAnimation).start();
         this.name = name;
+        setOpacity(0.3);
+        startShowAnimation();
     }
 
     public void remove(String nameToRemove) {
         if (name.equals(nameToRemove)){
-            new Thread(this::startHideAnimation).start();
+            setImage(null);
+            this.image = null;
         }
     }
 
@@ -38,21 +39,11 @@ public class Card extends ImageView{
      * animazione che mi fa comparire la carta
      */
     private void startShowAnimation() {
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(3000), this);
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(2500), this);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         setImage(image);
         fadeIn.play();
     }
 
-    /**
-     * animazione che mi fa dissolvere la carta
-     */
-    private void startHideAnimation() {
-        FadeTransition fadeOut = new FadeTransition(Duration.millis(3000), this);
-        fadeOut.setFromValue(1);
-        fadeOut.setToValue(0);
-        fadeOut.setOnFinished(event -> setImage(null));
-        fadeOut.play();
-    }
 }

@@ -29,7 +29,7 @@
    <center>
       <TextFlow id="textFlow" fx:id="textFlow" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" stylesheets="@res/style.css" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <padding>
-            <Insets top="70.0" />
+            <Insets top="40.0" />
          </padding></TextFlow>
    </center>
 </BorderPane>

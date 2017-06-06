@@ -80,10 +80,10 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
     }
 
     private void initializeOpponentsCardsList(int idPlayer) {
-        opponentsCardsMap.get(idPlayer).put(CardType.TERRITORY, new ArrayList<String>());
-        opponentsCardsMap.get(idPlayer).put(CardType.CHARACTER, new ArrayList<String>());
-        opponentsCardsMap.get(idPlayer).put(CardType.BUILDING, new ArrayList<String>());
-        opponentsCardsMap.get(idPlayer).put(CardType.VENTURES , new ArrayList<String>());
+        opponentsCardsMap.get(idPlayer).put(CardType.TERRITORY, new ArrayList<>());
+        opponentsCardsMap.get(idPlayer).put(CardType.CHARACTER, new ArrayList<>());
+        opponentsCardsMap.get(idPlayer).put(CardType.BUILDING, new ArrayList<>());
+        opponentsCardsMap.get(idPlayer).put(CardType.VENTURES , new ArrayList<>());
     }
 
     private void initializeOpponentsResources(int idPlayer) {
@@ -133,7 +133,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     @Override
-    public void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
+    public synchronized void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
         myCardsList = personalcardsMap;
         interfaceController.removeDrawnCards(personalcardsMap);
         interfaceController.updateMyCards(personalcardsMap);
@@ -148,7 +148,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     @Override
-    public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
+    public synchronized void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
         interfaceController.removeDrawnCards(personalcardsMap); //rimuovo le carte che ha pescato
         //aggiorno le risorse e le carte del giocatore che ha appena mosso
         opponentQtaResourcesMap.put(id, qtaResourcesMap);
@@ -172,7 +172,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     @Override
-    public void opponentFamilyMemberMove(int id, MessageAction msgAction) throws RemoteException {
+    public synchronized void opponentFamilyMemberMove(int id, MessageAction msgAction) throws RemoteException {
         interfaceController.updateOpponentFamilyMemberMove(id, msgAction);
     }
 

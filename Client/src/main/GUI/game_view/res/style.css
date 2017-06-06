@@ -24,7 +24,7 @@
 }
 
 #messageRootPane {
-    -fx-background-image: url("sfondo_lorenzo_scritta.jpg");
+    -fx-background-image: url("message_background.png");
 }
 
 #gamePersonalRootPane {
@@ -37,10 +37,10 @@
     -fx-background-color: lightyellow;
 }
 
-#whiteButton {
+#blueButton {
     -fx-border-color: black;
     -fx-border-width: 4px;
-    -fx-background-color: whitesmoke;
+    -fx-background-color: cornflowerblue;
 }
 
 #redButton {

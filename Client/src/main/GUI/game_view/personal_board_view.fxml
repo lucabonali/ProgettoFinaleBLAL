@@ -22,58 +22,6 @@
             <Image url="@../images/ImmaginiModificate/plancia.png" />
          </image>
       </ImageView>
-      <GridPane fx:id="venturesGridPane" layoutX="8.0" layoutY="14.0" prefHeight="128.0" prefWidth="668.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
-      <GridPane fx:id="charactersGridPane" layoutX="8.0" layoutY="159.0" prefHeight="128.0" prefWidth="668.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
-      <GridPane fx:id="buildingsGridPane" layoutX="8.0" layoutY="323.0" prefHeight="128.0" prefWidth="668.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
-      <GridPane fx:id="territoriesGridPane" layoutX="8.0" layoutY="477.0" prefHeight="128.0" prefWidth="668.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
       <Label fx:id="servantsLabel" alignment="CENTER" layoutX="373.0" layoutY="641.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="3" />
       <Label fx:id="stoneLabel" alignment="CENTER" layoutX="266.0" layoutY="641.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="2" />
       <Label fx:id="woodLabel" alignment="CENTER" layoutX="157.0" layoutY="641.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseEntered="#showLabel" opacity="0.0" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: yellow;" text="2" />
@@ -82,5 +30,21 @@
       <Rectangle fx:id="stoneGroup" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="241.0" layoutY="621.0" onMouseEntered="#showResourceValues" onMouseExited="#hideResourceValue" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="90.0" />
       <Rectangle fx:id="woodGroup" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="132.0" layoutY="621.0" onMouseEntered="#showResourceValues" onMouseExited="#hideResourceValue" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="90.0" />
       <Rectangle fx:id="coinsGroup" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="14.0" layoutY="621.0" onMouseEntered="#showResourceValues" onMouseExited="#hideResourceValue" onMouseMoved="#showResourceValues" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+      <GridPane fx:id="cardsGridPane" layoutX="6.0" layoutY="3.0" prefHeight="588.0" prefWidth="674.0" vgap="18.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
    </children>
 </AnchorPane>

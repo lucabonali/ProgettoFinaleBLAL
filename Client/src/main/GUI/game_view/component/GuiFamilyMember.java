@@ -2,8 +2,10 @@ package main.GUI.game_view.component;
 
 import javafx.scene.Cursor;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import main.GUI.Service;
 import main.api.types.FamilyMemberType;
@@ -46,6 +48,7 @@ public class GuiFamilyMember extends ToggleButton {
         setShape(circle);
         setGraphic(circle);
         setCursor(Cursor.HAND);
+        setEffect(new DropShadow(RADIUS, Color.BLACK));
         addMouseClicked();
     }
 

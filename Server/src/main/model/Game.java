@@ -299,15 +299,16 @@ public class Game {
      * @param qtaResourcesMap mappa delle risorse
      */
     public void notifyAllPlayers(AbstractPlayer player, int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap, MessageAction msg) {
-        playerMap.forEach(((integer, opponent) -> {
-            if (opponent != player)
+        for (AbstractPlayer opponent : playerMap.values()) {
+            if (opponent!=player) {
                 try {
                     opponent.updateOpponentMove(id, personalcardsMap, qtaResourcesMap, msg);
                 }
                 catch (RemoteException e) {
                     e.printStackTrace();
                 }
-        }));
+            }
+        }
     }
 
     /**
@@ -316,15 +317,16 @@ public class Game {
      * @param period periodo
      */
     public void notifyAllPlayers(AbstractPlayer player, int period) {
-        playerMap.forEach(((integer, opponent) -> {
-            if (opponent != player)
+        for (AbstractPlayer opponent : playerMap.values()) {
+            if (opponent!=player) {
                 try {
                     opponent.opponentExcommunicate(player.getIdPlayer(), period);
                 }
                 catch (RemoteException e) {
                     e.printStackTrace();
                 }
-        }));
+            }
+        }
     }
 
     /**
@@ -358,7 +360,7 @@ public class Game {
             }
         }
         else {
-            player.notifyError("YOU AREN'T IN THE ACTION PHASE");
+            player.notifyError("YOU AREN'T IN THE NEW ACTION PHASE");
         }
     }
 

@@ -260,6 +260,7 @@ public class GUIController implements InterfaceController {
         Platform.runLater(() ->{
             for (int i=0; i<namesList.size(); i++) {
                 imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()), namesList.get(i));
+                System.out.println(namesList.get(i));
             }
         });
         //rimuovo i familiari dalle torri
@@ -642,7 +643,7 @@ public class GUIController implements InterfaceController {
         createFamilyMembers(id);
         relocateFamilyMembers();
         personalBoardController.startGame(id, username);
-        messagesController.setMessage("La partita è iniziata");
+        messagesController.setMessage("Game is started!");
         endMoveButton.setId(Service.getStringColorById(id) + "Button");
         personalHBox.setStyle("-fx-background-color: " + Service.getStringColorById(id) + ";");
         Platform.runLater(() -> personalTab.setText(id + " " + username.toUpperCase()));

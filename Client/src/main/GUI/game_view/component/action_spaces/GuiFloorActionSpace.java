@@ -41,8 +41,8 @@ public class GuiFloorActionSpace extends SingleActionSpace {
     @Override
     public void addFamilyMember(GuiFamilyMember familyMember) {
         setFamilyMember(familyMember);
-        if (!getContainer().getChildren().contains(getFamilyMember())) {
-            Platform.runLater(() -> getContainer().add(getFamilyMember(), 0, gridPosition));
+        if (!getContainer().getChildren().contains(familyMember)) {
+            Platform.runLater(() -> getContainer().add(familyMember, 0, gridPosition));
         }
     }
 
