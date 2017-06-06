@@ -260,8 +260,8 @@ public class GUIController implements InterfaceController {
         Platform.runLater(() ->{
             for (int i=0; i<namesList.size(); i++) {
                 imageList.get(i).setImage(new Image(getClass().getResource("res/cards/"+namesList.get(i)+EXTENSION).toExternalForm()), namesList.get(i));
-                System.out.println(namesList.get(i));
             }
+            relocateFamilyMembers();
         });
         //rimuovo i familiari dalle torri
         towerMap.forEach(((cardType, actionSpaceInterfaces) -> {
@@ -269,7 +269,6 @@ public class GUIController implements InterfaceController {
                 actionSapce.removeAllFamilyMembers();
             }
         }));
-        initializeTowers();
         //rimuovo i familiari dal mercato
         marketMap.forEach(((marketActionType, actionSpaceInterface) -> actionSpaceInterface.removeAllFamilyMembers()));
         //rimuovo i familiari da tutti gli altri spazi azione
@@ -377,9 +376,9 @@ public class GUIController implements InterfaceController {
 
     /**
      * mi setta i dadi, in base ai valori ricevuti dal server
-     * @param orange
-     * @param white
-     * @param black
+     * @param orange dado arancione
+     * @param white dado bianco
+     * @param black dado nero
      */
     @Override
     public void setDices(int orange, int white, int black) {
@@ -496,6 +495,7 @@ public class GUIController implements InterfaceController {
         Platform.runLater(() ->{
             GuiFamilyMember familyMember = personalFamilyMembersMap.get(familyMemberType);
             if (personalHBox.getChildren().contains(familyMember)) {
+                personalHBox.getChildren().remove(familyMember);
                 familyMember.removeMouseClicked();
                 familyMember.setDisable(true);
                 familyMember.setOpacity(1);
@@ -611,7 +611,6 @@ public class GUIController implements InterfaceController {
         client.endMove();
     }
 
-
     /**
      * ritorna il numero di servitori che ho intenzione di pagare
      * @return servitori che voglio pagare
@@ -645,7 +644,7 @@ public class GUIController implements InterfaceController {
         personalBoardController.startGame(id, username);
         messagesController.setMessage("Game is started!");
         endMoveButton.setId(Service.getStringColorById(id) + "Button");
-        personalHBox.setStyle("-fx-background-color: " + Service.getStringColorById(id) + ";");
+//        personalHBox.setStyle("-fx-background-color: " + Service.getStringColorById(id) + ";");
         Platform.runLater(() -> personalTab.setText(id + " " + username.toUpperCase()));
     }
 

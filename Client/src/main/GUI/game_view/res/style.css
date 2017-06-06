@@ -24,33 +24,37 @@
 }
 
 #messageRootPane {
-    -fx-background-image: url("message_background.png");
+
 }
 
-#gamePersonalRootPane {
-
+#gameRootPane {
+    -fx-background-image: url("background.png");
 }
 
 #yellowButton {
     -fx-border-color: black;
+    -fx-border-radius: 15%;
     -fx-border-width: 4px;
-    -fx-background-color: lightyellow;
+    -fx-background-color: yellow;
 }
 
 #blueButton {
     -fx-border-color: black;
+    -fx-border-radius: 15%;
     -fx-border-width: 4px;
-    -fx-background-color: cornflowerblue;
+    -fx-background-color: dodgerblue;
 }
 
 #redButton {
     -fx-border-color: black;
+    -fx-border-radius: 15%;
     -fx-border-width: 4px;
-    -fx-background-color: darkred;
+    -fx-background-color: red;
 }
 
 #greenButton {
     -fx-border-color: black;
+    -fx-border-radius: 15%;
     -fx-border-width: 4px;
-    -fx-background-color: greenyellow;
+    -fx-background-color: lawngreen;
 }

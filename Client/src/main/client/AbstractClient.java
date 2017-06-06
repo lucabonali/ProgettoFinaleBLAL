@@ -68,7 +68,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         opponentsIdList = new ArrayList<>(opponents.keySet());
         interfaceController.startGame(id, username);
         interfaceController.showExcomCards(codeExcomList);
-        initializeQtaResorcesMap();
+        initializeQtaResourcesMap();
         opponents.forEach(((idValue, name) -> {
             interfaceController.createOpponentDiscs(idValue, name);
             opponentQtaResourcesMap.put(idValue, new HashMap<>());
@@ -96,7 +96,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
         opponentQtaResourcesMap.get(idPlayer).put(ResourceType.VICTORY, 0);
     }
 
-    private void initializeQtaResorcesMap() {
+    private void initializeQtaResourcesMap() {
         qtaResourcesMap.put(ResourceType.COINS, 4);
         qtaResourcesMap.put(ResourceType.WOOD, 2);
         qtaResourcesMap.put(ResourceType.STONE, 2);
@@ -111,9 +111,8 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @param list lista dei nomi delle carte
      * @throws RemoteException
      */
-    public void setTowersCards(List<String> list) throws RemoteException {
+    public synchronized void setTowersCards(List<String> list) throws RemoteException {
         interfaceController.setBoardCards(list);
-        interfaceController.relocateFamilyMembers();
     }
 
     /**
@@ -133,7 +132,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     @Override
-    public synchronized void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
+    public void updatePersonalCards(Map<CardType, List<String>> personalcardsMap) throws RemoteException {
         myCardsList = personalcardsMap;
         interfaceController.removeDrawnCards(personalcardsMap);
         interfaceController.updateMyCards(personalcardsMap);
@@ -148,7 +147,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     @Override
-    public synchronized void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
+    public void opponentMove(int id, Map<CardType, List<String>> personalcardsMap, Map<ResourceType, Integer> qtaResourcesMap) throws RemoteException {
         interfaceController.removeDrawnCards(personalcardsMap); //rimuovo le carte che ha pescato
         //aggiorno le risorse e le carte del giocatore che ha appena mosso
         opponentQtaResourcesMap.put(id, qtaResourcesMap);
@@ -172,7 +171,7 @@ public abstract class AbstractClient extends UnicastRemoteObject implements Clie
      * @throws RemoteException
      */
     @Override
-    public synchronized void opponentFamilyMemberMove(int id, MessageAction msgAction) throws RemoteException {
+    public void opponentFamilyMemberMove(int id, MessageAction msgAction) throws RemoteException {
         interfaceController.updateOpponentFamilyMemberMove(id, msgAction);
     }
 
