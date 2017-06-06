@@ -23,12 +23,18 @@
     -fx-background-color: floralwhite;
 }
 
-#messageRootPane {
-
-}
 
 #gameRootPane {
-    -fx-background-image: url("background.png");
+    -fx-background-image: url("brickBackground.png");
+    -fx-background-repeat: repeat;
+    -fx-border-insets: 2;
+    -fx-background-insets: 2;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: gray;
+    -fx-border-style: solid;
+    -fx-border-width: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 24, 0.5, 0, 0);
 }
 
 #yellowButton {
@@ -71,4 +77,8 @@
     -fx-background-color: rgba(57,29,4,0.71);
     -fx-border-color: black;
     -fx-border-radius: 5%;
+}
+
+#privilegeAlert {
+    -fx-background-image: url("brickBackground.png");
 }

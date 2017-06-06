@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import main.CLI.InterfaceController;
 import main.GUI.Service;
 import main.GUI.game_mode_selection.GameModeSelectionView;
@@ -435,6 +436,10 @@ public class GUIController implements InterfaceController {
                 PersonalBoardController controller = fxmlLoader.getController();
                 opponentPersonalBoardControllerMap.put(id, controller);
                 tab.setContent(personalBoard);
+                Circle circle = new Circle(10, Service.getColorById(id));
+                circle.setAccessibleText(id + "");
+                circle.setStyle("-fx-border-color: black");
+                tab.setGraphic(circle);
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -676,7 +681,12 @@ public class GUIController implements InterfaceController {
         endMoveButton.setId(Service.getStringColorById(id) + "Button");
         increaseButton.setId(Service.getStringColorById(id) + "Button");
         decreaseButton.setId(Service.getStringColorById(id) + "Button");
-        Platform.runLater(() -> personalTab.setText(id + " " + username.toUpperCase()));
+        Platform.runLater(() -> {
+            personalTab.setText(id + " " + username.toUpperCase());
+            Circle circle = new Circle(10, Service.getColorById(id));
+            circle.setStyle("-fx-border-color: black");
+            personalTab.setGraphic(circle);
+        });
     }
 
     /**
@@ -710,7 +720,6 @@ public class GUIController implements InterfaceController {
             fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main/GUI/game_view/personal_board_view.fxml"));
             Parent personalBoard = fxmlLoader.load();
             personalBoardController = fxmlLoader.getController();
-//            myPersonalBoardGridPane.add(personalBoard, 0, 0);
             personalTab.setContent(personalBoard);
         }
         catch (IOException e) {

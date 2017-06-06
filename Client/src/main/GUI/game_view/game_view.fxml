@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.image.*?>
@@ -315,11 +316,17 @@
                   <Button id="toolbarButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="30.0" mnemonicParsing="false" onAction="#surrender" prefHeight="30.0" stylesheets="@res/style.css" text="GIVE UP" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="15.0" />
-                     </font></Button>
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Button id="toolbarButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="50.0" minWidth="45.0" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="45.0" stylesheets="@res/style.css" text="X" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="15.0" />
-                     </font></Button>
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </items>
             </ToolBar>
           </children>

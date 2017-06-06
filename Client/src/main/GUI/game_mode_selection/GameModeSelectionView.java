@@ -48,7 +48,8 @@ public class GameModeSelectionView {
     private static final int HEIGHT = 620;
 
 
-    private DoubleProperty xTitleProperty, yTitleProperty, xLineProperty, yLineProperty, endYLineProperty;
+    private DoubleProperty xTitleProperty;
+    private DoubleProperty yTitleProperty;
 
     //lista di coppie dei miei Item del menu di partenza
     private List<Pair<String, Runnable>> menuData = Arrays.asList(
@@ -76,9 +77,6 @@ public class GameModeSelectionView {
         menuBox = new VBox(-5);
         xTitleProperty = new SimpleDoubleProperty();
         yTitleProperty = new SimpleDoubleProperty();
-        xLineProperty = new SimpleDoubleProperty();
-        yLineProperty = new SimpleDoubleProperty();
-        endYLineProperty = new SimpleDoubleProperty();
         theme = new Music();
         theme.play(theme.getPath()+"MainTheme.wav");
     }
