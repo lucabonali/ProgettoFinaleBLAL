@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -48,6 +49,7 @@ public class CLIController implements InterfaceController, Runnable {
     private int personalId;
     private int black = 0,orange = 0 ,white = 0;
     private GameMenu gameMenu;
+
 
 
 
@@ -201,7 +203,6 @@ public class CLIController implements InterfaceController, Runnable {
     public void actionDoAction() throws RemoteException {
         System.out.println(GREEN + " Please, select the type of the Action Space" + RESET );
         showActionSpacesTypeMenu();
-
     }
 
 
@@ -222,37 +223,31 @@ public class CLIController implements InterfaceController, Runnable {
             }
         }
         selectFamilyMember();
-        selectNumberServants();
     }
 
     void council() {
         client.setActionSpacesType(ActionSpacesType.COUNCIL);
         selectFamilyMember();
-        selectNumberServants();
     }
 
     void largeHarvest() {
         client.setActionSpacesType(ActionSpacesType.LARGE_HARVEST);
         selectFamilyMember();
-        selectNumberServants();
     }
 
     void singleHarvest() {
         client.setActionSpacesType(ActionSpacesType.SINGLE_HARVEST);
         selectFamilyMember();
-        selectNumberServants();
     }
 
     void largeProduction() {
         client.setActionSpacesType(ActionSpacesType.LARGE_PRODUCTION);
         selectFamilyMember();
-        selectNumberServants();
     }
 
     void singleProduction() {
         client.setActionSpacesType(ActionSpacesType.SINGLE_PRODUCTION);
         selectFamilyMember();
-        selectNumberServants();
     }
 
     /**
@@ -312,14 +307,13 @@ public class CLIController implements InterfaceController, Runnable {
     private void selectNumberServants() {
         int servants;
         while(true) {
-            System.out.println(RED + " Do you want to add servants to the action ? (0,1,2,3,4,5,6)" + RESET);
+            System.out.println(RED + " Do you want to add servants to the action ? (0,1,2,3,4,5,6,7)" + RESET);
             try {
                 servants = Integer.parseInt(in.readLine());
-                if(servants>= 0 && servants<7 ) {
+                if(servants>= 0 && servants<=7 ) {
                     client.doAction(client.encondingMessageAction(), servants);
                     updateBoardCards(true, null);
                     break;
-
                 }
             } catch (IOException | NumberFormatException e) {
                 System.out.println("Please, insert a correct option");
@@ -451,9 +445,27 @@ public class CLIController implements InterfaceController, Runnable {
         new Thread(this).start();
     }
 
+    /**
+     * metodo che aggiorna lo stato degli spazi azione
+     * @param id id del giocatore che ha mosso
+     * @param msgAction messaggio dell'azione
+     */
     @Override
     public void updateOpponentFamilyMemberMove(int id, MessageAction msgAction) {
-
+        if(gameMenu.getSingleActionSpaceOccMap().get(msgAction.getActionSpacesType()) != null) {
+            gameMenu.getSingleActionSpaceOccMap().get(msgAction.getActionSpacesType()).put(id,msgAction.getFamilyMemberType());
+        }
+        if(gameMenu.getMarketOccMap().get(msgAction.getMarketActionType()) != null) {
+            gameMenu.getMarketOccMap().get(msgAction.getMarketActionType()).put(id,msgAction.getFamilyMemberType());
+        }
+        if(gameMenu.getLargeActionSpaceOccMap().get(msgAction.getActionSpacesType()) != null){
+            if(gameMenu.getLargeActionSpaceOccMap().get(msgAction.getActionSpacesType()).get(id) == null) {
+                gameMenu.getLargeActionSpaceOccMap().get(msgAction.getActionSpacesType()).put(id, new ArrayList<>());
+            }
+            else{
+                gameMenu.getLargeActionSpaceOccMap().get(msgAction.getActionSpacesType()).get(id).add(msgAction.getFamilyMemberType());
+            }
+        }
     }
 
     @Override
@@ -694,6 +706,29 @@ public class CLIController implements InterfaceController, Runnable {
      *
      */
     void showBoard() {
+        System.out.println(YELLOW_BACKGROUND + WHITE +" BOARD STATUS " +RESET);
+        showTowers();
+        showExcomCards();
+        showActionSpaces();
+    }
+
+    private void showExcomCards() {
+        System.out.println(RED +"----- Excommunicating Cards -----" +RESET );
+        for(int i = 0; i < 3; i++){
+            System.out.println(GREEN + " "+(i+1)+"^ Period : " + cliCards.getExcomCards(excomCards.get(i)) + RESET);
+        }
+        System.out.println(RED +"---------------------------------" +RESET);
+        if(black != 0){
+            System.out.println(WHITE_BACKGROUND + BLACK + " BLACK DICE :" + black + RESET);
+            System.out.println(BLACK_BACKGROUND + WHITE + " WHITE DICE :" + white + RESET);
+            System.out.println(RED_BACKGROUND + YELLOW + " ORANGE DICE :" + orange + RESET);
+        }
+        else{
+            System.out.println(RED +"Dices not rolled yet :(" + RESET);
+        }
+    }
+
+    private void showTowers() {
         System.out.println(RED + "----- Towers Development Cards -----" + RESET);
         for(int i = 0; i<boardCards.size(); i++) {
             String card = boardCards.get(i);
@@ -721,28 +756,68 @@ public class CLIController implements InterfaceController, Runnable {
             }
         }
 
-        System.out.println(RED +"----- Excommunicating Cards -----" +RESET );
-        for(int i = 0; i < 3; i++){
-            System.out.println(GREEN + " "+(i+1)+"^ Period : " + cliCards.getExcomCards(excomCards.get(i)) + RESET);
-        }
-        System.out.println(RED +"---------------------------------" +RESET);
-        if(black != 0){
-            System.out.println(WHITE_BACKGROUND + BLACK + " BLACK DICE :" + black + RESET);
-            System.out.println(BLACK_BACKGROUND + WHITE + " WHITE DICE :" + white + RESET);
-            System.out.println(RED_BACKGROUND + YELLOW + " ORANGE DICE :" + orange + RESET);
-        }
-        else{
-            System.out.println(RED +"Dices not rolled yet :(" + RESET);
-        }
-        showActionSpaces();
-
     }
 
     /**
-     * metodo che mostra gli spazi azione e se sono occupati
+     * metodi che mostrano gli spazi azione , se sono occupati e da chi
      */
     private void showActionSpaces() {
+        System.out.println(RED + " ----- ACTION SPACES STATUS ----- " + RESET);
+        showSingleActionSpaces();
+        showLargeActionSpaces();
+        showMarketActionSpaces();
+    }
 
+    private void showMarketActionSpaces() {
+        System.out.println(CYAN + " ---- MARKET ---- ");
+
+        if(gameMenu.getMarketOccMap().get(MarketActionType.YELLOW) != null){
+            System.out.println( YELLOW + " YELLOW MARKET PLAYER : " + gameMenu.getMarketOccMap().get(MarketActionType.YELLOW).keySet() + " Famliy member : " +gameMenu.getMarketOccMap().get(MarketActionType.YELLOW).values());
+        }
+        if(gameMenu.getMarketOccMap().get(MarketActionType.PURPLE) != null){
+            System.out.println( PURPLE + " PURPLE MARKET PLAYER : " + gameMenu.getMarketOccMap().get(MarketActionType.PURPLE).keySet() + " Famliy member : " +gameMenu.getMarketOccMap().get(MarketActionType.PURPLE).values());
+        }
+        if(gameMenu.getMarketOccMap().get(MarketActionType.BLUE) != null){
+            System.out.println( BLUE + " BLUE MARKET PLAYER : " + gameMenu.getMarketOccMap().get(MarketActionType.BLUE).keySet() + " Famliy member : " +gameMenu.getMarketOccMap().get(MarketActionType.BLUE).values());
+        }
+        if(gameMenu.getMarketOccMap().get(MarketActionType.GRAY) != null){
+            System.out.println( WHITE + " GRAY MARKET PLAYER : " + gameMenu.getMarketOccMap().get(MarketActionType.GRAY).keySet() + " Famliy member : " +gameMenu.getMarketOccMap().get(MarketActionType.GRAY).values());
+        }
+    }
+
+    private void showLargeActionSpaces() {
+        System.out.println(GREEN + "LARGE harvest space :");
+        if(gameMenu.getLargeActionSpaceOccMap().get(ActionSpacesType.LARGE_HARVEST) != null){
+            gameMenu.getLargeActionSpaceOccMap().get(ActionSpacesType.LARGE_HARVEST).forEach( ((integer, familyMemberTypes) -> {
+                System.out.println("PLAYER : " + integer + " Family member : " + familyMemberTypes);
+            }) );
+        }
+        else{
+            System.out.println(WHITE + "EMPTY ACTION SPACE " + RESET);
+        }
+        System.out.println(WHITE + "LARGE production space :");
+        if(gameMenu.getLargeActionSpaceOccMap().get(ActionSpacesType.LARGE_PRODUCTION) != null){
+            gameMenu.getLargeActionSpaceOccMap().get(ActionSpacesType.LARGE_PRODUCTION).forEach( ((integer, familyMemberTypes) -> {
+                System.out.println("PLAYER : " + integer + " Family member : " + familyMemberTypes);
+            }) );
+        }
+        else{
+            System.out.println(WHITE + "EMPTY ACTION SPACE " + RESET);
+        }
+    }
+
+    private void showSingleActionSpaces() {
+        System.out.print(GREEN + "Single Harvest space : ");
+        if( gameMenu.getSingleActionSpaceOccMap().get(ActionSpacesType.SINGLE_HARVEST) != null)
+            System.out.println(" PLAYER : " + gameMenu.getSingleActionSpaceOccMap().get(ActionSpacesType.SINGLE_HARVEST).keySet() + " Family member: "+ gameMenu.getSingleActionSpaceOccMap().get(ActionSpacesType.SINGLE_HARVEST).values());
+        else
+            System.out.println(GREEN + "EMPTY ACTION SPACE " + RESET);
+
+        System.out.print(WHITE + "Single Production space : ");
+        if( gameMenu.getSingleActionSpaceOccMap().get(ActionSpacesType.SINGLE_PRODUCTION) != null)
+            System.out.println(" PLAYER : " + gameMenu.getSingleActionSpaceOccMap().get(ActionSpacesType.SINGLE_PRODUCTION).keySet() + " Family member: "+ gameMenu.getSingleActionSpaceOccMap().get(ActionSpacesType.SINGLE_PRODUCTION).values());
+        else
+            System.out.println(WHITE + "EMPTY ACTION SPACE " + RESET);
     }
 
 }

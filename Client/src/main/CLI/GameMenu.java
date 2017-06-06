@@ -7,6 +7,7 @@ import main.api.types.MarketActionType;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,9 +25,17 @@ class GameMenu {
     private Map<Integer,CardType> towerMap;
     private Map<Integer,GameHandler> gameMap;
 
+
+
     private Map<Integer,MarketActionType> marketMap;
 
     private Map<Integer,FamilyMemberType> familyMemberTypeMap;
+
+
+
+    private Map<ActionSpacesType,Map<Integer,FamilyMemberType>> singleActionSpaceOccMap;
+    private Map<ActionSpacesType,Map<Integer,List<FamilyMemberType>>> largeActionSpaceOccMap;
+    private Map<MarketActionType,Map<Integer,FamilyMemberType>> marketOccMap;
 
 
 
@@ -86,9 +95,40 @@ class GameMenu {
         initializeTowerMap();
         initizlizeFamilyMembers();
         initializeMarketMap();
+        initizliazeOccActionSpaces();
     }
 
+    /**
+     * metodo che iniializz lo stato degli spazi azione (se e da chi sono occupati)
+     */
+    private void initizliazeOccActionSpaces() {
+        singleActionSpaceOccMap = new HashMap<>();
+        singleActionSpaceOccMap.put(ActionSpacesType.SINGLE_HARVEST,new HashMap<>());
+        singleActionSpaceOccMap.put(ActionSpacesType.SINGLE_PRODUCTION,new HashMap<>());
 
+        largeActionSpaceOccMap = new HashMap<>();
+        largeActionSpaceOccMap.put(ActionSpacesType.LARGE_PRODUCTION,new HashMap<>());
+        largeActionSpaceOccMap.put(ActionSpacesType.LARGE_HARVEST, new HashMap<>());
+        largeActionSpaceOccMap.put(ActionSpacesType.COUNCIL,new HashMap<>());
+
+        marketOccMap = new HashMap<>();
+        marketOccMap.put(MarketActionType.YELLOW,new HashMap<>());
+        marketOccMap.put(MarketActionType.PURPLE,new HashMap<>());
+        marketOccMap.put(MarketActionType.BLUE,new HashMap<>());
+        marketOccMap.put(MarketActionType.GRAY,new HashMap<>());
+    }
+
+    public Map<ActionSpacesType, Map<Integer, FamilyMemberType>> getSingleActionSpaceOccMap() {
+        return singleActionSpaceOccMap;
+    }
+
+    public Map<ActionSpacesType, Map<Integer, List<FamilyMemberType>>> getLargeActionSpaceOccMap() {
+        return largeActionSpaceOccMap;
+    }
+
+    public Map<MarketActionType, Map<Integer, FamilyMemberType>> getMarketOccMap() {
+        return marketOccMap;
+    }
     /**
      * interfaccie che semplificano la gestione del menu e puramente funzionali
      */
@@ -111,6 +151,7 @@ class GameMenu {
         towerMap.put(3,CardType.BUILDING);
         towerMap.put(4,CardType.VENTURES);
     }
+
 
     public Map<Integer, CardType> getTowerMap() {
         return towerMap;
