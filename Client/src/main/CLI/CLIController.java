@@ -197,7 +197,7 @@ public class CLIController implements InterfaceController, Runnable {
      * metodo che compie un' azione su uno spazio azione attraverso il posizionamento di un familliare
      * @throws RemoteException
      */
-    @Override
+
     public void actionDoAction() throws RemoteException {
         System.out.println(GREEN + " Please, select the type of the Action Space" + RESET );
         showActionSpacesTypeMenu();
@@ -319,6 +319,7 @@ public class CLIController implements InterfaceController, Runnable {
                     client.doAction(client.encondingMessageAction(), servants);
                     updateBoardCards(true, null);
                     break;
+
                 }
             } catch (IOException | NumberFormatException e) {
                 System.out.println("Please, insert a correct option");
@@ -390,7 +391,6 @@ public class CLIController implements InterfaceController, Runnable {
         }
     }
 
-    @Override
     public void actionDoNewAction() throws RemoteException {
 
     }

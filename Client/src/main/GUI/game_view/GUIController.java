@@ -610,15 +610,6 @@ public class GUIController implements InterfaceController {
         client.endMove();
     }
 
-    @Override
-    public void actionDoAction() throws RemoteException {
-        // da eliminare
-    }
-
-    @Override
-    public void actionDoNewAction() throws RemoteException {
-        // da eliminare
-    }
 
     /**
      * ritorna il numero di servitori che ho intenzione di pagare

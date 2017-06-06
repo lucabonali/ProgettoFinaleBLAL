@@ -99,18 +99,6 @@ public interface InterfaceController {
 
 
     /**
-    *
-    * @throws RemoteException
-    */
-    void actionDoAction() throws RemoteException ;
-
-    /**
-    * mi esegue una nuova azione
-    * @throws RemoteException
-    */
-    void actionDoNewAction() throws RemoteException ;
-
-    /**
      *
      * @throws InterruptedException
      */
