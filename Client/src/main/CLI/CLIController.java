@@ -42,7 +42,7 @@ public class CLIController implements InterfaceController, Runnable {
     private AbstractClient client;
     private BufferedReader in;
     private String userName, password;
-       private boolean isGameStarted = false;
+    private boolean isGameStarted = false;
     private List<String> boardCards; // sono tutte le carte del tabellone
     private List<String> excomCards;
     private CLICards cliCards;
@@ -53,7 +53,7 @@ public class CLIController implements InterfaceController, Runnable {
 
 
 
-    public CLIController(){
+    public /* costruttore */ CLIController(){
         this.in = new BufferedReader(new InputStreamReader(System.in));
         this.client = AbstractClient.getInstance();
         cliCards = new CLICards();
@@ -123,6 +123,18 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void moveFamilyMember(ActionSpacesType actionSpacesType, CardType cardType, int numFloor, MarketActionType marketActionType, FamilyMemberType familyMemberType) {
+        if(gameMenu.getSingleActionSpaceOccMap().get(actionSpacesType) != null){
+            gameMenu.getSingleActionSpaceOccMap().get(actionSpacesType).put(personalId,familyMemberType);
+        }
+        if(gameMenu.getMarketOccMap().get(marketActionType) != null){
+            gameMenu.getMarketOccMap().get(marketActionType).put(personalId,familyMemberType);
+        }
+        if(gameMenu.getLargeActionSpaceOccMap().get(actionSpacesType) != null){
+            if(gameMenu.getLargeActionSpaceOccMap().get(actionSpacesType).get(personalId) != null){
+
+            }
+
+        }
 
     }
 
@@ -312,6 +324,7 @@ public class CLIController implements InterfaceController, Runnable {
                 servants = Integer.parseInt(in.readLine());
                 if(servants>= 0 && servants<=7 ) {
                     client.doAction(client.encondingMessageAction(), servants);
+
                     updateBoardCards(true, null);
                     break;
                 }
@@ -391,7 +404,7 @@ public class CLIController implements InterfaceController, Runnable {
 
     @Override
     public void exit() throws InterruptedException {
-
+        System.exit(0);
     }
 
     @Override
@@ -798,7 +811,16 @@ public class CLIController implements InterfaceController, Runnable {
         System.out.println(WHITE + "LARGE production space :");
         if(gameMenu.getLargeActionSpaceOccMap().get(ActionSpacesType.LARGE_PRODUCTION) != null){
             gameMenu.getLargeActionSpaceOccMap().get(ActionSpacesType.LARGE_PRODUCTION).forEach( ((integer, familyMemberTypes) -> {
-                System.out.println("PLAYER : " + integer + " Family member : " + familyMemberTypes);
+                System.out.println("PLAYER : " + integer + " Family member : " + familyMemberTypes.get(0));
+            }) );
+        }
+        else{
+            System.out.println(WHITE + "EMPTY ACTION SPACE " + RESET);
+        }
+        System.out.println(WHITE + "COUNCil space :");
+        if(gameMenu.getLargeActionSpaceOccMap().get(ActionSpacesType.COUNCIL) != null){
+            gameMenu.getLargeActionSpaceOccMap().get(ActionSpacesType.COUNCIL).forEach( ((integer, familyMemberTypes) -> {
+                System.out.println("PLAYER : " + integer + " Family member : " + familyMemberTypes.get(0));
             }) );
         }
         else{

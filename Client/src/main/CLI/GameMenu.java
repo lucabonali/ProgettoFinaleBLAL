@@ -16,34 +16,20 @@ import java.util.Map;
  */
 class GameMenu {
     private CLIController cliController;
-    private ActionSpacesType actionSpacesType;
     private Map<Integer, ActionSpaceHandler> actionSpaceMap;
     private Map<Integer,MenuHandler> menuChoices;
-
-
-
     private Map<Integer,CardType> towerMap;
     private Map<Integer,GameHandler> gameMap;
-
-
-
     private Map<Integer,MarketActionType> marketMap;
-
     private Map<Integer,FamilyMemberType> familyMemberTypeMap;
-
-
-
     private Map<ActionSpacesType,Map<Integer,FamilyMemberType>> singleActionSpaceOccMap;
     private Map<ActionSpacesType,Map<Integer,List<FamilyMemberType>>> largeActionSpaceOccMap;
     private Map<MarketActionType,Map<Integer,FamilyMemberType>> marketOccMap;
-
-
 
     /**
      * costanti del menu di gioco
      */
     static final int SURRENDER = 0;
-
     static final int SHOW_BOARD = 1;
     static final int SHOW_PERSONAL_BOARD = 2;
     static final int SHOW_OPPONENTS_PERSONAL_BOARD = 3;
