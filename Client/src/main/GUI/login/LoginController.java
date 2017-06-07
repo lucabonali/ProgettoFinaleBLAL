@@ -126,4 +126,8 @@ public class LoginController {
     public void closeWindow(ActionEvent actionEvent) {
         GUILauncher.getPrimaryStage().close();
     }
+
+    public void iconifyWindow(ActionEvent actionEvent) {
+    GUILauncher.getPrimaryStage().setIconified(true);
+    }
 }

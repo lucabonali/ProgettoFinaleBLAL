@@ -1,6 +1,7 @@
 package main.GUI.game_view;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -40,6 +41,8 @@ public class GUIController implements InterfaceController {
     private static final String EXTENSION = ".png";
     public static final int CARD_HEIGHT = 126;
     public static final int CARD_WIDTH = 108;
+    @FXML
+    private Button iconifyButton;
     private AbstractClient client;
     private LorenzoAnimation lorenzoAnimation;
 
@@ -643,6 +646,12 @@ public class GUIController implements InterfaceController {
         }
     }
 
+
+    public void iconify(ActionEvent actionEvent) {
+        GUILauncher.getPrimaryStage().setIconified(true);
+    }
+
+
     @FXML
     public void increaseServants() {
         int servants;
@@ -726,4 +735,6 @@ public class GUIController implements InterfaceController {
             e.printStackTrace();
         }
     }
+
+
 }

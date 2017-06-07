@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
 
-<BorderPane id="messageRootPane" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="700.0" stylesheets="@res/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.GUI.game_view.MessagesController">
+<BorderPane id="messageRootPane" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="700.0" stylesheets="@res/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.GUI.game_view.MessagesController">
    <right>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Label id="lorenzoTalks" fx:id="lorenzoTalks" alignment="CENTER" prefHeight="97.0" prefWidth="130.0" stylesheets="@res/style.css" />
-            <ImageView fx:id="lory" fitHeight="200.0" fitWidth="157.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@res/lorenzo.png" />
-               </image>
-            </ImageView>
+            <HBox prefHeight="250.0" prefWidth="36.0" />
+            <VBox>
+               <children>
+                  <Pane prefHeight="24.0" prefWidth="200.0" />
+                  <ImageView fx:id="lory" fitHeight="200.0" fitWidth="141.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@res/lorenzo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <Pane prefHeight="250.0" prefWidth="89.0" />
          </children>
       </HBox>
    </right>

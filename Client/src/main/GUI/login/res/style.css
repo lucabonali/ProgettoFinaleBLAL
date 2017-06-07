@@ -17,3 +17,8 @@
     -fx-background-position: center;
     -fx-cursor: hand;
 }
+
+#iconifyButton {
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../game_view/res/meno.png");
+}

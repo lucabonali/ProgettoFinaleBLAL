@@ -10,10 +10,11 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -58,7 +59,7 @@ public class GameModeSelectionView {
             new Pair<String, Runnable>("Two Players", new RunGameMode(TWO_PLAYERS)),
             new Pair<String, Runnable>("Three Players", new RunGameMode(THREE_PLAYERS)),
             new Pair<String, Runnable>("Four Players", new RunGameMode(FOUR_PLAYERS)),
-            new Pair<String, Runnable>("Credits", () -> new CreditAlert(Alert.AlertType.INFORMATION)),
+            new Pair<String, Runnable>("Credits", () -> new CreditAlert()),
             new Pair<String, Runnable>("Exit to Desktop", () -> {System.exit(0);})
     );
 
@@ -69,6 +70,8 @@ public class GameModeSelectionView {
     private Music theme;
     private double xOffset;
     private double yOffset;
+
+    private Button iconifybutton;
 
     public GameModeSelectionView() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         root = new Pane();
@@ -84,6 +87,7 @@ public class GameModeSelectionView {
     public Parent createContent() {
         addBackground();
         addTitle();
+        addIconButton();
 
         double lineX = WIDTH / 2 - 100;
         double lineY = HEIGHT / 5 + 50;
@@ -94,6 +98,17 @@ public class GameModeSelectionView {
         startAnimation();
 
         return root;
+    }
+
+    private void addIconButton() {
+    iconifybutton = new Button("-");
+    iconifybutton.setBackground(Background.EMPTY);
+    iconifybutton.setOnMouseEntered(e -> iconifybutton.setCursor(Cursor.HAND));
+    iconifybutton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("res/nimbus.png"))));
+    iconifybutton.setOnAction( e -> GUILauncher.getPrimaryStage().setIconified(true));
+    iconifybutton.setLayoutX(WIDTH - 70);
+    iconifybutton.setLayoutY(HEIGHT-600);
+    root.getChildren().add(iconifybutton);
     }
 
     /**
