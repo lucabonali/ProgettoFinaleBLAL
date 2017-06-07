@@ -9,3 +9,11 @@
     -fx-border-width: 5px;
     -fx-effect: dropshadow(three-pass-box, rgba(100, 100, 100, 1), 24, 0.5, 0, 0);
 }
+
+#closeButton {
+    -fx-background-image: url("X.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-position: center;
+    -fx-cursor: hand;
+}

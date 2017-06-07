@@ -19,7 +19,7 @@ public class FixedIncrementEffectTest {
     public void active() throws Exception {
         FixedIncrementEffect ef1 = new FixedIncrementEffect(new Resource(5, ResourceType.COINS));
         FixedIncrementEffect ef2 = new FixedIncrementEffect(new Resource(-2, ResourceType.SERVANTS));
-        PlayerSocket p = new PlayerSocket("luca");
+        PlayerSocket p = new PlayerSocket("luca", null);
         p.createPersonalBoard(1);
         ef1.active(p);
         ef2.active(p);

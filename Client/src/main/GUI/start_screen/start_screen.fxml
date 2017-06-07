@@ -29,7 +29,7 @@
                 <Font name="AR JULIAN" size="33.0" />
             </font>
         </Label>
-        <Button id="closeButton" fx:id="closeButton" layoutX="300.0" layoutY="30.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#closeWindow" prefHeight="22.0" prefWidth="33.0" stylesheets="@../game_view/res/style.css" textOverrun="WORD_ELLIPSIS">
+        <Button id="closeButton" fx:id="closeButton" layoutX="300.0" layoutY="30.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#closeWindow" prefHeight="22.0" prefWidth="33.0" stylesheets="@../login/res/style.css" textOverrun="WORD_ELLIPSIS">
             <font>
                 <Font name="AR JULIAN" size="14.0" />
             </font>

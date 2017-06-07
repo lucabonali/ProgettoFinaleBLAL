@@ -23,11 +23,13 @@ import java.util.List;
  * ma qui i metodi verranno chiamati in seguito a messaggi provenienti dal client e codificati.
  */
 public class SocketServer extends AbstractServer implements Runnable {
+    private SocketServer socketServer;
     private List<PlayerSocket> playerSocketList;
     ServerSocket server = null;
     int port = 4000;
 
     public SocketServer() throws RemoteException{
+        this.socketServer = this;
         new Thread(this).start();
     }
 
@@ -35,7 +37,7 @@ public class SocketServer extends AbstractServer implements Runnable {
     @Override
     public synchronized PlayerInterface startGame(String username, int gameMode, ClientInterface client) throws RemoteException {
         Game game = getFreeGame(gameMode); //la prima partita libera trovata, in caso ne crea una nuova
-        PlayerSocket playerSocket = new PlayerSocket(username);
+        PlayerSocket playerSocket = new PlayerSocket(username, socketServer);
         playerSocket.setGame(game);
         game.addPlayer(playerSocket);
         return playerSocket;
@@ -61,7 +63,7 @@ public class SocketServer extends AbstractServer implements Runnable {
         }
     }
 
-    private class PlayerSocketRequest implements Runnable{
+    public class PlayerSocketRequest implements Runnable{
         private Socket socket;
         private ObjectInputStream in;
         private ObjectOutputStream out;
@@ -101,8 +103,6 @@ public class SocketServer extends AbstractServer implements Runnable {
                                     player.setSocketConnection(socket, in, out);
                                     new Thread(player).start();
                                     isAssociated = true;
-                                }
-                                else {
                                 }
                                 break;
                         }

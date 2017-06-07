@@ -21,7 +21,7 @@ public class VariableIncrementEffectTest {
         VariableIncrementEffect ef1 = new VariableIncrementEffect(new Resource(5, ResourceType.WOOD), CardType.TERRITORY);
         VariableIncrementEffect ef2 = new VariableIncrementEffect(new Resource(-2, ResourceType.SERVANTS), CardType.BUILDING);
         DevelopmentCard DevelopmentCard = new DevelopmentCard(CardType.TERRITORY, "valle", null, null, null, 1);
-        PlayerSocket p = new PlayerSocket("luca");
+        PlayerSocket p = new PlayerSocket("luca", null);
         p.createPersonalBoard(1);
         DevelopmentCard.setPlayer(p);
         ef1.active(p);

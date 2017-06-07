@@ -25,6 +25,7 @@ public class ClientSocket extends AbstractClient implements Runnable{
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private boolean restart = false;
 
     public ClientSocket(String username, String password) throws RemoteException {
         super(username, password);
@@ -47,9 +48,8 @@ public class ClientSocket extends AbstractClient implements Runnable{
             out.writeObject(getPassword());
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());
-            boolean resp = in.readBoolean();
 //            System.out.println(resp);
-            return resp;
+            return in.readBoolean();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -66,7 +66,8 @@ public class ClientSocket extends AbstractClient implements Runnable{
             out.flush();
             out.writeInt(gameMode);
             out.flush();
-            new Thread(this).start();
+            if (!restart)
+                new Thread(this).start();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -281,6 +282,10 @@ public class ClientSocket extends AbstractClient implements Runnable{
                             int surrendId = in.readInt();
                             notifyOpponentSurrender(surrendId);
                             break;
+                        case SURRENDER:
+                            restart = true;
+                            login();
+                            break;
                         case EXIT:
                             connect = false;
                             System.exit(0);
@@ -297,9 +302,11 @@ public class ClientSocket extends AbstractClient implements Runnable{
         }
         finally {
             try {
-                in.close();
-                out.close();
-                socket.close();
+                if (!socket.isClosed()) {
+                    socket.close();
+                    out.close();
+                    in.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

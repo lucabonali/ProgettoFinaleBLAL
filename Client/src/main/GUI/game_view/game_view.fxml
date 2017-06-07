@@ -313,20 +313,29 @@
                   <Insets />
                </GridPane.margin>
                <items>
-                  <Button id="toolbarButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="30.0" mnemonicParsing="false" onAction="#surrender" prefHeight="30.0" stylesheets="@res/style.css" text="GIVE UP" textAlignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-                  <Button id="toolbarButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="50.0" minWidth="45.0" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="45.0" stylesheets="@res/style.css" text="X" textAlignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
+                  <HBox spacing="10.0">
+                     <children>
+                        <Button id="surrenderButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="30.0" mnemonicParsing="false" onAction="#surrender" prefHeight="30.0" stylesheets="@res/style.css" text="GIVE UP" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button id="exitButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="50.0" minWidth="45.0" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="45.0" stylesheets="@res/style.css" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets left="545.0" />
+                     </padding>
+                  </HBox>
                </items>
             </ToolBar>
           </children>

@@ -30,7 +30,7 @@ public class AreaActivationEffectTest {
         List<Effect> effectList = new ArrayList<>();
         effectList.add(ef2);
         DevelopmentCard DevelopmentCard = new DevelopmentCard(CardType.TERRITORY, "valle", null, null, effectList, 1);
-        PlayerSocket p = new PlayerSocket("andrea");
+        PlayerSocket p = new PlayerSocket("andrea", null);
         p.createPersonalBoard(1);
         DevelopmentCard.setPlayer(p);
         HarvestActionSpace has = new HarvestActionSpace(1);

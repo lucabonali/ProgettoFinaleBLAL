@@ -25,13 +25,14 @@ import java.util.Map;
  * classe che mi identifica il giocatore connesso tramite Socket
  */
 public class PlayerSocket extends AbstractPlayer implements Runnable {
+    private final SocketServer socketServer;
     private Socket socketClient = null;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
-    public PlayerSocket(String username) throws RemoteException {
+    public PlayerSocket(String username, SocketServer socketServer ) throws RemoteException {
         super(username);
-
+        this.socketServer = socketServer;
     }
 
     // metodi ereditati e da implementare da ABSTRACT PLAYER //////////////////////////////////////
@@ -304,6 +305,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
 
     @Override
     public void run() {
+        boolean restart = false;
         try{
             try{
                 boolean connect = true;
@@ -333,6 +335,11 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
                             break;
                         case SURRENDER:
                             surrender();
+                            new Thread(this.socketServer.new PlayerSocketRequest(socketClient)).start();
+                            out.writeObject(SocketProtocol.SURRENDER);
+                            out.flush();
+                            connect = false;
+                            restart = true;
                             break;
                         case CONVERT_PRIVILEGE:
                             int qta = in.readInt();
@@ -361,7 +368,7 @@ public class PlayerSocket extends AbstractPlayer implements Runnable {
         }
         finally {
             try {
-                if (in != null && out != null){
+                if (in != null && out != null ){
                     in.close();
                     out.close();
                 }

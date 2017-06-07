@@ -5,13 +5,6 @@
 
 
 }
-#closeButton {
-    -fx-background-image: url("../../login/res/X.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-color: transparent;
-    -fx-background-position: center;
-    -fx-cursor: hand;
-}
 
 #toolbar {
     -fx-background-color: transparent;
@@ -23,6 +16,20 @@
     -fx-background-color: floralwhite;
 }
 
+#exitButton {
+    -fx-background-image: url("X.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-position: center;
+    -fx-cursor: hand;
+}
+
+#surrenderButton {
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-position: center;
+    -fx-cursor: hand;
+}
 
 #gameRootPane {
     -fx-background-image: url("brickBackground.png");

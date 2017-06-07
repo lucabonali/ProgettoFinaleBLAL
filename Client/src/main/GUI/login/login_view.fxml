@@ -83,7 +83,7 @@
             </Button>
          </children>
       </VBox>
-      <Button id="closeButton" fx:id="closeButton" alignment="CENTER_RIGHT" layoutX="654.0" layoutY="43.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="47.0" prefWidth="47.0" stylesheets="@../game_view/res/style.css">
+      <Button id="closeButton" fx:id="closeButton" alignment="CENTER_RIGHT" layoutX="654.0" layoutY="43.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="47.0" prefWidth="47.0" stylesheets="@res/style.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
