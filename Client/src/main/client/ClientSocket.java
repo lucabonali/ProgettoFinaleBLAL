@@ -89,7 +89,7 @@ public class ClientSocket extends AbstractClient implements Runnable{
             }
         }
         else
-            notifyMessage("Non hai abbastanza servitori");
+            notifyMessage("YOU HAVEN'T ENOUGH SERVANTS");
 
     }
 
@@ -108,7 +108,7 @@ public class ClientSocket extends AbstractClient implements Runnable{
             }
         }
         else
-            notifyMessage("Non hai abbastanza servitori");
+            notifyMessage("YOU HAVEN'T ENOUGH SERVANTS");
     }
 
     @Override

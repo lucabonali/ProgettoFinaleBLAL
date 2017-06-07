@@ -10,6 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -57,8 +58,7 @@ public class GameModeSelectionView {
             new Pair<String, Runnable>("Two Players", new RunGameMode(TWO_PLAYERS)),
             new Pair<String, Runnable>("Three Players", new RunGameMode(THREE_PLAYERS)),
             new Pair<String, Runnable>("Four Players", new RunGameMode(FOUR_PLAYERS)),
-            new Pair<String, Runnable>("Game Options", () -> {}),
-            new Pair<String, Runnable>("Credits", () -> {}),
+            new Pair<String, Runnable>("Credits", () -> new CreditAlert(Alert.AlertType.INFORMATION)),
             new Pair<String, Runnable>("Exit to Desktop", () -> {System.exit(0);})
     );
 
@@ -172,7 +172,7 @@ public class GameModeSelectionView {
      * @param y
      */
     private void addLine(double x, double y) {
-        line = new Line(x, y, x, y + 300);
+        line = new Line(x, y, x, y + 250);
         line.setStrokeWidth(3);
         line.setStroke(Color.color(1, 1, 1, 0.75));
         line.setEffect(new DropShadow(5, Color.BLACK));
